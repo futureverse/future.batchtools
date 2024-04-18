@@ -1,9 +1,9 @@
-pandoc: 3.1.9
+pandoc: 3.1.12.3
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   future.batchtools: future.batchtools.html
-last_built: 2023-12-20T15:29Z
+last_built: 2024-04-18T21:45Z
 urls:
   reference: https://future.batchtools.futureverse.org/reference
   article: https://future.batchtools.futureverse.org/articles
