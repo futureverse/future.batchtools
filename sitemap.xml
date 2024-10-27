@@ -1,75 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://future.batchtools.futureverse.org/404.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/OVERVIEW.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/articles/future.batchtools.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/index.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/BatchtoolsFuture.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/BatchtoolsFutureError.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/batchtools_custom.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/batchtools_local.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/batchtools_multicore.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/batchtools_ssh.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/batchtools_template.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/delete.BatchtoolsFuture.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/future.batchtools.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/future.batchtools.options.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/grapes-resources-grapes.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/loggedOutput.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/nbrOfWorkers.batchtools.html</loc>
-  </url>
-  <url>
-    <loc>https://future.batchtools.futureverse.org/reference/print.BatchtoolsFuture.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://future.batchtools.futureverse.org/404.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/CONDUCT.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/CONTRIBUTING.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/OVERVIEW.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/articles/future.batchtools.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/articles/index.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/authors.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/index.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/news/index.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/BatchtoolsFuture.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/BatchtoolsFutureError.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_custom.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_local.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_multicore.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_ssh.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_template.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/delete.BatchtoolsFuture.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/future.batchtools.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/future.batchtools.options.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/grapes-resources-grapes.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/index.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/loggedOutput.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/nbrOfWorkers.batchtools.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/print.BatchtoolsFuture.html</loc></url>
 </urlset>
+
