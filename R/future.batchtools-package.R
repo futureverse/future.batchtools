@@ -18,7 +18,6 @@
 #' demo("mandelbrot", package = "future", ask = FALSE)
 #' }
 #'
-#' @docType package
 #' @name future.batchtools
 #' @aliases future.batchtools-package
-NULL
+"_PACKAGE"

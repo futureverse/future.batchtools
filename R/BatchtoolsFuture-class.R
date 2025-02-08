@@ -543,7 +543,7 @@ run.BatchtoolsFuture <- function(future, ...) {
     ## batchtools which incorrectly tries to parse it.  By unsetting all DYLD_*
     ## environment variables, we avoid this message.  For more info, see:
     ## * https://github.com/tudo-r/BatchJobs/issues/117
-    ## * https://github.com/HenrikBengtsson/future.BatchJobs/issues/59
+    ## * https://github.com/futureverse/future.BatchJobs/issues/59
     ## /HB 2016-05-07
     dyld_envs <- tryCatch({
       envs <- list()
@@ -696,7 +696,7 @@ await <- function(future, cleanup = TRUE,
   }
 
   if (length(prototype_fields) > 0) {
-    result$PROTOTYPE_WARNING <- sprintf("WARNING: The fields %s should be considered internal and experimental for now, that is, until the Future API for these additional features has been settled. For more information, please see https://github.com/HenrikBengtsson/future/issues/172", hpaste(sQuote(prototype_fields), max_head = Inf, collapse = ", ", last_collapse  = " and "))
+    result$PROTOTYPE_WARNING <- sprintf("WARNING: The fields %s should be considered internal and experimental for now, that is, until the Future API for these additional features has been settled. For more information, please see https://github.com/futureverse/future/issues/172", hpaste(sQuote(prototype_fields), max_head = Inf, collapse = ", ", last_collapse  = " and "))
   }
   
   ## Cleanup?
