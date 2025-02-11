@@ -1,5 +1,5 @@
 Package: future.batchtools
-Version: 0.12.1-9003
+Version: 0.12.1-9004
 Depends:
     R (>= 3.2.0),
     parallelly,
@@ -28,7 +28,7 @@ Description: Implementation of the Future API <doi:10.32614/RJ-2021-048> on top 
     e.g. 'y <- future.apply::future_lapply(files, FUN = process)'.
 License: LGPL (>= 2.1)
 LazyLoad: TRUE
-URL: https://future.batchtools.futureverse.org, https://github.com/HenrikBengtsson/future.batchtools
-BugReports: https://github.com/HenrikBengtsson/future.batchtools/issues
+URL: https://future.batchtools.futureverse.org, https://github.com/futureverse/future.batchtools
+BugReports: https://github.com/futureverse/future.batchtools/issues
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)

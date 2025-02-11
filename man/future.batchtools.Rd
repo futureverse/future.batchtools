@@ -43,8 +43,8 @@ demo("mandelbrot", package = "future", ask = FALSE)
 Useful links:
 \itemize{
   \item \url{https://future.batchtools.futureverse.org}
-  \item \url{https://github.com/HenrikBengtsson/future.batchtools}
-  \item Report bugs at \url{https://github.com/HenrikBengtsson/future.batchtools/issues}
+  \item \url{https://github.com/futureverse/future.batchtools}
+  \item Report bugs at \url{https://github.com/futureverse/future.batchtools/issues}
 }
 
 }
