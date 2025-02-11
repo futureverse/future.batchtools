@@ -54,11 +54,11 @@ for (name in intersect(names(cenvs), names(oenvs0))) {
 ## (d) Assert that everything was undone
 if (!identical(Sys.getenv(), oenvs0)) {
   diff <- setdiff(names(Sys.getenv()), names(oenvs0))
-  message("Env vars added: ", paste(sQuote(diff), collapse = ", "))
+  message(sprintf("Env vars added: [n=%d] %s", length(diff), paste(sQuote(diff), collapse = ", ")))
   diff <- setdiff(names(oenvs0), names(Sys.getenv()))
-  message("Env vars removed: ", paste(sQuote(diff), collapse = ", "))
+  message(sprintf("Env vars removed: [n=%d] %s", length(diff), paste(sQuote(diff), collapse = ", ")))
 }
-stopifnot(identical(Sys.getenv(), oenvs0))
+stopifnot(all.equal(Sys.getenv(), oenvs0))
 
 
 ## Undo variables
