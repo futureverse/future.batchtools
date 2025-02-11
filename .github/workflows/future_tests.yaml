@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         future:
-          - { plan: 'batchtools_local' }
+          - { plan: 'future.batchtools::batchtools_local' }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
