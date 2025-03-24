@@ -864,6 +864,7 @@ delete.BatchtoolsFuture <- function(future,
 
 add_finalizer <- function(...) UseMethod("add_finalizer")
 
+#' @export
 add_finalizer.BatchtoolsFuture <- function(future, debug = FALSE, ...) {
   ## Register finalizer (will clean up registries etc.)
 
