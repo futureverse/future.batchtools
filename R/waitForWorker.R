@@ -55,7 +55,11 @@ waitForWorker.BatchtoolsFuture <- function(future,
          delta = getOption("future.wait.interval", 0.2),
          alpha = getOption("future.wait.alpha", 1.01),
          ...) {
-  debug <- getOption("future.debug", FALSE)
+  debug <- isTRUE(getOption("future.debug"))
+  if (debug) {
+    mdebugf_push("waitForWorker() for %s ...", class(future)[1])
+    on.exit(mdebug_pop())
+  }
 
   stop_if_not(is.null(await) || is.function(await))
   workers <- as.integer(workers)

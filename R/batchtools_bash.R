@@ -32,9 +32,13 @@ makeClusterFunctionsBash <- function(template = "bash") {
 
     script <- cfBrewTemplate(reg, text = template_text, jc = jc)
     output <- system2(bin, args = c(script), stdout = TRUE, stderr = TRUE)
-    if (getOption("future.debug", FALSE)) {
-      cat(paste(c(output, ""), collapse = "\n"), file = stderr())
+    debug <- isTRUE(getOption("future.debug"))
+    if (debug) {
+      mdebug_push("makeClusterFunctionsBash() ...")
+      mdebug(paste(c(output, ""), collapse = "\n"))
+      on.exit(mdebug_pop())
     }
+    
     status <- attr(output, "status")
     if (is.null(status)) {
       status <- 0L

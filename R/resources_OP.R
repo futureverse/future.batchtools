@@ -1,4 +1,3 @@
-
 #' Temporarily tweaks the resources for the current batchtools strategy
 #'
 #' @usage fassignment \%resources\% tweaks

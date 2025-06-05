@@ -6,7 +6,7 @@ temp_registry <- local({
   make_registry <- function(cluster.functions = NULL, config = list(), ...) {
     ## Temporarily disable batchtools output?
     ## (i.e. messages and progress bars)
-    debug <- getOption("future.debug", FALSE)
+    debug <- isTRUE(getOption("future.debug"))
     batchtools_output <- getOption("future.batchtools.output", debug)
 
     work.dir <- config$work.dir
