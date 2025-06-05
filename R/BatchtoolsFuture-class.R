@@ -309,8 +309,7 @@ loggedError.BatchtoolsFuture <- function(future, ...) {
   if (is_na(stat)) return(NULL)
 
   if (!finished(future)) {
-    label <- future$label
-    if (is.null(label)) label <- "<none>"
+    label <- sQuoteLabel(future)
     msg <- sprintf("%s ('%s') has not finished yet", class(future)[1L], label)
     stop(BatchtoolsFutureError(msg, future = future))
   }
@@ -335,8 +334,7 @@ loggedOutput.BatchtoolsFuture <- function(future, ...) {
   if (is_na(stat)) return(NULL)
 
   if (!finished(future)) {
-    label <- future$label
-    if (is.null(label)) label <- "<none>"
+    label <- sQuoteLabel(future)
     msg <- sprintf("%s ('%s') has not finished yet", class(future)[1L], label)
     stop(BatchtoolsFutureError(msg, future = future))
   }
@@ -356,8 +354,6 @@ loggedOutput.BatchtoolsFuture <- function(future, ...) {
 #' @export
 #' @keywords internal
 resolved.BatchtoolsFuture <- function(x, ...) {
-  signalEarly <- import_future("signalEarly")
-  
   ## Is value already collected?
   if (!is.null(x$result)) {
     ## Signal conditions early?
@@ -413,8 +409,7 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
   if (debug) mdebug("- getting batchtools status")
   stat <- status(future)
   if (is_na(stat)) {
-    label <- future$label
-    if (is.null(label)) label <- "<none>"
+    label <- sQuoteLabel(future)
     stopf("The result no longer exists (or never existed) for Future ('%s') of class %s", label, paste(sQuote(class(future)), collapse = ", ")) #nolint
   }
 
@@ -442,8 +437,7 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
 #' @export
 run.BatchtoolsFuture <- function(future, ...) {
   if (future$state != "created") {
-    label <- future$label
-    if (is.null(label)) label <- "<none>"
+    label <- sQuoteLabel(future)
     msg <- sprintf("A future ('%s') can only be launched once.", label)
     stop(FutureError(msg, future = future))
   }
@@ -581,8 +575,7 @@ run.BatchtoolsFuture <- function(future, ...) {
     })
   }, error = function(ex) {
     msg <- conditionMessage(ex)
-    label <- future$label
-    if (is.null(label)) label <- "<none>"
+    label <- sQuoteLabel(future)
     msg <- sprintf("Failed to submit %s (%s). The reason was: %s", class(future)[1], label, msg)
     info <- capture.output(str(resources))
     info <- paste(info, collapse = "\n")
@@ -649,8 +642,7 @@ await <- function(future, cleanup = TRUE,
   result <- NULL
   if (finished) {
     mdebug("Results:")
-    label <- future$label
-    if (is.null(label)) label <- "<none>"
+    label <- sQuoteLabel(future)
     if ("finished" %in% stat) {
       if (debug) mdebug("- batchtools::loadResult() ...")
       result <- loadResult(reg = reg, id = jobid)
@@ -780,8 +772,7 @@ delete.BatchtoolsFuture <- function(future,
   if (!resolved(future)) {
     if (onRunning == "skip") return(invisible(TRUE))
     status <- status(future)
-    label <- future$label
-    if (is.null(label)) label <- "<none>"
+    label <- sQuoteLabel(future)
     msg <- sprintf("Will not remove batchtools registry, because is appears to hold a non-resolved future (%s; state = %s; batchtools status = %s): %s", sQuote(label), sQuote(future$state), paste(sQuote(status), collapse = ", "), sQuote(path)) #nolint
     mdebugf("delete(): %s", msg)
     if (onRunning == "warning") {
