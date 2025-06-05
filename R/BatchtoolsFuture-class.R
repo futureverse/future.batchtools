@@ -659,7 +659,7 @@ await <- function(future, cleanup = TRUE,
   
   result <- NULL
   if (finished) {
-    mdebug("Results:")
+    if (debug) mdebug("Results:")
     label <- sQuoteLabel(future)
     if ("finished" %in% stat) {
       result <- local({

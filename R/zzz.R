@@ -2,7 +2,7 @@
 .onLoad <- function(libname, pkgname) {
   import_future_functions()
   
-  debug <- getOption("future.debug", FALSE)
+  debug <- isTRUE(getOption("future.debug"))
   
   inRCmdCheck <- import_parallelly("inRCmdCheck")
   if (inRCmdCheck()) {
