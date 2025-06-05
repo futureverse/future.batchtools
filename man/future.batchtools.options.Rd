@@ -16,7 +16,7 @@
 \description{
 Below are the \R options and environment variables that are used by the
 \pkg{future.batchtools} package.
-See \link[future:future.options]{future::future.options} for additional ones that apply to futures
+See \link[future:zzz-future.options]{future::future.options} for additional ones that apply to futures
 in general.\cr
 \cr
 \emph{WARNING: Note that the names and the default values of these options

@@ -204,6 +204,14 @@ print.BatchtoolsFuture <- function(x, ...) {
 }
 
 
+#' @importFrom future cancel
+#' @export
+cancel.BatchtoolsFuture <- function(x, interrupt = FALSE, ...) {
+  ## FIXME
+  NextMethod(interrupt = interrupt)
+}
+
+
 #' @importFrom batchtools getStatus
 status <- function(future, ...) {
   debug <- getOption("future.debug", FALSE)
