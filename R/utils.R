@@ -46,35 +46,6 @@ capture_output <- function(expr, envir = parent.frame(), ...) {
 
 printf <- function(...) cat(sprintf(...))
 
-now <- function(x = Sys.time(), format = "[%H:%M:%OS3] ") {
-  ## format(x, format = format) ## slower
-  format(as.POSIXlt(x, tz = ""), format = format)
-}
-
-mdebug <- function(..., debug = getOption("future.debug", FALSE)) {
-  if (!debug) return()
-  message(now(), ...)
-}
-
-mdebugf <- function(..., appendLF = TRUE,
-                    debug = getOption("future.debug", FALSE)) {
-  if (!debug) return()
-  message(now(), sprintf(...), appendLF = appendLF)
-}
-
-#' @importFrom utils capture.output
-mprint <- function(..., appendLF = TRUE, debug = getOption("future.debug", FALSE)) {
-  if (!debug) return()
-  message(paste(now(), capture.output(print(...)), sep = "", collapse = "\n"), appendLF = appendLF)
-}
-
-#' @importFrom utils capture.output str
-mstr <- function(..., appendLF = TRUE, debug = getOption("future.debug", FALSE)) {
-  if (!debug) return()
-  message(paste(now(), capture.output(str(...)), sep = "", collapse = "\n"), appendLF = appendLF)
-}
-
-
 ## From R.utils 2.0.2 (2015-05-23)
 hpaste <- function(..., sep="", collapse=", ", last_collapse=NULL,
                    max_head=if (missing(last_collapse)) 3 else Inf,
