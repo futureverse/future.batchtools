@@ -18,7 +18,7 @@
 
 |package           |old    |new         |Δ  |
 |:-----------------|:------|:-----------|:--|
-|future.batchtools |0.12.1 |0.12.1-9009 |*  |
+|future.batchtools |0.12.1 |0.12.1-9010 |*  |
 |backports         |1.5.0  |1.5.0       |   |
 |base64url         |1.4    |1.4         |   |
 |batchtools        |0.9.17 |0.9.17      |   |
