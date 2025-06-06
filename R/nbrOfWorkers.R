@@ -6,7 +6,7 @@
 #'
 #' @param evaluator A future evaluator function.
 #' If NULL (default), the current evaluator as returned
-#' by [plan()] is used.
+#' by [future::plan()] is used.
 #'
 #' @return A number in \eqn{[1, Inf]}.
 #'

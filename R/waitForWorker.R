@@ -2,8 +2,10 @@ waitForWorker <- function(future, ...) {
   UseMethod("waitForWorker")
 }
 
+#' @export
 waitForWorker.default <- function(future, ...) NULL
 
+#' @export
 waitForWorker.BatchtoolsUniprocessFuture <- function(future, ...) NULL
 
 
@@ -11,8 +13,10 @@ registerFuture <- function(future, ...) {
   UseMethod("registerFuture")
 }
 
+#' @export
 registerFuture.default <- function(future, ...) NULL
 
+#' @export
 registerFuture.BatchtoolsUniprocessFuture <- function(future, ...) NULL
 
 
@@ -21,17 +25,21 @@ unregisterFuture <- function(future, ...) {
   UseMethod("unregisterFuture")
 }
 
+#' @export
 unregisterFuture.default <- function(future, ...) NULL
 
+#' @export
 unregisterFuture.BatchtoolsUniprocessFuture <- function(future, ...) NULL
 
 
+#' @export
 registerFuture.BatchtoolsFuture <- function(future, ...) {
   freg <- sprintf("workers-%s", class(future)[1])
   FutureRegistry(freg, action = "add", future = future, earlySignal = FALSE, ...)
 }
 
 
+#' @export
 unregisterFuture.BatchtoolsFuture <- function(future, ...) {
   freg <- sprintf("workers-%s", class(future)[1])
   FutureRegistry(freg, action = "remove", future = future, ...)
@@ -39,6 +47,7 @@ unregisterFuture.BatchtoolsFuture <- function(future, ...) {
 
 
 #' @importFrom future FutureError
+#' @export
 waitForWorker.BatchtoolsFuture <- function(future,
          workers,
          await = NULL,
@@ -46,7 +55,11 @@ waitForWorker.BatchtoolsFuture <- function(future,
          delta = getOption("future.wait.interval", 0.2),
          alpha = getOption("future.wait.alpha", 1.01),
          ...) {
-  debug <- getOption("future.debug", FALSE)
+  debug <- isTRUE(getOption("future.debug"))
+  if (debug) {
+    mdebugf_push("waitForWorker() for %s ...", class(future)[1])
+    on.exit(mdebug_pop())
+  }
 
   stop_if_not(is.null(await) || is.function(await))
   workers <- as.integer(workers)

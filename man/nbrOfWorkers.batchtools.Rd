@@ -9,7 +9,7 @@
 \arguments{
 \item{evaluator}{A future evaluator function.
 If NULL (default), the current evaluator as returned
-by \code{\link[=plan]{plan()}} is used.}
+by \code{\link[future:plan]{future::plan()}} is used.}
 }
 \value{
 A number in \eqn{[1, Inf]}.

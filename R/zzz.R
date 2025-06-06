@@ -1,11 +1,8 @@
 ## To be cached by .onLoad()
-FutureRegistry <- NULL
-
 .onLoad <- function(libname, pkgname) {
-  ## Import private functions from 'future'
-  FutureRegistry <<- import_future("FutureRegistry")
+  import_future_functions()
   
-  debug <- getOption("future.debug", FALSE)
+  debug <- isTRUE(getOption("future.debug"))
   
   inRCmdCheck <- import_parallelly("inRCmdCheck")
   if (inRCmdCheck()) {

@@ -1,3 +1,14 @@
+# Version 0.12.2 [2025-06-06]
+
+## Bug Fixes
+
+* Attempts to cancel batchtools futures via `cancel()` would result in
+  "Interruption of futures require a backend implementing the
+  FutureBackend API". Until this package implements the new
+  FutureBackend API of future (>= 1.40.0), any calls to `cancel()`
+  will be silently ignored.
+  
+
 # Version 0.12.1 [2023-12-19]
 
 ## Bug Fixes

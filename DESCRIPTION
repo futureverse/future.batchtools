@@ -1,9 +1,9 @@
 Package: future.batchtools
-Version: 0.12.1
+Version: 0.12.2
 Depends:
     R (>= 3.2.0),
     parallelly,
-    future (>= 1.31.0)
+    future (>= 1.49.0)
 Imports:
     batchtools (>= 0.9.16),
     utils
@@ -20,7 +20,7 @@ Authors@R: c(person("Henrik", "Bengtsson",
                     role = c("aut", "cre", "cph"),
                     email = "henrikb@braju.com",
                     comment = c(ORCID = "0000-0002-7579-5165")))
-Description: Implementation of the Future API on top of the 'batchtools' package.
+Description: Implementation of the Future API <doi:10.32614/RJ-2021-048> on top of the 'batchtools' package.
     This allows you to process futures, as defined by the 'future' package,
     in parallel out of the box, not only on your local machine or ad-hoc
     cluster of machines, but also via high-performance compute ('HPC') job
@@ -28,7 +28,7 @@ Description: Implementation of the Future API on top of the 'batchtools' package
     e.g. 'y <- future.apply::future_lapply(files, FUN = process)'.
 License: LGPL (>= 2.1)
 LazyLoad: TRUE
-URL: https://future.batchtools.futureverse.org, https://github.com/HenrikBengtsson/future.batchtools
-BugReports: https://github.com/HenrikBengtsson/future.batchtools/issues
-RoxygenNote: 7.2.3
+URL: https://future.batchtools.futureverse.org, https://github.com/futureverse/future.batchtools
+BugReports: https://github.com/futureverse/future.batchtools/issues
+RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
