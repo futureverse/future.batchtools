@@ -236,7 +236,7 @@ demo("mandelbrot", package = "future", ask = FALSE)
 [brew]: https://cran.r-project.org/package=brew
 [future]: https://cran.r-project.org/package=future
 [future.batchtools]: https://cran.r-project.org/package=future.batchtools
-[batchtools configuration]: https://mllg.github.io/batchtools/articles/index.html
+[batchtools configuration]: https://batchtools.mlr-org.com/articles/batchtools.html
 [TORQUE]: https://en.wikipedia.org/wiki/TORQUE
 [Slurm]: https://en.wikipedia.org/wiki/Slurm_Workload_Manager
 [Sun/Oracle Grid Engine (SGE)]: https://en.wikipedia.org/wiki/Oracle_Grid_Engine
