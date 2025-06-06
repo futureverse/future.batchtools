@@ -21,7 +21,7 @@ The Future API is defined by the future package."><!-- Global site tag (gtag.js)
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.1-9009</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,16 +120,9 @@ select the type of future you wish to use via
 <span class="r-in"><span>  <span class="va">c</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
 <span class="r-in"><span>  <span class="va">a</span> <span class="op">*</span> <span class="va">b</span> <span class="op">*</span> <span class="va">c</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:40.642] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:40.680] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.365] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:50.424] Launched future #1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.406] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.410] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.415] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.415] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.415] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_1426736984’</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">batchtools_local</span><span class="op">)</span></span></span>
@@ -244,121 +237,58 @@ select the type of future you wish to use via
 <span class="r-out co"><span class="r-pr">#&gt;</span> +   counts &lt;- plot_what_is_done(counts)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> +   if (!any(sapply(counts, FUN = inherits, "Future"))) break</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + }</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.599] Attaching 1 packages (‘future’) ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.601] Attaching 1 packages (‘future’) ... DONE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.615] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:41.637] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.271] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:50.684] Attaching 1 packages (‘future’) ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:50.687] Attaching 1 packages (‘future’) ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:51.362] Launched future #1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #1 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.297] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.301] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.310] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.310] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.311] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_600744520’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #1 of 9 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.321] Attaching 1 packages (‘future’) ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.324] Attaching 1 packages (‘future’) ... DONE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.338] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:42.362] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.006] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:51.411] Attaching 1 packages (‘future’) ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:51.414] Attaching 1 packages (‘future’) ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:52.115] Launched future #1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #2 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.034] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.038] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.045] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.046] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.046] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_1818662298’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #2 of 9 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.058] Attaching 1 packages (‘future’) ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.061] Attaching 1 packages (‘future’) ... DONE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.076] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.102] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.743] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:52.175] Attaching 1 packages (‘future’) ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:52.178] Attaching 1 packages (‘future’) ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:52.871] Launched future #1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #3 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.770] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.775] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.782] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.783] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.784] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_1713704096’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #3 of 9 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.796] Attaching 1 packages (‘future’) ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.800] Attaching 1 packages (‘future’) ... DONE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.815] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:43.839] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.463] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:52.919] Attaching 1 packages (‘future’) ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:52.923] Attaching 1 packages (‘future’) ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:53.575] Launched future #1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #4 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.500] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.504] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.511] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.512] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.514] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_314203815’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #4 of 9 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.527] Attaching 1 packages (‘future’) ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.531] Attaching 1 packages (‘future’) ... DONE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.545] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:44.569] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.257] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:53.623] Attaching 1 packages (‘future’) ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:53.628] Attaching 1 packages (‘future’) ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:54.335] Launched future #1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #5 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.285] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.290] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.297] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.299] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.301] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_2011474655’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #5 of 9 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.315] Attaching 1 packages (‘future’) ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.320] Attaching 1 packages (‘future’) ... DONE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.336] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:45.361] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.023] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:54.391] Attaching 1 packages (‘future’) ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:54.396] Attaching 1 packages (‘future’) ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:55.089] Launched future #1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #6 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.051] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.057] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.070] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.072] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.074] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_84959932’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #6 of 9 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.088] Attaching 1 packages (‘future’) ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.093] Attaching 1 packages (‘future’) ... DONE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.108] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.133] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.753] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:55.139] Attaching 1 packages (‘future’) ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:55.145] Attaching 1 packages (‘future’) ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:55.790] Launched future #1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #7 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.782] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.788] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.796] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.798] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.801] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_1265104261’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #7 of 9 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.819] Attaching 1 packages (‘future’) ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.825] Attaching 1 packages (‘future’) ... DONE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.841] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:46.871] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.516] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:55.844] Attaching 1 packages (‘future’) ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:55.850] Attaching 1 packages (‘future’) ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:56.528] Launched future #1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #8 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.545] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.551] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.559] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.561] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.564] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_2125894985’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #8 of 9 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.580] Attaching 1 packages (‘future’) ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.586] Attaching 1 packages (‘future’) ... DONE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.602] batchtools::batchMap()</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:47.628] Created BatchtoolsLocalFuture future #1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:48.279] Launched future #1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:56.581] Attaching 1 packages (‘future’) ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:56.588] Attaching 1 packages (‘future’) ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [19:23:57.254] Launched future #1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #9 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:48.311] batchtools::waitForJobs() ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:48.322] Results:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:48.331] delete(): Option 'future.delete = ‘&lt;NULL&gt;’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:48.334] delete(): status(&lt;future&gt;) = ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [12:43:48.337] delete(): batchtools registry deleted: ‘/tmp/henrik/RtmpWKX4HG/future.batchtools/docs/reference/.future/20250605_124335-7DqrLf/batchtools_1603532319’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #9 of 9 ...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
 <span class="r-plt img"><img src="future.batchtools-1.png" alt="" width="700" height="433"></span>
