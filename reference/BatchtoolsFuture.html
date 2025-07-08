@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9903</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9910</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,6 +83,7 @@
 <span>  conf.file <span class="op">=</span> <span class="fu">findConfFile</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  cluster.functions <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  registry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  interrupts <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -125,6 +126,12 @@ deleted when this object is garbage collected, otherwise not.</p></dd>
 <dt id="arg-registry">registry<a class="anchor" aria-label="anchor" href="#arg-registry"></a></dt>
 <dd><p>(optional) A named list of settings to control the setup
 of the batchtools registry.</p></dd>
+
+
+<dt id="arg-interrupts">interrupts<a class="anchor" aria-label="anchor" href="#arg-interrupts"></a></dt>
+<dd><p>If FALSE, attempts to interrupt futures will not take
+place on this backend, even if the backend supports it. This is useful
+when, for instance, it takes a long time to interrupt a future.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
