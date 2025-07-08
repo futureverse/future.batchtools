@@ -5,6 +5,12 @@
  * **future.batchtools** now implements the FutureBackend API
    introduced in **future** 1.40.0.
 
+## New Features
+
+ * Most types of batchtools future can now be interrupted, including
+   `batchtools_multicore` and all job-scheduler backends, e.g.
+   `batchtools_sge` and `batchtools_slurm`. 
+ 
 
 # Version 0.12.2 [2025-06-06]
 

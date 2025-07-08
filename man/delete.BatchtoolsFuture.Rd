@@ -10,8 +10,6 @@
   onFailure = c("error", "warning", "ignore"),
   onMissing = c("ignore", "warning", "error"),
   times = 10L,
-  delta = getOption("future.wait.interval", 1),
-  alpha = getOption("future.wait.alpha", 1.01),
   ...
 )
 }
@@ -25,11 +23,6 @@
 \item{onMissing}{Action if future does not exist.}
 
 \item{times}{The number of tries before giving up.}
-
-\item{delta}{The delay interval (in seconds) between retries.}
-
-\item{alpha}{A multiplicative penalty increasing the delay
-for each failed try.}
 
 \item{\ldots}{Not used.}
 }

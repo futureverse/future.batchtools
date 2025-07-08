@@ -328,6 +328,55 @@ launchFuture.BatchtoolsFutureBackend <- local({
 })
 
 
+#' @importFrom batchtools killJobs
+#' @importFrom future interruptFuture
+#' @export
+interruptFuture.BatchtoolsFutureBackend <- function(backend, future, ...) {
+  job.id <- NULL ## To please R CMD check
+  
+  debug <- isTRUE(getOption("future.debug"))
+  if (debug) {
+    mdebugf_push("interruptFuture() for %s ...", class(backend)[1])
+    mdebugf("Future state before: %s", sQuote(future[["state"]]))
+    on.exit({
+      mdebugf("Future state after: %s", sQuote(future[["state"]]))
+      mdebug_pop()
+    })
+  }
+    
+  config <- future[["config"]]
+  reg <- config[["reg"]]
+
+  ## Does the backend support terminating jobs?
+  cluster.functions <- reg[["cluster.functions"]]
+  if (is.null(cluster.functions$killJob)) {
+    if (debug) mdebug("Cannot interrupt, because the registered cluster functions does not define a killJob() function")
+    return(future)
+  }
+
+  jobid <- config[["jobid"]]$job.id
+  if (debug) mdebugf("Job ID: %s", jobid)
+
+  res <- killJobs(ids = jobid, reg = reg)
+  if (debug) {
+    mdebug("killJobs() result:")
+    mprint(res)
+  }
+
+  if (nrow(res) == 0L) {
+    future[["state"]] <- "interrupted"
+  } else {
+    res <- subset(res, job.id == jobid)
+    if (nrow(res) == 1L && isTRUE(res$killed)) {
+      future[["state"]] <- "interrupted"
+    }
+  }
+  
+  invisible(future)
+}
+
+
+
 #' Prints a batchtools future
 #'
 #' @param x An BatchtoolsFuture object
@@ -556,15 +605,12 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
 
   ## Has the value already been collected?
   result <- future$result
-  if (inherits(result, "FutureResult")) {
+  if (!is.null(result)) {
     if (debug) mdebug("FutureResult already collected")
+    if (inherits(result, "FutureError")) {
+      stop(result)
+    }
     return(result)
-  }
-
-  ## Has the value already been collected? - take two
-  if (future$state %in% c("finished", "failed", "interrupted")) {
-    if (debug) mdebug("FutureResult already collected - take 2")
-    return(NextMethod())
   }
 
   if (future$state == "created") {
@@ -585,15 +631,24 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
   }
 
   result <- local({
+    res <- NULL
     if (debug) {
       mdebug_push("Waiting for batchtools job to finish ...")
-      on.exit(mdebug_pop())
+      on.exit({
+        mdebugf("Result: <%s>", class(res)[1])
+        mdebug_pop()
+      })
     }
-    await(future, cleanup = FALSE)
+    res <- await(future, cleanup = FALSE)
+    res
   })
-  stop_if_not(inherits(result, "FutureResult"))
-  future$result <- result
-  future$state <- "finished"
+  stop_if_not(inherits(result, c("FutureResult", "FutureError")))
+  future[["result"]] <- result
+  if (inherits(result, "FutureInterruptError")) {
+    future[["state"]] <- "interrupted"
+  } else {
+    future[["state"]] <- "finished"
+  }
 
   if (cleanup) {
     local({
@@ -605,20 +660,22 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
     })
   }
 
-  if (debug) mdebug("NextMethod()")
-  NextMethod()
-}
+  if (inherits(result, "FutureError")) {
+    stop(result)
+  }
+
+  result
+} ## result()
 
 
+#' @importFrom future FutureInterruptError
 #' @importFrom batchtools loadResult waitForJobs
 #' @importFrom utils tail
-await <- function(future, cleanup = TRUE,
-                  timeout = getOption("future.wait.timeout", 30 * 24 * 60 * 60),
-                  delta = getOption("future.wait.interval", 1.0),
-                  alpha = getOption("future.wait.alpha", 1.01),
-                  ...) {
-  stop_if_not(is.finite(timeout), timeout >= 0)
-  stop_if_not(is.finite(alpha), alpha > 0)
+await <- function(future, cleanup = TRUE, ...) {
+  backend <- future[["backend"]]
+  timeout <- backend[["future.wait.timeout"]]
+  delta <- backend[["future.wait.interval"]]
+  alpha <- backend[["future.wait.alpha"]]
   
   debug <- isTRUE(getOption("future.debug"))
   if (debug) {
@@ -704,12 +761,21 @@ await <- function(future, cleanup = TRUE,
         msg <- sprintf("%s. No logged output exist.", msg)
       }
       stop(BatchtoolsFutureError(msg, future = future))
+    } else if (future[["state"]] %in% c("canceled", "interrupted")) {
+      label <- sQuoteLabel(future)
+      msg <- sprintf("Future (%s) of class %s was %s", label, class(future)[1], future[["state"]])
+      result <- FutureInterruptError(msg, future = future)
     } else if (is_na(stat)) {
       msg <- sprintf("BatchtoolsDeleted: Cannot retrieve value. Future ('%s') deleted: %s", label, reg$file.dir) #nolint
       stop(BatchtoolsFutureError(msg, future = future))
     }
-    if (debug) { mstr(result) }    
+    if (debug) { mstr(result) }
+  } else if (future[["state"]] %in% c("canceled", "interrupted")) {
+    label <- sQuoteLabel(future)
+    msg <- sprintf("Future (%s) of class %s was %s", label, class(future)[1], future[["state"]])
+    result <- FutureInterruptError(msg, future = future)
   } else {
+    label <- sQuoteLabel(future)
     cleanup <- FALSE
     msg <- sprintf("AsyncNotReadyError: Polled for results for %s seconds every %g seconds, but asynchronous evaluation for future ('%s') is still running: %s", timeout, delta, label, reg$file.dir) #nolint
     stop(BatchtoolsFutureError(msg, future = future))
@@ -737,9 +803,6 @@ delete <- function(...) UseMethod("delete")
 #' @param onFailure Action if failing to delete future.
 #' @param onMissing Action if future does not exist.
 #' @param times The number of tries before giving up.
-#' @param delta The delay interval (in seconds) between retries.
-#' @param alpha A multiplicative penalty increasing the delay
-#' for each failed try.
 #' @param \ldots Not used.
 #'
 #' @return (invisibly) TRUE if deleted and FALSE otherwise.
@@ -753,14 +816,20 @@ delete.BatchtoolsFuture <- function(future,
                                 onFailure = c("error", "warning", "ignore"),
                                 onMissing = c("ignore", "warning", "error"),
                                 times = 10L,
-                                delta = getOption("future.wait.interval", 1.0),
-                                alpha = getOption("future.wait.alpha", 1.01),
                                 ...) {
   onRunning <- match.arg(onRunning)
   onMissing <- match.arg(onMissing)
   onFailure <- match.arg(onFailure)
 
   debug <- isTRUE(getOption("future.debug"))
+  if (debug) {
+    mdebugf_push("delete() for %s ...", class(future)[1])
+    on.exit(mdebugf_pop())
+  }
+
+  backend <- future[["backend"]]
+  delta <- backend[["future.wait.interval"]]
+  alpha <- backend[["future.wait.alpha"]]
 
   ## Identify registry
   config <- future$config
@@ -786,7 +855,7 @@ delete.BatchtoolsFuture <- function(future,
   }
 
 
-  ## Is the future still not resolved?  If so, then...
+  ## Is the future still not resolved? If so, then...
   if (!resolved(future)) {
     if (onRunning == "skip") return(invisible(TRUE))
     status <- status(future)
@@ -803,8 +872,10 @@ delete.BatchtoolsFuture <- function(future,
 
   ## Make sure to collect the results before deleting
   ## the internal batchtools registry
-  result <- result(future, cleanup = FALSE)
-  stop_if_not(inherits(result, "FutureResult"))
+  result <- future[["result"]]
+  if (is.null(result)) {
+    result <- result(future, cleanup = FALSE)
+  }
 
   ## Free up worker
   unregisterFuture(future)

@@ -25,6 +25,7 @@
 #'
 #' @importFrom batchtools makeClusterFunctionsMulticore
 #' @importFrom parallelly availableCores supportsMulticore
+#' @importFrom tools pskill
 #' @keywords internal
 #' @export
 BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraints = "multicore"), ...) {
@@ -49,6 +50,11 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
   on.exit(options(oopts))
 
   cluster.functions <- makeClusterFunctionsMulticore(ncpus = workers)
+  cluster.functions$killJob <- function(reg, batch.id) {
+    pid <- as.integer(batch.id)
+    if (is.na(pid) || pid <= 0) return(FALSE)
+    pskill(pid)
+  }
 
   core <- BatchtoolsMultiprocessFutureBackend(
     workers = workers,
