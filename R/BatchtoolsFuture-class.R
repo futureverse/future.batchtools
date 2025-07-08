@@ -435,7 +435,10 @@ status <- function(future, ...) {
   debug <- isTRUE(getOption("future.debug"))
   if (debug) {
     mdebugf_push("status() for %s ...", class(future)[1])
-    on.exit(mdebug_pop())
+    on.exit({
+      mdebugf("Status: %s", paste(sQuote(status), collapse = ", "))
+      mdebug_pop()
+    })
   }
   
   ## WORKAROUND: Avoid warnings on partially matched arguments
@@ -484,13 +487,13 @@ status <- function(future, ...) {
   result <- future$result
   if (inherits(result, "FutureResult")) {
     if (result_has_errors(result)) status <- unique(c("error", status))
+  } else if (inherits(result, "FutureError")) {
+    status <- unique(c("error", status))
   }
 
   ## Cache result
   future$.status <- status
   
-  if (debug) mdebug("Status: ", paste(sQuote(status), collapse = ", "))
-
   status
 }
 
@@ -586,6 +589,10 @@ resolved.BatchtoolsFuture <- function(x, ...) {
   ## If not, checks the batchtools registry status
   resolved <- finished(x)
   if (is.na(resolved)) return(FALSE)
+
+  if (!resolved && x[["state"]] == "canceled") {
+    return(TRUE)
+  }
 
   ## Signal conditions early? (happens only iff requested)
   if (resolved) signalEarly(x, ...)
