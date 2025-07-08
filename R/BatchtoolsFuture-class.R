@@ -953,12 +953,3 @@ stopWorkers.BatchtoolsFutureBackend <- function(backend, ...) {
 
   backend
 }
-
-
-#' @importFrom future listFutures
-#' @export
-listFutures.BatchtoolsUniprocessFutureBackend <- function(backend, ...) {
-  data.frame(counter = integer(0L), start = proc.time()[[3]][integer(0L)], 
-             label = character(0L), resolved = logical(0L),
-             future = list()[integer(0L)])
-}
