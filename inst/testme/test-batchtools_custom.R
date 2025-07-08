@@ -6,7 +6,9 @@ message("*** batchtools_custom() ...")
 
 message("*** batchtools_custom() w/ 'conf.file' on R_BATCHTOOLS_SEARCH_PATH")
 
-f <- batchtools_custom({
+plan(batchtools_custom)
+
+f <- future({
   42L
 })
 print(f)
@@ -20,10 +22,11 @@ message("*** batchtools_custom() w/ 'cluster.functions' without globals")
 
 cf <- makeClusterFunctionsInteractive(external = TRUE)
 str(cf)
+plan(batchtools_custom, cluster.functions = cf)
 
-f <- batchtools_custom({
+f <- future({
   42L
-}, cluster.functions = cf)
+})
 stopifnot(inherits(f, "BatchtoolsFuture"))
 
 ## Check whether a batchtools_custom future is resolved
@@ -37,13 +40,14 @@ stopifnot(y == 42L)
 
 
 message("*** batchtools_custom()  w/ 'cluster.functions' with globals")
+
 ## A global variable
 a <- 0
-f <- batchtools_custom({
+f <- future({
   b <- 3
   c <- 2
   a * b * c
-}, cluster.functions = cf)
+})
 print(f)
 
 ## Although 'f' is a batchtools_custom future and therefore
@@ -62,17 +66,18 @@ stopifnot(v == 0)
 message("*** batchtools_custom()  w/ 'cluster.functions' with globals (tricky)")
 x <- listenv()
 for (ii in 1:2) {
-  x[[ii]] <- batchtools_custom({ ii }, globals = TRUE, cluster.functions = cf)
+  x[[ii]] <- future({ ii }, globals = TRUE)
 }
 v <- unlist(value(x))
 stopifnot(all(v == 1:2))  ## Make sure globals are frozen
 
 
-message("*** batchtools_custom()  w/ 'cluster.functions' and errors")
-f <- batchtools_custom({
+message("*** batchtools_custom() w/ 'cluster.functions' and errors")
+
+f <- future({
   stop("Whoops!")
   1
-}, cluster.functions = cf)
+})
 v <- value(f, signal = FALSE)
 print(v)
 stopifnot(inherits(v, "simpleError"))

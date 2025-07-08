@@ -2,11 +2,23 @@
 #' @inheritParams batchtools_template
 #'
 #' @export
+BatchtoolsBashFutureBackend <- function(..., template = "bash") {
+  assert_no_positional_args_but_first()
+
+  core <- BatchtoolsMultiprocessFutureBackend(
+    cluster.functions = makeClusterFunctionsBash(template = template),
+    ...
+  )
+
+  core[["futureClasses"]] <- c("BatchtoolsBashFuture", core[["futureClasses"]])
+  core <- structure(core, class = c("BatchtoolsBashFutureBackend", class(core)))
+  core
+}
+
+
+#' @export
 batchtools_bash <- function(..., envir = parent.frame(), template = "bash") {
-  cf <- makeClusterFunctionsBash(template = template)
-  future <- BatchtoolsBashFuture(..., envir = envir, cluster.functions = cf)
-  if (!future$lazy) future <- run(future)
-  invisible(future)
+ stop("INTERNAL ERROR: The future.batchtools::batchtools_bash() must never be called directly")
 }
 class(batchtools_bash) <- c(
   "batchtools_bash", "batchtools_custom",
@@ -15,6 +27,8 @@ class(batchtools_bash) <- c(
 )
 attr(batchtools_bash, "tweakable") <- c("finalize")
 attr(batchtools_bash, "untweakable") <- c("workers")
+attr(batchtools_bash, "init") <- TRUE
+attr(batchtools_bash, "factory") <- BatchtoolsBashFutureBackend
 
 
 #' @importFrom batchtools cfReadBrewTemplate cfBrewTemplate makeClusterFunctions makeSubmitJobResult

@@ -1,24 +1,5 @@
 #' A batchtools future is a future whose value will be resolved via batchtools
 #'
-#' @param expr The R expression to be evaluated
-#'
-#' @param envir The environment in which global environment
-#' should be located.
-#'
-#' @param substitute Controls whether `expr` should be
-#' `substitute()`:d or not.
-#'
-#' @param globals (optional) a logical, a character vector, a named list, or a
-#' [Globals][globals::Globals] object.  If TRUE, globals are identified by code
-#' inspection based on `expr` and `tweak` searching from environment
-#' `envir`.  If FALSE, no globals are used.  If a character vector, then
-#' globals are identified by lookup based their names `globals` searching
-#' from environment `envir`.  If a named list or a Globals object, the
-#' globals are used as is.
-#'
-#' @param label (optional) Label of the future (where applicable, becomes the
-#' job name for most job schedulers).
-#'
 #' @param resources (optional) A named list passed to the \pkg{batchtools}
 #' template (available as variable `resources`).  See Section 'Resources'
 #' in [batchtools::submitJobs()] more details.
@@ -43,85 +24,47 @@
 #' @param registry (optional) A named list of settings to control the setup
 #' of the batchtools registry.
 #'
-#' @param \ldots Additional arguments passed to [future::Future()].
+#' @param \ldots Not used.
 #'
-#' @return A BatchtoolsFuture object
+#' @return A [future::FutureBackend] object of class BatchtoolsFutureBackend 
 #'
-#' @export
-#' @importFrom future Future getGlobalsAndPackages
+#' @aliases BatchtoolsUniprocessFutureBackend BatchtoolsMultiprocessFutureBackend
+#' @rdname BatchtoolsFuture
+#' @importFrom utils file_test
+#' @importFrom future FutureBackend
 #' @keywords internal
-BatchtoolsFuture <- function(expr = NULL, envir = parent.frame(),
-                             substitute = TRUE,
-                             globals = TRUE, packages = NULL,
-                             label = NULL,
-                             resources = list(),
-                             workers = NULL,
+#' @export
+BatchtoolsFutureBackend <- function(workers = NULL, resources = list(),
                              finalize = getOption("future.finalize", TRUE),
                              conf.file = findConfFile(),
                              cluster.functions = NULL,
                              registry = list(),
                              ...) {
-  if (substitute) expr <- substitute(expr)
   assert_no_positional_args_but_first()
 
-  ## Record globals
-  gp <- getGlobalsAndPackages(expr, envir = envir, globals = globals)
-
-  future <- Future(expr = gp$expr, envir = envir, substitute = FALSE,
-                   globals = gp$globals,
-                   packages = unique(c(packages, gp$packages)),
-                   label = label,
-                   ...)
-
-  future <- as_BatchtoolsFuture(future,
-                                resources = resources,
-                                workers = workers,
-                                finalize = finalize,
-                                conf.file = conf.file,
-                                cluster.functions = cluster.functions,
-                                registry = registry)
-
-  future
-}
-
-
-## Helper function to create a BatchtoolsFuture from a vanilla Future
-#' @importFrom utils file_test
-as_BatchtoolsFuture <- function(future,
-                                resources = list(),
-                                workers = NULL,
-                                finalize = getOption("future.finalize", TRUE),
-                                conf.file = findConfFile(),
-                                cluster.functions = NULL,
-                                registry = list(),
-                                ...) {
   if (is.function(workers)) workers <- workers()
   if (is.null(workers)) {
     workers <- getOption("future.batchtools.workers", default = 100)
     stop_if_not(
       is.numeric(workers),
-      length(workers) == 1,
+      length(workers) == 1L,
       !is.na(workers), workers >= 1
     )
   } else {
-    stop_if_not(length(workers) >= 1)
+    stop_if_not(length(workers) >= 1L)
     if (is.numeric(workers)) {
-      stop_if_not(length(workers) == 1, !is.na(workers), workers >= 1)
+      stop_if_not(length(workers) == 1L, !is.na(workers), workers >= 1)
     } else if (is.character(workers)) {
-      stop_if_not(length(workers) >= 0, !anyNA(workers))
+      stop_if_not(length(workers) >= 0L, !anyNA(workers))
     } else {
       stop("Argument 'workers' should be either a numeric or a function: ",
            mode(workers))
     }
   }
-  future$workers <- workers
 
   if (!is.null(cluster.functions)) {
     stop_if_not(is.list(cluster.functions))
     stop_if_not(inherits(cluster.functions, "ClusterFunctions"))
-  } else if (missing(conf.file)) {
-    ## BACKWARD COMPATILITY: Only when calling BatchtoolsFuture() directly
-    cluster.functions <- makeClusterFunctionsInteractive(external = FALSE)
   } else {
     ## If 'cluster.functions' is not specified, then 'conf.file' must
     ## exist
@@ -137,19 +80,252 @@ as_BatchtoolsFuture <- function(future,
   
   stop_if_not(is.list(resources))
 
-  ## batchtools configuration
-  future$config <- list(
-    reg = NULL,
-    jobid = NA_integer_,
+  core <- FutureBackend(
+    reg = "workers-batchtools",
+    workers = workers,
     resources = resources,
     conf.file = conf.file,
     cluster.functions = cluster.functions,
     registry = registry,
-    finalize = finalize
+    finalize = finalize,
+    future.wait.timeout = getOption("future.wait.timeout", 30 * 24 * 60 * 60),
+    future.wait.interval = getOption("future.wait.interval", 0.01),
+    future.wait.alpha = getOption("future.wait.alpha", 1.01),
+    ...
   )
-
-  structure(future, class = c("BatchtoolsFuture", class(future)))
+  core[["futureClasses"]] <- c("BatchtoolsFuture", core[["futureClasses"]])
+  core <- structure(core, class = c("BatchtoolsFutureBackend", "FutureBackend", class(core)))
+  core
 }
+
+
+#' @export
+BatchtoolsUniprocessFutureBackend <- function(workers = 1L, ...) {
+  assert_no_positional_args_but_first()
+  core <- BatchtoolsFutureBackend(workers = 1L, ...)
+  class(core) <- c("BatchtoolsUniprocessFutureBackend", "BatchtoolsFutureBackend", "SequentialFutureBackend", "FutureBackend")
+  core
+}
+
+#' @export
+BatchtoolsMultiprocessFutureBackend <- function(...) {
+  assert_no_positional_args_but_first()
+  core <- BatchtoolsFutureBackend(...)
+  class(core) <- c("BatchtoolsMultiprocessFutureBackend", "BatchtoolsFutureBackend", "MultiprocessFutureBackend", "FutureBackend")
+  core
+}
+
+
+#' @importFrom utils str
+#' @export
+#' @keywords internal
+print.BatchtoolsFutureBackend <- function(x, ...) {  
+  NextMethod()
+
+  backend <- x
+  conf.file <- backend[["conf.file"]]
+  printf("batchtools configuration file: %s\n", file_info(conf.file))
+  
+  cluster.functions <- backend[["cluster.functions"]]
+  printf("batchtools cluster functions: %s\n",
+         sQuote(cluster.functions$name))
+  template <- attr(cluster.functions, "template")
+  printf("batchtools cluster functions template: %s\n", file_info(template))
+
+  resources <- backend[["resources"]]
+  printf("batchtools resources:\n")
+  str(resources)
+
+  invisible(x)
+}
+
+
+#' @importFrom batchtools saveRegistry batchExport batchMap setJobNames submitJobs
+#' @importFrom future launchFuture
+#' @export
+launchFuture.BatchtoolsFutureBackend <- local({
+  function(backend, future, ...) {
+    debug <- isTRUE(getOption("future.debug"))
+    if (debug) {
+      mdebugf_push("launchFuture() for %s ...", class(backend)[1])
+      on.exit(mdebugf_pop())
+    }
+
+    if (future[["state"]] != "created") {
+      label <- sQuoteLabel(future)
+      msg <- sprintf("A future ('%s') can only be launched once", label)
+      stop(FutureError(msg, future = future))
+    }
+
+    ## Assert that the process that created the future is
+    ## also the one that evaluates/resolves/queries it.
+    assertOwner(future)
+
+    ## Temporarily disable batchtools output?
+    ## (i.e. messages and progress bars)
+    batchtools_output <- getOption("future.batchtools.output", debug)
+    if (!batchtools_output) {
+      oopts <- options(batchtools.verbose = FALSE, batchtools.progress = FALSE)
+    } else {
+      oopts <- list()
+    }
+    on.exit(options(oopts), add = TRUE)
+  
+    ## (i) Create batchtools registry
+    reg <- local({
+      reg <- NULL
+      if (debug) {
+        mdebug_push("Creating batchtools registry ...")
+        on.exit({
+          mprint(reg)
+          mdebug_pop()
+        })
+      }
+      reg <- temp_registry(
+        label             = future[["label"]],
+        conf.file         = backend[["conf.file"]],
+        cluster.functions = backend[["cluster.functions"]],
+        config            = backend[["registry"]]
+      )
+      stop_if_not(inherits(reg, "Registry"))
+      reg
+    })
+
+    config <- list(reg = reg)
+    future[["config"]] <- config
+
+    ## Register finalizer?
+    if (backend[["finalize"]]) future <- add_finalizer(future)
+
+    ## (ii) Attach packages that needs to be attached
+    packages <- future$packages
+    if (length(packages) > 0) local({
+      if (debug) {
+        mdebugf_push("Attaching %d packages (%s) ...",
+                     length(packages), hpaste(sQuote(packages)))
+        on.exit(mdebug_pop())
+      }
+  
+      ## Record which packages in 'pkgs' that are loaded and
+      ## which of them are attached (at this point in time).
+      is_loaded <- is.element(packages, loadedNamespaces())
+      is_attached <- is.element(packages, attached_packages())
+  
+      ## FIXME: Update the expression such that the new session
+      ## will have the same state of (loaded, attached) packages.
+  
+      reg$packages <- packages
+      with_stealth_rng({
+        saveRegistry(reg = reg)
+      })
+    })
+    ## Not needed anymore
+    packages <- NULL
+  
+    ## (iii) Export globals?
+    if (length(future$globals) > 0) {
+      batchExport(export = future$globals, reg = reg)
+    }
+
+    ## 1. Add to batchtools for evaluation
+    jobid <- local({
+      if (debug) {
+        mdebug_push("batchtools::batchMap() ...")
+        on.exit(mdebug_pop())
+      }
+
+      data <- getFutureData(future)
+    
+      ## WORKAROUND: batchtools::batchMap() updates the RNG state,
+      ## which we must make sure to undo.
+      with_stealth_rng({
+        jobid <- batchMap(fun = future:::evalFuture, list(data), reg = reg)
+      })
+      jobid
+    })
+
+    config[["jobid"]] <- jobid
+    future[["config"]] <- config
+
+    ## 2. Set job name, if specified
+    label <- future$label
+    if (!is.null(label)) local({
+      if (debug) {
+        mdebug_push("batchtools::setJobNames() ...")
+        on.exit(mdebug_pop())
+      }
+      setJobNames(ids = jobid, names = label, reg = reg)
+    })
+    
+    if (debug) mdebugf("Created %s future #%d", class(future)[1], jobid$job.id)
+
+
+    ## 3. WORKAROUND: (For multicore and macOS only)
+    if (reg$cluster.functions$name == "Multicore") local({
+      if (debug) {
+        mdebug_push("Multicore 'ps' workaround ...")
+        on.exit(mdebug_pop())
+      }
+    
+      ## On some macOS systems, a system call to 'ps' may output an error message
+      ## "dyld: DYLD_ environment variables being ignored because main executable
+      ##  (/bin/ps) is setuid or setgid" to standard error that is picked up by
+      ## batchtools which incorrectly tries to parse it.  By unsetting all DYLD_*
+      ## environment variables, we avoid this message.  For more info, see:
+      ## * https://github.com/tudo-r/BatchJobs/issues/117
+      ## * https://github.com/futureverse/future.BatchJobs/issues/59
+      ## /HB 2016-05-07
+      dyld_envs <- tryCatch({
+        envs <- list()
+        res <- system2("ps", stdout = TRUE, stderr = TRUE)
+        if (any(grepl("DYLD_", res))) {
+          envs <- Sys.getenv()
+          envs <- envs[grepl("^DYLD_", names(envs))]
+          if (length(envs) > 0L) lapply(names(envs), FUN = Sys.unsetenv)
+        }
+        envs
+      }, error = function(ex) list())
+    })
+
+    ## 4. Wait for an available worker
+    waitForWorker(future, workers = backend[["workers"]])
+
+    ## 5. Submit
+    resources <- backend[["resources"]]
+    config[["resources"]] <- resources
+    future[["config"]] <- config
+
+    ## WORKAROUND: batchtools::submitJobs() updates the RNG state,
+    ## which we must make sure to undo.
+    tryCatch({
+      with_stealth_rng({
+        submitJobs(reg = reg, ids = jobid, resources = resources)
+      })
+    }, error = function(ex) {
+      msg <- conditionMessage(ex)
+      label <- sQuoteLabel(future)
+      msg <- sprintf("Failed to submit %s (%s). The reason was: %s", class(future)[1], label, msg)
+      info <- capture.output(str(resources))
+      info <- paste(info, collapse = "\n")
+      msg <- sprintf("%s\nTROUBLESHOOTING INFORMATION:\nbatchtools::submitJobs() was called with the following 'resources' argument:\n%s\n", msg, info)
+      stop(BatchtoolsFutureError(msg, future = future))
+    })
+    
+    if (debug) mdebugf("Launched future #%d", jobid$job.id)
+
+    future[["state"]] <- "running"
+  
+    ## 6. Reserve worker for future
+    registerFuture(future)
+
+    ## 7. Trigger early signalling
+    if (inherits(future, "BatchtoolsUniprocessFuture")) {
+      resolved(future)
+    }
+
+    invisible(future)
+  }
+})
 
 
 #' Prints a batchtools future
@@ -162,6 +338,7 @@ as_BatchtoolsFuture <- function(future,
 print.BatchtoolsFuture <- function(x, ...) {  
   NextMethod()
 
+  backend <- x[["backend"]]
   ## batchtools specific
   config <- x$config
 
@@ -216,8 +393,8 @@ cancel.BatchtoolsFuture <- function(x, interrupt = FALSE, ...) {
 status <- function(future, ...) {
   debug <- isTRUE(getOption("future.debug"))
   if (debug) {
-    mdebug("status() for ", class(future)[1], " ...")
-    on.exit(mdebug("status() for ", class(future)[1], " ... done"), add = TRUE)
+    mdebugf_push("status() for %s ...", class(future)[1])
+    on.exit(mdebug_pop())
   }
   
   ## WORKAROUND: Avoid warnings on partially matched arguments
@@ -363,7 +540,6 @@ resolved.BatchtoolsFuture <- function(x, ...) {
 
   ## Assert that the process that created the future is
   ## also the one that evaluates/resolves/queries it.
-  assertOwner <- import_future("assertOwner")
   assertOwner(x)
 
   ## If not, checks the batchtools registry status
@@ -376,7 +552,7 @@ resolved.BatchtoolsFuture <- function(x, ...) {
   resolved
 }
 
-#' @importFrom future result
+#' @importFrom future result run
 #' @export
 #' @keywords internal
 result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
@@ -440,176 +616,6 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
   if (debug) mdebug("NextMethod()")
   NextMethod()
 }
-
-
-#' @importFrom future run getExpression
-#' @importFrom batchtools batchExport batchMap saveRegistry setJobNames submitJobs
-#' @importFrom utils capture.output str
-#' @export
-run.BatchtoolsFuture <- function(future, ...) {
-  debug <- isTRUE(getOption("future.debug"))
-  if (debug) {
-    mdebugf_push("run() for %s ...", class(future)[1])
-    on.exit(mdebug_pop())
-  }
-  
-  if (future$state != "created") {
-    label <- sQuoteLabel(future)
-    msg <- sprintf("A future ('%s') can only be launched once.", label)
-    stop(FutureError(msg, future = future))
-  }
-
-  ## Assert that the process that created the future is
-  ## also the one that evaluates/resolves/queries it.
-  assertOwner <- import_future("assertOwner")
-  assertOwner(future)
-
-  ## Temporarily disable batchtools output?
-  ## (i.e. messages and progress bars)
-  batchtools_output <- getOption("future.batchtools.output", debug)
-  if (!batchtools_output) {
-    oopts <- options(batchtools.verbose = FALSE, batchtools.progress = FALSE)
-  } else {
-    oopts <- list()
-  }
-  on.exit(options(oopts))
-
-  expr <- getExpression(future)
-
-  ## Always evaluate in local environment
-  expr <- substitute(local(expr), list(expr = expr))
-
-  ## (i) Create batchtools registry
-  reg <- future$config$reg
-  stop_if_not(is.null(reg) || inherits(reg, "Registry"))
-  if (is.null(reg)) {
-    if (debug) mdebug("Creating batchtools registry")
-    config <- future$config
-    stop_if_not(is.list(config))
-    
-    ## Create batchtools registry
-    reg <- temp_registry(
-      label             = future$label,
-      conf.file         = config$conf.file,
-      cluster.functions = config$cluster.functions,
-      config            = config$registry
-    )
-    if (debug) mprint(reg)
-    future$config$reg <- reg
-
-    ## Register finalizer?
-    if (config$finalize) future <- add_finalizer(future)
-    
-    config <- NULL
-  }
-  stop_if_not(inherits(reg, "Registry"))
-
-  ## (ii) Attach packages that needs to be attached
-  packages <- future$packages
-  if (length(packages) > 0) {
-    mdebugf_push("Attaching %d packages (%s) ...",
-                    length(packages), hpaste(sQuote(packages)))
-
-    ## Record which packages in 'pkgs' that are loaded and
-    ## which of them are attached (at this point in time).
-    is_loaded <- is.element(packages, loadedNamespaces())
-    is_attached <- is.element(packages, attached_packages())
-
-    ## FIXME: Update the expression such that the new session
-    ## will have the same state of (loaded, attached) packages.
-
-    reg$packages <- packages
-    with_stealth_rng({
-      saveRegistry(reg = reg)
-    })
-
-    mdebug_pop()
-  }
-  ## Not needed anymore
-  packages <- NULL
-
-  ## (iii) Export globals?
-  if (length(future$globals) > 0) {
-    batchExport(export = future$globals, reg = reg)
-  }
-
-  ## 1. Add to batchtools for evaluation
-  if (debug) mdebug("batchtools::batchMap()")
-  ## WORKAROUND: batchtools::batchMap() updates the RNG state,
-  ## which we must make sure to undo.
-  with_stealth_rng({
-    jobid <- batchMap(fun = geval, list(expr),
-                      more.args = list(substitute = TRUE), reg = reg)
-  })
-
-  ## 2. Set job name, if specified
-  label <- future$label
-  if (!is.null(label)) {
-    setJobNames(ids = jobid, names = label, reg = reg)
-  }
-  
-  ## 3. Update
-  future$config$jobid <- jobid
-  if (debug) mdebugf("Created %s future #%d", class(future)[1], jobid$job.id)
-
-  ## WORKAROUND: (For multicore and macOS only)
-  if (reg$cluster.functions$name == "Multicore") {
-    ## On some macOS systems, a system call to 'ps' may output an error message
-    ## "dyld: DYLD_ environment variables being ignored because main executable
-    ##  (/bin/ps) is setuid or setgid" to standard error that is picked up by
-    ## batchtools which incorrectly tries to parse it.  By unsetting all DYLD_*
-    ## environment variables, we avoid this message.  For more info, see:
-    ## * https://github.com/tudo-r/BatchJobs/issues/117
-    ## * https://github.com/futureverse/future.BatchJobs/issues/59
-    ## /HB 2016-05-07
-    dyld_envs <- tryCatch({
-      envs <- list()
-      res <- system2("ps", stdout = TRUE, stderr = TRUE)
-      if (any(grepl("DYLD_", res))) {
-        envs <- Sys.getenv()
-        envs <- envs[grepl("^DYLD_", names(envs))]
-        if (length(envs) > 0L) lapply(names(envs), FUN = Sys.unsetenv)
-      }
-      envs
-    }, error = function(ex) list())
-  }
-
-  ## 4. Wait for an available worker
-  waitForWorker(future, workers = future$workers)
-
-  ## 5. Submit
-  future$state <- "running"
-  resources <- future$config$resources
-  if (is.null(resources)) resources <- list()
-
-  ## WORKAROUND: batchtools::submitJobs() updates the RNG state,
-  ## which we must make sure to undo.
-  tryCatch({
-    with_stealth_rng({
-      submitJobs(reg = reg, ids = jobid, resources = resources)
-    })
-  }, error = function(ex) {
-    msg <- conditionMessage(ex)
-    label <- sQuoteLabel(future)
-    msg <- sprintf("Failed to submit %s (%s). The reason was: %s", class(future)[1], label, msg)
-    info <- capture.output(str(resources))
-    info <- paste(info, collapse = "\n")
-    msg <- sprintf("%s\nTROUBLESHOOTING INFORMATION:\nbatchtools::submitJobs() was called with the following 'resources' argument:\n%s\n", msg, info)
-    stop(BatchtoolsFutureError(msg, future = future))
-  })
-
-  mdebugf("Launched future #%d", jobid$job.id)
-
-  ## 6. Rerserve worker for future
-  registerFuture(future)
-
-  ## 7. Trigger early signalling
-  if (inherits(future, "BatchtoolsUniprocessFuture")) {
-    resolved(future)
-  }
-  
-  invisible(future)
-} ## run()
 
 
 #' @importFrom batchtools loadResult waitForJobs
@@ -793,7 +799,7 @@ delete.BatchtoolsFuture <- function(future,
     if (onRunning == "skip") return(invisible(TRUE))
     status <- status(future)
     label <- sQuoteLabel(future)
-    msg <- sprintf("Will not remove batchtools registry, because is appears to hold a non-resolved future (%s; state = %s; batchtools status = %s): %s", sQuote(label), sQuote(future$state), paste(sQuote(status), collapse = ", "), sQuote(path)) #nolint
+    msg <- sprintf("Will not remove batchtools registry, because is appears to hold a non-resolved future (%s; state = %s; batchtools status = %s): %s", label, sQuote(future$state), paste(sQuote(status), collapse = ", "), sQuote(path)) #nolint
     if (debug) mdebugf("delete(): %s", msg)
     if (onRunning == "warning") {
       warning(msg)
@@ -923,4 +929,44 @@ add_finalizer.BatchtoolsFuture <- function(future, debug = FALSE, ...) {
   }, onexit = TRUE)
 
   invisible(future)
+}
+
+
+#' @importFrom future cancel stopWorkers
+#' @export
+stopWorkers.BatchtoolsFutureBackend <- function(backend, ...) {
+  debug <- isTRUE(getOption("future.debug"))
+  if (debug) {
+    mdebugf_push("stopWorkers() for %s ...", class(backend)[1])
+    on.exit(mdebugf_pop())
+  }
+  
+  reg <- backend[["reg"]]
+  futures <- FutureRegistry(reg, action = "list", earlySignal = FALSE)
+  
+  ## Nothing to do?
+  if (length(futures) == 0L) return(backend)
+
+  ## Enable interrupts temporarily, if disabled
+  if (!isTRUE(backend[["interrupts"]])) {
+    backend[["interrupts"]] <- TRUE
+    on.exit({ backend[["interrupts"]] <- FALSE }, add = TRUE)
+  }
+
+  ## Cancel and interrupt all futures, which terminates the workers
+  futures <- lapply(futures, FUN = cancel, interrupt = TRUE)
+
+  ## Erase registry
+  futures <- FutureRegistry(reg, action = "reset")
+
+  backend
+}
+
+
+#' @importFrom future listFutures
+#' @export
+listFutures.BatchtoolsUniprocessFutureBackend <- function(backend, ...) {
+  data.frame(counter = integer(0L), start = proc.time()[[3]][integer(0L)], 
+             label = character(0L), resolved = logical(0L),
+             future = list()[integer(0L)])
 }

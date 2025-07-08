@@ -14,11 +14,13 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
     mprintf("batchtools multicore futures are not supporting on '%s'. Falling back to use synchroneous batchtools local futures\n", .Platform$OS.type) #nolint
   }
 
+  plan(batchtools_multicore, workers = cores)
+  
   for (globals in c(FALSE, TRUE)) {
     mprintf("*** batchtools_multicore(..., globals = %s) without globals\n",
             globals)
 
-    f <- batchtools_multicore({
+    f <- future({
       42L
     }, globals = globals)
     stopifnot(
@@ -35,7 +37,7 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
           globals)
     ## A global variable
     a <- 0
-    f <- batchtools_multicore({
+    f <- future({
       b <- 3
       c <- 2
       a * b * c
@@ -61,7 +63,7 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
     x <- listenv()
     for (ii in 1:2) {
       mprintf(" - Creating batchtools_multicore future #%d ...\n", ii)
-      x[[ii]] <- batchtools_multicore({ ii }, globals = globals)
+      x[[ii]] <- future({ ii }, globals = globals)
     }
     mprintf(" - Resolving %d batchtools_multicore futures\n", length(x))
     if (globals || f$config$reg$cluster.functions$name == "Multicore") {
@@ -75,12 +77,14 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
 
   if (cores > 1) {
     message("*** batchtools_multicore(..., workers = 1L) ...")
-  
+
+    plan(batchtools_multicore, workers = 1L)
+    
     a <- 2
     b <- 3
     y_truth <- a * b
   
-    f <- batchtools_multicore({ a * b }, workers = 1L)
+    f <- future({ a * b })
     rm(list = c("a", "b"))
   
     v <- value(f)
@@ -95,7 +99,9 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
 
 
 mprintf("*** batchtools_multicore() and errors\n")
-f <- batchtools_multicore({
+plan(batchtools_multicore)
+
+f <- future({
   stop("Whoops!")
   1
 })

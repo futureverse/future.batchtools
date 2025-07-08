@@ -1,11 +1,11 @@
 Package: future.batchtools
-Version: 0.12.2-9001
+Version: 0.12.2-9903
 Depends:
     R (>= 3.2.0),
     parallelly,
-    future (>= 1.49.0)
+    future (>= 1.58.0)
 Imports:
-    batchtools (>= 0.9.16),
+    batchtools (>= 0.9.17),
     utils
 Suggests:
     globals,

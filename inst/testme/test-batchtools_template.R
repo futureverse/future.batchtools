@@ -7,19 +7,19 @@ message("*** batchtools_template() ...")
 ## because we cannot assume that system has these schedulers.
 ## NOTE: Some of them will give an earlier error because
 ## no default template file was found.
-res <- try(batchtools_lsf({ 42L }, workers = FALSE))
+res <- try(plan(batchtools_lsf, workers = FALSE))
 stopifnot(inherits(res, "try-error"))
 
-res <- try(batchtools_openlava({ 42L }, workers = FALSE))
+res <- try(plan(batchtools_openlava, workers = FALSE))
 stopifnot(inherits(res, "try-error"))
 
-res <- try(batchtools_sge({ 42L }, workers = FALSE))
+res <- try(plan(batchtools_sge, workers = FALSE))
 stopifnot(inherits(res, "try-error"))
 
-res <- try(batchtools_slurm({ 42L }, workers = FALSE))
+res <- try(plan(batchtools_slurm, workers = FALSE))
 stopifnot(inherits(res, "try-error"))
 
-res <- try(batchtools_torque({ 42L }, workers = FALSE))
+res <- try(plan(batchtools_torque, workers = FALSE))
 stopifnot(inherits(res, "try-error"))
 
 message("*** batchtools_template() ... DONE")

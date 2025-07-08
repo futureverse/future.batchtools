@@ -5,7 +5,9 @@ message("*** batchtools_interactive() ...")
 
 message("*** batchtools_interactive() without globals")
 
-f <- batchtools_interactive({
+plan(batchtools_interactive)
+
+f <- future({
   42L
 })
 stopifnot(inherits(f, "BatchtoolsFuture"))
@@ -23,7 +25,7 @@ stopifnot(y == 42L)
 message("*** batchtools_interactive() with globals")
 ## A global variable
 a <- 0
-f <- batchtools_interactive({
+f <- future({
   b <- 3
   c <- 2
   a * b * c
@@ -44,13 +46,13 @@ stopifnot(v == 0)
 
 message("*** batchtools_interactive() with globals (tricky)")
 x <- listenv()
-for (ii in 1:2) x[[ii]] <- batchtools_interactive({ ii }, globals = TRUE)
+for (ii in 1:2) x[[ii]] <- future({ ii }, globals = TRUE)
 v <- unlist(value(x))
 stopifnot(all(v == 1:2))  ## Make sure globals are frozen
 
 
 message("*** batchtools_interactive() and errors")
-f <- batchtools_interactive({
+f <- future({
   stop("Whoops!")
   1
 })

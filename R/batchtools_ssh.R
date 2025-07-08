@@ -7,12 +7,12 @@
 #' (sic!) futures of the \pkg{future} package instead of
 #' SSH batchtools futures._
 #'
-#' @inheritParams BatchtoolsFuture
+#' @inheritParams BatchtoolsFutureBackend
 #'
 #' @param workers The number of SSH processes to be
 #' available for concurrent batchtools SSH futures.
 #' @param \ldots Additional arguments passed
-#' to [BatchtoolsFuture()].
+#' to [BatchtoolsFutureBackend()].
 #'
 #' @return An object of class `BatchtoolsMulticoreFuture`.
 #'
@@ -24,27 +24,61 @@
 #'
 #' @importFrom parallelly availableWorkers
 #'
-#' @export
 #' @keywords internal
-batchtools_ssh <- function(expr, envir = parent.frame(),
-                            substitute = TRUE, globals = TRUE,
-                            label = NULL,
-                            workers = availableWorkers(),
-                            registry = list(), ...) {
-  if (substitute) expr <- substitute(expr)
+#' @importFrom batchtools makeClusterFunctionsSSH
+#' @importFrom parallelly availableCores
+#' @export
+BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), ...) {
+  assert_no_positional_args_but_first()
 
-  future <- BatchtoolsSSHFuture(
-    expr = expr, envir = envir, substitute = FALSE,
-    globals = globals,
-    label = label,
-    workers = workers,
-    registry = registry, 
-    ...
+  if (is.function(workers)) workers <- workers()
+  if (is.null(workers)) {
+    workers <- getOption("future.batchtools.workers", default = 100L)
+  }
+  stop_if_not(
+    is.numeric(workers),
+    length(workers) == 1,
+    !is.na(workers), workers >= 1
   )
 
-  if (!future$lazy) future <- run(future)
+  dotdotdot <- list(...)
 
-  invisible(future)
+  ## WORKAROUND: 'max.load' cannot be +Inf, because that'll lead to:
+  ##
+  ## Error in sample.int(x, size, replace, prob) : 
+  ##   too few positive probabilities
+  ##
+  ## in the submitJob() function created by makeClusterFunctionsSSH().
+  ## /HB 2022-12-12
+  ssh_worker <- list(Worker$new(
+    "localhost",
+    ncpus = 1L,
+    max.load = .Machine$double.xmax  ## +Inf fails
+  ))
+
+  keep <- which(names(dotdotdot) %in% names(formals(makeClusterFunctionsSSH)))
+  args <- c(list(workers = ssh_worker), dotdotdot[keep])
+  cluster.functions <- do.call(makeClusterFunctionsSSH, args = args)
+
+  ## Drop used '...' arguments
+  if (length(keep) > 0) dotdotdot <- dotdotdot[-keep]
+
+  args <- list(
+    workers = workers,
+    cluster.functions = cluster.functions
+  )
+  args <- c(args, dotdotdot)
+
+  core <- do.call(BatchtoolsMultiprocessFutureBackend, args = args)
+  core[["futureClasses"]] <- c("BatchtoolsSSHFuture", "BatchtoolsMultiprocessFuture", core[["futureClasses"]])
+  core <- structure(core, class = c("BatchtoolsSSHFutureBackend", class(core)))
+  core
+}
+
+
+#' @export
+batchtools_ssh <- function(..., workers = availableWorkers(), envir = parent.frame()) {
+ stop("INTERNAL ERROR: The future.batchtools::batchtools_ssh() must never be called directly")
 }
 class(batchtools_ssh) <- c(
   "batchtools_ssh", "batchtools_custom",
@@ -52,3 +86,5 @@ class(batchtools_ssh) <- c(
   "multiprocess", "future", "function"
 )
 attr(batchtools_ssh, "tweakable") <- c("finalize")
+attr(batchtools_ssh, "init") <- TRUE
+attr(batchtools_ssh, "factory") <- BatchtoolsSSHFutureBackend
