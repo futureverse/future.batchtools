@@ -9,8 +9,11 @@
 
  * Most types of batchtools future can now be interrupted, including
    `batchtools_multicore` and all job-scheduler backends, e.g.
-   `batchtools_sge` and `batchtools_slurm`. 
- 
+   `batchtools_sge` and `batchtools_slurm`.
+
+ * Canceling of batchtools future will now interrupt them by default,
+   for backends where it is supported.
+
 
 # Version 0.12.2 [2025-06-06]
 

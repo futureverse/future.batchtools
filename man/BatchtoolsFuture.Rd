@@ -13,6 +13,7 @@ BatchtoolsFutureBackend(
   conf.file = findConfFile(),
   cluster.functions = NULL,
   registry = list(),
+  interrupts = TRUE,
   ...
 )
 }
@@ -40,6 +41,10 @@ deleted when this object is garbage collected, otherwise not.}
 
 \item{registry}{(optional) A named list of settings to control the setup
 of the batchtools registry.}
+
+\item{interrupts}{If FALSE, attempts to interrupt futures will not take
+place on this backend, even if the backend supports it. This is useful
+when, for instance, it takes a long time to interrupt a future.}
 
 \item{\ldots}{Not used.}
 }
