@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## Significant Changes
+
+ * **future.batchtools** now implements the FutureBackend API
+   introduced in **future** 1.40.0.
 
 
 # Version 0.12.2 [2025-06-06]

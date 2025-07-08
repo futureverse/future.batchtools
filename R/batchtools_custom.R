@@ -1,51 +1,37 @@
 #' Batchtools futures for custom batchtools configuration
 #'
-#' @inheritParams BatchtoolsFuture
+#' @inheritParams BatchtoolsFutureBackend
 #'
-#' @param conf.file (character) A batchtools configuration file as for
-#' instance returned by [batchtools::findConfFile()].
-#'
-#' @param cluster.functions A
-#' [ClusterFunctions][batchtools::ClusterFunctions] object.
-#'
-#' @param \ldots Additional arguments passed to [BatchtoolsFuture()].
+#' @param \ldots Additional arguments passed to [BatchtoolsFutureBackend()].
 #'
 #' @return An object of class `BatchtoolsFuture`.
 #'
 #' @example incl/batchtools_custom.R
 #'
+#' @aliases batchtools_custom
 #' @export
 #' @importFrom batchtools findConfFile
-#' @importFrom utils file_test
-batchtools_custom <- function(expr, envir = parent.frame(), substitute = TRUE,
-                              globals = TRUE,
-                              label = NULL,
-                              resources = list(),
-                              workers = NULL,
-                              conf.file = findConfFile(),
-                              cluster.functions = NULL,
-                              registry = list(),
-                              ...) {
-  if (substitute) expr <- substitute(expr)
+BatchtoolsCustomFutureBackend <- function(...) {
+  assert_no_positional_args_but_first()
 
-  future <- BatchtoolsCustomFuture(
-    expr = expr, envir = envir, substitute = FALSE,
-    globals = globals,
-    label = label,
-    resources = resources,
-    conf.file = conf.file,
-    cluster.functions = cluster.functions,
-    workers = workers,
-    registry = registry,
+  core <- BatchtoolsMultiprocessFutureBackend(
     ...
   )
+  
+  core[["futureClasses"]] <- c("BatchtoolsCustomFuture", core[["futureClasses"]])
+  core <- structure(core, class = c("BatchtoolsCustomFutureBackend", class(core)))
+  core
+}
 
-  if (!future$lazy) future <- run(future)
-
-  invisible(future)
+#' @export
+batchtools_custom <- function(..., envir = parent.frame()) {
+ stop("INTERNAL ERROR: The future.batchtools::batchtools_custom() must never be called directly")
 }
 class(batchtools_custom) <- c(
   "batchtools_custom", "batchtools_multiprocess", "batchtools",
   "multiprocess", "future", "function"
 )
-attr(batchtools_custom, "tweakable") <- c("finalize")
+attr(batchtools_custom, "init") <- TRUE
+attr(batchtools_custom, "tweakable") <- c("cluster.functions", "conf.file", "registry", "resources", "finalize")
+attr(batchtools_custom, "factory") <- BatchtoolsCustomFutureBackend
+

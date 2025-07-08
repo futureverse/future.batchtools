@@ -7,12 +7,13 @@
 #' (sic!) futures of the \pkg{future} package instead of
 #' multicore batchtools futures._
 #'
-#' @inheritParams BatchtoolsFuture
+#' @inheritParams BatchtoolsFutureBackend
 #'
 #' @param workers The number of multicore processes to be
 #' available for concurrent batchtools multicore futures.
+#'
 #' @param \ldots Additional arguments passed
-#' to [BatchtoolsFuture()].
+#' to [BatchtoolsFutureBackend()].
 #'
 #' @return An object of class `BatchtoolsMulticoreFuture`.
 #'
@@ -23,54 +24,53 @@
 #' supporting the `ps` command-line tool, e.g. Linux and macOS.
 #'
 #' @importFrom batchtools makeClusterFunctionsMulticore
-#' @importFrom parallelly availableCores
-#' @export
+#' @importFrom parallelly availableCores supportsMulticore
 #' @keywords internal
-batchtools_multicore <- function(expr, envir = parent.frame(),
-                            substitute = TRUE, globals = TRUE,
-                            label = NULL,
-                            workers = availableCores(constraints = "multicore"),
-                            registry = list(), ...) {
-  if (substitute) expr <- substitute(expr)
+#' @export
+BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraints = "multicore"), ...) {
+  assert_no_positional_args_but_first()
 
+  if (is.function(workers)) workers <- workers()
   if (is.null(workers)) {
-    workers <- availableCores(constraints = "multicore")
-  } else if (is.function(workers)) {
-    workers <- workers()
+    workers <- getOption("future.batchtools.workers", default = 100L)
   }
-  stop_if_not(length(workers) == 1L, is.numeric(workers),
-            is.finite(workers), workers >= 1L)
+  stop_if_not(
+    is.numeric(workers),
+    length(workers) == 1,
+    !is.na(workers), workers >= 1
+  )
 
   ## Fall back to batchtools_local if multicore processing is not supported
-  if ((workers == 1L && !inherits(workers, "AsIs")) ||
-      is_os("windows") || is_os("solaris") ||
-      availableCores(constraints = "multicore") == 1L) {
-    ## covr: skip=1
-    return(batchtools_local(expr, envir = envir, substitute = FALSE,
-                            globals = globals, label = label,
-                            registry = registry, ...))
+  if ((workers == 1L && !inherits(workers, "AsIs")) || !supportsMulticore(warn = TRUE)) {
+    return(BatchtoolsLocalFutureBackend(...))
   }
 
   oopts <- options(mc.cores = workers)
   on.exit(options(oopts))
 
-  cf <- makeClusterFunctionsMulticore(ncpus = workers)
+  cluster.functions <- makeClusterFunctionsMulticore(ncpus = workers)
 
-  future <- BatchtoolsMulticoreFuture(
-    expr = expr, envir = envir, substitute = FALSE,
-    globals = globals,
-    label = label,
-    cluster.functions = cf,
-    registry = registry, 
+  core <- BatchtoolsMultiprocessFutureBackend(
+    workers = workers,
+    cluster.functions = cluster.functions,
     ...
   )
+  
+  core[["futureClasses"]] <- c("BatchtoolsMulticoreFuture", "BatchtoolsMultiprocessFuture", core[["futureClasses"]])
+  core <- structure(core, class = c("BatchtoolsMulticoreFutureBackend", class(core)))
+  core
+}
 
-  if (!future$lazy) future <- run(future)
 
-  invisible(future)
+#' @rdname BatchtoolsMulticoreFutureBackend
+#' @export
+batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore"), envir = parent.frame()) {
+ stop("INTERNAL ERROR: The future.batchtools::batchtools_multicore() must never be called directly")
 }
 class(batchtools_multicore) <- c(
   "batchtools_multicore", "batchtools_multiprocess", "batchtools",
   "multiprocess", "future", "function"
 )
-attr(batchtools_multicore, "tweakable") <- c("finalize")
+attr(batchtools_multicore, "tweakable") <- c("workers", "finalize")
+attr(batchtools_multicore, "init") <- TRUE
+attr(batchtools_multicore, "factory") <- BatchtoolsMulticoreFutureBackend
