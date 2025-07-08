@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9903</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.12.2" id="version-0122">Version 0.12.2<a class="anchor" aria-label="anchor" href="#version-0122"></a></h2>
+<h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<div class="section level3">
+<h3 id="significant-changes-development-version">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-development-version"></a></h3>
+<ul><li>
+<strong>future.batchtools</strong> now implements the FutureBackend API introduced in <strong>future</strong> 1.40.0.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.12.2" id="version-0122">Version 0.12.2<a class="anchor" aria-label="anchor" href="#version-0122"></a></h2><p class="text-muted">CRAN release: 2025-06-06</p>
 <div class="section level3">
 <h3 id="bug-fixes-0-12-2">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-12-2"></a></h3>
 <ul><li>Attempts to cancel batchtools futures via <code><a href="https://future.futureverse.org/reference/cancel.html" class="external-link">cancel()</a></code> would result in “Interruption of futures require a backend implementing the FutureBackend API”. Until this package implements the new FutureBackend API of future (&gt;= 1.40.0), any calls to <code><a href="https://future.futureverse.org/reference/cancel.html" class="external-link">cancel()</a></code> will be silently ignored.</li>
@@ -160,7 +168,7 @@
 <li><p>The default working directory for batchtools futures is the current working directory of R <em>when</em> the batchtools future is created. This corresponds to specifying <code>plan(batchtools_nnn, registry =    list(work.dir = NULL)</code>. Sometimes it is useful to use a explicit working directory that is guaranteed to be available on all workers on a shared file system, e.g. <code>plan(batchtools_nnn, registry =    list(work.dir = "~"))</code>.</p></li>
 <li><p>It is possible to control if and how <strong>batchtools</strong> should use file compression for exported globals and results by specifying <strong>batchtools</strong> registry parameter <code>compress</code>. For example, to turn off file compression, use <code>plan(batchtools_nnn, registry =    list(compress = FALSE))</code>.</p></li>
 <li><p>The default location of the <code>.future</code> folder can be controlled by R option <code>future.cache.path</code> or environment variable <code>R_FUTURE_CACHE_PATH</code>.</p></li>
-<li><p><code><a href="../reference/batchtools_custom.html">batchtools_custom()</a></code> and BatchtoolsFuture gained argument <code>conf.file</code>. Using <code>plan(batchtools_custom)</code> will now use any <strong>batchtools</strong> configuration file (an R script) found on the <code><a href="https://rdrr.io/pkg/batchtools/man/findConfFile.html" class="external-link">batchtools::findConfFile()</a></code> search path.</p></li>
+<li><p><code><a href="../reference/BatchtoolsCustomFutureBackend.html">batchtools_custom()</a></code> and BatchtoolsFuture gained argument <code>conf.file</code>. Using <code>plan(batchtools_custom)</code> will now use any <strong>batchtools</strong> configuration file (an R script) found on the <code><a href="https://rdrr.io/pkg/batchtools/man/findConfFile.html" class="external-link">batchtools::findConfFile()</a></code> search path.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-0-9-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-9-0"></a></h3>
@@ -255,7 +263,7 @@
 <h2 class="pkg-version" data-toc-text="0.4.0" id="version-040">Version 0.4.0<a class="anchor" aria-label="anchor" href="#version-040"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-4-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-4-0"></a></h3>
-<ul><li><p>Added <code><a href="../reference/batchtools_custom.html">batchtools_custom()</a></code> for specifying batchtools futures using any type of batchtools cluster functions.</p></li>
+<ul><li><p>Added <code><a href="../reference/BatchtoolsCustomFutureBackend.html">batchtools_custom()</a></code> for specifying batchtools futures using any type of batchtools cluster functions.</p></li>
 <li><p><code>batchtools_template(pathname = NULL, type = &lt;type&gt;)</code> now relies on the <strong>batchtools</strong> package for locating the <code>&lt;type&gt;</code> template file.</p></li>
 <li><p><code><a href="https://future.futureverse.org/reference/nbrOfWorkers.html" class="external-link">nbrOfWorkers()</a></code> for batchtools futures now defaults to +Inf unless the evaluator’s <code>workers</code> or <code>cluster.functions</code> specify something else.</p></li>
 <li><p>Renamed argument <code>pathname</code> to <code>template</code> for <code>batchtools_&lt;tmpl&gt;()</code> functions.</p></li>

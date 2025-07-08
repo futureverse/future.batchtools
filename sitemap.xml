@@ -8,20 +8,20 @@
 <url><loc>https://future.batchtools.futureverse.org/authors.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/index.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/news/index.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/BatchtoolsCustomFutureBackend.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/BatchtoolsFuture.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/BatchtoolsFutureError.html</loc></url>
-<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_custom.html</loc></url>
-<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_local.html</loc></url>
-<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_multicore.html</loc></url>
-<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_ssh.html</loc></url>
-<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_template.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/BatchtoolsInteractiveFutureBackend.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/BatchtoolsMulticoreFutureBackend.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/BatchtoolsSSHFutureBackend.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/BatchtoolsTemplateFutureBackend.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/delete.BatchtoolsFuture.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/future.batchtools.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/future.batchtools.options.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/grapes-resources-grapes.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/index.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/loggedOutput.html</loc></url>
-<url><loc>https://future.batchtools.futureverse.org/reference/nbrOfWorkers.batchtools.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/nbrOfWorkers.BatchtoolsFutureBackend.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/print.BatchtoolsFuture.html</loc></url>
 </urlset>
 
