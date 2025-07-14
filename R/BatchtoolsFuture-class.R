@@ -366,7 +366,19 @@ interruptFuture.BatchtoolsFutureBackend <- function(backend, future, ...) {
   jobid <- config[["jobid"]]$job.id
   if (debug) mdebugf("Job ID: %s", jobid)
 
-  res <- killJobs(ids = jobid, reg = reg)
+  res <- local({
+    ## Temporarily disable batchtools output?
+    ## (i.e. messages and progress bars)
+    batchtools_output <- getOption("future.batchtools.output", debug)
+    if (!batchtools_output) {
+      oopts <- options(batchtools.verbose = FALSE, batchtools.progress = FALSE)
+    } else {
+      oopts <- list()
+    }
+    on.exit(options(oopts), add = TRUE)
+    killJobs(ids = jobid, reg = reg)
+  })
+
   if (debug) {
     mdebug("killJobs() result:")
     mprint(res)
