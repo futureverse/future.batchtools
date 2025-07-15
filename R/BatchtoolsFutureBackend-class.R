@@ -315,7 +315,7 @@ launchFuture.BatchtoolsFutureBackend <- local({
       info <- capture.output(str(resources))
       info <- paste(info, collapse = "\n")
       msg <- sprintf("%s\nTROUBLESHOOTING INFORMATION:\nbatchtools::submitJobs() was called with the following 'resources' argument:\n%s\n", msg, info)
-      stop(BatchtoolsFutureError(msg, future = future))
+      stop(FutureLaunchError(msg, future = future))
     })
     
     if (debug) mdebugf("Launched future #%d", jobid$job.id)
