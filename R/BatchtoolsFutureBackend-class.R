@@ -140,6 +140,9 @@ print.BatchtoolsFutureBackend <- function(x, ...) {
   printf("batchtools resources:\n")
   str(resources)
 
+  path <- future_cache_path()
+  printf("Cache directory: %s\n", dir_info(path))
+
   invisible(x)
 }
 
