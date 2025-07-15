@@ -13,7 +13,7 @@
 
  * Canceling of batchtools future will now interrupt them by default,
    for backends where it is supported.
-
+   
 
 # Version 0.12.2 [2025-06-06]
 

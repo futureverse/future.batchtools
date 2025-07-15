@@ -699,7 +699,7 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
 } ## result()
 
 
-#' @importFrom future FutureInterruptError
+#' @importFrom future FutureInterruptError FutureLaunchError
 #' @importFrom batchtools loadResult waitForJobs
 #' @importFrom utils tail
 await <- function(future, cleanup = TRUE, ...) {
@@ -778,8 +778,36 @@ await <- function(future, cleanup = TRUE, ...) {
               class(future)[1], label, loggedError(future))
       stop(BatchtoolsFutureError(msg, future = future))
     } else if ("expired" %in% stat) {
+      ## NOTE: If a batchtools job crashes or is killed, then it gets status
+      ## 'expired'. In such cases, we should throw a FutureInterruptError.
+      ##
+      ## I think we might also see 'expired' for jobs that fail to launch,
+      ## which in case we should throw a FutureLaunchError. I'm not sure
+      ## how we can distinguish the two right now, but I'll assume that
+      ## started jobs have a 'submitted' or 'started' status flag too,
+      ## whereas jobs that failed to launch won't. /HB 2025-07-15
+
+      output <- loggedOutput(future)
+      hint <- unlist(strsplit(output, split = "\n", fixed = TRUE))
+      hint <- hint[nzchar(hint)]
+      hint <- tail(hint, n = getOption("future.batchtools.expiration.tail", 48L))
+      if (length(hint) > 0) {
+        hint <- c("The last few lines of the logged output:", hint)
+        hint <- paste(hint, collapse = "\n")
+      } else {
+        hint <- "No logged output exist"
+      }
+
+      if (any(c("submitted", "started") %in% stat)) {
+        msg <- sprintf("Future (%s) of class %s expired, which indicates that it crashed or was killed. %s", label, class(future)[1], hint)
+        stop(FutureInterruptError(msg, future = future))
+      } else {
+        msg <- sprintf("Future (%s) of class %s failed to launch. %s", label, class(future)[1], hint)
+        stop(FutureLaunchError(msg, future = future))
+      }
+      
       cleanup <- FALSE
-      msg <- sprintf("BatchtoolsExpiration: Future ('%s') expired (registry path %s).", label, reg$file.dir)
+      msg <- sprintf("BatchtoolsExpiration: Future ('%s') expired (registry path %s)", label, reg$file.dir)
       output <- loggedOutput(future)
       hint <- unlist(strsplit(output, split = "\n", fixed = TRUE))
       hint <- hint[nzchar(hint)]
