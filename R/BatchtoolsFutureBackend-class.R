@@ -800,26 +800,11 @@ await <- function(future, cleanup = TRUE, ...) {
 
       if (any(c("submitted", "started") %in% stat)) {
         msg <- sprintf("Future (%s) of class %s expired, which indicates that it crashed or was killed. %s", label, class(future)[1], hint)
-        stop(FutureInterruptError(msg, future = future))
+        result <- FutureInterruptError(msg, future = future)
       } else {
         msg <- sprintf("Future (%s) of class %s failed to launch. %s", label, class(future)[1], hint)
-        stop(FutureLaunchError(msg, future = future))
+        result <- FutureLaunchError(msg, future = future)
       }
-      
-      cleanup <- FALSE
-      msg <- sprintf("BatchtoolsExpiration: Future ('%s') expired (registry path %s)", label, reg$file.dir)
-      output <- loggedOutput(future)
-      hint <- unlist(strsplit(output, split = "\n", fixed = TRUE))
-      hint <- hint[nzchar(hint)]
-      hint <- tail(hint, n = getOption("future.batchtools.expiration.tail", 48L))
-      if (length(hint) > 0) {
-        hint <- paste(hint, collapse = "\n")
-        msg <- paste(msg, ". The last few lines of the logged output:\n",
-	             hint, sep="")
-      } else {
-        msg <- sprintf("%s. No logged output exist.", msg)
-      }
-      stop(BatchtoolsFutureError(msg, future = future))
     } else if (future[["state"]] %in% c("canceled", "interrupted")) {
       label <- sQuoteLabel(future)
       msg <- sprintf("Future (%s) of class %s was %s", label, class(future)[1], future[["state"]])
