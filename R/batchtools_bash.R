@@ -58,7 +58,7 @@ BatchtoolsBashFutureBackend <- function(...,
 #'
 #' f <- future(Sys.getpid())
 #' pid <- value(f)
-#' message("Workers process ID: ", pid)
+#' message("Worker process ID: ", pid)
 #' 
 #' @export
 batchtools_bash <- function(

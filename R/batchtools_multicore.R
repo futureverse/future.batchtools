@@ -26,7 +26,7 @@
 #' @rdname BatchtoolsFutureBackend
 #' @keywords internal
 #'
-#' @aliases batchtools_custom batchtools_multicore
+#' @aliases batchtools_custom
 #' @importFrom batchtools makeClusterFunctionsMulticore
 #' @importFrom parallelly availableCores supportsMulticore
 #' @importFrom tools pskill
@@ -71,8 +71,30 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 }
 
 
+#' A batchtools backend that resolves futures in parallel via forked background R processes
+#'
+#' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsMulticoreFutureBackend
 #'
+#' @param \ldots Not used.
+#'
+#' @details
+#' Batchtools multicore futures use \pkg{batchtools} cluster functions
+#' created by [batchtools::makeClusterFunctionsMulticore()] with
+#' `ncpus = workers`.
+#'
+#' An alternative to the batchtools multicore backend is to use
+#' `plan(future::multicore)`.
+#'
+#' @examples
+#' plan(batchtools_multicore, workers = 2)
+#'
+#' message("Main process ID: ", Sys.getpid())
+#'
+#' f <- future(Sys.getpid())
+#' pid <- value(f)
+#' message("Worker process ID: ", pid)
+#' 
 #' @export
 batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore")) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_multicore() must never be called directly")

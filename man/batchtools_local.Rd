@@ -13,13 +13,14 @@ batchtools_local(...)
 The batchtools local backend is useful for verifying parts of your
 \pkg{batchtools} setup locally, before using a more advanced backend such
 as the job-scheduler backends.
-An alternative to the batchtools interactive backend is to use
-\code{plan(future::cluster, workers = I(1))}.
 }
 \details{
-Batchtools local futures uses \pkg{batchtools} cluster functions
+Batchtools local futures use \pkg{batchtools} cluster functions
 created by \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive()}} with
 \code{external = TRUE}.
+
+An alternative to the batchtools interactive backend is to use
+\code{plan(future::cluster, workers = I(1))}.
 }
 \examples{
 plan(batchtools_local)
@@ -28,6 +29,6 @@ message("Main process ID: ", Sys.getpid())
 
 f <- future(Sys.getpid())
 pid <- value(f)
-message("Workers process ID: ", pid)
+message("Worker process ID: ", pid)
 
 }

@@ -12,7 +12,6 @@
 \alias{BatchtoolsLocalFutureBackend}
 \alias{BatchtoolsMulticoreFutureBackend}
 \alias{batchtools_custom}
-\alias{batchtools_multicore}
 \alias{BatchtoolsSSHFutureBackend}
 \title{A batchtools future is a future whose value will be resolved via batchtools}
 \usage{
@@ -181,29 +180,6 @@ f <- future({
   42L
 })
 v <- value(f)
-print(v)
-## Use local batchtools futures
-plan(batchtools_local)
-
-## A global variable
-a <- 1
-
-## Create explicit future
-f <- future({
-  b <- 3
-  c <- 2
-  a * b * c
-})
-v <- value(f)
-print(v)
-
-
-## Create implicit future
-v \%<-\% {
-  b <- 3
-  c <- 2
-  a * b * c
-}
 print(v)
 }
 \keyword{internal}

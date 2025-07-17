@@ -83,6 +83,6 @@ message("Main process ID: ", Sys.getpid())
 
 f <- future(Sys.getpid())
 pid <- value(f)
-message("Workers process ID: ", pid)
+message("Worker process ID: ", pid)
 \dontshow{\}) # examplesIf}
 }

@@ -28,8 +28,6 @@
 #' An alternative to batchtools interactive futures is to use
 #' `plan(sequential, split = TRUE)` futures of the \pkg{future} package.
 #'
-#' @example incl/batchtools_local.R
-#'
 #' @rdname BatchtoolsFutureBackend
 #' @keywords internal
 #'
@@ -54,9 +52,7 @@ BatchtoolsLocalFutureBackend <- function(...) {
 #'
 #' The batchtools local backend is useful for verifying parts of your
 #' \pkg{batchtools} setup locally, before using a more advanced backend such
-#' as the job-scheduler backends. 
-#' An alternative to the batchtools interactive backend is to use
-#' `plan(future::cluster, workers = I(1))`.
+#' as the job-scheduler backends.
 #'
 #' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsLocalFutureBackend
@@ -64,9 +60,12 @@ BatchtoolsLocalFutureBackend <- function(...) {
 #' @param \ldots Not used.
 #'
 #' @details
-#' Batchtools local futures uses \pkg{batchtools} cluster functions
+#' Batchtools local futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsInteractive()] with
 #' `external = TRUE`.
+#'
+#' An alternative to the batchtools interactive backend is to use
+#' `plan(future::cluster, workers = I(1))`.
 #'
 #' @examples
 #' plan(batchtools_local)
@@ -75,10 +74,8 @@ BatchtoolsLocalFutureBackend <- function(...) {
 #'
 #' f <- future(Sys.getpid())
 #' pid <- value(f)
-#' message("Workers process ID: ", pid)
+#' message("Worker process ID: ", pid)
 #' 
-#' @inheritParams BatchtoolsLocalFutureBackend
-#'
 #' @export
 batchtools_local <- function(...) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_local() must never be called directly")

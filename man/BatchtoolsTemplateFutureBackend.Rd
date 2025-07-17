@@ -11,7 +11,6 @@
 \alias{batchtools_openlava}
 \alias{batchtools_sge}
 \alias{batchtools_slurm}
-\alias{batchtools_ssh}
 \alias{batchtools_torque}
 \title{Batchtools futures for LSF, OpenLava, SGE, Slurm, TORQUE etc.}
 \usage{

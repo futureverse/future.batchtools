@@ -21,9 +21,6 @@ BatchtoolsInteractiveFutureBackend <- function(...) {
 #' The batchtools interactive backend is useful for verifying parts of your
 #' \pkg{batchtools} setup locally, while still being able to do interactive
 #' debugging.
-#' An alternative to the batchtools interactive backend is to use
-#' `plan(future::sequential)`, which is a faster way process futures
-#' sequentially and that also can be debugged interactively.
 #'
 #' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsInteractiveFutureBackend
@@ -31,9 +28,13 @@ BatchtoolsInteractiveFutureBackend <- function(...) {
 #' @param \ldots Not used.
 #'
 #' @details
-#' Batchtools interactive futures uses \pkg{batchtools} cluster functions
+#' Batchtools interactive futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsInteractive()] with
 #' `external = TRUE`.
+#'
+#' An alternative to the batchtools interactive backend is to use
+#' `plan(future::sequential)`, which is a faster way process futures
+#' sequentially and that also can be debugged interactively.
 #'
 #' @examples
 #' plan(batchtools_interactive)
@@ -42,7 +43,7 @@ BatchtoolsInteractiveFutureBackend <- function(...) {
 #'
 #' f <- future(Sys.getpid())
 #' pid <- value(f)
-#' message("Workers process ID: ", pid)
+#' message("Worker process ID: ", pid)
 #' 
 #' @inheritParams BatchtoolsInteractiveFutureBackend
 #'
