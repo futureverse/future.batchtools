@@ -8,7 +8,7 @@
 <% Slurm defaults
 defaults <- list(
   nodes = 1,          # single-host processing
-   time = "00:05:00"  # 5-min runtime
+   time = "00:05:00", # 5-min runtime
    mem  = "100M"      # 100 MiB memory
 )
 resources <- c(resources, defaults[setdiff(names(defaults), names(resources))])

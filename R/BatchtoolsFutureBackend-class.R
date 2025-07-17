@@ -209,6 +209,9 @@ launchFuture.BatchtoolsFutureBackend <- local({
     })
 
     config <- list(reg = reg)
+    if (debug) {
+      mprint(list(config = config))
+    }
     future[["config"]] <- config
 
     ## Register finalizer?
