@@ -68,12 +68,10 @@ and comprise:
 
 \if{html}{\out{<div class="sourceCode bash">}}\preformatted{#!/bin/bash
 ######################################################################
-# A batchtools launch script template for Bash
-#
-# Author: Henrik Bengtsson 
+# A batchtools launch script template
 ######################################################################
 
-## Launch R and evaluated the batchtools R job
+# Launch R and evaluate the batchtools R job
 Rscript -e 'batchtools::doJobCollection("<\%= uri \%>", output = "<\%= log.file \%>")'
 }\if{html}{\out{</div>}}
 }
