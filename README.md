@@ -29,7 +29,7 @@ compute nodes:
 
 ```r
 > library(future.batchtools)
-> plan(batchtools_torque)
+> plan(batchtools_slurm)
 >
 > x %<-% { Sys.sleep(5); 3.14 }
 > y %<-% { Sys.sleep(5); 2.71 }
@@ -58,7 +58,7 @@ library(listenv)
 ## should be using multisession, where the number of
 ## parallel processes is automatically decided based on
 ## what the cluster grants to each compute node.
-plan(list(batchtools_torque, multisession))
+plan(list(batchtools_slurm, multisession))
 
 ## Find all samples (one FASTQ file per sample)
 fqs <- dir(pattern = "[.]fastq$")
@@ -114,63 +114,64 @@ batchtools backends.
 
 | Backend                  | Description                                                              | Alternative in future package
 |:-------------------------|:-------------------------------------------------------------------------|:------------------------------------
-| `batchtools_torque`      | Futures are evaluated via a [TORQUE] / PBS job scheduler                 | N/A
-| `batchtools_slurm`       | Futures are evaluated via a [Slurm] job scheduler                        | N/A
-| `batchtools_sge`         | Futures are evaluated via a [Sun/Oracle Grid Engine (SGE)] job scheduler | N/A
 | `batchtools_lsf`         | Futures are evaluated via a [Load Sharing Facility (LSF)] job scheduler  | N/A
 | `batchtools_openlava`    | Futures are evaluated via an [OpenLava] job scheduler                    | N/A
+| `batchtools_sge`         | Futures are evaluated via a [Sun/Oracle Grid Engine (SGE)] job scheduler | N/A
+| `batchtools_slurm`       | Futures are evaluated via a [Slurm] job scheduler                        | N/A
+| `batchtools_torque`      | Futures are evaluated via a [TORQUE] / PBS job scheduler                 | N/A
 | `batchtools_custom`      | Futures are evaluated via a custom batchtools configuration R script or via a set of cluster functions  | N/A
 | `batchtools_multicore`   | parallel evaluation by forking the current R process                     | `plan(multicore)`
-| `batchtools_local`       | sequential evaluation in a separate R process (on current machine)       | `plan(cluster, workers = "localhost")`
+| `batchtools_local`       | sequential evaluation in a separate R process (on current machine)       | `plan(cluster, workers = I(1))`
 
 
 ### Examples
 
-Below is an examples illustrating how to use `batchtools_torque` to
+Below is an examples illustrating how to use `batchtools_slurm` to
 configure the batchtools backend.  For further details and examples on
 how to configure batchtools, see the [batchtools configuration] wiki
 page.
 
 To configure **batchtools** for job schedulers we need to setup a
 `*.tmpl` template file that is used to generate the script used by the
-scheduler.  This is what a template file for TORQUE / PBS may look
-like:
+scheduler.  This is what a template file for Slurm may look like:
 
 ```sh
 #!/bin/bash
 
-## Job name:
-#PBS -N <%= if (exists("job.name", mode = "character")) job.name else job.hash %>
+<%
+defaults <- list(
+  nodes = 1,         # single-host processing
+  time = "00:05:00", # 5-min runtime
+  mem  = "100M"      # 100 MiB memory
+)
+resources <- c(resources, defaults[setdiff(names(defaults), names(resources))])
+opts <- unlist(resources, use.names = TRUE)
+opts <- sprintf("--%s=%s", names(opts), opts)
+opts <- paste(opts, collapse = " ") %>
+%>
 
-## Direct streams to logfile:
-#PBS -o <%= log.file %>
+#SBATCH --job-name=<%= job.name %>
+#SBATCH --output=<%= log.file %>
+#SBATCH <%= opts %>
 
-## Merge standard error and output:
-#PBS -j oe
-
-## Email on abort (a) and termination (e), but not when starting (b)
-#PBS -m ae
-
-## Resources needed:
-<% if (length(resources) > 0) {
-  opts <- unlist(resources, use.names = TRUE)
-  opts <- sprintf("%s=%s", names(opts), opts)
-  opts <- paste(opts, collapse = ",") %>
-#PBS -l <%= opts %>
-<% } %>
-
-## Launch R and evaluated the batchtools R job
 Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
 ```
 
-If this template is saved to file `batchtools.torque.tmpl` (without
-period) in the working directory or as `.batchtools.torque.tmpl` (with
+If this template is saved to file `batchtools.slurm.tmpl` (without
+period) in the working directory or as `.batchtools.slurm.tmpl` (with
 period) the user's home directory, then it will be automatically
 located by the **batchtools** framework and loaded when doing:
 
 ```r
-> plan(batchtools_torque)
+plan(batchtools_slurm)
 ```
+
+It is also possible to specify the template file explicitly, e.g.
+
+```r
+plan(batchtools_slurm, template = "/path/to/batchtools.slurm.tmpl")
+```
+
 
 Resource parameters can be specified via argument `resources` which
 should be a named list and is passed as is to the template file.  For
@@ -178,7 +179,7 @@ example, to request that each job would get alloted 12 cores (one a
 single machine) and up to 5 GiB of memory, use:
 
 ```r
-> plan(batchtools_torque, resources = list(nodes = "1:ppn=12", vmem = "5gb"))
+plan(batchtools_slurm, resources = list(ntasks = 12, mem = "5G"))
 ```
 
 To specify the `resources` argument at the same time as using nested
@@ -187,34 +188,19 @@ arguments.  For instance,
 
 ```r
 plan(list(
-  tweak(batchtools_torque, resources = list(nodes = "1:ppn=12", vmem = "5gb")),
+  tweak(batchtools_slurm, resources = list(ntasks = 12, mem = "5G")),
   multisession
 ))
 ```
 
-causes the first level of futures to be submitted via the TORQUE job
+causes the first level of futures to be submitted via the Slurm job
 scheduler requesting 12 cores and 5 GiB of memory per job.  The second
 level of futures will be evaluated using multisession using the 12
 cores given to each job by the scheduler.
 
-A similar filename format is used for the other types of job
-schedulers supported.  For instance, for Slurm the template file
-should be named `./batchtools.slurm.tmpl` or
-`~/.batchtools.slurm.tmpl` in order for
-
-```r
-> plan(batchtools_slurm)
-```
-
-to locate the file automatically.  To specify this template file
-explicitly, use argument `template`, e.g.
-
-```r
-> plan(batchtools_slurm, template = "/path/to/batchtools.slurm.tmpl")
-```
-
-For further details and examples on how to configure **batchtools** per
-se, see the [batchtools configuration] wiki page.
+For further details and examples on how to configure **batchtools**
+per se, see the [batchtools configuration] wiki page and the help
+pages for `batchtools_slurm`, `batchtools_sge`, etc.
 
 
 ## Demos
