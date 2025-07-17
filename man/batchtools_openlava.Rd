@@ -75,7 +75,7 @@ exit "$\{res\}"
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Limit runtime to 3 minutes and memory to 200 MiB per future
-plan(batchtools_openlava, resources = list(time = "00:03:00", mem = "200M"))
+plan(batchtools_lsf, resources = list(W = "00:03:00", M = "200"))
 
 message("Main process ID: ", Sys.getpid())
 
