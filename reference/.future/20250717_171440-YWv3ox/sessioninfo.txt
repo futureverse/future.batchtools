@@ -21,7 +21,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] future.batchtools_0.12.2-9917 future_1.58.0-9023           
+[1] future.batchtools_0.12.2-9918 future_1.58.0-9023           
 [3] parallelly_1.45.0-9012       
 
 loaded via a namespace (and not attached):
