@@ -72,8 +72,23 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), ...) {
 }
 
 
+#' A batchtools backend that resolves futures in parallel via background R sessions over SSH
+#'
+#' @inheritParams BatchtoolsFutureBackend
+#'
+#' @details
+#' The `batchtools_ssh` backend uses the batchtools backend set
+#' up by [batchtools::makeClusterFunctionsSSH()], which requires
+#' system commands `ssh` and `ps` as available on Linux and macOS.
+#'
+#' An alternative to `batchtools_ssh` is to use
+#' [cluster][future::cluster] futures of the \pkg{future}
+#' package with a single local background session, i.e.
+#' `plan(cluster, workers = c("localhost"))`.
+#'
 #' @inheritParams BatchtoolsSSHFutureBackend
 #'
+#' @keywords internal
 #' @export
 batchtools_ssh <- function(..., workers = availableWorkers()) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_ssh() must never be called directly")
