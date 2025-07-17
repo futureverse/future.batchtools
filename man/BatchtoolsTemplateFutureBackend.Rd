@@ -9,7 +9,6 @@
 \alias{BatchtoolsTorqueFutureBackend}
 \alias{batchtools_lsf}
 \alias{batchtools_openlava}
-\alias{batchtools_torque}
 \title{Batchtools futures for LSF, OpenLava, SGE, Slurm, TORQUE etc.}
 \usage{
 BatchtoolsTemplateFutureBackend(

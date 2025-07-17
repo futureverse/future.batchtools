@@ -1,12 +1,12 @@
 #!/bin/bash
 ######################################################################
-# A batchtools launch script template for Torque/PBS
+# A batchtools launch script template for TORQUE/PBS
 #
 # Author: Henrik Bengtsson 
 ######################################################################
 
 ## Job name:
-#PBS -N <%= if (exists("job.name", mode = "character")) job.name else job.hash %>
+#PBS -N <%= job.name %>
 
 ## Direct streams to logfile:
 #PBS -o <%= log.file %>
@@ -25,5 +25,24 @@
 #PBS -l <%= opts %>
 <% } %>
 
-## Launch R and evaluated the batchtools R job
+echo "Batchtools job name: '<%= job.name %>'"
+
+echo "Session information:"
+date
+hostname
+which Rscript
+Rscript --version
+Rscript -e ".libPaths()"
+
+## Launch R and evaluate the batchtools R job
+echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
 Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
+res=$?
+echo " - exit code: ${res}"
+echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
+
+## End-of-job summary
+qstat -f "${PBS_JOBID}"
+
+## Relay the exit code from Rscript
+exit "${res}"
