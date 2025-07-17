@@ -800,10 +800,12 @@ await <- function(future, cleanup = TRUE, ...) {
       ## started jobs have a 'submitted' or 'started' status flag too,
       ## whereas jobs that failed to launch won't. /HB 2025-07-15
 
-      output <- loggedOutput(future)
-      hint <- unlist(strsplit(output, split = "\n", fixed = TRUE))
-      hint <- hint[nzchar(hint)]
-      hint <- tail(hint, n = getOption("future.batchtools.expiration.tail", 48L))
+      output <- tryCatch({
+        loggedOutput(future)
+        hint <- unlist(strsplit(output, split = "\n", fixed = TRUE))
+        hint <- hint[nzchar(hint)]
+        hint <- tail(hint, n = getOption("future.batchtools.expiration.tail", 48L))
+      }, error = function(e) NULL)
       if (length(hint) > 0) {
         hint <- c("The last few lines of the logged output:", hint)
         hint <- paste(hint, collapse = "\n")
