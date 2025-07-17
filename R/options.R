@@ -63,18 +63,21 @@
 #' options(future.cache.path = "/cluster-wide/folder/.future")
 #'
 #' @aliases
+#' future.batchtools.options
+#'
 #' future.cache.path
 #' future.delete
-#' R_FUTURE_CACHE_PATH
-#' R_FUTURE_DELETE
 #' future.batchtools.expiration.tail
 #' future.batchtools.output
 #' future.batchtools.workers
+#'
+#' R_FUTURE_CACHE_PATH
+#' R_FUTURE_DELETE
 #' R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL
 #' R_FUTURE_BATCHTOOLS_OUTPUT
 #' R_FUTURE_BATCHTOOLS_WORKERS
 #'
-#' @name future.batchtools.options
+#' @name zzz-future.batchtools.options
 NULL
 
 
