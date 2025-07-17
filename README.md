@@ -28,7 +28,7 @@ expressions for futures `x` and `y` will be processed on two different
 compute nodes:
 
 ```r
-> library("future.batchtools")
+> library(future.batchtools)
 > plan(batchtools_torque)
 >
 > x %<-% { Sys.sleep(5); 3.14 }
@@ -51,8 +51,8 @@ separate chromosome.  Here is an outline of how this nested parallelism
 could be implemented using futures.
 
 ```r
-library("future")
-library("listenv")
+library(future)
+library(listenv)
 ## The first level of futures should be submitted to the
 ## cluster using batchtools.  The second level of futures
 ## should be using multisession, where the number of
@@ -226,7 +226,7 @@ futures are evaluated_.  For instance, to use local batchtools
 futures, run the demo as:
 
 ```r
-library("future.batchtools")
+library(future.batchtools)
 plan(batchtools_local)
 demo("mandelbrot", package = "future", ask = FALSE)
 ```
