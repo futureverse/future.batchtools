@@ -3,7 +3,7 @@
 ## Significant Changes
 
  * **future.batchtools** now implements the FutureBackend API
-   introduced in **future** 1.40.0.
+   introduced in **future** 1.40.0 (2025-04-10).
 
 ## New Features
 
@@ -13,6 +13,8 @@
 
  * Canceling batchtools futures will now interrupt them by default,
    if the backend supports it.
+   
+ * Add built-in template job script for LSF.
 
 ## Documentation
 

@@ -32,7 +32,7 @@
 #'    [TORQUE](https://en.wikipedia.org/wiki/TORQUE) / PBS
 #'
 #' @aliases BatchtoolsLsfFutureBackend BatchtoolsOpenLavaFutureBackend BatchtoolsSGEFutureBackend BatchtoolsSlurmFutureBackend BatchtoolsTorqueFutureBackend
-#' @aliases batchtools_lsf batchtools_openlava
+#' @aliases batchtools_openlava
 #'     
 #' @importFrom batchtools makeClusterFunctionsLSF
 #' @importFrom batchtools makeClusterFunctionsOpenLava
@@ -84,33 +84,6 @@ BatchtoolsTemplateFutureBackend <- function(..., template = NULL, type = c("lsf"
   core <- structure(core, class = c("BatchtoolsTemplateFutureBackend", class(core)))
   core
 }
-
-
-#' @export
-BatchtoolsLsfFutureBackend <- function(...) {
-  core <- BatchtoolsTemplateFutureBackend(..., type = "lsf")
-  core[["futureClasses"]] <- c("BatchtoolsLsfFuture", core[["futureClasses"]])
-  core <- structure(core, class = c("BatchtoolsLsfFutureBackend", class(core)))
-  core
-}
-
-#' @export
-batchtools_lsf <- function(...) {
- stop("INTERNAL ERROR: The future.batchtools::batchtools_lsf() must never be called directly")
-}
-class(batchtools_lsf) <- c(
-  "batchtools_lsf", "batchtools_template",
-  "batchtools_multiprocess", "batchtools",
-  "multiprocess", "future", "function"
-)
-attr(batchtools_lsf, "tweakable") <- c(
-  "workers",
-  "finalize",
-  ## Arguments to batchtools::makeClusterFunctionsLSF()
-  "scheduler.latency", "fs.latency"
-)
-attr(batchtools_lsf, "init") <- TRUE
-attr(batchtools_lsf, "factory") <- BatchtoolsLsfFutureBackend
 
 
 #' @export

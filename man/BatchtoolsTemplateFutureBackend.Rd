@@ -7,7 +7,6 @@
 \alias{BatchtoolsSGEFutureBackend}
 \alias{BatchtoolsSlurmFutureBackend}
 \alias{BatchtoolsTorqueFutureBackend}
-\alias{batchtools_lsf}
 \alias{batchtools_openlava}
 \title{Batchtools futures for LSF, OpenLava, SGE, Slurm, TORQUE etc.}
 \usage{
