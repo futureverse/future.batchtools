@@ -3,7 +3,7 @@
 \name{batchtools_bash}
 \alias{batchtools_bash}
 \alias{makeClusterFunctionsBash}
-\title{A batchtools bash backend that resolves futures sequential via a Bash template script}
+\title{A batchtools bash backend that resolves futures sequentially via a Bash template script}
 \usage{
 batchtools_bash(
   cluster.functions = makeClusterFunctionsBash(template = "bash"),
@@ -55,7 +55,7 @@ custom \pkg{future.batchtools} backend that uses a templated job script.
 Please see the source code, for details.
 }
 \details{
-Batchtools bash futures uses \pkg{batchtools} cluster functions
+Batchtools bash futures use \pkg{batchtools} cluster functions
 created by \code{\link[=makeClusterFunctionsBash]{makeClusterFunctionsBash()}} and requires that \code{bash} is
 installed on the current machine and the \code{timeout} command is available.
 
@@ -69,6 +69,8 @@ and comprise:
 \if{html}{\out{<div class="sourceCode bash">}}\preformatted{#!/bin/bash
 ######################################################################
 # A batchtools launch script template
+#
+# Author: Henrik Bengtsson 
 ######################################################################
 
 ## Maximum runtime?

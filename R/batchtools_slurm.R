@@ -87,89 +87,6 @@ BatchtoolsTemplateFutureBackend <- function(..., template = NULL, type = c("lsf"
 
 
 #' @export
-BatchtoolsLsfFutureBackend <- function(...) {
-  core <- BatchtoolsTemplateFutureBackend(..., type = "lsf")
-  core[["futureClasses"]] <- c("BatchtoolsLsfFuture", core[["futureClasses"]])
-  core <- structure(core, class = c("BatchtoolsLsfFutureBackend", class(core)))
-  core
-}
-
-#' @export
-batchtools_lsf <- function(...) {
- stop("INTERNAL ERROR: The future.batchtools::batchtools_lsf() must never be called directly")
-}
-class(batchtools_lsf) <- c(
-  "batchtools_lsf", "batchtools_template",
-  "batchtools_multiprocess", "batchtools",
-  "multiprocess", "future", "function"
-)
-attr(batchtools_lsf, "tweakable") <- c(
-  "workers",
-  "finalize",
-  ## Arguments to batchtools::makeClusterFunctionsLSF()
-  "scheduler.latency", "fs.latency"
-)
-attr(batchtools_lsf, "init") <- TRUE
-attr(batchtools_lsf, "factory") <- BatchtoolsLsfFutureBackend
-
-
-#' @export
-BatchtoolsOpenLavaFutureBackend <- function(...) {
-  core <- BatchtoolsTemplateFutureBackend(..., type = "openlava")
-  core[["futureClasses"]] <- c("BatchtoolsOpenLavaFuture", core[["futureClasses"]])
-  core <- structure(core, class = c("BatchtoolsOpenLavaFutureBackend", class(core)))
-  core
-}
-
-#' @export
-batchtools_openlava <- function(...) {
- stop("INTERNAL ERROR: The future.batchtools::batchtools_openlava() must never be called directly")
-}
-class(batchtools_openlava) <- c(
-  "batchtools_openlava", "batchtools_template",
-  "batchtools_multiprocess", "batchtools",
-  "multiprocess", "future", "function"
-)
-attr(batchtools_openlava, "tweakable") <- c(
-  "workers",
-  "finalize",
-  ## Arguments to batchtools::makeClusterFunctionsOpenLava()
-  "scheduler.latency", "fs.latency"
-)
-attr(batchtools_openlava, "init") <- TRUE
-attr(batchtools_openlava, "factory") <- BatchtoolsOpenLavaFutureBackend
-
-
-
-#' @export
-BatchtoolsSGEFutureBackend <- function(...) {
-  core <- BatchtoolsTemplateFutureBackend(..., type = "sge")
-  core[["futureClasses"]] <- c("BatchtoolsSGEFuture", core[["futureClasses"]])
-  core <- structure(core, class = c("BatchtoolsSGEFutureBackend", class(core)))
-  core
-}
-
-#' @export
-batchtools_sge <- function(...) {
- stop("INTERNAL ERROR: The future.batchtools::batchtools_sge() must never be called directly")
-}
-class(batchtools_sge) <- c(
-  "batchtools_sge", "batchtools_template",
-  "batchtools_multiprocess", "batchtools",
-  "multiprocess", "future", "function"
-)
-attr(batchtools_sge, "tweakable") <- c(
-  "workers",
-  "finalize",
-  ## Arguments to batchtools::makeClusterFunctionsSGE()
-  "nodename", "scheduler.latency", "fs.latency"
-)
-attr(batchtools_sge, "init") <- TRUE
-attr(batchtools_sge, "factory") <- BatchtoolsSGEFutureBackend
-
-
-
-#' @export
 BatchtoolsSlurmFutureBackend <- function(...) {
   core <- BatchtoolsTemplateFutureBackend(..., type = "slurm")
   core[["futureClasses"]] <- c("BatchtoolsSlurmFuture", core[["futureClasses"]])
@@ -177,6 +94,44 @@ BatchtoolsSlurmFutureBackend <- function(...) {
   core
 }
 
+
+#' A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler
+#'
+#' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams BatchtoolsTemplateFutureBackend
+#'
+#' @param template (optional) Name of job-script template to be searched
+#' for by [batchtools::findTemplateFile()]. If not found, it defaults to
+#' the `templates/slurm.tmpl` part of this package (see below).
+#'
+#' @param \ldots Not used.
+#'
+#' @details
+#' Batchtools slurm futures use \pkg{batchtools} cluster functions
+#' created by [batchtools::makeClusterFunctionsSlurm()], which requires
+#' that Slurm commands `sbatch`, `squeue`, and `scancel` are installed on
+#' the current machine.
+#'
+#' The default template script `templates/slurm.tmpl` can be found in:
+#'
+#' ```r
+#' system.file("templates", "slurm.tmpl", package = "future.batchtools")
+#' ```
+#'
+#' and comprise:
+#'
+#' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/slurm.tmpl"), "\x60\x60\x60"), collapse = "\n")`
+#'
+#' @examplesIf interactive()
+#' # Limit runtime to 3 minutes and memory to 200 MiB per future
+#' plan(batchtools_slurm, resources = list(time = "00:03:00", mem = "200M"))
+#'
+#' message("Main process ID: ", Sys.getpid())
+#'
+#' f <- future(Sys.getpid())
+#' pid <- value(f)
+#' message("Worker process ID: ", pid)
+#' 
 #' @export
 batchtools_slurm <- function(...) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_slurm() must never be called directly")
@@ -194,31 +149,3 @@ attr(batchtools_slurm, "tweakable") <- c(
 )
 attr(batchtools_slurm, "init") <- TRUE
 attr(batchtools_slurm, "factory") <- BatchtoolsSlurmFutureBackend
-
-
-
-#' @export
-BatchtoolsTorqueFutureBackend <- function(...) {
-  core <- BatchtoolsTemplateFutureBackend(..., type = "torque")
-  core[["futureClasses"]] <- c("BatchtoolsTorqueFuture", core[["futureClasses"]])
-  core <- structure(core, class = c("BatchtoolsTorqueFutureBackend", class(core)))
-  core
-}
-
-#' @export
-batchtools_torque <- function(...) {
- stop("INTERNAL ERROR: The future.batchtools::batchtools_torque() must never be called directly")
-}
-class(batchtools_torque) <- c(
-  "batchtools_torque", "batchtools_template",
-  "batchtools_multiprocess", "batchtools",
-  "multiprocess", "future", "function"
-)
-attr(batchtools_torque, "tweakable") <- c(
-  "workers",
-  "finalize",
-  ## Arguments to batchtools::makeClusterFunctionsTORQUE()
-  "scheduler.latency", "fs.latency"
-)
-attr(batchtools_torque, "init") <- TRUE
-attr(batchtools_torque, "factory") <- BatchtoolsTorqueFutureBackend
