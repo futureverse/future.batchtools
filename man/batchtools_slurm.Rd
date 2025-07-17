@@ -4,7 +4,7 @@
 \alias{batchtools_slurm}
 \title{A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler}
 \usage{
-batchtools_slurm(...)
+batchtools_slurm(..., template = "slurm")
 }
 \arguments{
 \item{template}{(optional) Name of job-script template to be searched
@@ -38,9 +38,9 @@ and comprise:
 
 <\% Slurm defaults
 defaults <- list(
-  nodes = 1,          # single-host processing
-   time = "00:05:00"  # 5-min runtime
-   mem  = "100M"      # 100 MiB memory
+  nodes = 1,         # single-host processing
+  time = "00:05:00", # 5-min runtime
+  mem  = "100M"      # 100 MiB memory
 )
 resources <- c(resources, defaults[setdiff(names(defaults), names(resources))])
 opts <- unlist(resources, use.names = TRUE)
@@ -52,8 +52,27 @@ opts <- paste(opts, collapse = " ") \%>
 #SBATCH --output=<\%= log.file \%>
 #SBATCH <\%= opts \%>
 
+echo "Batchtools job name: '<\%= job.name \%>'"
+
+echo "Session information:"
+date
+hostname
+which Rscript
+Rscript --version
+Rscript -e ".libPaths()"
+
 ## Launch R and evaluate the batchtools R job
+echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ..."
 Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")'
+res=$?
+echo " - exit code: $\{res\}"
+echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ... done"
+
+## End-of-job summary
+sstat --format="JobID,AveCPU,MaxRSS,MaxPages,MaxDiskRead,MaxDiskWrite" --allsteps --jobs="$\{SLURM_JOB_ID\}"
+
+## Relay the exit code from Rscript
+exit "$\{res\}"
 }\if{html}{\out{</div>}}
 }
 \examples{

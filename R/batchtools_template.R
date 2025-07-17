@@ -32,7 +32,7 @@
 #'    [TORQUE](https://en.wikipedia.org/wiki/TORQUE) / PBS
 #'
 #' @aliases BatchtoolsLsfFutureBackend BatchtoolsOpenLavaFutureBackend BatchtoolsSGEFutureBackend BatchtoolsSlurmFutureBackend BatchtoolsTorqueFutureBackend
-#' @aliases batchtools_lsf batchtools_openlava batchtools_sge batchtools_torque
+#' @aliases batchtools_lsf batchtools_openlava batchtools_torque
 #'     
 #' @importFrom batchtools makeClusterFunctionsLSF
 #' @importFrom batchtools makeClusterFunctionsOpenLava
@@ -138,62 +138,6 @@ attr(batchtools_openlava, "tweakable") <- c(
 )
 attr(batchtools_openlava, "init") <- TRUE
 attr(batchtools_openlava, "factory") <- BatchtoolsOpenLavaFutureBackend
-
-
-
-#' @export
-BatchtoolsSGEFutureBackend <- function(...) {
-  core <- BatchtoolsTemplateFutureBackend(..., type = "sge")
-  core[["futureClasses"]] <- c("BatchtoolsSGEFuture", core[["futureClasses"]])
-  core <- structure(core, class = c("BatchtoolsSGEFutureBackend", class(core)))
-  core
-}
-
-#' @export
-batchtools_sge <- function(...) {
- stop("INTERNAL ERROR: The future.batchtools::batchtools_sge() must never be called directly")
-}
-class(batchtools_sge) <- c(
-  "batchtools_sge", "batchtools_template",
-  "batchtools_multiprocess", "batchtools",
-  "multiprocess", "future", "function"
-)
-attr(batchtools_sge, "tweakable") <- c(
-  "workers",
-  "finalize",
-  ## Arguments to batchtools::makeClusterFunctionsSGE()
-  "nodename", "scheduler.latency", "fs.latency"
-)
-attr(batchtools_sge, "init") <- TRUE
-attr(batchtools_sge, "factory") <- BatchtoolsSGEFutureBackend
-
-
-
-#' @export
-BatchtoolsSlurmFutureBackend <- function(...) {
-  core <- BatchtoolsTemplateFutureBackend(..., type = "slurm")
-  core[["futureClasses"]] <- c("BatchtoolsSlurmFuture", core[["futureClasses"]])
-  core <- structure(core, class = c("BatchtoolsSlurmFutureBackend", class(core)))
-  core
-}
-
-#' @export
-batchtools_slurm <- function(...) {
- stop("INTERNAL ERROR: The future.batchtools::batchtools_slurm() must never be called directly")
-}
-class(batchtools_slurm) <- c(
-  "batchtools_slurm", "batchtools_template",
-  "batchtools_multiprocess", "batchtools",
-  "multiprocess", "future", "function"
-)
-attr(batchtools_slurm, "tweakable") <- c(
-  "workers",
-  "finalize",
-  ## Arguments to batchtools::makeClusterFunctionsSlurm()
-  "array.jobs", "nodename", "scheduler.latency", "fs.latency"
-)
-attr(batchtools_slurm, "init") <- TRUE
-attr(batchtools_slurm, "factory") <- BatchtoolsSlurmFutureBackend
 
 
 

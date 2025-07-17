@@ -8,13 +8,13 @@
 #$ -S /bin/bash         # Run this as a bash script (required)
 
 ## Job name:
-#$ -N <%= if (exists("job.name", mode = "character")) job.name else job.hash %>
-
-## Merge standard error and output:
-#$ -j y
+#$ -N <%= job.name %>
 
 ## Direct streams to logfile:
 #$ -o <%= log.file %>
+
+## Merge standard error and output:
+#$ -j y
 
 ## Tell the queue system to use the current directory
 ## as the working directory
@@ -32,7 +32,7 @@
     cat(sprintf("#$ %s\n", resources[["asis"]]))
     resources <- resources[names(resources) != "asis"]
   }
-  
+
   ## Remaining resources are assumed to be of type '-l', e.g.
   ## plan(batchtools_sge, resources = list(mem_free = "1G", h_rt="00:20:00"))
   opts <- unlist(resources, use.names = TRUE)
@@ -40,21 +40,24 @@
   cat(sprintf("#$ %s\n", opts))
 } %>
 
-# For troubleshooting, in case there are errors
+echo "Batchtools job name: '<%= job.name %>'"
+
+echo "Session information:"
 date
 hostname
 which Rscript
 Rscript --version
 Rscript -e ".libPaths()"
 
+## Launch R and evaluate the batchtools R job
 echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
 Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
 res=$?
 echo " - exit code: ${res}"
 echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
 
-## For troubleshooting if there are errors
-qstat -j $JOB_ID
+## End-of-job summary
+qstat -j "${JOB_ID}"
 
 ## Relay the exit code from Rscript
-exit "$res"
+exit "${res}"
