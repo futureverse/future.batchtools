@@ -30,5 +30,7 @@ License: LGPL (>= 2.1)
 LazyLoad: TRUE
 URL: https://future.batchtools.futureverse.org, https://github.com/futureverse/future.batchtools
 BugReports: https://github.com/futureverse/future.batchtools/issues
+Language: en-US
+Encoding: UTF-8
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
