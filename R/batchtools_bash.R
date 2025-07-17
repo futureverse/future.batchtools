@@ -38,7 +38,7 @@ BatchtoolsBashFutureBackend <- function(...,
 #'
 #' @details
 #' Batchtools bash futures uses \pkg{batchtools} cluster functions
-#' created by [makeClusterFunctionsBash()] and requires that `bash' is
+#' created by [makeClusterFunctionsBash()] and requires that `bash` is
 #' installed on the current machine and the `timeout` command is available.
 #'
 #' The default template script `templates/bash.tmpl` can be found in:

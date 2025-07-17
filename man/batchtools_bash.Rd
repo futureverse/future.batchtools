@@ -56,7 +56,8 @@ Please see the source code, for details.
 }
 \details{
 Batchtools bash futures uses \pkg{batchtools} cluster functions
-created by \code{\link[=makeClusterFunctionsBash]{makeClusterFunctionsBash()}} and requires that \verb{bash' is installed on the current machine and the }timeout` command is available.
+created by \code{\link[=makeClusterFunctionsBash]{makeClusterFunctionsBash()}} and requires that \code{bash} is
+installed on the current machine and the \code{timeout} command is available.
 
 The default template script \code{templates/bash.tmpl} can be found in:
 

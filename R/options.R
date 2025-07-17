@@ -43,10 +43,10 @@
 #'     is deleted after the future result has been collected.
 #'     If TRUE, it is always deleted.
 #'     If FALSE, it is never deleted.
-#'     If not set or NULL, the it is deleted, unless running in non-interactive
+#'     If not set or NULL, then it is deleted, unless running in non-interactive
 #'     mode and the batchtools job failed or expired, which helps to
 #'     troubleshoot when running in batch mode.
-#'     (Default: NULL (not set))}
+#'     (Default: not set)}
 #' }
 #'
 #' @section Environment variables that set R options:
