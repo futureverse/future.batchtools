@@ -14,7 +14,7 @@
  * Canceling batchtools futures will now interrupt them by default,
    if the backend supports it.
    
- * Add built-in template job script for LSF.
+ * Add built-in template job script for LSF and OpenLava.
 
 ## Documentation
 

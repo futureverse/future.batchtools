@@ -1,0 +1,41 @@
+#!/bin/bash
+######################################################################
+# A batchtools launch script template for OpenLava
+#
+# Author: Henrik Bengtsson 
+######################################################################
+
+## Job name:
+#BSUB -J <%= job.name %>
+
+## Direct streams to logfile:
+#BSUB -o <%= log.file %>
+
+## Resources needed:
+<% if (length(resources) > 0) {
+  opts <- unlist(resources, use.names = TRUE)
+  opts <- sprintf("-%s=%s", names(opts), opts)
+  cat(sprintf("#BSUB %s\n", opts))
+<% } %>
+
+echo "Batchtools job name: '<%= job.name %>'"
+
+echo "Session information:"
+date
+hostname
+which Rscript
+Rscript --version
+Rscript -e ".libPaths()"
+
+## Launch R and evaluate the batchtools R job
+echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
+Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
+res=$?
+echo " - exit code: ${res}"
+echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
+
+## End-of-job summary
+bjobs -l "${LSB_JOBID}"
+
+## Relay the exit code from Rscript
+exit "${res}"
