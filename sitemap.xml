@@ -15,6 +15,7 @@
 <url><loc>https://future.batchtools.futureverse.org/reference/batchtools_interactive.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/batchtools_local.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/batchtools_multicore.html</loc></url>
+<url><loc>https://future.batchtools.futureverse.org/reference/batchtools_sge.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/batchtools_slurm.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/batchtools_ssh.html</loc></url>
 <url><loc>https://future.batchtools.futureverse.org/reference/delete.BatchtoolsFuture.html</loc></url>
