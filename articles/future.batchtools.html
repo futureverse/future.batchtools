@@ -132,13 +132,14 @@ having to change any code at all.</p>
 <p>For instance, if <strong>batchtools</strong> is properly configures,
 the below two expressions for futures <code>x</code> and <code>y</code>
 will be processed on two different compute nodes:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(future.batchtools)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plan</span>(batchtools_torque)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="sc">&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="er">&gt;</span> x <span class="sc">%&lt;-%</span> { <span class="fu">Sys.sleep</span>(<span class="dv">5</span>); <span class="fl">3.14</span> }</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="sc">&gt;</span> y <span class="sc">%&lt;-%</span> { <span class="fu">Sys.sleep</span>(<span class="dv">5</span>); <span class="fl">2.71</span> }</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="sc">&gt;</span> x <span class="sc">+</span> y</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">5.85</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
+<span><span class="fu">planb</span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va">atchtools_slurm</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">x</span> <span class="op"><a href="https://future.futureverse.org/reference/futureAssign.html" class="external-link">%&lt;-%</a></span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>; <span class="fl">3.14</span> <span class="op">}</span></span>
+<span><span class="va">y</span> <span class="op"><a href="https://future.futureverse.org/reference/futureAssign.html" class="external-link">%&lt;-%</a></span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>; <span class="fl">2.71</span> <span class="op">}</span></span>
+<span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
+<span><span class="co">#&gt; [1] 5.85</span></span></code></pre></div>
 <p>This is just a toy example to illustrate what futures look like and
 how to work with them.</p>
 <p>A more realistic example comes from the field of cancer research
@@ -153,12 +154,13 @@ implemented using futures.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://listenv.futureverse.org" class="external-link">listenv</a></span><span class="op">)</span></span>
+<span></span>
 <span><span class="co">## The first level of futures should be submitted to the</span></span>
 <span><span class="co">## cluster using batchtools.  The second level of futures</span></span>
 <span><span class="co">## should be using multisession, where the number of</span></span>
 <span><span class="co">## parallel processes is automatically decided based on</span></span>
 <span><span class="co">## what the cluster grants to each compute node.</span></span>
-<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">batchtools_torque</span>, <span class="va">multisession</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="../reference/batchtools_slurm.html">batchtools_slurm</a></span>, <span class="va">multisession</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Find all samples (one FASTQ file per sample)</span></span>
 <span><span class="va">fqs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"[.]fastq$"</span><span class="op">)</span></span>
@@ -215,15 +217,15 @@ types of batchtools backends.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>batchtools_torque</code></td>
-<td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/TORQUE" class="external-link">TORQUE</a> / PBS job
-scheduler</td>
+<td align="left"><code>batchtools_lsf</code></td>
+<td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Platform_LSF" class="external-link">Load Sharing Facility
+(LSF)</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
 <tr class="even">
-<td align="left"><code>batchtools_slurm</code></td>
-<td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager" class="external-link">Slurm</a>
-job scheduler</td>
+<td align="left"><code>batchtools_openlava</code></td>
+<td align="left">Futures are evaluated via an <a href="https://en.wikipedia.org/wiki/OpenLava" class="external-link">OpenLava</a> job
+scheduler</td>
 <td align="left">N/A</td>
 </tr>
 <tr class="odd">
@@ -233,14 +235,14 @@ Engine (SGE)</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
 <tr class="even">
-<td align="left"><code>batchtools_lsf</code></td>
-<td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Platform_LSF" class="external-link">Load Sharing Facility
-(LSF)</a> job scheduler</td>
+<td align="left"><code>batchtools_slurm</code></td>
+<td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager" class="external-link">Slurm</a>
+job scheduler</td>
 <td align="left">N/A</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>batchtools_openlava</code></td>
-<td align="left">Futures are evaluated via an <a href="https://en.wikipedia.org/wiki/OpenLava" class="external-link">OpenLava</a> job
+<td align="left"><code>batchtools_torque</code></td>
+<td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/TORQUE" class="external-link">TORQUE</a> / PBS job
 scheduler</td>
 <td align="left">N/A</td>
 </tr>
@@ -260,7 +262,7 @@ process</td>
 <td align="left"><code>batchtools_local</code></td>
 <td align="left">sequential evaluation in a separate R process (on
 current machine)</td>
-<td align="left"><code>plan(cluster, workers = "localhost")</code></td>
+<td align="left"><code>plan(cluster, workers = I(1))</code></td>
 </tr>
 </tbody>
 </table>
@@ -268,72 +270,65 @@ current machine)</td>
 <h3 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h3>
 <p>Below is an examples illustrating how to use
-<code>batchtools_torque</code> to configure the batchtools backend. For
+<code>batchtools_slurm</code> to configure the batchtools backend. For
 further details and examples on how to configure batchtools, see the <a href="https://batchtools.mlr-org.com/articles/batchtools.html" class="external-link">batchtools
 configuration</a> wiki page.</p>
 <p>To configure <strong>batchtools</strong> for job schedulers we need
 to setup a <code>*.tmpl</code> template file that is used to generate
-the script used by the scheduler. This is what a template file for
-TORQUE / PBS may look like:</p>
+the script used by the scheduler. This is what a template file for Slurm
+may look like:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">## Job name:</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#PBS -N &lt;%= if (exists("job.name", mode = "character")) job.name else job.hash %&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">## Direct streams to logfile:</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#PBS -o &lt;%= log.file %&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">## Merge standard error and output:</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#PBS -j oe</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">## Email on abort (a) and termination (e), but not when starting (b)</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#PBS -m ae</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="op">&lt;</span>%</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="ex">defaults</span> <span class="op">&lt;</span>- list<span class="er">(</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="ex">nodes</span> = 1,         <span class="co"># single-host processing</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="bu">time</span> = <span class="st">"00:05:00"</span>, <span class="co"># 5-min runtime</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="ex">mem</span>  = <span class="st">"100M"</span>      <span class="co"># 100 MiB memory</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="ex">resources</span> <span class="op">&lt;</span>- c<span class="er">(</span><span class="ex">resources,</span> defaults[setdiff<span class="er">(</span><span class="ex">names</span><span class="er">(</span><span class="ex">defaults</span><span class="kw">)</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">resources</span><span class="kw">))</span><span class="ex">]</span><span class="kw">)</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="ex">opts</span> <span class="op">&lt;</span>- unlist<span class="er">(</span><span class="ex">resources,</span> use.names = TRUE<span class="kw">)</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="ex">opts</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"--%s=%s"</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">opts</span><span class="kw">)</span><span class="ex">,</span> opts<span class="kw">)</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="ex">opts</span> <span class="op">&lt;</span>- paste<span class="er">(</span><span class="ex">opts,</span> collapse = <span class="st">" "</span><span class="kw">)</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- unlist<span class="er">(</span><span class="ex">resources,</span> use.names = TRUE<span class="kw">)</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"%s=%s"</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">opts</span><span class="kw">)</span><span class="ex">,</span> opts<span class="kw">)</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- paste<span class="er">(</span><span class="ex">opts,</span> collapse = <span class="st">","</span><span class="kw">)</span> <span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#PBS -l &lt;%= opts %&gt;</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="op">&lt;</span>% <span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">## Launch R and evaluated the batchtools R job</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span></code></pre></div>
-<p>If this template is saved to file <code>batchtools.torque.tmpl</code>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#SBATCH --job-name=&lt;%= job.name %&gt;</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#SBATCH --output=&lt;%= log.file %&gt;</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#SBATCH &lt;%= opts %&gt;</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span></code></pre></div>
+<p>If this template is saved to file <code>batchtools.slurm.tmpl</code>
 (without period) in the working directory or as
-<code>.batchtools.torque.tmpl</code> (with period) the user’s home
+<code>.batchtools.slurm.tmpl</code> (with period) the user’s home
 directory, then it will be automatically located by the
 <strong>batchtools</strong> framework and loaded when doing:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plan</span>(batchtools_torque)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">batchtools_slurm</span><span class="op">)</span></span></code></pre></div>
+<p>It is also possible to specify the template file explicitly, e.g.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">batchtools_slurm</span>, template <span class="op">=</span> <span class="st">"/path/to/batchtools.slurm.tmpl"</span><span class="op">)</span></span></code></pre></div>
 <p>Resource parameters can be specified via argument
 <code>resources</code> which should be a named list and is passed as is
 to the template file. For example, to request that each job would get
 alloted 12 cores (one a single machine) and up to 5 GiB of memory,
 use:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plan</span>(batchtools_torque, <span class="at">resources =</span> <span class="fu">list</span>(<span class="at">nodes =</span> <span class="st">"1:ppn=12"</span>, <span class="at">vmem =</span> <span class="st">"5gb"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">batchtools_slurm</span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ntasks <span class="op">=</span> <span class="fl">12</span>, mem <span class="op">=</span> <span class="st">"5G"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>To specify the <code>resources</code> argument at the same time as
 using nested future strategies, one can use <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">tweak()</a></code> to
 tweak the default arguments. For instance,</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">tweak</a></span><span class="op">(</span><span class="va">batchtools_torque</span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>nodes <span class="op">=</span> <span class="st">"1:ppn=12"</span>, vmem <span class="op">=</span> <span class="st">"5gb"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">tweak</a></span><span class="op">(</span><span class="va">batchtools_slurm</span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ntasks <span class="op">=</span> <span class="fl">12</span>, mem <span class="op">=</span> <span class="st">"5G"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="va">multisession</span></span>
 <span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>causes the first level of futures to be submitted via the TORQUE job
+<p>causes the first level of futures to be submitted via the Slurm job
 scheduler requesting 12 cores and 5 GiB of memory per job. The second
 level of futures will be evaluated using multisession using the 12 cores
 given to each job by the scheduler.</p>
-<p>A similar filename format is used for the other types of job
-schedulers supported. For instance, for Slurm the template file should
-be named <code>./batchtools.slurm.tmpl</code> or
-<code>~/.batchtools.slurm.tmpl</code> in order for</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plan</span>(batchtools_slurm)</span></code></pre></div>
-<p>to locate the file automatically. To specify this template file
-explicitly, use argument <code>template</code>, e.g.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plan</span>(batchtools_slurm, <span class="at">template =</span> <span class="st">"/path/to/batchtools.slurm.tmpl"</span>)</span></code></pre></div>
 <p>For further details and examples on how to configure
 <strong>batchtools</strong> per se, see the <a href="https://batchtools.mlr-org.com/articles/batchtools.html" class="external-link">batchtools
-configuration</a> wiki page.</p>
+configuration</a> wiki page and the help pages for
+<code>batchtools_slurm</code>, <code>batchtools_sge</code>, etc.</p>
 </div>
 </div>
 <div class="section level2">
@@ -345,9 +340,9 @@ Mandelbrot planes. The demo does not assume anything about what type of
 futures are used. <em>The user has full control of how futures are
 evaluated</em>. For instance, to use local batchtools futures, run the
 demo as:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.batchtools.futureverse.org">future.batchtools</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">batchtools_local</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="../reference/batchtools_local.html">batchtools_local</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html" class="external-link">demo</a></span><span class="op">(</span><span class="st">"mandelbrot"</span>, package <span class="op">=</span> <span class="st">"future"</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
