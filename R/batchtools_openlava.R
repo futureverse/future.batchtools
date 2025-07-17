@@ -43,7 +43,10 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #' f <- future(Sys.getpid())
 #' pid <- value(f)
 #' message("Worker process ID: ", pid)
-#' 
+#'
+#' @references
+#' * <https://en.wikipedia.org/wiki/OpenLava>
+#'
 #' @export
 batchtools_openlava <- function(..., template = "openlava") {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_openlava() must never be called directly")

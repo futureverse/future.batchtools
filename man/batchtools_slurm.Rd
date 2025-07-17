@@ -87,3 +87,8 @@ pid <- value(f)
 message("Worker process ID: ", pid)
 \dontshow{\}) # examplesIf}
 }
+\references{
+\itemize{
+\item \url{https://en.wikipedia.org/wiki/Slurm_Workload_Manager}
+}
+}

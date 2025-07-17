@@ -43,7 +43,10 @@ BatchtoolsSlurmFutureBackend <- function(...) {
 #' f <- future(Sys.getpid())
 #' pid <- value(f)
 #' message("Worker process ID: ", pid)
-#' 
+#'
+#' @references
+#' * <https://en.wikipedia.org/wiki/Slurm_Workload_Manager>
+#'
 #' @export
 batchtools_slurm <- function(..., template = "slurm") {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_slurm() must never be called directly")

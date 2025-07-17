@@ -2,7 +2,7 @@
 % Please edit documentation in R/batchtools_lsf.R
 \name{batchtools_lsf}
 \alias{batchtools_lsf}
-\title{A batchtools LSF backend resolves futures in parallel via a LSF job scheduler}
+\title{A batchtools LSF backend resolves futures in parallel via a Load Sharing Facility (LSF) job scheduler}
 \usage{
 batchtools_lsf(..., template = "lsf")
 }
@@ -14,7 +14,7 @@ the \code{templates/lsf.tmpl} part of this package (see below).}
 \item{\ldots}{Not used.}
 }
 \description{
-A batchtools LSF backend resolves futures in parallel via a LSF job scheduler
+A batchtools LSF backend resolves futures in parallel via a Load Sharing Facility (LSF) job scheduler
 }
 \details{
 Batchtools lsf futures use \pkg{batchtools} cluster functions
@@ -83,4 +83,9 @@ f <- future(Sys.getpid())
 pid <- value(f)
 message("Worker process ID: ", pid)
 \dontshow{\}) # examplesIf}
+}
+\references{
+\itemize{
+\item \url{https://en.wikipedia.org/wiki/IBM_Spectrum_LSF}
+}
 }

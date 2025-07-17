@@ -43,6 +43,9 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #' pid <- value(f)
 #' message("Worker process ID: ", pid)
 #' 
+#' @references
+#' * <https://en.wikipedia.org/wiki/TORQUE>
+#'
 #' @export
 batchtools_torque <- function(..., template = "torque") {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_torque() must never be called directly")

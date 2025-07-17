@@ -43,6 +43,9 @@ BatchtoolsSGEFutureBackend <- function(...) {
 #' pid <- value(f)
 #' message("Worker process ID: ", pid)
 #' 
+#' @references
+#' * <https://en.wikipedia.org/wiki/Oracle_Grid_Engine>
+#'
 #' @export
 batchtools_sge <- function(..., template = "sge") {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_sge() must never be called directly")

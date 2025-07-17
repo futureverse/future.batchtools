@@ -7,7 +7,7 @@ BatchtoolsLsfFutureBackend <- function(...) {
 }
 
 
-#' A batchtools LSF backend resolves futures in parallel via a LSF job scheduler
+#' A batchtools LSF backend resolves futures in parallel via a Load Sharing Facility (LSF) job scheduler
 #'
 #' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsTemplateFutureBackend
@@ -44,6 +44,9 @@ BatchtoolsLsfFutureBackend <- function(...) {
 #' pid <- value(f)
 #' message("Worker process ID: ", pid)
 #' 
+#' @references
+#' * <https://en.wikipedia.org/wiki/IBM_Spectrum_LSF>
+#'
 #' @export
 batchtools_lsf <- function(..., template = "lsf") {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_lsf() must never be called directly")
