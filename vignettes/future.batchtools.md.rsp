@@ -41,13 +41,13 @@ expressions for futures `x` and `y` will be processed on two different
 compute nodes:
 
 ```r
-> library(future.batchtools)
-> plan(batchtools_slurm)
->
-> x %<-% { Sys.sleep(5); 3.14 }
-> y %<-% { Sys.sleep(5); 2.71 }
-> x + y
-[1] 5.85
+library(future)
+planb(future.batchtools::atchtools_slurm)
+
+x %<-% { Sys.sleep(5); 3.14 }
+y %<-% { Sys.sleep(5); 2.71 }
+x + y
+#> [1] 5.85
 ```
 
 This is just a toy example to illustrate what futures look like and
@@ -66,12 +66,13 @@ could be implemented using futures.
 ```r
 library(future)
 library(listenv)
+
 ## The first level of futures should be submitted to the
 ## cluster using batchtools.  The second level of futures
 ## should be using multisession, where the number of
 ## parallel processes is automatically decided based on
 ## what the cluster grants to each compute node.
-plan(list(batchtools_slurm, multisession))
+plan(list(future.batchtools::batchtools_slurm, multisession))
 
 ## Find all samples (one FASTQ file per sample)
 fqs <- dir(pattern = "[.]fastq$")
@@ -226,8 +227,8 @@ futures are evaluated_.  For instance, to use local batchtools
 futures, run the demo as:
 
 ```r
-library(future.batchtools)
-plan(batchtools_local)
+library(future)
+plan(future.batchtools::batchtools_local)
 demo("mandelbrot", package = "future", ask = FALSE)
 ```
 
