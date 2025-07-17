@@ -20,10 +20,10 @@ BatchtoolsBashFutureBackend <- function(...,
 }
 
 
-#' A batchtools bash backend that resolves futures in a single background R session via Bash
+#' A batchtools bash backend that resolves futures sequential via a Bash template script
 #'
 #' The `batchtools_bash` backend was added to illustrate how to write a
-#' custom \pkg{future.batchtools} backend that uses a job-script template.
+#' custom \pkg{future.batchtools} backend that uses a templated job script.
 #' Please see the source code, for details.
 #'
 #' @inheritParams BatchtoolsFutureBackend

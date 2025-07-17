@@ -3,7 +3,7 @@
 \name{batchtools_bash}
 \alias{batchtools_bash}
 \alias{makeClusterFunctionsBash}
-\title{A batchtools bash backend that resolves futures in a single background R session via Bash}
+\title{A batchtools bash backend that resolves futures sequential via a Bash template script}
 \usage{
 batchtools_bash(
   cluster.functions = makeClusterFunctionsBash(template = "bash"),
@@ -51,7 +51,7 @@ the future is garbage collected, otherwise not.}
 }
 \description{
 The \code{batchtools_bash} backend was added to illustrate how to write a
-custom \pkg{future.batchtools} backend that uses a job-script template.
+custom \pkg{future.batchtools} backend that uses a templated job script.
 Please see the source code, for details.
 }
 \details{
