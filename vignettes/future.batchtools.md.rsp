@@ -42,7 +42,7 @@ compute nodes:
 
 ```r
 library(future)
-planb(future.batchtools::atchtools_slurm)
+plan(future.batchtools::batchtools_slurm)
 
 x %<-% { Sys.sleep(5); 3.14 }
 y %<-% { Sys.sleep(5); 2.71 }
