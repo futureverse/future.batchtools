@@ -17,7 +17,7 @@ Please see the source code, for details."><!-- Global site tag (gtag.js) - Googl
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9918</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9919</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,7 +147,7 @@ the future is garbage collected, otherwise not.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Batchtools bash futures uses <span class="pkg">batchtools</span> cluster functions
+    <p>Batchtools bash futures use <span class="pkg">batchtools</span> cluster functions
 created by <code>makeClusterFunctionsBash()</code> and requires that <code>bash</code> is
 installed on the current machine and the <code>timeout</code> command is available.</p>
 <p>The default template script <code>templates/bash.tmpl</code> can be found in:</p>
@@ -156,17 +156,19 @@ installed on the current machine and the <code>timeout</code> command is availab
 <p></p><div class="sourceCode bash"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">######################################################################</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># A batchtools launch script template</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">######################################################################</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">## Maximum runtime?</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="op">&lt;</span>%</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">## The default maximum runtime is one hours</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="ex">runtime</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"runtime"</span><span class="pp">]</span>]</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="cf">if</span> <span class="kw">(</span><span class="ex">is.null</span><span class="er">(</span><span class="ex">runtime</span><span class="kw">))</span> <span class="ex">runtime</span> <span class="op">&lt;</span>- 3600</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># Launch R and evaluate the batchtools R job</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="fu">timeout</span> <span class="op">&lt;</span>%= runtime %<span class="op">&gt;</span> Rscript <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;", output = "&lt;%= log.file %&gt;")'</span></span></code></pre><p></p></div>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># Author: Henrik Bengtsson</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">######################################################################</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">## Maximum runtime?</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="op">&lt;</span>%</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">## The default maximum runtime is one hours</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="ex">runtime</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"runtime"</span><span class="pp">]</span>]</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="cf">if</span> <span class="kw">(</span><span class="ex">is.null</span><span class="er">(</span><span class="ex">runtime</span><span class="kw">))</span> <span class="ex">runtime</span> <span class="op">&lt;</span>- 3600</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># Launch R and evaluate the batchtools R job</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="fu">timeout</span> <span class="op">&lt;</span>%= runtime %<span class="op">&gt;</span> Rscript <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;", output = "&lt;%= log.file %&gt;")'</span></span></code></pre><p></p></div>
     </div>
 
     <div class="section level2">
