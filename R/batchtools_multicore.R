@@ -23,10 +23,13 @@
 #' The batchtools multicore backend only works on operating systems
 #' supporting the `ps` command-line tool, e.g. Linux and macOS.
 #'
+#' @rdname BatchtoolsFutureBackend
+#' @keywords internal
+#'
+#' @aliases batchtools_custom batchtools_multicore
 #' @importFrom batchtools makeClusterFunctionsMulticore
 #' @importFrom parallelly availableCores supportsMulticore
 #' @importFrom tools pskill
-#' @keywords internal
 #' @export
 BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraints = "multicore"), ...) {
   assert_no_positional_args_but_first()
@@ -68,9 +71,10 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 }
 
 
-#' @rdname BatchtoolsMulticoreFutureBackend
+#' @inheritParams BatchtoolsMulticoreFutureBackend
+#'
 #' @export
-batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore"), envir = parent.frame()) {
+batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore")) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_multicore() must never be called directly")
 }
 class(batchtools_multicore) <- c(

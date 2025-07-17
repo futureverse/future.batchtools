@@ -16,7 +16,7 @@
 #' @details
 #' batchtools local futures rely on the batchtools backend set up by
 #' \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive(external = TRUE)}}
-#' and batchtools interactive futures on the one set up by
+#' and batchtools interactive futures on the one sQet up by
 #' [batchtools::makeClusterFunctionsInteractive()].
 #' These are supported by all operating systems.
 #'
@@ -30,11 +30,11 @@
 #'
 #' @example incl/batchtools_local.R
 #'
-#' @rdname BatchtoolsInteractiveFutureBackend
+#' @rdname BatchtoolsFutureBackend
+#' @keywords internal
 #'
 #' @importFrom batchtools makeClusterFunctionsInteractive
-#' @aliases batchtools_local batchtools_interactive batchtools_bash
-#' @aliases BatchtoolsLocalFutureBackend BatchtoolsInteractiveFutureBackend BatchtoolsBashFutureBackend
+#' @aliases BatchtoolsLocalFutureBackend BatchtoolsBashFutureBackend
 #' @export
 BatchtoolsLocalFutureBackend <- function(...) {
   assert_no_positional_args_but_first()
@@ -50,8 +50,37 @@ BatchtoolsLocalFutureBackend <- function(...) {
 }
 
 
+#' A batchtools backend that resolves futures sequentially in transient background R sessions
+#'
+#' The batchtools local backend is useful for verifying parts of your
+#' \pkg{batchtools} setup locally, before using a more advanced backend such
+#' as the job-scheduler backends. 
+#' An alternative to the batchtools interactive backend is to use
+#' `plan(future::cluster, workers = I(1))`.
+#'
+#' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams BatchtoolsLocalFutureBackend
+#'
+#' @param \ldots Not used.
+#'
+#' @details
+#' Batchtools local futures uses \pkg{batchtools} cluster functions
+#' created by [batchtools::makeClusterFunctionsInteractive()] with
+#' `external = TRUE`.
+#'
+#' @examples
+#' plan(batchtools_local)
+#'
+#' message("Main process ID: ", Sys.getpid())
+#'
+#' f <- future(Sys.getpid())
+#' pid <- value(f)
+#' message("Workers process ID: ", pid)
+#' 
+#' @inheritParams BatchtoolsLocalFutureBackend
+#'
 #' @export
-batchtools_local <- function(..., envir = parent.frame()) {
+batchtools_local <- function(...) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_local() must never be called directly")
 }
 class(batchtools_local) <- c(

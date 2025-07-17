@@ -1,4 +1,5 @@
-#' @inheritParams BatchtoolsFuture
+#' @rdname BatchtoolsFutureBackend
+#' @keywords internal
 #'
 #' @importFrom batchtools makeClusterFunctionsInteractive
 #' @export
@@ -15,8 +16,38 @@ BatchtoolsInteractiveFutureBackend <- function(...) {
   core
 }
 
+#' A batchtools backend that resolves futures sequentially in the current R session
+#'
+#' The batchtools interactive backend is useful for verifying parts of your
+#' \pkg{batchtools} setup locally, while still being able to do interactive
+#' debugging.
+#' An alternative to the batchtools interactive backend is to use
+#' `plan(future::sequential)`, which is a faster way process futures
+#' sequentially and that also can be debugged interactively.
+#'
+#' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams BatchtoolsInteractiveFutureBackend
+#'
+#' @param \ldots Not used.
+#'
+#' @details
+#' Batchtools interactive futures uses \pkg{batchtools} cluster functions
+#' created by [batchtools::makeClusterFunctionsInteractive()] with
+#' `external = TRUE`.
+#'
+#' @examples
+#' plan(batchtools_interactive)
+#'
+#' message("Main process ID: ", Sys.getpid())
+#'
+#' f <- future(Sys.getpid())
+#' pid <- value(f)
+#' message("Workers process ID: ", pid)
+#' 
+#' @inheritParams BatchtoolsInteractiveFutureBackend
+#'
 #' @export
-batchtools_interactive <- function(..., envir = parent.frame()) {
+batchtools_interactive <- function(...) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_interactive() must never be called directly")
 }
 class(batchtools_interactive) <- c(
@@ -27,5 +58,3 @@ attr(batchtools_interactive, "tweakable") <- c("finalize")
 attr(batchtools_interactive, "untweakable") <- c("workers")
 attr(batchtools_interactive, "init") <- TRUE
 attr(batchtools_interactive, "factory") <- BatchtoolsInteractiveFutureBackend
-
-

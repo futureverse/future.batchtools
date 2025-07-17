@@ -9,11 +9,6 @@
 #'
 #' @inheritParams BatchtoolsFutureBackend
 #'
-#' @param workers The number of SSH processes to be
-#' available for concurrent batchtools SSH futures.
-#' @param \ldots Additional arguments passed
-#' to [BatchtoolsFutureBackend()].
-#'
 #' @return An object of class `BatchtoolsMulticoreFuture`.
 #'
 #' @details
@@ -22,9 +17,10 @@
 #' The batchtools SSH backend only works on operating systems
 #' supporting the `ssh` and `ps` command-line tool, e.g. Linux and macOS.
 #'
-#' @importFrom parallelly availableWorkers
-#'
+#' @rdname BatchtoolsFutureBackend
 #' @keywords internal
+#'
+#' @importFrom parallelly availableWorkers
 #' @importFrom batchtools makeClusterFunctionsSSH
 #' @importFrom parallelly availableCores
 #' @export
@@ -76,8 +72,10 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), ...) {
 }
 
 
+#' @inheritParams BatchtoolsSSHFutureBackend
+#'
 #' @export
-batchtools_ssh <- function(..., workers = availableWorkers(), envir = parent.frame()) {
+batchtools_ssh <- function(..., workers = availableWorkers()) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_ssh() must never be called directly")
 }
 class(batchtools_ssh) <- c(

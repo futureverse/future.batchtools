@@ -2,10 +2,6 @@
 #'
 #' @inheritParams future::FutureBackend
 #'
-#' @param resources (optional) A named list passed to the \pkg{batchtools}
-#' template (available as variable `resources`).  See Section 'Resources'
-#' in [batchtools::submitJobs()] more details.
-#'
 #' @param workers (optional) The maximum number of workers the batchtools
 #' backend may use at any time.   Interactive and "local" backends can only
 #' process one future at the time (`workers = 1L`), whereas HPC backends,
@@ -15,32 +11,42 @@
 #' \code{getOption("\link{future.batchtools.workers}")}.
 #' If neither are specified, then the default is `100`.
 #'
-#' @param finalize If TRUE, any underlying registries are
-#' deleted when this object is garbage collected, otherwise not.
+#' @param finalize If TRUE, a future's \pkg{batchtools}
+#' \link[batchtools:makeRegistry]{Registry} is automatically deleted when
+#' the future is garbage collected, otherwise not.
 #'
-#' @param conf.file (optional) A batchtools configuration file.
+#' @param cluster.functions (optional) Assigned as-is to the each future's
+#' \pkg{batchtools} \link[batchtools:makeRegistry]{Registry}.
 #'
-#' @param cluster.functions (optional) A batchtools
-#' [ClusterFunctions][batchtools::ClusterFunctions] object.
+#' @param registry (optional) A named list of settings applied to each
+#' future's \pkg{batchtools} \link[batchtools:makeRegistry]{Registry}.
+#' This is a more convenient alternative to using argument `conf.file`.
 #'
-#' @param registry (optional) A named list of settings to control the setup
-#' of the batchtools registry.
+#' @param conf.file (optional) A "batchtools-configuration" R script, which
+#' is sourced when each future's \pkg{batchtools}
+#' \link[batchtools:makeRegistry]{Registry} is created. Any variables
+#' created by this script is assigned to the registry.
+#' The default file is the one found by [batchtools::findConfFile()], if any.
+#'
+#' @param resources (optional) A named list passed to the \pkg{batchtools}
+#' job-script template as variable `resources`.  See Section 'Resources'
+#' in [batchtools::submitJobs()] more details.
 #'
 #' @param \ldots Not used.
 #'
 #' @return A [future::FutureBackend] object of class BatchtoolsFutureBackend 
 #'
 #' @aliases BatchtoolsUniprocessFutureBackend BatchtoolsMultiprocessFutureBackend
-#' @rdname BatchtoolsFuture
 #' @importFrom utils file_test
 #' @importFrom future FutureBackend
 #' @keywords internal
 #' @export
-BatchtoolsFutureBackend <- function(workers = NULL, resources = list(),
+BatchtoolsFutureBackend <- function(
+                             workers = NULL, resources = list(),
                              finalize = getOption("future.finalize", TRUE),
-                             conf.file = findConfFile(),
                              cluster.functions = NULL,
                              registry = list(),
+                             conf.file = findConfFile(),
                              interrupts = TRUE,
                              ...) {
   assert_no_positional_args_but_first()
@@ -103,6 +109,8 @@ BatchtoolsFutureBackend <- function(workers = NULL, resources = list(),
 }
 
 
+#' @inheritParams BatchtoolsFutureBackend
+#'
 #' @export
 BatchtoolsUniprocessFutureBackend <- function(workers = 1L, ...) {
   assert_no_positional_args_but_first()
@@ -111,6 +119,8 @@ BatchtoolsUniprocessFutureBackend <- function(workers = 1L, ...) {
   core
 }
 
+#' @inheritParams BatchtoolsFutureBackend
+#'
 #' @export
 BatchtoolsMultiprocessFutureBackend <- function(...) {
   assert_no_positional_args_but_first()

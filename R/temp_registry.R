@@ -3,7 +3,7 @@ temp_registry <- local({
   ## All known batchtools registries
   regs <- new.env()
 
-  make_registry <- function(cluster.functions = NULL, config = list(), ...) {
+  make_registry <- function(conf.file = NULL, cluster.functions = NULL, config = list(), ...) {
     ## Temporarily disable batchtools output?
     ## (i.e. messages and progress bars)
     debug <- isTRUE(getOption("future.debug"))
@@ -21,7 +21,7 @@ temp_registry <- local({
     ## WORKAROUND: batchtools::makeRegistry() updates the RNG state,
     ## which we must make sure to undo.
     with_stealth_rng({
-      reg <- makeRegistry(work.dir = work.dir, ...)
+      reg <- makeRegistry(work.dir = work.dir, conf.file = conf.file, ...)
     })
 
     if (!is.null(cluster.functions)) {    ### FIXME
@@ -41,7 +41,7 @@ temp_registry <- local({
     reg
   } ## make_registry()
 
-  function(label = "batchtools", path = NULL, config = list(), ...) {
+  function(label = "batchtools", path = NULL, conf.file = NULL, cluster.functions = NULL, config = list(), ...) {
     if (is.null(label)) label <- "batchtools"
     ## The job label (the name on the job queue) - may be duplicated
     label <- as.character(label)
@@ -83,7 +83,7 @@ temp_registry <- local({
     ## expression "^[a-zA-Z]+[0-9a-zA-Z_]*$".
     ## /HB 2016-10-19
     reg_id <- as_valid_registry_id(label)
-    make_registry(file.dir = path_registry, config = config, ...)
+    make_registry(file.dir = path_registry, conf.file = conf.file, cluster.functions = cluster.functions, config = config, ...)
   }
 })
 

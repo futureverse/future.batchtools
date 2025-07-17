@@ -8,7 +8,9 @@
 #'
 #' @example incl/batchtools_custom.R
 #'
-#' @aliases batchtools_custom
+#' @rdname BatchtoolsFutureBackend
+#' @keywords internal
+#'
 #' @export
 #' @importFrom batchtools findConfFile
 BatchtoolsCustomFutureBackend <- function(...) {
@@ -23,8 +25,10 @@ BatchtoolsCustomFutureBackend <- function(...) {
   core
 }
 
+#' @inheritParams BatchtoolsCustomFutureBackend
+#'
 #' @export
-batchtools_custom <- function(..., envir = parent.frame()) {
+batchtools_custom <- function(...) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_custom() must never be called directly")
 }
 class(batchtools_custom) <- c(

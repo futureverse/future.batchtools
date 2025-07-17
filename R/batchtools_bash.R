@@ -1,13 +1,17 @@
-#' @inheritParams batchtools_custom
-#' @inheritParams batchtools_template
+#' @inheritParams BatchtoolsTemplateFutureBackend
+#' @rdname BatchtoolsFutureBackend
+#' @keywords internal
 #'
 #' @export
-BatchtoolsBashFutureBackend <- function(..., template = "bash") {
+BatchtoolsBashFutureBackend <- function(...,
+    cluster.functions = makeClusterFunctionsBash(template = template),
+    template = "bash") {
   assert_no_positional_args_but_first()
 
   core <- BatchtoolsMultiprocessFutureBackend(
-    cluster.functions = makeClusterFunctionsBash(template = template),
-    ...
+    ...,
+    cluster.functions = cluster.functions,
+    template = template
   )
 
   core[["futureClasses"]] <- c("BatchtoolsBashFuture", core[["futureClasses"]])
@@ -16,8 +20,55 @@ BatchtoolsBashFutureBackend <- function(..., template = "bash") {
 }
 
 
+#' A batchtools bash backend that resolves futures in a single background R session via Bash
+#'
+#' The `batchtools_bash` backend was added to illustrate how to write a
+#' custom \pkg{future.batchtools} backend that uses a job-script template.
+#' Please see the source code, for details.
+#'
+#' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams BatchtoolsTemplateFutureBackend
+#' @inheritParams BatchtoolsBashFutureBackend
+#'
+#' @param template (optional) Name of job-script template to be searched
+#' for by [batchtools::findTemplateFile()]. If not found, it defaults to
+#' the `templates/bash.tmpl` part of this package (see below).
+#'
+#' @param \ldots Not used.
+#'
+#' @details
+#' Batchtools bash futures uses \pkg{batchtools} cluster functions
+#' created by [makeClusterFunctionsBash()] and requires that Bash is
+#' installed on the current machine.
+#'
+#' The default template script `templates/bash.tmpl` can be found in:
+#'
+#' ```r
+#' system.file("templates", "bash.tmpl", package = "future.batchtools")
+#' ```
+#'
+#' and comprise:
+#'
+#' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/bash.tmpl"), "\x60\x60\x60"), collapse = "\n")`
+#'
+#' @examplesIf interactive()
+#' plan(batchtools_bash)
+#'
+#' message("Main process ID: ", Sys.getpid())
+#'
+#' f <- future(Sys.getpid())
+#' pid <- value(f)
+#' message("Workers process ID: ", pid)
+#' 
 #' @export
-batchtools_bash <- function(..., envir = parent.frame(), template = "bash") {
+batchtools_bash <- function(
+  cluster.functions = makeClusterFunctionsBash(template = "bash"),
+  template = "bash",
+  registry = list(),
+  conf.file = findConfFile(),
+  resources = list(),
+  finalize = getOption("future.finalize", TRUE),
+  ...) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_bash() must never be called directly")
 }
 class(batchtools_bash) <- c(
@@ -31,8 +82,17 @@ attr(batchtools_bash, "init") <- TRUE
 attr(batchtools_bash, "factory") <- BatchtoolsBashFutureBackend
 
 
+#' @inheritParams batchtools::makeClusterFunctions
+#'
+#' @return
+#' `makeClusterFunctionsBash()` returns a
+#' \link[batchtools:makeClusterFunctions]{ClusterFunctions} object.
+#'
+#' @rdname batchtools_bash
+#'
 #' @importFrom batchtools cfReadBrewTemplate cfBrewTemplate makeClusterFunctions makeSubmitJobResult
 #' @importFrom utils file_test
+#' @export
 makeClusterFunctionsBash <- function(template = "bash") {
   bin <- Sys.which("bash")
   stop_if_not(file_test("-f", bin), file_test("-x", bin))
