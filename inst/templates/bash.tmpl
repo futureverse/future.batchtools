@@ -3,5 +3,12 @@
 # A batchtools launch script template
 ######################################################################
 
+## Maximum runtime?
+<%
+## The default maximum runtime is one hours
+runtime <- resources[["runtime"]]
+if (is.null(runtime)) runtime <- 3600
+%>
+
 # Launch R and evaluate the batchtools R job
-Rscript -e 'batchtools::doJobCollection("<%= uri %>", output = "<%= log.file %>")'
+timeout <%= runtime %> Rscript -e 'batchtools::doJobCollection("<%= uri %>", output = "<%= log.file %>")'

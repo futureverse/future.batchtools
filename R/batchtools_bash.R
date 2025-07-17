@@ -38,8 +38,8 @@ BatchtoolsBashFutureBackend <- function(...,
 #'
 #' @details
 #' Batchtools bash futures uses \pkg{batchtools} cluster functions
-#' created by [makeClusterFunctionsBash()] and requires that Bash is
-#' installed on the current machine.
+#' created by [makeClusterFunctionsBash()] and requires that `bash' is
+#' installed on the current machine and the `timeout` command is available.
 #'
 #' The default template script `templates/bash.tmpl` can be found in:
 #'
@@ -52,7 +52,8 @@ BatchtoolsBashFutureBackend <- function(...,
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/bash.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
 #' @examplesIf interactive()
-#' plan(batchtools_bash)
+#' # Limit runtime to 30 seconds per future
+#' plan(batchtools_bash, resources = list(runtime = 30))
 #'
 #' message("Main process ID: ", Sys.getpid())
 #'

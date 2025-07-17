@@ -56,8 +56,7 @@ Please see the source code, for details.
 }
 \details{
 Batchtools bash futures uses \pkg{batchtools} cluster functions
-created by \code{\link[=makeClusterFunctionsBash]{makeClusterFunctionsBash()}} and requires that Bash is
-installed on the current machine.
+created by \code{\link[=makeClusterFunctionsBash]{makeClusterFunctionsBash()}} and requires that \verb{bash' is installed on the current machine and the }timeout` command is available.
 
 The default template script \code{templates/bash.tmpl} can be found in:
 
@@ -71,13 +70,21 @@ and comprise:
 # A batchtools launch script template
 ######################################################################
 
+## Maximum runtime?
+<\%
+## The default maximum runtime is one hours
+runtime <- resources[["runtime"]]
+if (is.null(runtime)) runtime <- 3600
+\%>
+
 # Launch R and evaluate the batchtools R job
-Rscript -e 'batchtools::doJobCollection("<\%= uri \%>", output = "<\%= log.file \%>")'
+timeout <\%= runtime \%> Rscript -e 'batchtools::doJobCollection("<\%= uri \%>", output = "<\%= log.file \%>")'
 }\if{html}{\out{</div>}}
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-plan(batchtools_bash)
+# Limit runtime to 30 seconds per future
+plan(batchtools_bash, resources = list(runtime = 30))
 
 message("Main process ID: ", Sys.getpid())
 

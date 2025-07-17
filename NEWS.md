@@ -13,7 +13,13 @@
 
  * Canceling batchtools futures will now interrupt them by default,
    if the backend supports it.
-   
+
+## Documentation
+
+ * Add `timeout <runtime> ...` to the default `batchtools_bash`
+   template script to illustrate how to control this runtime via the
+   backend `resources` argument.
+
 
 # Version 0.12.2 [2025-06-06]
 
