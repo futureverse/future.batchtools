@@ -21,9 +21,8 @@
 <% if (length(resources) > 0) {
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("%s=%s", names(opts), opts)
-  opts <- paste(opts, collapse = ",") %>
-#PBS -l <%= opts %>
-<% } %>
+  cat(sprintf("#PBS -l %s\n", opts))
+} %>
 
 echo "Batchtools job name: '<%= job.name %>'"
 

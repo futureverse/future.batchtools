@@ -16,7 +16,7 @@
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("-%s=%s", names(opts), opts)
   cat(sprintf("#BSUB %s\n", opts))
-<% } %>
+} %>
 
 echo "Batchtools job name: '<%= job.name %>'"
 
