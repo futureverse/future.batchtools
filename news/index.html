@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9926</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9928</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,12 @@
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
-<ul><li>Add <code>timeout &lt;runtime&gt; ...</code> to the default <code>batchtools_bash</code> template script to illustrate how to control this runtime via the backend <code>resources</code> argument.</li>
+<ul><li><p>Add <code>timeout &lt;runtime&gt; ...</code> to the default <code>batchtools_bash</code> template script to illustrate how to control this runtime via the backend <code>resources</code> argument.</p></li>
+<li><p>Add explicit <strong>batchtools</strong> arguments <code>scheduler.latency</code> and <code>fs.latency</code> to batchtools backends, where applicable.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>Calling <code><a href="https://future.futureverse.org/reference/value.html" class="external-link">value()</a></code> on a terminated batchtools job could take a very long tiem before it returned with an error. This was because it read logged output to be part of the error message. When there was no output file, <strong>batchtools</strong> would wait for the file up to <code>fs.latency</code> seconds (default 65 seconds) to give job schedulers and any global file system time to write output to file. Now <strong>future.batchtools</strong> will no longer wait for such files and only read their content if they exists when checked.</li>
 </ul></div>
 </div>
     <div class="section level2">

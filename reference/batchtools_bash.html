@@ -17,7 +17,7 @@ Please see the source code, for details."><!-- Global site tag (gtag.js) - Googl
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9926</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9928</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,16 +83,18 @@ Please see the source code, for details.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">batchtools_bash</span><span class="op">(</span></span>
-<span>  cluster.functions <span class="op">=</span> <span class="fu">makeClusterFunctionsBash</span><span class="op">(</span>template <span class="op">=</span> <span class="st">"bash"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  cluster.functions <span class="op">=</span> <span class="fu">makeClusterFunctionsBash</span><span class="op">(</span>template <span class="op">=</span> <span class="st">"bash"</span>, fs.latency <span class="op">=</span></span>
+<span>    <span class="va">fs.latency</span><span class="op">)</span>,</span>
+<span>  fs.latency <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  template <span class="op">=</span> <span class="st">"bash"</span>,</span>
 <span>  registry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  conf.file <span class="op">=</span> <span class="fu">findConfFile</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  finalize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"future.finalize"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>  <span class="va">...</span></span>
+<span>  finalize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"future.finalize"</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">makeClusterFunctionsBash</span><span class="op">(</span>template <span class="op">=</span> <span class="st">"bash"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">makeClusterFunctionsBash</span><span class="op">(</span>template <span class="op">=</span> <span class="st">"bash"</span>, fs.latency <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -102,6 +104,14 @@ Please see the source code, for details.</p>
 <dl><dt id="arg-cluster-functions">cluster.functions<a class="anchor" aria-label="anchor" href="#arg-cluster-functions"></a></dt>
 <dd><p>(optional) Assigned as-is to the each future's
 <span class="pkg">batchtools</span> <a href="https://rdrr.io/pkg/batchtools/man/makeRegistry.html" class="external-link">Registry</a>.</p></dd>
+
+
+<dt id="arg-fs-latency">fs.latency<a class="anchor" aria-label="anchor" href="#arg-fs-latency"></a></dt>
+<dd><p>[<code>numeric(1)</code>]<br>
+Expected maximum latency of the file system, in seconds.
+Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
+access files and directories.
+Usually safe to set to <code>0</code> to disable the heuristic, e.g. if you are working on a local file system.</p></dd>
 
 
 <dt id="arg-template">template<a class="anchor" aria-label="anchor" href="#arg-template"></a></dt>
