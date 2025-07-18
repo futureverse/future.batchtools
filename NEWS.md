@@ -13,7 +13,7 @@
 
  * Canceling batchtools futures will now interrupt them by default,
    if the backend supports it.
-   
+
  * Add built-in template job script for LSF and OpenLava.
 
 ## Documentation
@@ -21,6 +21,16 @@
  * Add `timeout <runtime> ...` to the default `batchtools_bash`
    template script to illustrate how to control this runtime via the
    backend `resources` argument.
+
+## Bug Fixes
+
+ * Calling `value()` on a terminated batchtools job could take 65
+   seconds to return, because it read logged output to be part of the
+   error message. When there was no output file, **batchtools** would
+   wait for the file up to 65 seconds to give job schedulers time to
+   write output to file. Now **future.batchtools** will no longer wait
+   for such files and only read their content if they exists when
+   checked.
 
 
 # Version 0.12.2 [2025-06-06]

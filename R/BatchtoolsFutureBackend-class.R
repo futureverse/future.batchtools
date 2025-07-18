@@ -587,7 +587,7 @@ loggedError.BatchtoolsFuture <- function(future, ...) {
 
 #' @importFrom batchtools getLog
 #' @export
-loggedOutput.BatchtoolsFuture <- function(future, ...) {
+loggedOutput.BatchtoolsFuture <- function(future, timeout = NULL, ...) {
   stat <- status(future)
   if (is_na(stat)) return(NULL)
 
@@ -601,7 +601,19 @@ loggedOutput.BatchtoolsFuture <- function(future, ...) {
   reg <- config$reg
   if (!inherits(reg, "Registry")) return(NULL)
   jobid <- config$jobid
-  getLog(id = jobid, reg = reg)
+
+  local({
+    if (!is.null(timeout)) {
+      stopifnot(length(timeout) == 1, is.numeric(timeout), !is.na(timeout), timeout >= 0.0)
+      oldValue <- reg$cluster.functions$fs.latency
+      on.exit(reg$cluster.functions$fs.latency <- oldValue)
+      reg$cluster.functions$fs.latency <- timeout
+    }
+    out <- tryCatch(suppressWarnings({
+      getLog(id = jobid, reg = reg)
+    }), error = function(e) NULL)
+  })
+  out
 } # loggedOutput()
 
 
@@ -801,7 +813,7 @@ await <- function(future, cleanup = TRUE, ...) {
       ## whereas jobs that failed to launch won't. /HB 2025-07-15
 
       hint <- tryCatch({
-        output <- loggedOutput(future)
+        output <- loggedOutput(future, timeout = 0.0)
         hint <- unlist(strsplit(output, split = "\n", fixed = TRUE))
         hint <- hint[nzchar(hint)]
         hint <- tail(hint, n = getOption("future.batchtools.expiration.tail", 48L))
@@ -810,7 +822,7 @@ await <- function(future, cleanup = TRUE, ...) {
         hint <- c("The last few lines of the logged output:", hint)
         hint <- paste(hint, collapse = "\n")
       } else {
-        hint <- "No logged output exist"
+        hint <- "No logged output file exist"
       }
 
       if (any(c("submitted", "started") %in% stat)) {
