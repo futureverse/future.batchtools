@@ -21,16 +21,20 @@
  * Add `timeout <runtime> ...` to the default `batchtools_bash`
    template script to illustrate how to control this runtime via the
    backend `resources` argument.
+   
+ * Add explicit **batchtools** arguments `scheduler.latency` and
+   `fs.latency` to batchtools backends, where applicable.
 
 ## Bug Fixes
 
- * Calling `value()` on a terminated batchtools job could take 65
-   seconds to return, because it read logged output to be part of the
-   error message. When there was no output file, **batchtools** would
-   wait for the file up to 65 seconds to give job schedulers time to
-   write output to file. Now **future.batchtools** will no longer wait
-   for such files and only read their content if they exists when
-   checked.
+ * Calling `value()` on a terminated batchtools job could take a very
+   long tiem before it returned with an error. This was because it
+   read logged output to be part of the error message. When there was
+   no output file, **batchtools** would wait for the file up to
+   `fs.latency` seconds (default 65 seconds) to give job schedulers
+   and any global file system time to write output to file. Now
+   **future.batchtools** will no longer wait for such files and only
+   read their content if they exists when checked.
 
 
 # Version 0.12.2 [2025-06-06]

@@ -8,6 +8,7 @@
 #' multicore batchtools futures._
 #'
 #' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams batchtools::makeClusterFunctions
 #'
 #' @param workers The number of multicore processes to be
 #' available for concurrent batchtools multicore futures.
@@ -31,7 +32,7 @@
 #' @importFrom parallelly availableCores supportsMulticore
 #' @importFrom tools pskill
 #' @export
-BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraints = "multicore"), ...) {
+BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraints = "multicore"), fs.latency = 0.0, ...) {
   assert_no_positional_args_but_first()
 
   if (is.function(workers)) workers <- workers()
@@ -46,13 +47,13 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 
   ## Fall back to batchtools_local if multicore processing is not supported
   if ((workers == 1L && !inherits(workers, "AsIs")) || !supportsMulticore(warn = TRUE)) {
-    return(BatchtoolsLocalFutureBackend(...))
+    return(BatchtoolsLocalFutureBackend(..., fs.latency = fs.latency))
   }
 
   oopts <- options(mc.cores = workers)
   on.exit(options(oopts))
 
-  cluster.functions <- makeClusterFunctionsMulticore(ncpus = workers)
+  cluster.functions <- makeClusterFunctionsMulticore(ncpus = workers, fs.latency = fs.latency)
   cluster.functions$killJob <- function(reg, batch.id) {
     pid <- as.integer(batch.id)
     if (is.na(pid) || pid <= 0) return(FALSE)
@@ -96,7 +97,7 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 #' message("Worker process ID: ", pid)
 #' 
 #' @export
-batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore")) {
+batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore"), fs.latency = 0.0) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_multicore() must never be called directly")
 }
 class(batchtools_multicore) <- c(

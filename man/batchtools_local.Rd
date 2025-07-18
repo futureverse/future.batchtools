@@ -4,9 +4,15 @@
 \alias{batchtools_local}
 \title{A batchtools backend that resolves futures sequentially in transient background R sessions}
 \usage{
-batchtools_local(...)
+batchtools_local(..., fs.latency = 0)
 }
 \arguments{
+\item{fs.latency}{[\code{numeric(1)}]\cr
+Expected maximum latency of the file system, in seconds.
+Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
+access files and directories.
+Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
+
 \item{\ldots}{Not used.}
 }
 \description{

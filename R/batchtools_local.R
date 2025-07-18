@@ -8,6 +8,7 @@
 #' Both types of futures will block until the futures are resolved.
 #'
 #' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams batchtools::makeClusterFunctions
 #' 
 #' @param \ldots Additional arguments passed to [BatchtoolsFutureBackend()].
 #'
@@ -34,11 +35,11 @@
 #' @importFrom batchtools makeClusterFunctionsInteractive
 #' @aliases BatchtoolsLocalFutureBackend BatchtoolsBashFutureBackend
 #' @export
-BatchtoolsLocalFutureBackend <- function(...) {
+BatchtoolsLocalFutureBackend <- function(fs.latency = 0.0, ...) {
   assert_no_positional_args_but_first()
 
   core <- BatchtoolsUniprocessFutureBackend(
-    cluster.functions = makeClusterFunctionsInteractive(external = TRUE),
+    cluster.functions = makeClusterFunctionsInteractive(fs.latency = fs.latency, external = TRUE),
     ...
   )
 
@@ -77,7 +78,7 @@ BatchtoolsLocalFutureBackend <- function(...) {
 #' message("Worker process ID: ", pid)
 #' 
 #' @export
-batchtools_local <- function(...) {
+batchtools_local <- function(..., fs.latency = 0.0) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_local() must never be called directly")
 }
 class(batchtools_local) <- c(
@@ -88,6 +89,3 @@ attr(batchtools_local, "tweakable") <- c("finalize")
 attr(batchtools_local, "untweakable") <- c("workers")
 attr(batchtools_local, "init") <- TRUE
 attr(batchtools_local, "factory") <- BatchtoolsLocalFutureBackend
-
-
-

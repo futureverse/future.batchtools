@@ -28,22 +28,25 @@ BatchtoolsFutureBackend(
 
 BatchtoolsBashFutureBackend(
   ...,
-  cluster.functions = makeClusterFunctionsBash(template = template),
+  cluster.functions = makeClusterFunctionsBash(template = template, fs.latency =
+    fs.latency),
+  fs.latency = 0,
   template = "bash"
 )
 
 BatchtoolsCustomFutureBackend(...)
 
-BatchtoolsInteractiveFutureBackend(...)
+BatchtoolsInteractiveFutureBackend(fs.latency = 0, ...)
 
-BatchtoolsLocalFutureBackend(...)
+BatchtoolsLocalFutureBackend(fs.latency = 0, ...)
 
 BatchtoolsMulticoreFutureBackend(
   workers = availableCores(constraints = "multicore"),
+  fs.latency = 0,
   ...
 )
 
-BatchtoolsSSHFutureBackend(workers = availableWorkers(), ...)
+BatchtoolsSSHFutureBackend(workers = availableWorkers(), fs.latency = 65, ...)
 }
 \arguments{
 \item{workers}{The number of multicore processes to be
@@ -73,6 +76,12 @@ The default file is the one found by \code{\link[batchtools:findConfFile]{batcht
 \item{interrupts}{If FALSE, attempts to interrupt futures will not take
 place on this backend, even if the backend supports it. This is useful
 when, for instance, it takes a long time to interrupt a future.}
+
+\item{fs.latency}{[\code{numeric(1)}]\cr
+Expected maximum latency of the file system, in seconds.
+Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
+access files and directories.
+Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
 
 \item{template}{(optional) A batchtools template file or a template string
 (in \pkg{brew} format).  If not specified, it is left to the

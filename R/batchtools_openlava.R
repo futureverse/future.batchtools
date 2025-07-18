@@ -48,7 +48,7 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #' * <https://en.wikipedia.org/wiki/OpenLava>
 #'
 #' @export
-batchtools_openlava <- function(..., template = "openlava") {
+batchtools_openlava <- function(..., template = "openlava", scheduler.latency = 1.0, fs.latency = 65.0) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_openlava() must never be called directly")
 }
 class(batchtools_openlava) <- c(

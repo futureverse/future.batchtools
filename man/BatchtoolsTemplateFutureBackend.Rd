@@ -10,17 +10,29 @@
 \title{Batchtools futures for LSF, OpenLava, SGE, Slurm, TORQUE etc.}
 \usage{
 BatchtoolsTemplateFutureBackend(
-  ...,
+  type = c("lsf", "openlava", "sge", "slurm", "torque"),
+  scheduler.latency = 1,
+  fs.latency = 65,
   template = NULL,
-  type = c("lsf", "openlava", "sge", "slurm", "torque")
+  ...
 )
 }
 \arguments{
+\item{type}{(character string) Type of job scheduler.}
+
+\item{scheduler.latency}{[\code{numeric(1)}]\cr
+Time to sleep after important interactions with the scheduler to ensure a sane state.
+Currently only triggered after calling \code{\link[batchtools]{submitJobs}}.}
+
+\item{fs.latency}{[\code{numeric(1)}]\cr
+Expected maximum latency of the file system, in seconds.
+Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
+access files and directories.
+Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
+
 \item{template}{(optional) A batchtools template file or a template string
 (in \pkg{brew} format).  If not specified, it is left to the
 \pkg{batchtools} package to locate such file using its search rules.}
-
-\item{type}{(character string) Type of job scheduler.}
 
 \item{\ldots}{Additional arguments passed to \code{\link[=BatchtoolsFutureBackend]{BatchtoolsFutureBackend()}}.}
 }

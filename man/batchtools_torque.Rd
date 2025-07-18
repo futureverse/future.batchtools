@@ -4,12 +4,27 @@
 \alias{batchtools_torque}
 \title{A batchtools TORQUE backend resolves futures in parallel via a TORQUE/PBS job scheduler}
 \usage{
-batchtools_torque(..., template = "torque")
+batchtools_torque(
+  ...,
+  template = "torque",
+  scheduler.latency = 1,
+  fs.latency = 65
+)
 }
 \arguments{
 \item{template}{(optional) Name of job-script template to be searched
 for by \code{\link[batchtools:findTemplateFile]{batchtools::findTemplateFile()}}. If not found, it defaults to
 the \code{templates/torque.tmpl} part of this package (see below).}
+
+\item{scheduler.latency}{[\code{numeric(1)}]\cr
+Time to sleep after important interactions with the scheduler to ensure a sane state.
+Currently only triggered after calling \code{\link[batchtools]{submitJobs}}.}
+
+\item{fs.latency}{[\code{numeric(1)}]\cr
+Expected maximum latency of the file system, in seconds.
+Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
+access files and directories.
+Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
 
 \item{\ldots}{Not used.}
 }

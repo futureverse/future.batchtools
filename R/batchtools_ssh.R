@@ -8,6 +8,7 @@
 #' SSH batchtools futures._
 #'
 #' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams batchtools::makeClusterFunctions
 #'
 #' @return An object of class `BatchtoolsMulticoreFuture`.
 #'
@@ -24,7 +25,7 @@
 #' @importFrom batchtools makeClusterFunctionsSSH
 #' @importFrom parallelly availableCores
 #' @export
-BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), ...) {
+BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), fs.latency = 65.0, ...) {
   assert_no_positional_args_but_first()
 
   if (is.function(workers)) workers <- workers()
@@ -53,7 +54,7 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), ...) {
   ))
 
   keep <- which(names(dotdotdot) %in% names(formals(makeClusterFunctionsSSH)))
-  args <- c(list(workers = ssh_worker), dotdotdot[keep])
+  args <- c(list(workers = ssh_worker), dotdotdot[keep], fs.latency = fs.latency)
   cluster.functions <- do.call(makeClusterFunctionsSSH, args = args)
 
   ## Drop used '...' arguments
@@ -74,7 +75,7 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), ...) {
 
 #' A batchtools backend that resolves futures in parallel via background R sessions over SSH
 #'
-#' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams BatchtoolsSSHFutureBackend
 #'
 #' @details
 #' The `batchtools_ssh` backend uses the batchtools backend set
@@ -90,7 +91,7 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), ...) {
 #'
 #' @keywords internal
 #' @export
-batchtools_ssh <- function(..., workers = availableWorkers()) {
+batchtools_ssh <- function(..., workers = availableWorkers(), fs.latency = 65.0) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_ssh() must never be called directly")
 }
 class(batchtools_ssh) <- c(

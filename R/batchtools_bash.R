@@ -1,10 +1,13 @@
 #' @inheritParams BatchtoolsTemplateFutureBackend
+#' @inheritParams batchtools::makeClusterFunctions
+#'
 #' @rdname BatchtoolsFutureBackend
 #' @keywords internal
 #'
 #' @export
 BatchtoolsBashFutureBackend <- function(...,
-    cluster.functions = makeClusterFunctionsBash(template = template),
+    cluster.functions = makeClusterFunctionsBash(template = template, fs.latency = fs.latency),
+    fs.latency = 0.0,
     template = "bash") {
   assert_no_positional_args_but_first()
 
@@ -63,13 +66,14 @@ BatchtoolsBashFutureBackend <- function(...,
 #' 
 #' @export
 batchtools_bash <- function(
-  cluster.functions = makeClusterFunctionsBash(template = "bash"),
+  ...,
+  cluster.functions = makeClusterFunctionsBash(template = "bash", fs.latency = fs.latency),
+  fs.latency = 0.0,
   template = "bash",
   registry = list(),
   conf.file = findConfFile(),
   resources = list(),
-  finalize = getOption("future.finalize", TRUE),
-  ...) {
+  finalize = getOption("future.finalize", TRUE)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_bash() must never be called directly")
 }
 class(batchtools_bash) <- c(
@@ -94,7 +98,7 @@ attr(batchtools_bash, "factory") <- BatchtoolsBashFutureBackend
 #' @importFrom batchtools cfReadBrewTemplate cfBrewTemplate makeClusterFunctions makeSubmitJobResult
 #' @importFrom utils file_test
 #' @export
-makeClusterFunctionsBash <- function(template = "bash") {
+makeClusterFunctionsBash <- function(template = "bash", fs.latency = 0.0) {
   bin <- Sys.which("bash")
   stop_if_not(file_test("-f", bin), file_test("-x", bin))
   
@@ -128,7 +132,8 @@ makeClusterFunctionsBash <- function(template = "bash") {
   cf <- makeClusterFunctions(
     name = "Bash",
     submitJob = submitJob,
-    store.job.collection = TRUE
+    store.job.collection = TRUE,
+    fs.latency = fs.latency
   )
   attr(cf, "template") <- template
   attr(cf, "template_text") <- template_text

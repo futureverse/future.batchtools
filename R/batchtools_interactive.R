@@ -3,11 +3,11 @@
 #'
 #' @importFrom batchtools makeClusterFunctionsInteractive
 #' @export
-BatchtoolsInteractiveFutureBackend <- function(...) {
+BatchtoolsInteractiveFutureBackend <- function(fs.latency = 0.0, ...) {
   assert_no_positional_args_but_first()
 
   core <- BatchtoolsUniprocessFutureBackend(
-    cluster.functions = makeClusterFunctionsInteractive(external = FALSE),
+    cluster.functions = makeClusterFunctionsInteractive(fs.latency = fs.latency, external = FALSE),
     ...
   )
 
@@ -48,7 +48,7 @@ BatchtoolsInteractiveFutureBackend <- function(...) {
 #' @inheritParams BatchtoolsInteractiveFutureBackend
 #'
 #' @export
-batchtools_interactive <- function(...) {
+batchtools_interactive <- function(..., fs.latency = 0.0) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_interactive() must never be called directly")
 }
 class(batchtools_interactive) <- c(

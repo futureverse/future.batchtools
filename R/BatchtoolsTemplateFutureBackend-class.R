@@ -5,6 +5,7 @@
 #' cluster via a job scheduler.
 #'
 #' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams batchtools::makeClusterFunctions
 #'
 #' @param template (optional) A batchtools template file or a template string
 #' (in \pkg{brew} format).  If not specified, it is left to the
@@ -39,7 +40,7 @@
 #' @importFrom batchtools makeClusterFunctionsSlurm
 #' @importFrom batchtools makeClusterFunctionsTORQUE
 #' @export
-BatchtoolsTemplateFutureBackend <- function(..., template = NULL, type = c("lsf", "openlava", "sge", "slurm", "torque")) {
+BatchtoolsTemplateFutureBackend <- function(type = c("lsf", "openlava", "sge", "slurm", "torque"), scheduler.latency = 1.0, fs.latency = 65.0, template = NULL, ...) {
   assert_no_positional_args_but_first()
   type <- match.arg(type)
 
@@ -67,7 +68,7 @@ BatchtoolsTemplateFutureBackend <- function(..., template = NULL, type = c("lsf"
   template <- find_template_file(template)
 
   keep <- which(names(dotdotdot) %in% names(make_cfs_formals))
-  args <- c(list(template = template), dotdotdot[keep])
+  args <- c(list(template = template), dotdotdot[keep], scheduler.latency = scheduler.latency, fs.latency = fs.latency)
   cluster.functions <- do.call(make_cfs, args = args)
   attr(cluster.functions, "template") <- template
 

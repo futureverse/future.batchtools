@@ -6,20 +6,28 @@
 \title{A batchtools bash backend that resolves futures sequentially via a Bash template script}
 \usage{
 batchtools_bash(
-  cluster.functions = makeClusterFunctionsBash(template = "bash"),
+  ...,
+  cluster.functions = makeClusterFunctionsBash(template = "bash", fs.latency =
+    fs.latency),
+  fs.latency = 0,
   template = "bash",
   registry = list(),
   conf.file = findConfFile(),
   resources = list(),
-  finalize = getOption("future.finalize", TRUE),
-  ...
+  finalize = getOption("future.finalize", TRUE)
 )
 
-makeClusterFunctionsBash(template = "bash")
+makeClusterFunctionsBash(template = "bash", fs.latency = 0)
 }
 \arguments{
 \item{cluster.functions}{(optional) Assigned as-is to the each future's
 \pkg{batchtools} \link[batchtools:makeRegistry]{Registry}.}
+
+\item{fs.latency}{[\code{numeric(1)}]\cr
+Expected maximum latency of the file system, in seconds.
+Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
+access files and directories.
+Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
 
 \item{template}{(optional) Name of job-script template to be searched
 for by \code{\link[batchtools:findTemplateFile]{batchtools::findTemplateFile()}}. If not found, it defaults to
