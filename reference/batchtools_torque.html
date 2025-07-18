@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9928</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9929</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -144,31 +144,30 @@ the current machine.</p>
 <span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
 <span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- unlist<span class="er">(</span><span class="ex">resources,</span> use.names = TRUE<span class="kw">)</span></span>
 <span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"%s=%s"</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">opts</span><span class="kw">)</span><span class="ex">,</span> opts<span class="kw">)</span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- paste<span class="er">(</span><span class="ex">opts,</span> collapse = <span class="st">","</span><span class="kw">)</span> <span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#PBS -l &lt;%= opts %&gt;</span></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="op">&lt;</span>% <span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Batchtools job name: '&lt;%= job.name %&gt;'"</span></span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Session information:"</span></span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="fu">date</span></span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="fu">hostname</span></span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="fu">which</span> Rscript</span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--version</span></span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">".libPaths()"</span></span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">## Launch R and evaluate the batchtools R job</span></span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ..."</span></span>
-<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span>
-<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="va">res</span><span class="op">=</span><span class="va">$?</span></span>
-<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="bu">echo</span> <span class="st">" - exit code: </span><span class="va">${res}</span><span class="st">"</span></span>
-<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ... done"</span></span>
-<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">## End-of-job summary</span></span>
-<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-f</span> <span class="st">"</span><span class="va">${PBS_JOBID}</span><span class="st">"</span></span>
-<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a></span>
-<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
-<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  <span class="fu">cat</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"#PBS -l %s\n"</span><span class="ex">,</span> opts<span class="kw">))</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Batchtools job name: '&lt;%= job.name %&gt;'"</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Session information:"</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="fu">date</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="fu">hostname</span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="fu">which</span> Rscript</span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--version</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">".libPaths()"</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">## Launch R and evaluate the batchtools R job</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ..."</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="va">res</span><span class="op">=</span><span class="va">$?</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="bu">echo</span> <span class="st">" - exit code: </span><span class="va">${res}</span><span class="st">"</span></span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ... done"</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co">## End-of-job summary</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-f</span> <span class="st">"</span><span class="va">${PBS_JOBID}</span><span class="st">"</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

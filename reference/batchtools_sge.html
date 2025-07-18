@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9928</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9929</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,7 +142,7 @@ the current machine.</p>
 <span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#$ -V</span></span>
 <span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a></span>
 <span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">exists</span><span class="er">(</span><span class="st">"resources"</span><span class="ex">,</span> mode = <span class="st">"list"</span><span class="kw">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
 <span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="co">## As-is resource specifications, e.g.</span></span>
 <span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  <span class="co">## sge_options &lt;- c("-pe smp 2", "-R yes")</span></span>
 <span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>  <span class="co">## plan(batchtools_sge, resources = list(asis = sge_options))</span></span>
