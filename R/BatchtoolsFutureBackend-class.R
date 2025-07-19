@@ -797,7 +797,7 @@ await <- function(future, cleanup = TRUE, ...) {
         ## Since we're already collected the results, the log file
         ## should already exist, if it exists.  Because of this,
         ## only poll for the log file for a second before giving up.
-        result[["batchtools_log"]] <- batchtools_getLog(id = jobid, reg = reg, timeout = 1.0)
+        result[["batchtools_log"]] <- batchtools_getLog(id = jobid, reg = reg, timeout = 0.0)
         if (result_has_errors(result)) cleanup <- FALSE
       }
     } else if ("error" %in% stat) {
