@@ -89,7 +89,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>Calling <code><a href="https://future.futureverse.org/reference/value.html" class="external-link">value()</a></code> on a terminated batchtools job could take a very long tiem before it returned with an error. This was because it read logged output to be part of the error message. When there was no output file, <strong>batchtools</strong> would wait for the file up to <code>fs.latency</code> seconds (default 65 seconds) to give job schedulers and any global file system time to write output to file. Now <strong>future.batchtools</strong> will no longer wait for such files and only read their content if they exists when checked.</li>
+<ul><li>Calling <code><a href="https://future.futureverse.org/reference/value.html" class="external-link">value()</a></code> on a terminated batchtools job could take a very long time before it returned with an error. This was because it read logged output to be part of the error message. When there was no output file, <strong>batchtools</strong> would wait for the file up to <code>fs.latency</code> seconds (default 65 seconds) to give job schedulers and any global file system time to write output to file. Now <strong>future.batchtools</strong> will no longer wait for such files and only read their content if they exists when checked.</li>
 </ul></div>
 </div>
     <div class="section level2">
