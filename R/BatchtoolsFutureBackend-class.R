@@ -585,6 +585,28 @@ loggedError.BatchtoolsFuture <- function(future, ...) {
 } # loggedError()
 
 
+batchtools_getLog <- function(id, reg, timeout = NULL) {
+  debug <- isTRUE(getOption("future.debug"))
+  if (debug) {
+    mdebug_push("batchtools::getLog() ...")
+    on.exit(mdebug_pop())
+  }
+  
+  if (!is.null(timeout)) {
+    stopifnot(length(timeout) == 1, is.numeric(timeout), !is.na(timeout), timeout >= 0.0)
+    oldValue <- reg$cluster.functions$fs.latency
+    on.exit({
+      reg$cluster.functions$fs.latency <- oldValue
+    }, add = TRUE)
+    reg$cluster.functions$fs.latency <- timeout
+  }
+  
+  tryCatch(suppressWarnings({
+    getLog(id = id, reg = reg)
+  }), error = function(e) NULL)
+} ## batchtools_getLog()
+
+
 #' @importFrom batchtools getLog
 #' @export
 loggedOutput.BatchtoolsFuture <- function(future, timeout = NULL, ...) {
@@ -602,19 +624,7 @@ loggedOutput.BatchtoolsFuture <- function(future, timeout = NULL, ...) {
   if (!inherits(reg, "Registry")) return(NULL)
   jobid <- config$jobid
 
-  out <- local({
-    if (!is.null(timeout)) {
-      stopifnot(length(timeout) == 1, is.numeric(timeout), !is.na(timeout), timeout >= 0.0)
-      oldValue <- reg$cluster.functions$fs.latency
-      on.exit(reg$cluster.functions$fs.latency <- oldValue)
-      reg$cluster.functions$fs.latency <- timeout
-    }
-    tryCatch(suppressWarnings({
-      getLog(id = jobid, reg = reg)
-    }), error = function(e) NULL)
-  })
-  
-  out
+  batchtools_getLog(id = jobid, reg = reg, timeout = timeout)
 } # loggedOutput()
 
 
@@ -784,17 +794,10 @@ await <- function(future, cleanup = TRUE, ...) {
       
       if (inherits(result, "FutureResult")) {
         prototype_fields <- c(prototype_fields, "batchtools_log")
-        result[["batchtools_log"]] <- try(local({
-          if (debug) {
-            mdebug_push("batchtools::getLog() ...")
-            on.exit(mdebug_pop())
-          }
-	  ## Since we're already collected the results, the log file
-	  ## should already exist, if it exists.  Because of this,
-	  ## only poll for the log file for a second before giving up.
-	  reg$cluster.functions$fs.latency <- 1.0
-          getLog(id = jobid, reg = reg)
-        }), silent = TRUE)
+        ## Since we're already collected the results, the log file
+        ## should already exist, if it exists.  Because of this,
+        ## only poll for the log file for a second before giving up.
+        result[["batchtools_log"]] <- batchtools_getLog(id = jobid, reg = reg, timeout = 1.0)
         if (result_has_errors(result)) cleanup <- FALSE
       }
     } else if ("error" %in% stat) {
