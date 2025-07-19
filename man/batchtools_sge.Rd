@@ -65,7 +65,7 @@ and comprise:
 #$ -V
 
 ## Resources needed:
-<\% if (exists("resources", mode = "list") && length(resources) > 0) \{
+<\% if (length(resources) > 0) \{
   ## As-is resource specifications, e.g.
   ## sge_options <- c("-pe smp 2", "-R yes")
   ## plan(batchtools_sge, resources = list(asis = sge_options))

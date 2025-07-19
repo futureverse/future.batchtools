@@ -28,7 +28,7 @@
 ## Bug Fixes
 
  * Calling `value()` on a terminated batchtools job could take a very
-   long tiem before it returned with an error. This was because it
+   long time before it returned with an error. This was because it
    read logged output to be part of the error message. When there was
    no output file, **batchtools** would wait for the file up to
    `fs.latency` seconds (default 65 seconds) to give job schedulers

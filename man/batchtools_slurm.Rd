@@ -51,7 +51,10 @@ and comprise:
 # Author: Henrik Bengtsson 
 ######################################################################
 
-<\% Slurm defaults
+
+#SBATCH --job-name=<\%= job.name \%>
+#SBATCH --output=<\%= log.file \%>
+<\%
 defaults <- list(
   nodes = 1,         # single-host processing
   time = "00:05:00", # 5-min runtime
@@ -60,12 +63,8 @@ defaults <- list(
 resources <- c(resources, defaults[setdiff(names(defaults), names(resources))])
 opts <- unlist(resources, use.names = TRUE)
 opts <- sprintf("--\%s=\%s", names(opts), opts)
-opts <- paste(opts, collapse = " ") \%>
+cat(sprintf("#SBATCH \%s\\n", opts))
 \%>
-
-#SBATCH --job-name=<\%= job.name \%>
-#SBATCH --output=<\%= log.file \%>
-#SBATCH <\%= opts \%>
 
 echo "Batchtools job name: '<\%= job.name \%>'"
 
