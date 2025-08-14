@@ -34,7 +34,7 @@ An alternative to the batchtools multicore backend is to use
 \code{plan(future::multicore)}.
 }
 \examples{
-plan(batchtools_multicore, workers = 2)
+plan(future.batchtools::batchtools_multicore, workers = 2)
 
 message("Main process ID: ", Sys.getpid())
 

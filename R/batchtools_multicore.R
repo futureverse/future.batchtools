@@ -88,7 +88,7 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 #' `plan(future::multicore)`.
 #'
 #' @examples
-#' plan(batchtools_multicore, workers = 2)
+#' plan(future.batchtools::batchtools_multicore, workers = 2)
 #'
 #' message("Main process ID: ", Sys.getpid())
 #'

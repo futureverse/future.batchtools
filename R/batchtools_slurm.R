@@ -36,7 +36,7 @@ BatchtoolsSlurmFutureBackend <- function(...) {
 #'
 #' @examplesIf interactive()
 #' # Limit runtime to 3 minutes and memory to 200 MiB per future
-#' plan(batchtools_slurm, resources = list(time = "00:03:00", mem = "200M"))
+#' plan(future.batchtools::batchtools_slurm, resources = list(time = "00:03:00", mem = "200M"))
 #'
 #' message("Main process ID: ", Sys.getpid())
 #'

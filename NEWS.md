@@ -55,8 +55,8 @@
 
 ## Bug Fixes
 
- * `plan(batchtools_multicore)` did not support `workers` argument
-   being a function.
+ * `plan(future.batchtools::batchtools_multicore)` did not support
+   `workers` argument being a function.
 
 
 # Version 0.12.0 [2023-02-24]
@@ -93,12 +93,12 @@
 
  * It is now possible to tweak arguments used by an underlying
    `batchtools::makeClusterFunctionsNnn()` function for some of the
-   `batchtools_nnn` backends, e.g. `plan(batchtools_slurm,
-   scheduler.latency = 60)`.
+   `batchtools_nnn` backends, e.g.
+   `plan(future.batchtools::batchtools_slurm, scheduler.latency = 60)`.
  
- * `plan(batchtools_multicore, workers = I(1))` overrides the fallback
-   to `batchtools_local` and forces a single `batchtools_multicore`
-   worker.
+ * `plan(future.batchtools::batchtools_multicore, workers = I(1))`
+   overrides the fallback to `batchtools_local` and forces a single
+   `batchtools_multicore` worker.
  
  * `print()` for BatchtoolsFuture now reports on the batchtools
    configuration file (an R script) and the the batchtools job template
@@ -142,8 +142,9 @@
 
 ## Bug Fixes
 
- * Using `plan(batchtools_nnn, finalize = FALSE)` would give a warning
-   on `Detected 1 unknown future arguments: 'finalize'`.
+ * Using `plan(future.batchtools::batchtools_nnn, finalize = FALSE)`
+   would give a warning on `Detected 1 unknown future arguments:
+   'finalize'`.
 
  * Template files in `system.file(package = "future.batchtools",
    "templates")` were not found.
@@ -198,34 +199,36 @@
    `future.batchtools.workers` or environment variable
    `R_FUTURE_BATCHTOOLS_WORKERS`.
 
- * It is now possible to configure the **batchtools** registries that are
-   used by batchtools futures via new argument `registry` to `plan()`.
-   This argument should be a named list of parameters recognized by
-   the **batchtools** package, e.g. `plan(batchtools_sge, registry =
+ * It is now possible to configure the **batchtools** registries that
+   are used by batchtools futures via new argument `registry` to
+   `plan()`.  This argument should be a named list of parameters
+   recognized by the **batchtools** package,
+   e.g. `plan(future.batchtools::batchtools_sge, registry =
    list(...))`.  For notable example, see below news entries.
 
  * The default working directory for batchtools futures is the current
    working directory of R _when_ the batchtools future is created.
-   This corresponds to specifying `plan(batchtools_nnn, registry =
-   list(work.dir = NULL)`.  Sometimes it is useful to use a explicit
-   working directory that is guaranteed to be available on all workers
-   on a shared file system, e.g. `plan(batchtools_nnn, registry =
+   This corresponds to specifying
+   `plan(future.batchtools::batchtools_nnn, registry = list(work.dir =
+   NULL)`.  Sometimes it is useful to use a explicit working directory
+   that is guaranteed to be available on all workers on a shared file
+   system, e.g. `plan(future.batchtools::batchtools_nnn, registry =
    list(work.dir = "~"))`.
 
  * It is possible to control if and how **batchtools** should use file
    compression for exported globals and results by specifying
-   **batchtools** registry parameter `compress`.  For example, to turn off
-   file compression, use `plan(batchtools_nnn, registry =
-   list(compress = FALSE))`.
+   **batchtools** registry parameter `compress`.  For example, to turn
+   off file compression, use `plan(future.batchtools::batchtools_nnn,
+   registry = list(compress = FALSE))`.
 
  * The default location of the `.future` folder can be controlled by R
    option `future.cache.path` or environment variable
    `R_FUTURE_CACHE_PATH`.
 
  * `batchtools_custom()` and BatchtoolsFuture gained argument
-   `conf.file`. Using `plan(batchtools_custom)` will now use any
-   **batchtools** configuration file (an R script) found on the
-   `batchtools::findConfFile()` search path.
+   `conf.file`. Using `plan(future.batchtools::batchtools_custom)`
+   will now use any **batchtools** configuration file (an R script)
+   found on the `batchtools::findConfFile()` search path.
 
 
 ## Documentation
@@ -322,10 +325,11 @@
 
  * Argument `workers` of future strategies may now also be a function,
    which is called without argument when the future strategy is set up
-   and used as-is.  For instance, `plan(callr, workers = halfCores)`
-   where `halfCores <- function() { max(1, round(availableCores() /
-   2)) }` will use half of the number of available cores.  This is
-   useful when using nested future strategies with remote machines.
+   and used as-is.  For instance, `plan(future.callr::callr, workers =
+   halfCores)` where `halfCores <- function() { max(1,
+   round(availableCores() / 2)) }` will use half of the number of
+   available cores.  This is useful when using nested future
+   strategies with remote machines.
 
 
 ## Code Refactoring
@@ -395,9 +399,9 @@
 
 ## Bug Fixes
 
- * Under `plan(batchtools_*)`, when being created futures would
-   produce an error on `all(is.finite(workers)) is not TRUE` due to an
-   outdated sanity check.
+ * Under `plan(future.batchtools::batchtools_nnn)`, when being created
+   futures would produce an error on `all(is.finite(workers)) is not
+   TRUE` due to an outdated sanity check.
 
 
 ## Software Quality
@@ -424,8 +428,8 @@
    decide how many futures should be used to best partition the
    elements, this means that `future_lapply()` will always use one
    future per element.  Because of this, it is now possible to specify
-   `plan(batchtools_*, workers = n)` where `n` is the target number of
-   workers.
+   `plan(future.batchtools::batchtools_nnn, workers = n)` where `n` is
+   the target number of workers.
 
 
 # Version 0.2.0 [2017-02-23]

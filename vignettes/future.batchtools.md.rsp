@@ -178,13 +178,13 @@ period) the user's home directory, then it will be automatically
 located by the **batchtools** framework and loaded when doing:
 
 ```r
-plan(batchtools_slurm)
+plan(future.batchtools::batchtools_slurm)
 ```
 
 It is also possible to specify the template file explicitly, e.g.
 
 ```r
-plan(batchtools_slurm, template = "/path/to/batchtools.slurm.tmpl")
+plan(future.batchtools::batchtools_slurm, template = "/path/to/batchtools.slurm.tmpl")
 ```
 
 
@@ -194,7 +194,7 @@ example, to request that each job would get alloted 12 cores (one a
 single machine) and up to 5 GiB of memory, use:
 
 ```r
-plan(batchtools_slurm, resources = list(ntasks = 12, mem = "5G"))
+plan(future.batchtools::batchtools_slurm, resources = list(ntasks = 12, mem = "5G"))
 ```
 
 To specify the `resources` argument at the same time as using nested
@@ -203,7 +203,7 @@ arguments.  For instance,
 
 ```r
 plan(list(
-  tweak(batchtools_slurm, resources = list(ntasks = 12, mem = "5G")),
+  tweak(future.batchtools::batchtools_slurm, resources = list(ntasks = 12, mem = "5G")),
   multisession
 ))
 ```

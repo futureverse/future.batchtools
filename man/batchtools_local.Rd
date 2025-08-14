@@ -29,7 +29,7 @@ An alternative to the batchtools interactive backend is to use
 \code{plan(future::cluster, workers = I(1))}.
 }
 \examples{
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 message("Main process ID: ", Sys.getpid())
 

@@ -30,7 +30,7 @@ An alternative to the batchtools interactive backend is to use
 sequentially and that also can be debugged interactively.
 }
 \examples{
-plan(batchtools_interactive)
+plan(future.batchtools::batchtools_interactive)
 
 message("Main process ID: ", Sys.getpid())
 

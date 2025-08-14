@@ -107,7 +107,7 @@ exit "$\{res\}"
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Limit runtime to 3 minutes and memory to 200 MiB per future
-plan(batchtools_sge, resources = list(h_rt = "00:03:00", mem_free = "200M"))
+plan(future.batchtools::batchtools_sge, resources = list(h_rt = "00:03:00", mem_free = "200M"))
 
 message("Main process ID: ", Sys.getpid())
 
