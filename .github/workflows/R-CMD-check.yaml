@@ -24,10 +24,11 @@ jobs:
 #          - {os: macOS-latest,   r: 'oldrel'   }
           - {os: ubuntu-latest,  r: 'devel'    }
           - {os: ubuntu-latest,  r: 'release'  }
+          - {os: ubuntu-latest,  r: 'release', future_version: develop }
           - {os: ubuntu-latest,  r: 'oldrel'   }
           - {os: ubuntu-latest,  r: 'oldrel-1' }
           - {os: ubuntu-latest,  r: 'oldrel-2' }
-#          - {os: ubuntu-latest,  r: '3.6'      }
+          - {os: ubuntu-latest,  r: '4.0'      }
           - {os: ubuntu-latest,  r: 'release'  , language: ko,    label: ko    }
  
     env:
