@@ -88,17 +88,30 @@ and comprise:
   ## plan(batchtools_sge, resources = list(mem_free = "1G", h_rt="00:20:00"))
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("-l \%s=\%s", names(opts), opts)
-  cat(sprintf("#$ \%s\\n", opts))
+  writeLines(sprintf("#$ \%s", opts))
 \} \%>
 
-echo "Batchtools job name: '<\%= job.name \%>'"
+echo "Batchtools information:"
+echo "- job name: '<\%= job.name \%>'"
+echo "- job log file: '<\%= log.file \%>'"
+echo
 
 echo "Session information:"
-date
-hostname
-which Rscript
-Rscript --version
-Rscript -e ".libPaths()"
+echo "- timestamp: $(date)"
+echo "- hostname: $(hostname)"
+echo "- Rscript path: $(which Rscript)"
+echo "- Rscript version: $(Rscript --version)"
+echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo
+
+echo "Job submission declarations:"
+<\%
+writeLines(sprintf("echo '#$ \%s'", opts))
+\%>
+
+echo "Job information:"
+qstat -j "$\{JOB_ID\}"
+echo
 
 ## Launch R and evaluate the batchtools R job
 echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ..."

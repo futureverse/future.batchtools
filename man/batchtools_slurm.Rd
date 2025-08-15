@@ -68,17 +68,30 @@ defaults <- list(
 resources <- c(resources, defaults[setdiff(names(defaults), names(resources))])
 opts <- unlist(resources, use.names = TRUE)
 opts <- sprintf("--\%s=\%s", names(opts), opts)
-cat(sprintf("#SBATCH \%s\\n", opts))
+writeLines(sprintf("#SBATCH \%s", opts))
 \%>
 
-echo "Batchtools job name: '<\%= job.name \%>'"
+echo "Batchtools information:"
+echo "- job name: '<\%= job.name \%>'"
+echo "- job log file: '<\%= log.file \%>'"
+echo
 
 echo "Session information:"
-date
-hostname
-which Rscript
-Rscript --version
-Rscript -e ".libPaths()"
+echo "- timestamp: $(date)"
+echo "- hostname: $(hostname)"
+echo "- Rscript path: $(which Rscript)"
+echo "- Rscript version: $(Rscript --version)"
+echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo
+
+echo "Job submission declarations:"
+<\%
+writeLines(sprintf("echo '#SBATCH \%s'", opts))
+\%>
+
+echo "Slurm job information:"
+scontrol show job "$\{SLURM_JOB_ID\}"
+echo
 
 ## Launch R and evaluate the batchtools R job
 echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ..."
