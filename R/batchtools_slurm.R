@@ -34,6 +34,11 @@ BatchtoolsSlurmFutureBackend <- function(...) {
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/slurm.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
+#' This template and the built-in [batchtools::makeClusterFunctionsSlurm()]
+#' have been verified to work with Slurm v21.08.4 running on a Rocky 8 Linux
+#' cluster.
+#'
+#'
 #' @examplesIf interactive()
 #' library(future)
 #'

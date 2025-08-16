@@ -33,6 +33,11 @@ BatchtoolsSGEFutureBackend <- function(...) {
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/sge.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
+#' This template and the built-in [batchtools::makeClusterFunctionsSGE()]
+#' have been verified to work with SGE 8.1.9 (Son of Grid Engine) running on
+#' a Rocky 8 Linux cluster.
+#'
+#'
 #' @examplesIf interactive()
 #' library(future)
 #'

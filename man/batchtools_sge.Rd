@@ -126,6 +126,10 @@ qstat -j "$\{JOB_ID\}"
 ## Relay the exit code from Rscript
 exit "$\{res\}"
 }\if{html}{\out{</div>}}
+
+This template and the built-in \code{\link[batchtools:makeClusterFunctionsSGE]{batchtools::makeClusterFunctionsSGE()}}
+have been verified to work with SGE 8.1.9 (Son of Grid Engine) running on
+a Rocky 8 Linux cluster.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
