@@ -149,7 +149,6 @@ The batchtools SSH backend only works on operating systems
 supporting the \code{ssh} and \code{ps} command-line tool, e.g. Linux and macOS.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(future)
 
 ## Create custom cluster functions (here same as "local")
@@ -166,6 +165,6 @@ message("Main process ID: ", Sys.getpid())
 f <- future(Sys.getpid())
 pid <- value(f)
 message("Worker process ID: ", pid)
-\dontshow{\}) # examplesIf}
+
 }
 \keyword{internal}

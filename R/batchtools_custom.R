@@ -6,7 +6,7 @@
 #'
 #' @return An object of class `BatchtoolsFuture`.
 #'
-#' @examplesIf interactive()
+#' @examples
 #' library(future)
 #'
 #' ## Create custom cluster functions (here same as "local")

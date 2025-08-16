@@ -94,6 +94,7 @@ timeout <\%= runtime \%> Rscript -e 'batchtools::doJobCollection("<\%= uri \%>",
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(future)
+
 # Limit runtime to 30 seconds per future
 plan(batchtools_bash, resources = list(runtime = 30))
 

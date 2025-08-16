@@ -37,6 +37,7 @@ BatchtoolsInteractiveFutureBackend <- function(fs.latency = 0.0, ...) {
 #' sequentially and that also can be debugged interactively.
 #'
 #' @examples
+#' library(future)
 #' plan(future.batchtools::batchtools_interactive)
 #'
 #' message("Main process ID: ", Sys.getpid())

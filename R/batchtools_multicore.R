@@ -87,7 +87,7 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 #' An alternative to the batchtools multicore backend is to use
 #' `plan(future::multicore)`.
 #'
-#' @examples
+#' @examplesIf interactive()
 #' library(future)
 #' plan(future.batchtools::batchtools_multicore, workers = 2)
 #'

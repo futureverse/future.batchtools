@@ -34,6 +34,7 @@ An alternative to the batchtools multicore backend is to use
 \code{plan(future::multicore)}.
 }
 \examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(future)
 plan(future.batchtools::batchtools_multicore, workers = 2)
 
@@ -42,5 +43,5 @@ message("Main process ID: ", Sys.getpid())
 f <- future(Sys.getpid())
 pid <- value(f)
 message("Worker process ID: ", pid)
-
+\dontshow{\}) # examplesIf}
 }
