@@ -7,8 +7,7 @@
 \usage{
 batchtools_bash(
   ...,
-  cluster.functions = makeClusterFunctionsBash(template = "bash", fs.latency =
-    fs.latency),
+  cluster.functions = makeClusterFunctionsBash(template = "bash", fs.latency = 0),
   fs.latency = 0,
   template = "bash",
   registry = list(),
