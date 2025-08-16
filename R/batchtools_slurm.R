@@ -36,7 +36,7 @@ BatchtoolsSlurmFutureBackend <- function(...) {
 #'
 #' This template and the built-in [batchtools::makeClusterFunctionsSlurm()]
 #' have been verified to work with Slurm v21.08.4 running on a Rocky 8 Linux
-#' cluster.
+#' cluster with an NFS global filesystem.
 #'
 #'
 #' @examplesIf interactive()

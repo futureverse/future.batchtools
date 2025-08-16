@@ -109,7 +109,7 @@ exit "$\{res\}"
 
 This template and the built-in \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}
 have been verified to work with Slurm v21.08.4 running on a Rocky 8 Linux
-cluster.
+cluster with an NFS global filesystem.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

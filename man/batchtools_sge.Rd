@@ -129,7 +129,7 @@ exit "$\{res\}"
 
 This template and the built-in \code{\link[batchtools:makeClusterFunctionsSGE]{batchtools::makeClusterFunctionsSGE()}}
 have been verified to work with SGE 8.1.9 (Son of Grid Engine) running on
-a Rocky 8 Linux cluster.
+a Rocky 8 Linux cluster with a BeeGFS global filesystem.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

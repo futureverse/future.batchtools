@@ -35,7 +35,7 @@ BatchtoolsSGEFutureBackend <- function(...) {
 #'
 #' This template and the built-in [batchtools::makeClusterFunctionsSGE()]
 #' have been verified to work with SGE 8.1.9 (Son of Grid Engine) running on
-#' a Rocky 8 Linux cluster.
+#' a Rocky 8 Linux cluster with a BeeGFS global filesystem.
 #'
 #'
 #' @examplesIf interactive()
