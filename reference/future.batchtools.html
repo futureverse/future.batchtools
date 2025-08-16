@@ -21,7 +21,7 @@ The Future API is defined by the future package."><!-- Global site tag (gtag.js)
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9938</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9939</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,171 +107,11 @@ select the type of future you wish to use via
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.batchtools.futureverse.org">future.batchtools</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Use local batchtools futures</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">batchtools_local</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## A global variable</span></span></span>
-<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">v</span> <span class="op"><a href="https://future.futureverse.org/reference/futureAssign.html" class="external-link">%&lt;-%</a></span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">b</span> <span class="op">&lt;-</span> <span class="fl">3</span></span></span>
-<span class="r-in"><span>  <span class="va">c</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
-<span class="r-in"><span>  <span class="va">a</span> <span class="op">*</span> <span class="va">b</span> <span class="op">*</span> <span class="va">c</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
-<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="batchtools_local.html">batchtools_local</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html" class="external-link">demo</a></span><span class="op">(</span><span class="st">"mandelbrot"</span>, package <span class="op">=</span> <span class="st">"future"</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	demo(mandelbrot)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	---- ~~~~~~~~~~</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; library(future)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; library(graphics)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; plot_what_is_done &lt;- function(counts) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   for (kk in seq_along(counts)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     f &lt;- counts[[kk]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     ## Already plotted?</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     if (!inherits(f, "Future")) next</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     ## Not resolved?</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     if (!resolved(f)) next</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     message(sprintf("Plotting tile #%d of %d ...", kk, n))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     counts[[kk]] &lt;- value(f)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     screen(kk)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     plot(counts[[kk]])</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   counts</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; ## Options</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; region &lt;- getOption("future.demo.mandelbrot.region", 1L)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; if (!is.list(region)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   if (region == 1L) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     region &lt;- list(xmid = -0.75, ymid = 0.0, side = 3.0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   } else if (region == 2L) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     region &lt;- list(xmid = 0.283, ymid = -0.0095, side = 0.00026)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   } else if (region == 3L) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     region &lt;- list(xmid = 0.282989, ymid = -0.01, side = 3e-8)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; nrow &lt;- getOption("future.demo.mandelbrot.nrow", 3L)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; resolution &lt;- getOption("future.demo.mandelbrot.resolution", 400L)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; delay &lt;- getOption("future.demo.mandelbrot.delay", interactive())</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; if (isTRUE(delay)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   delay &lt;- function(counts) Sys.sleep(1.0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + } else if (!is.function(delay)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   delay &lt;- function(counts) {}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; ## Generate Mandelbrot tiles to be computed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; Cs &lt;- mandelbrot_tiles(xmid = region$xmid, ymid = region$ymid,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +                        side = region$side, nrow = nrow,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +                        resolution = resolution)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; if (interactive()) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   dev.new()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   plot.new()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   split.screen(dim(Cs))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   for (ii in seq_along(Cs)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     screen(ii)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     par(mar = c(0, 0, 0, 0))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     text(x = 1 / 2, y = 1 / 2, sprintf("Future #%d\nunresolved", ii), cex = 2)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + } else {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   split.screen(dim(Cs))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5 6 7 8 9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; ## Create all Mandelbrot tiles via lazy futures</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; n &lt;- length(Cs)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; message(sprintf("Creating %d Mandelbrot tiles:", n), appendLF = FALSE)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating 9 Mandelbrot tiles:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; counts &lt;- lapply(seq_along(Cs), FUN=function(ii) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   message(" ", ii, appendLF = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   C &lt;- Cs[[ii]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   future({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     message(sprintf("Calculating tile #%d of %d ...", ii, n), appendLF = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     fit &lt;- mandelbrot(C)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     ## Emulate slowness</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     delay(fit)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     message(" done")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +     fit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   }, lazy = TRUE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + })</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  2</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  4</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  5</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  6</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  7</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  8</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; message(".")</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; ## Calculate and plot tiles</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; repeat {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   counts &lt;- plot_what_is_done(counts)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> +   if (!any(sapply(counts, FUN = inherits, "Future"))) break</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + }</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #1 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #1 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #2 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #2 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #3 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #3 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #4 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #4 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #5 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #5 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #6 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #6 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #7 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #7 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #8 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #8 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Plotting tile #9 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating tile #9 of 9 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  done</span>
-<span class="r-plt img"><img src="future.batchtools-1.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; close.screen()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5 6 7 8 9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &gt; message("SUGGESTION: Try to rerun this demo after changing strategy for how futures are resolved, e.g. plan(multisession).\n")</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> SUGGESTION: Try to rerun this demo after changing strategy for how futures are resolved, e.g. plan(multisession).</span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

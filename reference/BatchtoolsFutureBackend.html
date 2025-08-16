@@ -47,7 +47,7 @@ SSH batchtools futures."><!-- Global site tag (gtag.js) - Google Analytics --><s
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9938</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9939</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -255,174 +255,24 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/traceback.html" class="external-link">traceback</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Create custom cluster functions (here same as "local")</span></span></span>
 <span class="r-in"><span><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu">batchtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsInteractive.html" class="external-link">makeClusterFunctionsInteractive</a></span><span class="op">(</span>external <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ClusterFunctions for mode: Interactive</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   List queued Jobs : FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   List running Jobs: FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Kill Jobs        : FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Hooks            : -</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ name                : chr "Interactive"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ submitJob           :function (reg, jc)  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ killJob             : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ listJobsQueued      : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ listJobsRunning     : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ array.var           : chr NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ store.job.collection: logi TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ store.job.files     : logi FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ scheduler.latency   : num 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ fs.latency          : num 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ hooks               : list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "class")= chr "ClusterFunctions"</span>
-<span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">batchtools_custom</span>, cluster.functions <span class="op">=</span> <span class="va">cf</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use custom batchtools backend</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va">batchtools_custom</span>, cluster.functions <span class="op">=</span> <span class="va">cf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools_custom:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - args: function (..., cluster.functions = list(name = "Interactive", submitJob = function (reg, jc) { assertRegistry(reg, writeable = TRUE) assertClass(jc, "JobCollection") if (external) { runOSCommand(Rscript(), sprintf("-e \"batchtools::doJobCollection('%s', output = '%s')\"", jc$uri, jc$log.file)) } else { doJobCollection(jc, output = jc$log.file) } makeSubmitJobResult(status = 0L, batch.id = "cfInteractive") }, killJob = NULL, listJobsQueued = NULL, listJobsRunning = NULL, array.var = NA_character_, store.job.collection = TRUE, store.job.files = FALSE, scheduler.latency = 0, fs.latency = 0, hooks = list()), workers = "&lt;NULL&gt;")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - tweaked: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - call: plan(batchtools_custom, cluster.functions = cf)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BatchtoolsCustomFutureBackend:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: dd86f93532a5b88f85df6f67ba0d8216</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of workers: 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of free workers: 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Available cores: 8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Automatic garbage collection: FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Early signaling: FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Interrupts are enabled: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maximum total size of globals: +Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maximum total size of value: +Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of active futures: 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of futures since start: 0 (0 created, 0 launched, 0 finished)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total runtime of futures: 0 secs (NaN secs/finished future)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools configuration file: &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions: ‘Interactive’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions template: &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools resources:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/RtmpRLfene/future.batchtools/docs/reference/.future/20250815_173234-luseeO’ (0 folders)</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://future.futureverse.org/reference/nbrOfWorkers.html" class="external-link">nbrOfWorkers</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Create explicit future</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"PID:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fl">42L</span></span></span>
-<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BatchtoolsCustomFuture:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Label: &lt;unnamed-1&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Expression:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     cat("PID:", Sys.getpid(), "\n")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     42L</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Globals: &lt;none&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Packages: &lt;none&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> L'Ecuyer-CMRG RNG seed: &lt;none&gt; (seed = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Capture standard output: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Capture condition classes: ‘condition’ (excluding ‘&lt;none&gt;’)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Immediate condition classes: ‘immediateCondition’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lazy evaluation: FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Local evaluation: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Asynchronous evaluation: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Early signaling: FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Environment: 0x6111c1fdfaf0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> State: ‘running’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Resolved: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Unique identifier: 26d5607cd5053b32ef53343f3bd9dd55-1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Owner process: 26d5607cd5053b32ef53343f3bd9dd55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Class: ‘BatchtoolsCustomFuture’, ‘BatchtoolsFuture’, ‘Future’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Value: &lt;not collected&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Conditions captured: &lt;none&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools configuration file: &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions: ‘Interactive’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions template: &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools status: ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools Registry:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   File dir exists: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Work dir exists: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Job Registry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Backend  : Interactive</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   File dir : /tmp/hb/RtmpRLfene/future.batchtools/docs/reference/.future/20250815_173234-luseeO/batchtools_1731679938</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Work dir : /tmp/hb/RtmpRLfene/future.batchtools/docs/reference</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Jobs     : 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Seed     : 17406</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Writeable: TRUE</span>
-<span class="r-in"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID: 2317721 </span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Main process ID: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>error <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Create explicit future</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"PID:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fl">42L</span></span></span>
-<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BatchtoolsCustomFuture:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Label: &lt;unnamed-2&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Expression:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     cat("PID:", Sys.getpid(), "\n")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     42L</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Globals: &lt;none&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Packages: &lt;none&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> L'Ecuyer-CMRG RNG seed: &lt;none&gt; (seed = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Capture standard output: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Capture condition classes: ‘condition’ (excluding ‘&lt;none&gt;’)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Immediate condition classes: ‘immediateCondition’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lazy evaluation: FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Local evaluation: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Asynchronous evaluation: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Early signaling: FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Environment: 0x6111c1fdfaf0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> State: ‘running’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Resolved: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Unique identifier: 26d5607cd5053b32ef53343f3bd9dd55-2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Owner process: 26d5607cd5053b32ef53343f3bd9dd55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Class: ‘BatchtoolsCustomFuture’, ‘BatchtoolsFuture’, ‘Future’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Value: &lt;not collected&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Conditions captured: &lt;none&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools configuration file: &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions: ‘Interactive’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions template: &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools status: ‘defined’, ‘finished’, ‘started’, ‘submitted’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> batchtools Registry:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   File dir exists: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Work dir exists: TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Job Registry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Backend  : Interactive</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   File dir : /tmp/hb/RtmpRLfene/future.batchtools/docs/reference/.future/20250815_173234-luseeO/batchtools_1277385558</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Work dir : /tmp/hb/RtmpRLfene/future.batchtools/docs/reference</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Jobs     : 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Seed     : 15654</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Writeable: TRUE</span>
-<span class="r-in"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID: 2317746 </span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Create explicit future</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"PID:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fl">42L</span></span></span>
-<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PID: 2317786 </span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 42</span>
+<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Worker process ID: "</span>, <span class="va">pid</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
