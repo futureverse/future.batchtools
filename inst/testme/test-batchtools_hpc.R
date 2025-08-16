@@ -1,3 +1,4 @@
+library(future)
 library(future.batchtools)
 
 ## Setup all strategies including custom once for testing on HPC environments

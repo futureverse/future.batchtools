@@ -1,4 +1,3 @@
-
 message("*** plan() ...")
 
 message("*** future::plan(future.batchtools::batchtools_local)")
@@ -7,8 +6,8 @@ print(future::plan())
 future::plan(oplan)
 print(future::plan())
 
-
-library("future.batchtools")
+library(future)
+library(future.batchtools)
 
 for (type in c("batchtools_interactive", "batchtools_local")) {
   mprintf("*** plan('%s') ...\n", type)

@@ -1,6 +1,6 @@
-library(future.batchtools)
+library(future)
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 oopts <- c(oopts, options(
   future.globals.resolve = TRUE,

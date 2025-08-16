@@ -1,4 +1,4 @@
-library(future.batchtools)
+library(future)
 library(listenv)
 
 message("*** batchtools_multicore() ...")
@@ -14,7 +14,7 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
     mprintf("batchtools multicore futures are not supporting on '%s'. Falling back to use synchroneous batchtools local futures\n", .Platform$OS.type) #nolint
   }
 
-  plan(batchtools_multicore, workers = cores)
+  plan(future.batchtools::batchtools_multicore, workers = cores)
   
   for (globals in c(FALSE, TRUE)) {
     mprintf("*** batchtools_multicore(..., globals = %s) without globals\n",
@@ -78,7 +78,7 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
   if (cores > 1) {
     message("*** batchtools_multicore(..., workers = 1L) ...")
 
-    plan(batchtools_multicore, workers = 1L)
+    plan(future.batchtools::batchtools_multicore, workers = 1L)
     
     a <- 2
     b <- 3
@@ -99,7 +99,7 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
 
 
 mprintf("*** batchtools_multicore() and errors\n")
-plan(batchtools_multicore)
+plan(future.batchtools::batchtools_multicore)
 
 f <- future({
   stop("Whoops!")

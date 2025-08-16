@@ -1,10 +1,9 @@
 if (.Platform[["OS.type"]] != "windows") {
-  library(future.batchtools)
-  library(listenv)
+  library(future)
   
   message("*** batchtools_ssh() ...")
   
-  plan(batchtools_ssh, workers = 2L)
+  plan(future.batchtools::batchtools_ssh, workers = 2L)
   supports_ssh <- tryCatch({
     f <- future(42L)
     v <- value(f)

@@ -1,3 +1,4 @@
+library(future)
 library(future.batchtools)
 
 if (requireNamespace("future.apply", quietly = TRUE)) {

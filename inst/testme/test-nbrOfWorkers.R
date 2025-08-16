@@ -1,11 +1,10 @@
-library(future.batchtools)
-library(listenv)
+library(future)
 
 message("*** nbrOfWorkers() ...")
 
 message("*** nbrOfWorkers() - local, interactive ...")
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 n <- nbrOfWorkers()
 message("Number of workers: ", n)
 stopifnot(n == 1L)
@@ -18,7 +17,7 @@ n <- nbrOfFreeWorkers(background = TRUE)
 message("Number of free background workers: ", n)
 stopifnot(n == 0L)
 
-plan(batchtools_interactive)
+plan(future.batchtools::batchtools_interactive)
 n <- nbrOfWorkers()
 message("Number of workers: ", n)
 stopifnot(n == 1L)
@@ -38,7 +37,7 @@ ncores <- availableCores("multicore")
 if (ncores >= 2L) {
 message("*** nbrOfWorkers() - multicore ...")
 
-n <- plan(batchtools_multicore)
+n <- plan(future.batchtools::batchtools_multicore)
 
 n <- nbrOfWorkers()
 message("Number of workers: ", n)
@@ -52,7 +51,7 @@ n <- nbrOfFreeWorkers(background = TRUE)
 message("Number of free background workers: ", n)
 stopifnot(n == ncores)
 
-plan(batchtools_multicore, workers = 2L)
+plan(future.batchtools::batchtools_multicore, workers = 2L)
 n <- nbrOfWorkers()
 message("Number of workers: ", n)
 stopifnot(n == 2L)
@@ -66,7 +65,7 @@ message("Number of free background workers: ", n)
 stopifnot(n == 2L)
 
 workers <- min(2L, ncores)
-plan(batchtools_multicore, workers = workers)
+plan(future.batchtools::batchtools_multicore, workers = workers)
 n <- nbrOfWorkers()
 message("Number of workers: ", n)
 stopifnot(n == workers)
@@ -80,7 +79,7 @@ cf <- batchtools::makeClusterFunctionsInteractive(external = TRUE)
 str(cf)
 
 ## FIXME: Make it possible to *not* set 'workers'
-plan(batchtools_custom, workers = 1L, cluster.functions = cf)
+plan(future.batchtools::batchtools_custom, workers = 1L, cluster.functions = cf)
 n <- nbrOfWorkers()
 message("Number of workers: ", n)
 stopifnot(n == 1L)

@@ -1,8 +1,9 @@
-library(future.batchtools)
+library(future)
+`%resources%` <- future.batchtools::`%resources%`
 
 message("*** %resources% ...")
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 ## This will test `%resources%` but it'll be ignored (with a warning)
 ## by batchtools_local()

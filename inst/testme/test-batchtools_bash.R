@@ -2,7 +2,6 @@
 #' @tags batchtools_bash
 
 library(future)
-library(listenv)
 
 message("*** batchtools_bash() ...")
 

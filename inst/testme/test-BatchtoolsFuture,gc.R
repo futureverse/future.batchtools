@@ -1,8 +1,8 @@
-library(future.batchtools)
+library(future)
 
 message("*** BatchtoolsFuture() and garbage collection ...")
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 for (how in c("resolve", "value")) {
   f <- future({ 1 })

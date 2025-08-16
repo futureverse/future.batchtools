@@ -1,8 +1,8 @@
-library(future.batchtools)
+library(future)
 
 message("*** BatchtoolsFutureError() ...")
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 for (cleanup in c(FALSE, TRUE)) {
   mprintf("*** batchtools future error w/ future.delete = %s ...\n", cleanup)
@@ -54,7 +54,7 @@ for (cleanup in c(FALSE, TRUE)) {
 
 
 message("*** BatchtoolsFuture - expired ...")
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 msg <- "Abruptly terminating the future!"
 f <- future({
   cat(file = stderr(), msg)
@@ -74,7 +74,7 @@ message("*** BatchtoolsFuture - expired ... done")
 if (fullTest) {
   message("*** BatchtoolsFuture - deleting running ...")
 
-  plan(batchtools_multicore)
+  plan(future.batchtools::batchtools_multicore)
 
   f <- future({
     Sys.sleep(2)

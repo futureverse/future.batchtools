@@ -1,7 +1,7 @@
-library(future.batchtools)
+library(future)
 library(listenv)
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 message("*** Tricky use cases related to globals ...")
 

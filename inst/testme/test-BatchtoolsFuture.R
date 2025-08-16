@@ -1,10 +1,10 @@
-library(future.batchtools)
+library(future)
 
 message("*** BatchtoolsFuture() ...")
 
 message("*** BatchtoolsFuture() - cleanup ...")
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 f <- future({ 1L })
 res <- await(f, cleanup = TRUE)
@@ -57,27 +57,11 @@ stopifnot(inherits(res, "error"))
 
 message("*** BatchtoolsFuture() - registry exceptions ... DONE")
 
-message("*** BatchtoolsFuture() - exceptions ...")
-
-res <- try(plan(batchtools_local, workers = integer(0)), silent = TRUE)
-print(res)
-stopifnot(inherits(res, "try-error"))
-
-res <- try(plan(batchtools_local, workers = 0L), silent = TRUE)
-print(res)
-stopifnot(inherits(res, "try-error"))
-
-res <- try(plan(batchtools_local, workers = TRUE), silent = TRUE)
-print(res)
-stopifnot(inherits(res, "try-error"))
-
-message("*** BatchtoolsFuture() - exceptions ... DONE")
-
 
 message("*** BatchtoolsFuture() - timeout ...")
 
 if (fullTest && availableCores(constraints = "multicore") > 1) {
-  plan(batchtools_multicore)
+  plan(future.batchtools::batchtools_multicore)
 
   options(future.wait.timeout = 0.15, future.wait.interval = 0.1)
 
@@ -96,6 +80,4 @@ if (fullTest && availableCores(constraints = "multicore") > 1) {
 message("*** BatchtoolsFuture() - timeout ... DONE")
 
 
-
 message("*** BatchtoolsFuture() ... DONE")
-

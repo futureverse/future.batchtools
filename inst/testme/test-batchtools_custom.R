@@ -1,4 +1,4 @@
-library(future.batchtools)
+library(future)
 library(batchtools)
 library(listenv)
 
@@ -6,7 +6,7 @@ message("*** batchtools_custom() ...")
 
 message("*** batchtools_custom() w/ 'conf.file' on R_BATCHTOOLS_SEARCH_PATH")
 
-plan(batchtools_custom)
+plan(future.batchtools::batchtools_custom)
 
 f <- future({
   42L
@@ -22,7 +22,7 @@ message("*** batchtools_custom() w/ 'cluster.functions' without globals")
 
 cf <- makeClusterFunctionsInteractive(external = TRUE)
 str(cf)
-plan(batchtools_custom, cluster.functions = cf)
+plan(future.batchtools::batchtools_custom, cluster.functions = cf)
 
 f <- future({
   42L

@@ -1,4 +1,4 @@
-library(future.batchtools)
+library(future)
 
 message("*** Standard output ...")
 
@@ -13,7 +13,7 @@ truth <- paste0(paste(truth_rows, collapse = "\n"), "\n")
 print(truth)
 
 message("batchtools_local ...")
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 for (stdout in c(TRUE, FALSE, NA)) {
   message(sprintf("- stdout = %s", stdout))

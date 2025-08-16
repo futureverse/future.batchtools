@@ -1,9 +1,9 @@
-library(future.batchtools)
+library(future)
 
 library(datasets) ## cars data set
 library(stats)    ## lm(), poly(), xtabs()
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 message("*** Globals - formulas ...")
 

@@ -1,11 +1,11 @@
-library(future.batchtools)
+library(future)
 library(listenv)
 
 message("*** batchtools_local() ...")
 
 message("*** batchtools_local() without globals")
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 f <- future({
   42L

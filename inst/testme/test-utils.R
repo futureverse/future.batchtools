@@ -1,4 +1,4 @@
-library(future.batchtools)
+library(future)
 
 message("*** Utility functions ...")
 

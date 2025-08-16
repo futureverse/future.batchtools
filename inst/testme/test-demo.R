@@ -1,6 +1,6 @@
-library(future.batchtools)
+library(future)
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 options(future.demo.mandelbrot.nrow = 2L)
 options(future.demo.mandelbrot.resolution = 50L)

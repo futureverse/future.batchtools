@@ -1,10 +1,10 @@
-library(future.batchtools)
+library(future)
 
 options(future.debug = FALSE)
 
 message("*** RNG ...")
 
-plan(batchtools_local)
+plan(future.batchtools::batchtools_local)
 
 message("- run() does not update RNG state")
 
