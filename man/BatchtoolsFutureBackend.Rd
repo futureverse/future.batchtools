@@ -149,46 +149,23 @@ The batchtools SSH backend only works on operating systems
 supporting the \code{ssh} and \code{ps} command-line tool, e.g. Linux and macOS.
 }
 \examples{
-options(error = function(...) {
-  print(traceback())
-})
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(future)
 
+## Create custom cluster functions (here same as "local")
 cf <- batchtools::makeClusterFunctionsInteractive(external = TRUE)
 print(cf)
 str(cf)
-plan(batchtools_custom, cluster.functions = cf)
+
+# Use custom batchtools backend
+plan(future.batchtools::batchtools_custom, cluster.functions = cf)
 print(plan())
-print(nbrOfWorkers())
 
-## Create explicit future
-f <- future({
-  cat("PID:", Sys.getpid(), "\n")
-  42L
-})
-print(f)
-v <- value(f)
-print(v)
+message("Main process ID: ", Sys.getpid())
 
-options(error = NULL)
-
-
-## Create explicit future
-f <- future({
-  cat("PID:", Sys.getpid(), "\n")
-  42L
-})
-print(f)
-v <- value(f)
-print(v)
-
-
-
-## Create explicit future
-f <- future({
-  cat("PID:", Sys.getpid(), "\n")
-  42L
-})
-v <- value(f)
-print(v)
+f <- future(Sys.getpid())
+pid <- value(f)
+message("Worker process ID: ", pid)
+\dontshow{\}) # examplesIf}
 }
 \keyword{internal}

@@ -35,14 +35,14 @@ BatchtoolsSlurmFutureBackend <- function(...) {
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/slurm.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
 #' @examplesIf interactive()
+#' library(future)
+#'
 #' # Limit runtime to 3 minutes and memory to 200 MiB per future
 #' plan(future.batchtools::batchtools_slurm, resources = list(time = "00:03:00", mem = "200M"))
 #'
-#' message("Main process ID: ", Sys.getpid())
-#'
-#' f <- future(Sys.getpid())
-#' pid <- value(f)
-#' message("Worker process ID: ", pid)
+#' f <- future(Sys.info())
+#' info <- value(f)
+#' print(info)
 #'
 #' @references
 #' * <https://en.wikipedia.org/wiki/Slurm_Workload_Manager>

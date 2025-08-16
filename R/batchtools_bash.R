@@ -55,6 +55,7 @@ BatchtoolsBashFutureBackend <- function(...,
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/bash.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
 #' @examplesIf interactive()
+#' library(future)
 #' # Limit runtime to 30 seconds per future
 #' plan(batchtools_bash, resources = list(runtime = 30))
 #'

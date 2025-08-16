@@ -69,6 +69,7 @@ BatchtoolsLocalFutureBackend <- function(fs.latency = 0.0, ...) {
 #' `plan(future::cluster, workers = I(1))`.
 #'
 #' @examples
+#' library(future)
 #' plan(future.batchtools::batchtools_local)
 #'
 #' message("Main process ID: ", Sys.getpid())

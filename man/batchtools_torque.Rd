@@ -113,14 +113,14 @@ exit "$\{res\}"
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(future)
+
 # Limit runtime to 3 minutes and memory to 200 MiB per future
 plan(future.batchtools::batchtools_torque, resources = list(walltime = "00:03:00", mem = "200mb"))
 
-message("Main process ID: ", Sys.getpid())
-
-f <- future(Sys.getpid())
-pid <- value(f)
-message("Worker process ID: ", pid)
+f <- future(Sys.info())
+info <- value(f)
+print(info)
 \dontshow{\}) # examplesIf}
 }
 \references{

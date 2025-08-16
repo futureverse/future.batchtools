@@ -6,7 +6,23 @@
 #'
 #' @return An object of class `BatchtoolsFuture`.
 #'
-#' @example incl/batchtools_custom.R
+#' @examplesIf interactive()
+#' library(future)
+#'
+#' ## Create custom cluster functions (here same as "local")
+#' cf <- batchtools::makeClusterFunctionsInteractive(external = TRUE)
+#' print(cf)
+#' str(cf)
+#'
+#' # Use custom batchtools backend
+#' plan(future.batchtools::batchtools_custom, cluster.functions = cf)
+#' print(plan())
+#'
+#' message("Main process ID: ", Sys.getpid())
+#'
+#' f <- future(Sys.getpid())
+#' pid <- value(f)
+#' message("Worker process ID: ", pid)
 #'
 #' @rdname BatchtoolsFutureBackend
 #' @keywords internal
