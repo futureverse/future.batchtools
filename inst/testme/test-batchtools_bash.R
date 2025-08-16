@@ -1,5 +1,4 @@
 #' @tags skip_on_cran
-#' @tags batchtools_bash
 
 library(future)
 

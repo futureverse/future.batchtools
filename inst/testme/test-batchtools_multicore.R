@@ -1,3 +1,5 @@
+#' @tags skip_on_cran
+
 library(future)
 library(listenv)
 
