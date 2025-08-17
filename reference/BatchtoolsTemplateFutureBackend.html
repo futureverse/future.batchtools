@@ -17,7 +17,7 @@ cluster via a job scheduler."><!-- Global site tag (gtag.js) - Google Analytics 
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9944</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9945</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,8 +121,10 @@ Usually safe to set to <code>0</code> to disable the heuristic, e.g. if you are 
 
 
 <dt id="arg-workers">workers<a class="anchor" aria-label="anchor" href="#arg-workers"></a></dt>
-<dd><p>The number of multicore processes to be
-available for concurrent batchtools multicore futures.</p></dd>
+<dd><p>The maximum number of workers the batchtools backend may
+use at any time, which for HPC schedulers corresponds to the maximum number
+of queued jobs. The default is
+<code>getOption("<a href="zzz-future.batchtools.options.html">future.batchtools.workers</a>", 100)</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
