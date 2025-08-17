@@ -47,10 +47,15 @@
 #' @importFrom batchtools makeClusterFunctionsSlurm
 #' @importFrom batchtools makeClusterFunctionsTORQUE
 #' @export
-BatchtoolsTemplateFutureBackend <- function(type = c("lsf", "openlava", "sge", "slurm", "torque"), scheduler.latency = 1.0, fs.latency = 65.0, template = NULL, workers = getOption("future.batchtools.workers", default = 100L), ...) {
+BatchtoolsTemplateFutureBackend <- function(type, scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), template = NULL, makeClusterFunctions = NULL, workers = getOption("future.batchtools.workers", default = 100L), ...) {
   assert_no_positional_args_but_first()
-  type <- match.arg(type)
-
+  stop_if_not(
+    is.character(type),
+    length(type) == 1,
+    !is.na(type),
+    nzchar(type)
+  )
+  
   if (is.function(workers)) workers <- workers()
   stop_if_not(
     is.numeric(workers),
@@ -67,9 +72,15 @@ BatchtoolsTemplateFutureBackend <- function(type = c("lsf", "openlava", "sge", "
     openlava = makeClusterFunctionsOpenLava,
     sge      = makeClusterFunctionsSGE,
     slurm    = makeClusterFunctionsSlurm,
-    torque   = makeClusterFunctionsTORQUE
+    torque   = makeClusterFunctionsTORQUE,
+               makeClusterFunctions 
   )
-
+  if (is.null(make_cfs)) {
+    stop("Argument 'makeClusterFunctions' is not specified")
+  } else if (!is.function(make_cfs)) {
+    stop("Argument 'makeClusterFunctions' should be a function: ", mode(make_cfs))
+  }
+  
   make_cfs_formals <- formals(make_cfs)
   
   ## Get the default template?

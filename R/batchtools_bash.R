@@ -1,14 +1,10 @@
 #' @inheritParams BatchtoolsTemplateFutureBackend
 #' @inheritParams batchtools::makeClusterFunctions
 #'
-#' @rdname BatchtoolsFutureBackend
 #' @keywords internal
 #'
 #' @export
-BatchtoolsBashFutureBackend <- function(...,
-    cluster.functions = makeClusterFunctionsBash(template = template, fs.latency = fs.latency),
-    fs.latency = 0.0,
-    template = "bash") {
+BatchtoolsBashFutureBackend <- function(..., template = "bash", fs.latency = 0.0) {
   assert_no_positional_args_but_first()
 
   args <- list(...)
@@ -16,10 +12,12 @@ BatchtoolsBashFutureBackend <- function(...,
     stop("Unknown argument 'workers'")
   }
   
-  core <- BatchtoolsUniprocessFutureBackend(
+  core <- BatchtoolsTemplateFutureBackend(
     ...,
-    cluster.functions = cluster.functions,
-    template = template
+    template = template,
+    workers = 1L,
+    type = "bash",
+    makeClusterFunctions = makeClusterFunctionsBash
   )
 
   core[["futureClasses"]] <- c("BatchtoolsBashFuture", core[["futureClasses"]])
@@ -34,9 +32,7 @@ BatchtoolsBashFutureBackend <- function(...,
 #' custom \pkg{future.batchtools} backend that uses a templated job script.
 #' Please see the source code, for details.
 #'
-#' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsTemplateFutureBackend
-#' @inheritParams BatchtoolsBashFutureBackend
 #'
 #' @param template (optional) Name of job-script template to be searched
 #' for by [batchtools::findTemplateFile()]. If not found, it defaults to
@@ -72,15 +68,7 @@ BatchtoolsBashFutureBackend <- function(...,
 #' message("Worker process ID: ", pid)
 #' 
 #' @export
-batchtools_bash <- function(
-  ...,
-  cluster.functions = makeClusterFunctionsBash(template = "bash", fs.latency = 0.0),
-  fs.latency = 0.0,
-  template = "bash",
-  registry = list(),
-  conf.file = findConfFile(),
-  resources = list(),
-  finalize = getOption("future.finalize", TRUE)) {
+batchtools_bash <- function(..., template = "bash", fs.latency = 0.0, resources = list()) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_bash() must never be called directly")
 }
 class(batchtools_bash) <- c(
@@ -105,7 +93,7 @@ attr(batchtools_bash, "factory") <- BatchtoolsBashFutureBackend
 #' @importFrom batchtools cfReadBrewTemplate cfBrewTemplate makeClusterFunctions makeSubmitJobResult
 #' @importFrom utils file_test
 #' @export
-makeClusterFunctionsBash <- function(template = "bash", fs.latency = 0.0) {
+makeClusterFunctionsBash <- function(template = "bash", fs.latency = 0.0, ...) {
   bin <- Sys.which("bash")
   stop_if_not(file_test("-f", bin), file_test("-x", bin))
   

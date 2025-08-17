@@ -10,10 +10,12 @@
 \title{Batchtools futures for LSF, OpenLava, SGE, Slurm, TORQUE etc.}
 \usage{
 BatchtoolsTemplateFutureBackend(
-  type = c("lsf", "openlava", "sge", "slurm", "torque"),
+  type,
   scheduler.latency = 1,
   fs.latency = 65,
+  resources = list(),
   template = NULL,
+  makeClusterFunctions = NULL,
   workers = getOption("future.batchtools.workers", default = 100L),
   ...
 )
@@ -30,6 +32,10 @@ Expected maximum latency of the file system, in seconds.
 Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
 access files and directories.
 Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
+
+\item{resources}{(optional) A named list passed to the \pkg{batchtools}
+job-script template as variable \code{resources}.  See Section 'Resources'
+in \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} more details.}
 
 \item{template}{(optional) A batchtools template file or a template string
 (in \pkg{brew} format).  If not specified, it is left to the

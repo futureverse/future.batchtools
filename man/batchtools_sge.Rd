@@ -28,6 +28,10 @@ Set to a positive number for network file systems like NFS which enables more ro
 access files and directories.
 Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
 
+\item{resources}{(optional) A named list passed to the \pkg{batchtools}
+job-script template as variable \code{resources}.  See Section 'Resources'
+in \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} more details.}
+
 \item{workers}{The maximum number of workers the batchtools backend may
 use at any time, which for HPC schedulers corresponds to the maximum number
 of queued jobs. The default is
