@@ -68,7 +68,7 @@ and comprise:
 #SBATCH --output=<\%= log.file \%>
 
 ## Resources needed:
-<\% if (length(resources) > 0) \{
+<\%
   ## As-is resource specifications
   if ("asis" \%in\% names(resources)) \{
     lines <- resources[["asis"]]
@@ -82,7 +82,7 @@ and comprise:
   opts <- sprintf("--\%s=\%s", names(opts), opts)
   lines <- sprintf("#SBATCH \%s", c(lines, opts))
   writeLines(lines)
-\} \%>
+\%>
 
 echo "Batchtools information:"
 echo "- job name: '<\%= job.name \%>'"

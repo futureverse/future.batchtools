@@ -72,7 +72,7 @@ and comprise:
 #PBS -j oe
 
 ## Resources needed:
-<\% if (length(resources) > 0) \{
+<\%
   ## As-is resource specifications
   if ("asis" \%in\% names(resources)) \{
     lines <- resources[["asis"]]
@@ -86,7 +86,7 @@ and comprise:
   opts <- sprintf("-l \%s=\%s", names(opts), opts)
   lines <- sprintf("#PBS \%s", c(lines, opts))
   writeLines(lines)
-\} \%>
+\%>
 
 echo "Batchtools information:"
 echo "- job name: '<\%= job.name \%>'"
