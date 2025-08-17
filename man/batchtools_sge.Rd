@@ -80,18 +80,14 @@ and comprise:
 ## Resources needed:
 <\%
   ## As-is resource specifications
-  if ("asis" \%in\% names(resources)) \{
-    lines <- resources[["asis"]]
-    resources <- resources[names(resources) != "asis"]
-  \} else \{
-    lines <- character(0)
-  \}
+  job_declarations <- resources[["asis"]]
+  resources[["asis"]] <- NULL
      
   ## Remaining resources are assumed to be of type '-l <key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("-l \%s=\%s", names(opts), opts)
-  lines <- sprintf("#$ \%s", c(lines, opts))
-  writeLines(lines)
+  job_declarations <- sprintf("#$ \%s", c(job_declarations, opts))
+  writeLines(job_declarations)
 \%>
 
 echo "Batchtools information:"
@@ -109,7 +105,7 @@ echo
 
 echo "Job submission declarations:"
 <\%
-  writeLines(sprintf("echo '\%s'", lines))
+  writeLines(sprintf("echo '\%s'", job_declarations))
 \%>
 
 echo "Job information:"

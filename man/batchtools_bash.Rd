@@ -56,13 +56,12 @@ and comprise:
 
 ## Maximum runtime?
 <\%
-## The default maximum runtime is one hours
-runtime <- resources[["runtime"]]
-if (is.null(runtime)) runtime <- 3600
+runtime <- resources[["timeout"]]
+timeout <- if (is.null(runtime)) "" else sprintf("timeout \%s", runtime)
 \%>
 
 # Launch R and evaluate the batchtools R job
-timeout <\%= runtime \%> Rscript -e 'batchtools::doJobCollection("<\%= uri \%>", output = "<\%= log.file \%>")'
+<\%= timeout \%> Rscript -e 'batchtools::doJobCollection("<\%= uri \%>", output = "<\%= log.file \%>")'
 }\if{html}{\out{</div>}}
 }
 \examples{
