@@ -110,19 +110,11 @@ access files and directories.
 Usually safe to set to <code>0</code> to disable the heuristic, e.g. if you are working on a local file system.</p></dd>
 
 
-<dt id="arg-resources">resources<a class="anchor" aria-label="anchor" href="#arg-resources"></a></dt>
-<dd><p>(optional) A named list passed to the <span class="pkg">batchtools</span>
-job-script template as variable <code>resources</code>.  See Section 'Resources'
-in <code><a href="https://rdrr.io/pkg/batchtools/man/submitJobs.html" class="external-link">batchtools::submitJobs()</a></code> more details.</p></dd>
-
-
 <dt id="arg-workers">workers<a class="anchor" aria-label="anchor" href="#arg-workers"></a></dt>
-<dd><p>(optional) The maximum number of workers the batchtools
-backend may use at any time.   Interactive and "local" backends can only
-process one future at the time (<code>workers = 1</code>), whereas HPC backends,
-where futures are resolved via separate jobs on a scheduler, can have
-multiple workers. In the latter, the default is <code>workers = NULL</code>, which
-will resolve to <code>getOption("<a href="zzz-future.batchtools.options.html">future.batchtools.workers</a>", 100)</code>.</p></dd>
+<dd><p>The maximum number of workers the batchtools backend may
+use at any time, which for HPC schedulers corresponds to the maximum number
+of queued jobs. The default is
+<code>getOption("<a href="zzz-future.batchtools.options.html">future.batchtools.workers</a>", 100)</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
