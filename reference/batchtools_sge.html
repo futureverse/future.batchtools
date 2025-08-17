@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9949</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9950</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -221,11 +221,12 @@ a Rocky 8 Linux cluster with a BeeGFS global filesystem.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Limit runtime to 3 minutes and memory to 200 MiB per future,</span></span></span>
-<span class="r-in"><span><span class="co"># request two slots and run in the current working directory.</span></span></span>
+<span class="r-in"><span><span class="co"># Limit runtime to 10 minutes and memory to 400 MiB per future,</span></span></span>
+<span class="r-in"><span><span class="co"># request a parallel environment with four slots on a single host.</span></span></span>
+<span class="r-in"><span><span class="co"># Submit to the 'freecycle' queue.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va">batchtools_sge</span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  h_rt <span class="op">=</span> <span class="st">"00:03:00"</span>, mem_free <span class="op">=</span> <span class="st">"200M"</span>,</span></span>
-<span class="r-in"><span>  asis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-pe smp 2"</span>, <span class="st">"-cwd"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  h_rt <span class="op">=</span> <span class="st">"00:10:00"</span>, mem_free <span class="op">=</span> <span class="st">"100M"</span>,  <span class="co">## memory is per process</span></span></span>
+<span class="r-in"><span>  asis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-pe smp 4"</span>, <span class="st">"-q freecycle.q"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
