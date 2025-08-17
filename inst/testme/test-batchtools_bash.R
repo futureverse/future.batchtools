@@ -5,7 +5,7 @@ library(future)
 message("*** batchtools_bash() ...")
 
 bin <- Sys.which("bash")
-if (utils::file_test("-f", bin)) {
+if (utils::file_test("-f", bin) && fullTest) {
   plan(future.batchtools::batchtools_bash, resources = list(runtime = 10))
   print(plan())
   
