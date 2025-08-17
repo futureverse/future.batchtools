@@ -84,8 +84,12 @@
 
 
 <dl><dt id="arg-workers">workers<a class="anchor" aria-label="anchor" href="#arg-workers"></a></dt>
-<dd><p>The number of multicore processes to be
-available for concurrent batchtools multicore futures.</p></dd>
+<dd><p>(optional) The maximum number of workers the batchtools
+backend may use at any time.   Interactive and "local" backends can only
+process one future at the time (<code>workers = 1</code>), whereas HPC backends,
+where futures are resolved via separate jobs on a scheduler, can have
+multiple workers. In the latter, the default is <code>workers = NULL</code>, which
+will resolve to <code>getOption("<a href="zzz-future.batchtools.options.html">future.batchtools.workers</a>", 100)</code>.</p></dd>
 
 
 <dt id="arg-fs-latency">fs.latency<a class="anchor" aria-label="anchor" href="#arg-fs-latency"></a></dt>
