@@ -96,7 +96,7 @@ timeout <\%= runtime \%> Rscript -e 'batchtools::doJobCollection("<\%= uri \%>",
 library(future)
 
 # Limit runtime to 30 seconds per future
-plan(batchtools_bash, resources = list(runtime = 30))
+plan(future.batchtools::batchtools_bash, resources = list(runtime = 30))
 
 message("Main process ID: ", Sys.getpid())
 
