@@ -66,18 +66,19 @@ and comprise:
 
 ## Resources needed:
 <\% if (length(resources) > 0) \{
-  prefix <- "#BSUB "
-    
   ## As-is resource specifications
   if ("asis" \%in\% names(resources)) \{
-    writeLines(sprintf("\%s\%s", prefix, resources[["asis"]]))
+    lines <- resources[["asis"]]
     resources <- resources[names(resources) != "asis"]
+  \} else \{
+    lines <- character(0)
   \}
      
   ## Remaining resources are assumed to be of type '-<key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("-\%s=\%s", names(opts), opts)
-  writeLines(sprintf("\%s\%s", prefix, opts))
+  lines <- sprintf("#BSUB \%s", c(lines, opts))
+  writeLines(lines)
 \} \%>
 
 echo "Batchtools information:"
@@ -95,7 +96,7 @@ echo
 
 echo "Job submission declarations:"
 <\%
-  writeLines(sprintf("echo '#BSUB \%s'", opts))
+  writeLines(sprintf("echo '\%s'", lines))
 \%>
 
 echo "Job information:"

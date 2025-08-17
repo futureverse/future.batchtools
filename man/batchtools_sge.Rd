@@ -78,21 +78,19 @@ and comprise:
 
 ## Resources needed:
 <\% if (length(resources) > 0) \{
-  prefix <- "#$ "
-    
-  ## As-is resource specifications, e.g.
-  ## sge_options <- c("-pe smp 2", "-R yes")
-  ## plan(batchtools_sge, resources = list(asis = sge_options))
+  ## As-is resource specifications
   if ("asis" \%in\% names(resources)) \{
-    writeLines(sprintf("\%s\%s", prefix, resources[["asis"]]))
+    lines <- resources[["asis"]]
     resources <- resources[names(resources) != "asis"]
+  \} else \{
+    lines <- character(0)
   \}
-
-  ## Remaining resources are assumed to be of type '-l <key>=<value>', e.g.
-  ## plan(batchtools_sge, resources = list(mem_free = "1G", h_rt="00:20:00"))
+     
+  ## Remaining resources are assumed to be of type '-l <key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("-l \%s=\%s", names(opts), opts)
-  writeLines(sprintf("\%s\%s", prefix, opts))
+  lines <- sprintf("#$ \%s", c(lines, opts))
+  writeLines(lines)
 \} \%>
 
 echo "Batchtools information:"
@@ -110,7 +108,7 @@ echo
 
 echo "Job submission declarations:"
 <\%
-writeLines(sprintf("echo '#$ \%s'", opts))
+  writeLines(sprintf("echo '\%s'", lines))
 \%>
 
 echo "Job information:"
@@ -139,8 +137,12 @@ a Rocky 8 Linux cluster with a BeeGFS global filesystem.
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(future)
 
-# Limit runtime to 3 minutes and memory to 200 MiB per future
-plan(future.batchtools::batchtools_sge, resources = list(h_rt = "00:03:00", mem_free = "200M"))
+# Limit runtime to 3 minutes and memory to 200 MiB per future,
+# request two slots and run in the current working directory.
+plan(future.batchtools::batchtools_sge, resources = list(
+  h_rt = "00:03:00", mem_free = "200M",
+  asis = c("-pe smp 2", "-cwd")
+))
 
 f <- future(Sys.info())
 info <- value(f)

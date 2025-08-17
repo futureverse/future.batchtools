@@ -40,8 +40,12 @@ BatchtoolsSGEFutureBackend <- function(...) {
 #' @examplesIf interactive()
 #' library(future)
 #'
-#' # Limit runtime to 3 minutes and memory to 200 MiB per future
-#' plan(future.batchtools::batchtools_sge, resources = list(h_rt = "00:03:00", mem_free = "200M"))
+#' # Limit runtime to 3 minutes and memory to 200 MiB per future,
+#' # request two slots and run in the current working directory.
+#' plan(future.batchtools::batchtools_sge, resources = list(
+#'   h_rt = "00:03:00", mem_free = "200M",
+#'   asis = c("-pe smp 2", "-cwd")
+#' ))
 #'
 #' f <- future(Sys.info())
 #' info <- value(f)
