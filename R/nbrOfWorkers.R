@@ -112,8 +112,7 @@ nbrOfFreeWorkers.BatchtoolsMultiprocessFutureBackend <- function(evaluator, back
   ## Special case: Infinite number of workers
   if (is.infinite(workers)) return(workers)
 
-  reg <- backend[["reg"]]
-  usedWorkers <- length(FutureRegistry(reg, action = "list"))
+  usedWorkers <- length(FutureRegistry(backend[["reg"]], action = "list"))
   
   workers <- workers - usedWorkers
   stop_if_not(length(workers) == 1L, !is.na(workers), workers >= 0L)

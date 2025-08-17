@@ -1066,8 +1066,7 @@ stopWorkers.BatchtoolsFutureBackend <- function(backend, ...) {
     on.exit(mdebugf_pop())
   }
   
-  reg <- backend[["reg"]]
-  futures <- FutureRegistry(reg, action = "list", earlySignal = FALSE)
+  futures <- FutureRegistry(backend[["reg"]], action = "list", earlySignal = FALSE)
   
   ## Nothing to do?
   if (length(futures) == 0L) return(backend)
@@ -1082,7 +1081,7 @@ stopWorkers.BatchtoolsFutureBackend <- function(backend, ...) {
   futures <- lapply(futures, FUN = cancel, interrupt = TRUE)
 
   ## Erase registry
-  futures <- FutureRegistry(reg, action = "reset")
+  futures <- FutureRegistry(backend[["reg"]], action = "reset")
 
   backend
 }

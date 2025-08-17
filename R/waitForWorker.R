@@ -34,15 +34,15 @@ unregisterFuture.BatchtoolsUniprocessFuture <- function(future, ...) NULL
 
 #' @export
 registerFuture.BatchtoolsFuture <- function(future, ...) {
-  freg <- sprintf("workers-%s", class(future)[1])
-  FutureRegistry(freg, action = "add", future = future, earlySignal = FALSE, ...)
+  backend <- future[["backend"]]
+  FutureRegistry(backend[["reg"]], action = "add", future = future, earlySignal = FALSE, ...)
 }
 
 
 #' @export
 unregisterFuture.BatchtoolsFuture <- function(future, ...) {
-  freg <- sprintf("workers-%s", class(future)[1])
-  FutureRegistry(freg, action = "remove", future = future, ...)
+  backend <- future[["backend"]]
+  try(FutureRegistry(backend[["reg"]], action = "remove", future = future, ...), silent = TRUE)
 }
 
 
@@ -73,16 +73,16 @@ waitForWorker.BatchtoolsFuture <- function(future,
   stop_if_not(length(timeout) == 1, is.finite(timeout), timeout >= 0)
   stop_if_not(length(alpha) == 1, is.finite(alpha), alpha > 0)
 
-  freg <- sprintf("workers-%s", class(future)[1])
+  backend <- future[["backend"]]
 
   ## Use a default await() function?
   if (is.null(await)) {
-    await <- function() FutureRegistry(freg, action = "collect-first")
+    await <- function() FutureRegistry(backend[["reg"]], action = "collect-first")
   }  
  
   ## Number of occupied workers
   usedWorkers <- function() {
-    length(FutureRegistry(freg, action = "list", earlySignal = FALSE))
+    length(FutureRegistry(backend[["reg"]], action = "list", earlySignal = FALSE))
   }
 
   t0 <- Sys.time()
