@@ -133,7 +133,7 @@ library(future)
 # Submit to the 'freecycle' partition.
 plan(future.batchtools::batchtools_slurm, resources = list(
   time = "00:10:00", mem = "400M",
-  asis = c("--nodes=1", "-ntasks=4", "--partition=freecycle")
+  asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle")
 ))
 
 f <- future(Sys.info())
