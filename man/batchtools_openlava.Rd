@@ -74,6 +74,10 @@ and comprise:
   job_declarations <- resources[["asis"]]
   resources[["asis"]] <- NULL
      
+  ## Environment modules specifications
+  modules <- resources[["modules"]]
+  resources[["modules"]] <- NULL
+     
   ## Remaining resources are assumed to be of type '-<key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("-\%s=\%s", names(opts), opts)
@@ -85,6 +89,11 @@ echo "Batchtools information:"
 echo "- job name: '<\%= job.name \%>'"
 echo "- job log file: '<\%= log.file \%>'"
 echo
+
+echo "Load environment modules:"
+<\%
+  writeLines(sprintf("module load \%s", modules))
+\%>
 
 echo "Session information:"
 echo "- timestamp: $(date)"

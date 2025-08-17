@@ -54,10 +54,19 @@ and comprise:
 # Author: Henrik Bengtsson 
 ######################################################################
 
-## Maximum runtime?
 <\%
-runtime <- resources[["timeout"]]
-timeout <- if (is.null(runtime)) "" else sprintf("timeout \%s", runtime)
+  ## Maximum runtime?
+  runtime <- resources[["timeout"]]
+  timeout <- if (is.null(runtime)) "" else sprintf("timeout \%s", runtime)
+  
+  ## Environment modules specifications
+  modules <- resources[["modules"]]
+  resources[["modules"]] <- NULL
+\%>
+
+echo "Load environment modules:"
+<\%
+  writeLines(sprintf("module load \%s", modules))
 \%>
 
 # Launch R and evaluate the batchtools R job

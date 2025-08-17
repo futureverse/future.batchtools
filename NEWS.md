@@ -19,8 +19,13 @@
 
  * Add built-in template job scripts for LSF and OpenLava.
 
- * Now all built-in template job scripts supports as-is resource
+ * Now all built-in template job scripts support "as-is" resource
    specifications via `resources[["asis"]]`.
+
+ * Now all built-in template job scripts support "environment module"
+   resource specifications via `resources[["modules"]]`. When
+   specified, corresponding `module load <name>` entries are injected
+   to the job script.
 
 ## Documentation
 
