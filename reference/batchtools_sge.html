@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9952</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9956</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,7 +159,7 @@ the current machine.</p>
 <span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#$ -cwd</span></span>
 <span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a></span>
 <span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="op">&lt;</span>%</span>
 <span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  <span class="co">## As-is resource specifications</span></span>
 <span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">(</span><span class="st">"asis"</span> %in% names<span class="er">(</span><span class="ex">resources</span><span class="kw">))</span> <span class="kw">{</span></span>
 <span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>    <span class="ex">lines</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"asis"</span><span class="pp">]</span>]</span>
@@ -173,7 +173,7 @@ the current machine.</p>
 <span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"-l %s=%s"</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">opts</span><span class="kw">)</span><span class="ex">,</span> opts<span class="kw">)</span></span>
 <span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>  <span class="ex">lines</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"#$ %s"</span><span class="ex">,</span> c<span class="er">(</span><span class="ex">lines,</span> opts<span class="kw">))</span></span>
 <span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">lines</span><span class="kw">)</span></span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a></span>
 <span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Batchtools information:"</span></span>
 <span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job name: '&lt;%= job.name %&gt;'"</span></span>

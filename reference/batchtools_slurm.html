@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9952</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9956</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -149,7 +149,7 @@ the current machine.</p>
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#SBATCH --output=&lt;%= log.file %&gt;</span></span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="op">&lt;</span>%</span>
 <span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="co">## As-is resource specifications</span></span>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">(</span><span class="st">"asis"</span> %in% names<span class="er">(</span><span class="ex">resources</span><span class="kw">))</span> <span class="kw">{</span></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>    <span class="ex">lines</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"asis"</span><span class="pp">]</span>]</span>
@@ -163,7 +163,7 @@ the current machine.</p>
 <span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"--%s=%s"</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">opts</span><span class="kw">)</span><span class="ex">,</span> opts<span class="kw">)</span></span>
 <span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  <span class="ex">lines</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"#SBATCH %s"</span><span class="ex">,</span> c<span class="er">(</span><span class="ex">lines,</span> opts<span class="kw">))</span></span>
 <span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">lines</span><span class="kw">)</span></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a></span>
 <span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Batchtools information:"</span></span>
 <span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job name: '&lt;%= job.name %&gt;'"</span></span>
@@ -219,7 +219,7 @@ cluster with an NFS global filesystem.</p>
 <span class="r-in"><span><span class="co"># Submit to the 'freecycle' partition.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va">batchtools_slurm</span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  time <span class="op">=</span> <span class="st">"00:10:00"</span>, mem <span class="op">=</span> <span class="st">"400M"</span>,</span></span>
-<span class="r-in"><span>  asis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--nodes=1"</span>, <span class="st">"-ntasks=4"</span>, <span class="st">"--partition=freecycle"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  asis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--nodes=1"</span>, <span class="st">"--ntasks=4"</span>, <span class="st">"--partition=freecycle"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
