@@ -145,7 +145,8 @@ f <- future({
   data.frame(
     hostname = Sys.info()[["nodename"]],
           os = Sys.info()[["sysname"]],
-       cores = unname(parallelly::availableCores())
+       cores = unname(parallelly::availableCores()),
+     modules = Sys.getenv("LOADEDMODULES")
   )
 })
 info <- value(f)

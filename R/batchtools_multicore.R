@@ -95,7 +95,8 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 #'     hostname = Sys.info()[["nodename"]],
 #'           os = Sys.info()[["sysname"]],
 #'        cores = unname(parallelly::availableCores()),
-#'          pid = Sys.getpid()
+#'          pid = Sys.getpid(),
+#'      modules = Sys.getenv("LOADEDMODULES")
 #'   )
 #' })
 #' info <- value(f)
