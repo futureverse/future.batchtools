@@ -17,7 +17,7 @@ Please see the source code, for details."><!-- Global site tag (gtag.js) - Googl
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9957</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9959</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,15 +135,23 @@ installed on the current machine and the <code>timeout</code> command is availab
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># Author: Henrik Bengtsson</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">######################################################################</span></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">## Maximum runtime?</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="op">&lt;</span>%</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">## The default maximum runtime is one hours</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="ex">runtime</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"runtime"</span><span class="pp">]</span>]</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="cf">if</span> <span class="kw">(</span><span class="ex">is.null</span><span class="er">(</span><span class="ex">runtime</span><span class="kw">))</span> <span class="ex">runtime</span> <span class="op">&lt;</span>- 3600</span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># Launch R and evaluate the batchtools R job</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="fu">timeout</span> <span class="op">&lt;</span>%= runtime %<span class="op">&gt;</span> Rscript <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;", output = "&lt;%= log.file %&gt;")'</span></span></code></pre><p></p></div>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="op">&lt;</span>%</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="co">## Maximum runtime?</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="ex">runtime</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"timeout"</span><span class="pp">]</span>]</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="fu">timeout</span> <span class="op">&lt;</span>- if <span class="er">(</span><span class="ex">is.null</span><span class="er">(</span><span class="ex">runtime</span><span class="kw">))</span> <span class="st">""</span> else sprintf<span class="er">(</span><span class="st">"timeout %s"</span><span class="ex">,</span> runtime<span class="kw">)</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="co">## Environment modules specifications</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="ex">modules</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"modules"</span><span class="pp">]</span>]</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"modules"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Load environment modules:"</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="op">&lt;</span>%</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"module load %s"</span><span class="ex">,</span> modules<span class="kw">))</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co"># Launch R and evaluate the batchtools R job</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="op">&lt;</span>%= <span class="fu">timeout</span> %<span class="op">&gt;</span> Rscript <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;", output = "&lt;%= log.file %&gt;")'</span></span></code></pre><p></p></div>
     </div>
 
     <div class="section level2">
