@@ -66,3 +66,4 @@ up using the following \pkg{batchtools} functions:
 \href{https://en.wikipedia.org/wiki/TORQUE}{TORQUE} / PBS
 }
 }
+\keyword{internal}

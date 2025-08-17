@@ -38,6 +38,8 @@
 #'    [TORQUE](https://en.wikipedia.org/wiki/TORQUE) / PBS
 #'
 #' @aliases BatchtoolsLsfFutureBackend BatchtoolsOpenLavaFutureBackend BatchtoolsSGEFutureBackend BatchtoolsSlurmFutureBackend BatchtoolsTorqueFutureBackend
+#' 
+#' @keywords internal
 #'     
 #' @importFrom batchtools makeClusterFunctionsLSF
 #' @importFrom batchtools makeClusterFunctionsOpenLava
