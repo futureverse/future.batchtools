@@ -5,13 +5,13 @@
 # Author: Henrik Bengtsson 
 ######################################################################
 
-## Job name:
+## Job name
 #BSUB -J <%= job.name %>
 
-## Direct streams to logfile:
+## Direct streams to logfile
 #BSUB -o <%= log.file %>
 
-## Resources needed:
+## Resources needed
 <% if (length(resources) > 0) {
   ## As-is resource specifications
   if ("asis" %in% names(resources)) {

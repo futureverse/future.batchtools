@@ -4,24 +4,21 @@
 #
 # Author: Henrik Bengtsson 
 ######################################################################
-## Shell:
-#$ -S /bin/bash         # Run this as a bash script (required)
+## Shell
+#$ -S /bin/bash
 
-## Job name:
+## Job name
 #$ -N <%= job.name %>
 
-## Direct streams to logfile:
+## Direct streams to logfile
 #$ -o <%= log.file %>
 
-## Merge standard error and output:
-#$ -j y
+## Merge standard error and output
+#PBS -j y
 
 ## Tell the queue system to use the current directory
 ## as the working directory
 #$ -cwd
-
-## Use environment variables
-#$ -V
 
 ## Resources needed:
 <% if (length(resources) > 0) {

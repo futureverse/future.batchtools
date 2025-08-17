@@ -58,17 +58,14 @@ and comprise:
 # Author: Henrik Bengtsson 
 ######################################################################
 
-## Job name:
+## Job name
 #PBS -N <\%= job.name \%>
 
-## Direct streams to logfile:
+## Direct streams to logfile
 #PBS -o <\%= log.file \%>
 
-## Merge standard error and output:
+## Merge standard error and output
 #PBS -j oe
-
-## Email on abort (a) and termination (e), but not when starting (b)
-#PBS -m ae
 
 ## Resources needed:
 <\% if (length(resources) > 0) \{

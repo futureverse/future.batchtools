@@ -58,8 +58,9 @@ and comprise:
 # Author: Henrik Bengtsson 
 ######################################################################
 
-
+## Job name
 #SBATCH --job-name=<\%= job.name \%>
+## Direct streams to logfile
 #SBATCH --output=<\%= log.file \%>
 
 ## Resources needed:
