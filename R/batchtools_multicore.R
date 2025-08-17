@@ -36,13 +36,12 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
   assert_no_positional_args_but_first()
 
   if (is.function(workers)) workers <- workers()
-  if (is.null(workers)) {
-    workers <- getOption("future.batchtools.workers", default = 100L)
-  }
   stop_if_not(
     is.numeric(workers),
     length(workers) == 1,
-    !is.na(workers), workers >= 1
+    !is.na(workers),
+    is.finite(workers),
+    workers >= 1
   )
 
   ## Fall back to batchtools_local if multicore processing is not supported

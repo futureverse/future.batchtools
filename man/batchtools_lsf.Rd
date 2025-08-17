@@ -9,7 +9,8 @@ batchtools_lsf(
   template = "lsf",
   scheduler.latency = 1,
   fs.latency = 65,
-  resources = list()
+  resources = list(),
+  workers = getOption("future.batchtools.workers", default = 100L)
 )
 }
 \arguments{
@@ -30,6 +31,9 @@ Usually safe to set to \code{0} to disable the heuristic, e.g. if you are workin
 \item{resources}{(optional) A named list passed to the \pkg{batchtools}
 job-script template as variable \code{resources}.  See Section 'Resources'
 in \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} more details.}
+
+\item{workers}{The number of multicore processes to be
+available for concurrent batchtools multicore futures.}
 
 \item{\ldots}{Not used.}
 }

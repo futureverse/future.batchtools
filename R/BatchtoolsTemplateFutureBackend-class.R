@@ -40,10 +40,18 @@
 #' @importFrom batchtools makeClusterFunctionsSlurm
 #' @importFrom batchtools makeClusterFunctionsTORQUE
 #' @export
-BatchtoolsTemplateFutureBackend <- function(type = c("lsf", "openlava", "sge", "slurm", "torque"), scheduler.latency = 1.0, fs.latency = 65.0, template = NULL, ...) {
+BatchtoolsTemplateFutureBackend <- function(type = c("lsf", "openlava", "sge", "slurm", "torque"), scheduler.latency = 1.0, fs.latency = 65.0, template = NULL, workers = getOption("future.batchtools.workers", default = 100L), ...) {
   assert_no_positional_args_but_first()
   type <- match.arg(type)
 
+  if (is.function(workers)) workers <- workers()
+  stop_if_not(
+    is.numeric(workers),
+    length(workers) == 1L,
+    !is.na(workers),
+    is.finite(workers),
+    workers >= 1
+  )
 
   dotdotdot <- list(...)
 
@@ -77,6 +85,7 @@ BatchtoolsTemplateFutureBackend <- function(type = c("lsf", "openlava", "sge", "
 
   args <- dotdotdot
   args[["cluster.functions"]] <- cluster.functions
+  args[["workers"]] <- workers
   
   core <- do.call(BatchtoolsMultiprocessFutureBackend, args = args)
   

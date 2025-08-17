@@ -11,7 +11,12 @@ BatchtoolsBashFutureBackend <- function(...,
     template = "bash") {
   assert_no_positional_args_but_first()
 
-  core <- BatchtoolsMultiprocessFutureBackend(
+  args <- list(...)
+  if ("workers" %in% names(args)) {
+    stop("Unknown argument 'workers'")
+  }
+  
+  core <- BatchtoolsUniprocessFutureBackend(
     ...,
     cluster.functions = cluster.functions,
     template = template
@@ -112,7 +117,7 @@ makeClusterFunctionsBash <- function(template = "bash", fs.latency = 0.0) {
     stop_if_not(inherits(jc, "JobCollection"))
 
     script <- cfBrewTemplate(reg, text = template_text, jc = jc)
-    output <- system2(bin, args = c(script), stdout = TRUE, stderr = TRUE)
+    output <- system2(bin, args = c(script), stdout = TRUE, stderr = TRUE, wait = TRUE)
     debug <- isTRUE(getOption("future.debug"))
     if (debug) {
       mdebug_push("makeClusterFunctionsBash() ...")

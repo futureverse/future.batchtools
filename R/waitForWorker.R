@@ -61,9 +61,15 @@ waitForWorker.BatchtoolsFuture <- function(future,
     on.exit(mdebug_pop())
   }
 
+  if (is.numeric(workers)) {
+    stop_if_not(length(workers) == 1, !is.na(workers), is.finite(workers), workers >= 1L)
+  } else if (is.character(workers)) {
+    workers <- length(workers)
+  } else {
+    stop("Unsupported type of 'workers': ", mode(workers))
+  }
+
   stop_if_not(is.null(await) || is.function(await))
-  workers <- as.integer(workers)
-  stop_if_not(length(workers) == 1, is.finite(workers), workers >= 1L)
   stop_if_not(length(timeout) == 1, is.finite(timeout), timeout >= 0)
   stop_if_not(length(alpha) == 1, is.finite(alpha), alpha > 0)
 

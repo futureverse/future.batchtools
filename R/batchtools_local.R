@@ -38,6 +38,11 @@
 BatchtoolsLocalFutureBackend <- function(fs.latency = 0.0, ...) {
   assert_no_positional_args_but_first()
 
+  args <- list(...)
+  if ("workers" %in% names(args)) {
+    stop("Unknown argument 'workers'")
+  }
+
   core <- BatchtoolsUniprocessFutureBackend(
     cluster.functions = makeClusterFunctionsInteractive(fs.latency = fs.latency, external = TRUE),
     ...

@@ -4,12 +4,10 @@
 #'
 #' @param workers (optional) The maximum number of workers the batchtools
 #' backend may use at any time.   Interactive and "local" backends can only
-#' process one future at the time (`workers = 1L`), whereas HPC backends,
+#' process one future at the time (`workers = 1`), whereas HPC backends,
 #' where futures are resolved via separate jobs on a scheduler, can have
-#' multiple workers.  In the latter, the default is `workers = NULL`, which
-#' will resolve to
-#' \code{getOption("\link{future.batchtools.workers}")}.
-#' If neither are specified, then the default is `100`.
+#' multiple workers. In the latter, the default is `workers = NULL`, which
+#' will resolve to \code{getOption("\link{future.batchtools.workers}", 100)}.
 #'
 #' @param finalize If TRUE, a future's \pkg{batchtools}
 #' \link[batchtools:makeRegistry]{Registry} is automatically deleted when
@@ -42,7 +40,7 @@
 #' @keywords internal
 #' @export
 BatchtoolsFutureBackend <- function(
-                             workers = NULL, resources = list(),
+                             workers = 1L, resources = list(),
                              finalize = getOption("future.finalize", TRUE),
                              cluster.functions = NULL,
                              registry = list(),
@@ -52,23 +50,12 @@ BatchtoolsFutureBackend <- function(
   assert_no_positional_args_but_first()
 
   if (is.function(workers)) workers <- workers()
-  if (is.null(workers)) {
-    workers <- getOption("future.batchtools.workers", default = 100)
-    stop_if_not(
-      is.numeric(workers),
-      length(workers) == 1L,
-      !is.na(workers), workers >= 1
-    )
+  if (is.numeric(workers)) {
+    stop_if_not(length(workers) == 1L, !is.na(workers), workers >= 1)
+  } else if (is.character(workers)) {
+    stop_if_not(length(workers) >= 1L, !anyNA(workers), all(nzchar(workers)))
   } else {
-    stop_if_not(length(workers) >= 1L)
-    if (is.numeric(workers)) {
-      stop_if_not(length(workers) == 1L, !is.na(workers), workers >= 1)
-    } else if (is.character(workers)) {
-      stop_if_not(length(workers) >= 0L, !anyNA(workers))
-    } else {
-      stop("Argument 'workers' should be either a numeric or a function: ",
-           mode(workers))
-    }
+    stop("Argument 'workers' should be either a numeric, a character vector, or a function: ", mode(workers))
   }
 
   if (!is.null(cluster.functions)) {

@@ -16,7 +16,7 @@
 \title{A batchtools future is a future whose value will be resolved via batchtools}
 \usage{
 BatchtoolsFutureBackend(
-  workers = NULL,
+  workers = 1L,
   resources = list(),
   finalize = getOption("future.finalize", TRUE),
   cluster.functions = NULL,

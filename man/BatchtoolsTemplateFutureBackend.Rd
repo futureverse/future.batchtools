@@ -14,6 +14,7 @@ BatchtoolsTemplateFutureBackend(
   scheduler.latency = 1,
   fs.latency = 65,
   template = NULL,
+  workers = getOption("future.batchtools.workers", default = 100L),
   ...
 )
 }
@@ -33,6 +34,9 @@ Usually safe to set to \code{0} to disable the heuristic, e.g. if you are workin
 \item{template}{(optional) A batchtools template file or a template string
 (in \pkg{brew} format).  If not specified, it is left to the
 \pkg{batchtools} package to locate such file using its search rules.}
+
+\item{workers}{The number of multicore processes to be
+available for concurrent batchtools multicore futures.}
 
 \item{\ldots}{Additional arguments passed to \code{\link[=BatchtoolsFutureBackend]{BatchtoolsFutureBackend()}}.}
 }

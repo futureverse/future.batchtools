@@ -52,7 +52,7 @@ BatchtoolsSGEFutureBackend <- function(...) {
 #' * <https://en.wikipedia.org/wiki/Oracle_Grid_Engine>
 #'
 #' @export
-batchtools_sge <- function(..., template = "sge", scheduler.latency = 1.0, fs.latency = 65.0, resources = list()) {
+batchtools_sge <- function(..., template = "sge", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), workers = getOption("future.batchtools.workers", default = 100L)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_sge() must never be called directly")
 }
 class(batchtools_sge) <- c(

@@ -3,7 +3,7 @@ if (.Platform[["OS.type"]] != "windows") {
   
   message("*** batchtools_ssh() ...")
   
-  plan(future.batchtools::batchtools_ssh, workers = 2L)
+  plan(future.batchtools::batchtools_ssh, workers = rep("localhost", times = 2))
   supports_ssh <- tryCatch({
     f <- future(42L)
     v <- value(f)
@@ -27,6 +27,8 @@ if (.Platform[["OS.type"]] != "windows") {
     v <- value(f)
     stopifnot(identical(v, a0))
   } ## if (supports_ssh)
+
+  plan(sequential)
   
   message("*** batchtools_ssh() ... DONE")
 }

@@ -29,13 +29,11 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), fs.latency 
   assert_no_positional_args_but_first()
 
   if (is.function(workers)) workers <- workers()
-  if (is.null(workers)) {
-    workers <- getOption("future.batchtools.workers", default = 100L)
-  }
   stop_if_not(
-    is.numeric(workers),
-    length(workers) == 1,
-    !is.na(workers), workers >= 1
+    is.character(workers),
+    length(workers) > 0,
+    !anyNA(workers),
+    all(nzchar(workers))
   )
 
   dotdotdot <- list(...)
