@@ -35,7 +35,7 @@ SSH batchtools futures."><!-- Global site tag (gtag.js) - Google Analytics --><s
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9951</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9952</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,7 +88,7 @@ SSH batchtools futures."><!-- Global site tag (gtag.js) - Google Analytics --><s
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>A batchtools future is a future whose value will be resolved via batchtools</h1>
-      <small class="dont-index">Source: <a href="https://github.com/futureverse/future.batchtools/blob/HEAD/R/BatchtoolsFutureBackend-class.R" class="external-link"><code>R/BatchtoolsFutureBackend-class.R</code></a>, <a href="https://github.com/futureverse/future.batchtools/blob/HEAD/R/batchtools_bash.R" class="external-link"><code>R/batchtools_bash.R</code></a>, <a href="https://github.com/futureverse/future.batchtools/blob/HEAD/R/batchtools_custom.R" class="external-link"><code>R/batchtools_custom.R</code></a>, and 3 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/futureverse/future.batchtools/blob/HEAD/R/BatchtoolsFutureBackend-class.R" class="external-link"><code>R/BatchtoolsFutureBackend-class.R</code></a>, <a href="https://github.com/futureverse/future.batchtools/blob/HEAD/R/batchtools_custom.R" class="external-link"><code>R/batchtools_custom.R</code></a>, <a href="https://github.com/futureverse/future.batchtools/blob/HEAD/R/batchtools_interactive.R" class="external-link"><code>R/batchtools_interactive.R</code></a>, and 2 more</small>
       <div class="d-none name"><code>BatchtoolsFutureBackend.Rd</code></div>
     </div>
 
@@ -116,14 +116,6 @@ SSH batchtools futures.</em></p>
 <span>  conf.file <span class="op">=</span> <span class="fu">findConfFile</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  interrupts <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">BatchtoolsBashFutureBackend</span><span class="op">(</span></span>
-<span>  <span class="va">...</span>,</span>
-<span>  cluster.functions <span class="op">=</span> <span class="fu"><a href="batchtools_bash.html">makeClusterFunctionsBash</a></span><span class="op">(</span>template <span class="op">=</span> <span class="va">template</span>, fs.latency <span class="op">=</span></span>
-<span>    <span class="va">fs.latency</span><span class="op">)</span>,</span>
-<span>  fs.latency <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  template <span class="op">=</span> <span class="st">"bash"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">BatchtoolsCustomFutureBackend</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
@@ -193,12 +185,6 @@ access files and directories.
 Usually safe to set to <code>0</code> to disable the heuristic, e.g. if you are working on a local file system.</p></dd>
 
 
-<dt id="arg-template">template<a class="anchor" aria-label="anchor" href="#arg-template"></a></dt>
-<dd><p>(optional) A batchtools template file or a template string
-(in <span class="pkg">brew</span> format).  If not specified, it is left to the
-<span class="pkg">batchtools</span> package to locate such file using its search rules.</p></dd>
-
-
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional arguments passed to <code>BatchtoolsFutureBackend()</code>.</p></dd>
 
@@ -265,7 +251,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> BatchtoolsCustomFutureBackend:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: fc085d346e9efed23af5bceb6332ea12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: 2e75c2010d07bcf10c953ef087ad949e</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of free workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available cores: 8</span>
@@ -282,15 +268,15 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions template: &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools resources:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/RtmpSyK3f4/future.batchtools/docs/reference/.future/20250817_112101-JNBGA0’ (0 folders)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/RtmpUCdHBW/future.batchtools/docs/reference/.future/20250817_114933-5PR04T’ (0 folders)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Main process ID: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 325043</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 350211</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Worker process ID: "</span>, <span class="va">pid</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Worker process ID: 325254</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Worker process ID: 350423</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
