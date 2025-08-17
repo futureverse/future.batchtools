@@ -40,11 +40,12 @@ BatchtoolsSGEFutureBackend <- function(...) {
 #' @examplesIf interactive()
 #' library(future)
 #'
-#' # Limit runtime to 3 minutes and memory to 200 MiB per future,
-#' # request two slots and run in the current working directory.
+#' # Limit runtime to 10 minutes and memory to 400 MiB per future,
+#' # request a parallel environment with four slots on a single host.
+#' # Submit to the 'freecycle' queue.
 #' plan(future.batchtools::batchtools_sge, resources = list(
-#'   h_rt = "00:03:00", mem_free = "200M",
-#'   asis = c("-pe smp 2", "-cwd")
+#'   h_rt = "00:10:00", mem_free = "100M",  ## memory is per process
+#'   asis = c("-pe smp 4", "-q freecycle.q")
 #' ))
 #'
 #' f <- future(Sys.info())

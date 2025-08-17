@@ -41,8 +41,13 @@ BatchtoolsSlurmFutureBackend <- function(...) {
 #' @examplesIf interactive()
 #' library(future)
 #'
-#' # Limit runtime to 3 minutes and memory to 200 MiB per future
-#' plan(future.batchtools::batchtools_slurm, resources = list(time = "00:03:00", mem = "200M"))
+#' # Limit runtime to 10 minutes and memory to 400 MiB per future,
+#' # request a parallel environment with four slots on a single host.
+#' # Submit to the 'freecycle' partition.
+#' plan(future.batchtools::batchtools_slurm, resources = list(
+#'   time = "00:10:00", mem = "400M",
+#'   asis = c("--nodes=1", "-ntasks=4", "--partition=freecycle")
+#' ))
 #'
 #' f <- future(Sys.info())
 #' info <- value(f)

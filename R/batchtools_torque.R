@@ -35,8 +35,13 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #' @examplesIf interactive()
 #' library(future)
 #'
-#' # Limit runtime to 3 minutes and memory to 200 MiB per future
-#' plan(future.batchtools::batchtools_torque, resources = list(walltime = "00:03:00", mem = "200mb"))
+#' # Limit runtime to 10 minutes and total memory to 400 MiB per future,
+#' # request a parallel environment with four slots on a single host.
+#' # Submit to the 'freecycle' queue.
+#' plan(future.batchtools::batchtools_torque, resources = list(
+#'   walltime = "00:10:00", mem = "100mb",  ## memory is per process
+#'   asis = c("-l nodes=1:ppn=4", "-q freecycle")
+#' ))
 #'
 #' f <- future(Sys.info())
 #' info <- value(f)
