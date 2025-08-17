@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9950</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9951</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -137,69 +137,66 @@ the current machine.</p>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># Author: Henrik Bengtsson</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">######################################################################</span></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">## Job name:</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">## Job name</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#PBS -N &lt;%= job.name %&gt;</span></span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">## Direct streams to logfile:</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">## Direct streams to logfile</span></span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#PBS -o &lt;%= log.file %&gt;</span></span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">## Merge standard error and output:</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">## Merge standard error and output</span></span>
 <span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#PBS -j oe</span></span>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">## Email on abort (a) and termination (e), but not when starting (b)</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#PBS -m ae</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>  <span class="co">## As-is resource specifications</span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">(</span><span class="st">"asis"</span> %in% names<span class="er">(</span><span class="ex">resources</span><span class="kw">))</span> <span class="kw">{</span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>    <span class="ex">lines</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"asis"</span><span class="pp">]</span>]</span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>    <span class="ex">resources</span> <span class="op">&lt;</span>- resources[names<span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="ex">!=</span> <span class="st">"asis"</span>]</span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  <span class="kw">}</span> <span class="cf">else</span> <span class="kw">{</span></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>    <span class="ex">lines</span> <span class="op">&lt;</span>- character<span class="er">(</span><span class="ex">0</span><span class="kw">)</span></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="kw">}</span></span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>  <span class="co">## Remaining resources are assumed to be of type '-l &lt;key&gt;=&lt;value&gt;'</span></span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- unlist<span class="er">(</span><span class="ex">resources,</span> use.names = TRUE<span class="kw">)</span></span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"-l %s=%s"</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">opts</span><span class="kw">)</span><span class="ex">,</span> opts<span class="kw">)</span></span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  <span class="ex">lines</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"#PBS %s"</span><span class="ex">,</span> c<span class="er">(</span><span class="ex">lines,</span> opts<span class="kw">))</span></span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">lines</span><span class="kw">)</span></span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Batchtools information:"</span></span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job name: '&lt;%= job.name %&gt;'"</span></span>
-<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job log file: '&lt;%= log.file %&gt;'"</span></span>
-<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="bu">echo</span></span>
-<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Session information:"</span></span>
-<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- timestamp: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- hostname: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript path: </span><span class="va">$(</span><span class="fu">which</span> Rscript<span class="va">)</span><span class="st">"</span></span>
-<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript version: </span><span class="va">$(</span><span class="ex">Rscript</span> <span class="at">--version</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript library paths: </span><span class="va">$(</span><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"cat(shQuote(.libPaths()), sep = ' ')"</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="bu">echo</span></span>
-<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Job submission declarations:"</span></span>
-<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="op">&lt;</span>%</span>
-<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"echo '%s'"</span><span class="ex">,</span> lines<span class="kw">))</span></span>
-<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a></span>
-<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Job information:"</span></span>
-<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-f</span> <span class="st">"</span><span class="va">${PBS_JOBID}</span><span class="st">"</span></span>
-<span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a><span class="bu">echo</span></span>
-<span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a></span>
-<span id="cb1-59"><a href="#cb1-59" tabindex="-1"></a><span class="co">## Launch R and evaluate the batchtools R job</span></span>
-<span id="cb1-60"><a href="#cb1-60" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ..."</span></span>
-<span id="cb1-61"><a href="#cb1-61" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span>
-<span id="cb1-62"><a href="#cb1-62" tabindex="-1"></a><span class="va">res</span><span class="op">=</span><span class="va">$?</span></span>
-<span id="cb1-63"><a href="#cb1-63" tabindex="-1"></a><span class="bu">echo</span> <span class="st">" - exit code: </span><span class="va">${res}</span><span class="st">"</span></span>
-<span id="cb1-64"><a href="#cb1-64" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ... done"</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>  <span class="co">## As-is resource specifications</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">(</span><span class="st">"asis"</span> %in% names<span class="er">(</span><span class="ex">resources</span><span class="kw">))</span> <span class="kw">{</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>    <span class="ex">lines</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"asis"</span><span class="pp">]</span>]</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>    <span class="ex">resources</span> <span class="op">&lt;</span>- resources[names<span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="ex">!=</span> <span class="st">"asis"</span>]</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="kw">}</span> <span class="cf">else</span> <span class="kw">{</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>    <span class="ex">lines</span> <span class="op">&lt;</span>- character<span class="er">(</span><span class="ex">0</span><span class="kw">)</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  <span class="kw">}</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  <span class="co">## Remaining resources are assumed to be of type '-l &lt;key&gt;=&lt;value&gt;'</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- unlist<span class="er">(</span><span class="ex">resources,</span> use.names = TRUE<span class="kw">)</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"-l %s=%s"</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">opts</span><span class="kw">)</span><span class="ex">,</span> opts<span class="kw">)</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>  <span class="ex">lines</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"#PBS %s"</span><span class="ex">,</span> c<span class="er">(</span><span class="ex">lines,</span> opts<span class="kw">))</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">lines</span><span class="kw">)</span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Batchtools information:"</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job name: '&lt;%= job.name %&gt;'"</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job log file: '&lt;%= log.file %&gt;'"</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="bu">echo</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Session information:"</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- timestamp: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- hostname: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript path: </span><span class="va">$(</span><span class="fu">which</span> Rscript<span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript version: </span><span class="va">$(</span><span class="ex">Rscript</span> <span class="at">--version</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript library paths: </span><span class="va">$(</span><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"cat(shQuote(.libPaths()), sep = ' ')"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="bu">echo</span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Job submission declarations:"</span></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="op">&lt;</span>%</span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"echo '%s'"</span><span class="ex">,</span> lines<span class="kw">))</span></span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Job information:"</span></span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-f</span> <span class="st">"</span><span class="va">${PBS_JOBID}</span><span class="st">"</span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a><span class="bu">echo</span></span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a><span class="co">## Launch R and evaluate the batchtools R job</span></span>
+<span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ..."</span></span>
+<span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span>
+<span id="cb1-59"><a href="#cb1-59" tabindex="-1"></a><span class="va">res</span><span class="op">=</span><span class="va">$?</span></span>
+<span id="cb1-60"><a href="#cb1-60" tabindex="-1"></a><span class="bu">echo</span> <span class="st">" - exit code: </span><span class="va">${res}</span><span class="st">"</span></span>
+<span id="cb1-61"><a href="#cb1-61" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ... done"</span></span>
+<span id="cb1-62"><a href="#cb1-62" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" tabindex="-1"></a><span class="co">## End-of-job summary</span></span>
+<span id="cb1-64"><a href="#cb1-64" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-f</span> <span class="st">"</span><span class="va">${PBS_JOBID}</span><span class="st">"</span></span>
 <span id="cb1-65"><a href="#cb1-65" tabindex="-1"></a></span>
-<span id="cb1-66"><a href="#cb1-66" tabindex="-1"></a><span class="co">## End-of-job summary</span></span>
-<span id="cb1-67"><a href="#cb1-67" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-f</span> <span class="st">"</span><span class="va">${PBS_JOBID}</span><span class="st">"</span></span>
-<span id="cb1-68"><a href="#cb1-68" tabindex="-1"></a></span>
-<span id="cb1-69"><a href="#cb1-69" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
-<span id="cb1-70"><a href="#cb1-70" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
+<span id="cb1-66"><a href="#cb1-66" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
+<span id="cb1-67"><a href="#cb1-67" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

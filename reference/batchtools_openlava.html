@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9950</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9951</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -137,13 +137,13 @@ the current machine.</p>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># Author: Henrik Bengtsson</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">######################################################################</span></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">## Job name:</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">## Job name</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#BSUB -J &lt;%= job.name %&gt;</span></span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">## Direct streams to logfile:</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">## Direct streams to logfile</span></span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#BSUB -o &lt;%= log.file %&gt;</span></span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">## Resources needed</span></span>
 <span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="co">## As-is resource specifications</span></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">(</span><span class="st">"asis"</span> %in% names<span class="er">(</span><span class="ex">resources</span><span class="kw">))</span> <span class="kw">{</span></span>
