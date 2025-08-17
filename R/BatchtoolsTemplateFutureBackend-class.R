@@ -92,6 +92,7 @@ BatchtoolsTemplateFutureBackend <- function(type, scheduler.latency = 1.0, fs.la
               !is.na(template), nzchar(template))
 
   template <- find_template_file(template)
+  dotdotdot[["resources"]] <- resources
   
   keep <- which(names(dotdotdot) %in% names(make_cfs_formals))
   args <- c(list(template = template), dotdotdot[keep], scheduler.latency = scheduler.latency, fs.latency = fs.latency)
