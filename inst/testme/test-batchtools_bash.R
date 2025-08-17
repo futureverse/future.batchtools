@@ -6,7 +6,7 @@ message("*** batchtools_bash() ...")
 
 bin <- Sys.which("bash")
 if (utils::file_test("-f", bin)) {
-  plan(future.batchtools::batchtools_bash)
+  plan(future.batchtools::batchtools_bash, resources = list(runtime = 10))
   print(plan())
   
   message("*** Launch future")
