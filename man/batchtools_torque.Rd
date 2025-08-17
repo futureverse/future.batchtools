@@ -72,9 +72,18 @@ and comprise:
 
 ## Resources needed:
 <\% if (length(resources) > 0) \{
+  prefix <- "#PBS "
+    
+  ## As-is resource specifications
+  if ("asis" \%in\% names(resources)) \{
+    writeLines(sprintf("\%s\%s", prefix, resources[["asis"]]))
+    resources <- resources[names(resources) != "asis"]
+  \}
+     
+  ## Remaining resources are assumed to be of type '-l <key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
-  opts <- sprintf("\%s=\%s", names(opts), opts)
-  writeLines(sprintf("#PBS -l \%s", opts))
+  opts <- sprintf("-l \%s=\%s", names(opts), opts)
+  writeLines(sprintf("\%s\%s", prefix, opts))
 \} \%>
 
 echo "Batchtools information:"

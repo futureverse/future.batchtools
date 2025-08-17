@@ -8,17 +8,22 @@
 
 #SBATCH --job-name=<%= job.name %>
 #SBATCH --output=<%= log.file %>
-<%
-defaults <- list(
-  nodes = 1,         # single-host processing
-  time = "00:05:00", # 5-min runtime
-  mem  = "100M"      # 100 MiB memory
-)
-resources <- c(resources, defaults[setdiff(names(defaults), names(resources))])
-opts <- unlist(resources, use.names = TRUE)
-opts <- sprintf("--%s=%s", names(opts), opts)
-writeLines(sprintf("#SBATCH %s", opts))
-%>
+
+## Resources needed:
+<% if (length(resources) > 0) {
+  prefix <- "#SBATCH "
+    
+  ## As-is resource specifications
+  if ("asis" %in% names(resources)) {
+    writeLines(sprintf("%s%s", prefix, resources[["asis"]]))
+    resources <- resources[names(resources) != "asis"]
+  }
+
+  ## Remaining resources are assumed to be of type '--<key>=<value>'
+  opts <- unlist(resources, use.names = TRUE)
+  opts <- sprintf("--%s=%s", names(opts), opts)
+  writeLines(sprintf("%s%s", prefix, opts))
+} %>
 
 echo "Batchtools information:"
 echo "- job name: '<%= job.name %>'"

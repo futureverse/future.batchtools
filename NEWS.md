@@ -17,7 +17,10 @@
  * Tidy up built-in template job script for Bash, SGE, Slurm and
    Torque/PBS.
 
- * Add built-in template job script for LSF and OpenLava.
+ * Add built-in template job scripts for LSF and OpenLava.
+
+ * Now all built-in template job scripts supports as-is resource
+   specifications via `resources[["asis"]]`.
 
 ## Documentation
 
