@@ -82,7 +82,8 @@
 <li><p>Canceling batchtools futures will now interrupt them by default, if the backend supports it.</p></li>
 <li><p>Tidy up built-in template job script for Bash, SGE, Slurm and Torque/PBS.</p></li>
 <li><p>Add built-in template job scripts for LSF and OpenLava.</p></li>
-<li><p>Now all built-in template job scripts supports as-is resource specifications via <code>resources[["asis"]]</code>.</p></li>
+<li><p>Now all built-in template job scripts support “as-is” resource specifications via <code>resources[["asis"]]</code>.</p></li>
+<li><p>Now all built-in template job scripts support “environment module” resource specifications via <code>resources[["modules"]]</code>. When specified, corresponding <code>module load &lt;name&gt;</code> entries are injected to the job script.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
