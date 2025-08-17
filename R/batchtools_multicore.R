@@ -24,7 +24,6 @@
 #' The batchtools multicore backend only works on operating systems
 #' supporting the `ps` command-line tool, e.g. Linux and macOS.
 #'
-#' @rdname BatchtoolsFutureBackend
 #' @keywords internal
 #'
 #' @aliases batchtools_custom
@@ -73,7 +72,6 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 
 #' A batchtools backend that resolves futures in parallel via forked background R processes
 #'
-#' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsMulticoreFutureBackend
 #'
 #' @param \ldots Not used.

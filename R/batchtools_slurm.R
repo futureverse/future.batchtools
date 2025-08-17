@@ -9,7 +9,6 @@ BatchtoolsSlurmFutureBackend <- function(...) {
 
 #' A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler
 #'
-#' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsTemplateFutureBackend
 #'
 #' @param template (optional) Name of job-script template to be searched

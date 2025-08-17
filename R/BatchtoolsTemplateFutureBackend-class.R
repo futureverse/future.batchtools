@@ -15,6 +15,11 @@
 #'
 #' @param \ldots Additional arguments passed to [BatchtoolsFutureBackend()].
 #'
+#' @param workers The maximum number of workers the batchtools backend may
+#' use at any time, which for HPC schedulers corresponds to the maximum number
+#' of queued jobs. The default is
+#' \code{getOption("\link{future.batchtools.workers}", 100)}.
+#'
 #' @return An object of class `BatchtoolsFutureBackend`.
 #'
 #' @details

@@ -35,8 +35,10 @@ Usually safe to set to \code{0} to disable the heuristic, e.g. if you are workin
 (in \pkg{brew} format).  If not specified, it is left to the
 \pkg{batchtools} package to locate such file using its search rules.}
 
-\item{workers}{The number of multicore processes to be
-available for concurrent batchtools multicore futures.}
+\item{workers}{The maximum number of workers the batchtools backend may
+use at any time, which for HPC schedulers corresponds to the maximum number
+of queued jobs. The default is
+\code{getOption("\link{future.batchtools.workers}", 100)}.}
 
 \item{\ldots}{Additional arguments passed to \code{\link[=BatchtoolsFutureBackend]{BatchtoolsFutureBackend()}}.}
 }

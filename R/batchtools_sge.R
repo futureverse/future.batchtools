@@ -8,7 +8,6 @@ BatchtoolsSGEFutureBackend <- function(...) {
 
 #' A batchtools SGE backend resolves futures in parallel via a SGE job scheduler
 #'
-#' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsTemplateFutureBackend
 #'
 #' @param template (optional) Name of job-script template to be searched

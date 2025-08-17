@@ -7,8 +7,12 @@
 batchtools_ssh(..., workers = availableWorkers(), fs.latency = 65)
 }
 \arguments{
-\item{workers}{The number of multicore processes to be
-available for concurrent batchtools multicore futures.}
+\item{workers}{(optional) The maximum number of workers the batchtools
+backend may use at any time.   Interactive and "local" backends can only
+process one future at the time (\code{workers = 1}), whereas HPC backends,
+where futures are resolved via separate jobs on a scheduler, can have
+multiple workers. In the latter, the default is \code{workers = NULL}, which
+will resolve to \code{getOption("\link{future.batchtools.workers}", 100)}.}
 
 \item{fs.latency}{[\code{numeric(1)}]\cr
 Expected maximum latency of the file system, in seconds.

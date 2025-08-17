@@ -9,7 +9,6 @@ BatchtoolsLsfFutureBackend <- function(...) {
 
 #' A batchtools LSF backend resolves futures in parallel via a Load Sharing Facility (LSF) job scheduler
 #'
-#' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsTemplateFutureBackend
 #'
 #' @param template (optional) Name of job-script template to be searched

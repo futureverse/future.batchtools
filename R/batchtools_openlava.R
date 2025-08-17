@@ -9,7 +9,6 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 
 #' A batchtools openlava backend resolves futures in parallel via a OpenLava job scheduler
 #'
-#' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams BatchtoolsTemplateFutureBackend
 #'
 #' @param template (optional) Name of job-script template to be searched
