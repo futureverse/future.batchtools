@@ -34,8 +34,15 @@ plan(future.batchtools::batchtools_local)
 
 message("Main process ID: ", Sys.getpid())
 
-f <- future(Sys.getpid())
-pid <- value(f)
-message("Worker process ID: ", pid)
+f <- future({
+  data.frame(
+    hostname = Sys.info()[["nodename"]],
+          os = Sys.info()[["sysname"]],
+       cores = unname(parallelly::availableCores()),
+         pid = Sys.getpid()
+  )
+})
+info <- value(f)
+print(info)
 
 }

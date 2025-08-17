@@ -48,7 +48,13 @@ BatchtoolsSGEFutureBackend <- function(...) {
 #'   asis = c("-pe smp 4", "-q freecycle.q")
 #' ))
 #'
-#' f <- future(Sys.info())
+#' f <- future({
+#'   data.frame(
+#'     hostname = Sys.info()[["nodename"]],
+#'           os = Sys.info()[["sysname"]],
+#'        cores = unname(parallelly::availableCores())
+#'   )
+#' })
 #' info <- value(f)
 #' print(info)
 #' 

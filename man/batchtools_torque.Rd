@@ -136,7 +136,13 @@ plan(future.batchtools::batchtools_torque, resources = list(
   asis = c("-l nodes=1:ppn=4", "-q freecycle")
 ))
 
-f <- future(Sys.info())
+f <- future({
+  data.frame(
+    hostname = Sys.info()[["nodename"]],
+          os = Sys.info()[["sysname"]],
+       cores = unname(parallelly::availableCores())
+  )
+})
 info <- value(f)
 print(info)
 \dontshow{\}) # examplesIf}

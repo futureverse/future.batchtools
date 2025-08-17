@@ -136,7 +136,13 @@ plan(future.batchtools::batchtools_slurm, resources = list(
   asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle")
 ))
 
-f <- future(Sys.info())
+f <- future({
+  data.frame(
+    hostname = Sys.info()[["nodename"]],
+          os = Sys.info()[["sysname"]],
+       cores = unname(parallelly::availableCores())
+  )
+})
 info <- value(f)
 print(info)
 \dontshow{\}) # examplesIf}
