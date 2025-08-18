@@ -36,7 +36,7 @@ users of your package to leverage the compute power of
 high-performance computing (HPC) clusters via a simple switch in
 settings - without having to change any code at all.
 
-For instance, if **batchtools** is properly configures, the below two
+For instance, if **batchtools** is properly configured, the below two
 expressions for futures `x` and `y` will be processed on two different
 compute nodes:
 
