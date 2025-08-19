@@ -9,7 +9,7 @@
 
  * Batchtools future backends gained argument `delete` for controlling
    if and when batchtools futures should be deleted from the file
-   system`. Supported values are `"on-success"`, `"never"` and
+   system. Supported values are `"on-success"`, `"never"` and
    `"always"`. The default value can be set via R option
    `future.batchtools.delete`.
 
