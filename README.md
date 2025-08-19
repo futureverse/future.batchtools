@@ -107,7 +107,7 @@ backends, please see <https://www.futureverse.org/backends.html>.
 |:-------------------------|:-------------------------------------------------------------------------|:------------------------------------
 | `batchtools_lsf`         | Futures are evaluated via a [Load Sharing Facility (LSF)] job scheduler  | N/A
 | `batchtools_openlava`    | Futures are evaluated via an [OpenLava] job scheduler                    | N/A
-| `batchtools_sge`         | Futures are evaluated via a [Sun/Oracle Grid Engine (SGE)] job scheduler | N/A
+| `batchtools_sge`         | Futures are evaluated via a [Sun/Son of/Oracle/Univa/Altair Grid Engine (SGE)] job scheduler | N/A
 | `batchtools_slurm`       | Futures are evaluated via a [Slurm] job scheduler                        | N/A
 | `batchtools_torque`      | Futures are evaluated via a [TORQUE] / PBS job scheduler                 | N/A
 | `batchtools_custom`      | Futures are evaluated via a custom batchtools configuration R script or via a set of cluster functions  | N/A
@@ -122,7 +122,7 @@ backends, please see <https://www.futureverse.org/backends.html>.
 [future.batchtools]: https://cran.r-project.org/package=future.batchtools
 [TORQUE]: https://en.wikipedia.org/wiki/TORQUE
 [Slurm]: https://en.wikipedia.org/wiki/Slurm_Workload_Manager
-[Sun/Oracle Grid Engine (SGE)]: https://en.wikipedia.org/wiki/Oracle_Grid_Engine
+[Sun/Son of/Oracle/Univa/Altair Grid Engine (SGE)]: https://en.wikipedia.org/wiki/Oracle_Grid_Engine
 [Load Sharing Facility (LSF)]: https://en.wikipedia.org/wiki/Platform_LSF
 [OpenLava]: https://en.wikipedia.org/wiki/OpenLava
 
