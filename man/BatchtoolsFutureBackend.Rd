@@ -108,7 +108,7 @@ SSH batchtools futures.}
 \details{
 batchtools local futures rely on the batchtools backend set up by
 \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive(external = TRUE)}}
-and batchtools interactive futures on the one sQet up by
+and batchtools interactive futures on the one set up by
 \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive()}}.
 These are supported by all operating systems.
 
