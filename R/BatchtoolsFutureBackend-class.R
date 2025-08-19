@@ -736,7 +736,7 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
 } ## result()
 
 
-#' @importFrom future FutureInterruptError FutureLaunchError
+#' @importFrom future FutureInterruptError FutureLaunchError FutureWarning
 #' @importFrom batchtools loadResult waitForJobs
 #' @importFrom utils tail
 await <- function(future, cleanup = TRUE, ...) {
