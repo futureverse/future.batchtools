@@ -23,7 +23,7 @@ users of your package to leverage the compute power of
 high-performance computing (HPC) clusters via a simple switch in
 settings - without having to change any code at all.
 
-For instance, if **batchtools** is properly configures, the below two
+For instance, if **batchtools** is properly configured, the below two
 expressions for futures `x` and `y` will be processed on two different
 compute nodes:
 
@@ -127,82 +127,36 @@ batchtools backends.
 
 ### Examples
 
-Below is an examples illustrating how to use `batchtools_slurm` to
-configure the batchtools backend.  For further details and examples on
-how to configure batchtools, see the [batchtools configuration] wiki
-page.
-
-To configure **batchtools** for job schedulers we need to setup a
-`*.tmpl` template file that is used to generate the script used by the
-scheduler.  This is what a template file for Slurm may look like:
-
-```sh
-#!/bin/bash
-
-<%
-defaults <- list(
-  nodes = 1,         # single-host processing
-  time = "00:05:00", # 5-min runtime
-  mem  = "100M"      # 100 MiB memory
-)
-resources <- c(resources, defaults[setdiff(names(defaults), names(resources))])
-opts <- unlist(resources, use.names = TRUE)
-opts <- sprintf("--%s=%s", names(opts), opts)
-opts <- paste(opts, collapse = " ") %>
-%>
-
-#SBATCH --job-name=<%= job.name %>
-#SBATCH --output=<%= log.file %>
-#SBATCH <%= opts %>
-
-Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
-```
-
-If this template is saved to file `batchtools.slurm.tmpl` (without
-period) in the working directory or as `.batchtools.slurm.tmpl` (with
-period) the user's home directory, then it will be automatically
-located by the **batchtools** framework and loaded when doing:
+Below is an examples on how use resolve futures via a Slurm scheduler.
 
 ```r
-plan(future.batchtools::batchtools_slurm)
-```
+library(future)
 
-It is also possible to specify the template file explicitly, e.g.
-
-```r
-plan(future.batchtools::batchtools_slurm, template = "/path/to/batchtools.slurm.tmpl")
-```
-
-
-Resource parameters can be specified via argument `resources` which
-should be a named list and is passed as is to the template file.  For
-example, to request that each job would get alloted 12 cores (one a
-single machine) and up to 5 GiB of memory, use:
-
-```r
-plan(future.batchtools::batchtools_slurm, resources = list(ntasks = 12, mem = "5G"))
-```
-
-To specify the `resources` argument at the same time as using nested
-future strategies, one can use `tweak()` to tweak the default
-arguments.  For instance,
-
-```r
-plan(list(
-  tweak(future.batchtools::batchtools_slurm, resources = list(ntasks = 12, mem = "5G")),
-  multisession
+# Limit runtime to 10 minutes and memory to 400 MiB per future,
+# request a parallel environment with four slots on a single host.
+# On this system, R is available via environment module 'r'. By
+# specifying 'r/4.5.1', 'module load r/4.5.1' will be added to
+# the submitted job script.
+plan(future.batchtools::batchtools_slurm, resources = list(
+  time = "00:10:00", mem = "400M",
+  asis = c("--nodes=1", "--ntasks=4"),
+  modules = c("r/4.5.1")
 ))
+
+# Give it a spin
+f <- future({
+  data.frame(
+    hostname = Sys.info()[["nodename"]],
+          os = Sys.info()[["sysname"]],
+       cores = unname(parallelly::availableCores()),
+     modules = Sys.getenv("LOADEDMODULES")
+  )
+})
+info <- value(f)
+print(info)
+#>   hostname    os cores  modules
+#> 1      n12 Linux     4  r/4.5.1
 ```
-
-causes the first level of futures to be submitted via the Slurm job
-scheduler requesting 12 cores and 5 GiB of memory per job.  The second
-level of futures will be evaluated using multisession using the 12
-cores given to each job by the scheduler.
-
-For further details and examples on how to configure **batchtools**
-per se, see the [batchtools configuration] wiki page and the help
-pages for `batchtools_slurm`, `batchtools_sge`, etc.
-
 
 ## Demos
 
