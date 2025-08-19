@@ -138,8 +138,7 @@ library(future)
 # specifying 'r/4.5.1', 'module load r/4.5.1' will be added to
 # the submitted job script.
 plan(future.batchtools::batchtools_slurm, resources = list(
-  time = "00:10:00", mem = "400M",
-  asis = c("--nodes=1", "--ntasks=4"),
+  time = "00:10:00", mem = "400M", nodes=1, ntasks=4,
   modules = c("r/4.5.1")
 ))
 
