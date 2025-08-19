@@ -20,7 +20,7 @@
  * Canceling batchtools futures will now interrupt them by default,
    if the backend supports it.
 
- * Tidy up built-in template job script for Bash, SGE, Slurm and
+ * Tidy up built-in template job scripts for Bash, SGE, Slurm and
    Torque/PBS.
 
  * Add built-in template job scripts for LSF and OpenLava.
