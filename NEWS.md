@@ -33,7 +33,8 @@
    specified, corresponding `module load <name>` entries are injected
    to the job script.
 
- * Print `plan()` for `batchtools_sge` reports on SGE version.
+ * Calling `plan()` on `batchtools_sge` and `batchtools_slurm` reports
+   on the version of the scheduler.
 
 ## Documentation
 

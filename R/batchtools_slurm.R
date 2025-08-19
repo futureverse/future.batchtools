@@ -7,6 +7,15 @@ BatchtoolsSlurmFutureBackend <- function(...) {
 }
 
 
+#' @export
+#' @keywords internal
+print.BatchtoolsSlurmFutureBackend <- function(x, ...) {  
+  NextMethod()
+  printf("Slurm version: %s\n", slurm_version())
+  invisible(x)
+}
+
+
 #' A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
@@ -80,3 +89,29 @@ attr(batchtools_slurm, "tweakable") <- c(
 )
 attr(batchtools_slurm, "init") <- TRUE
 attr(batchtools_slurm, "factory") <- BatchtoolsSlurmFutureBackend
+
+
+slurm_version <- local({
+  version <- NULL
+  
+  function() {
+    if (is.null(version)) {
+      out <- tryCatch(system2("scontrol", args = c("--version"), stdout = TRUE, stderr = TRUE), error = identity)
+      if (inherits(out, "error")) {
+        version <<- "N/A (unexpected output from 'scontrol --version')"
+      } else {
+        status <- attr(out, "status")
+        if (!is.null(status) && status != 0) {
+          version <<- "N/A (unexpected output from 'scontrol --version')"
+        } else {
+          out <- gsub("(^[[:blank:]]+|[[:blank:]]+$)", "", out)
+          out <- out[nzchar(out)]
+          if (length(out) >= 1) {
+            version <<- out[1]
+          }
+        }
+      }
+    }
+    version
+  }
+})
