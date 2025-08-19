@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9959</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9964</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,6 +82,7 @@
 <span>  scheduler.latency <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  fs.latency <span class="op">=</span> <span class="fl">65</span>,</span>
 <span>  resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  delete <span class="op">=</span> <span class="st">"on-success"</span>,</span>
 <span>  workers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"future.batchtools.workers"</span>, default <span class="op">=</span> <span class="fl">100L</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -114,6 +115,15 @@ Usually safe to set to <code>0</code> to disable the heuristic, e.g. if you are 
 <dd><p>(optional) A named list passed to the <span class="pkg">batchtools</span>
 job-script template as variable <code>resources</code>.  See Section 'Resources'
 in <code><a href="https://rdrr.io/pkg/batchtools/man/submitJobs.html" class="external-link">batchtools::submitJobs()</a></code> more details.</p></dd>
+
+
+<dt id="arg-delete">delete<a class="anchor" aria-label="anchor" href="#arg-delete"></a></dt>
+<dd><p>Controls if and when the batchtools job registry folder is
+deleted.
+If <code>"on-success"</code> (default), it is deleted if the future was resolved
+successfully <em>and</em> the expression did not produce an error.
+If <code>"never"</code>, then it is never deleted.
+If <code>"always"</code>, then it is always deleted.</p></dd>
 
 
 <dt id="arg-workers">workers<a class="anchor" aria-label="anchor" href="#arg-workers"></a></dt>

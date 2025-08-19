@@ -27,7 +27,7 @@ until further notice."><!-- Global site tag (gtag.js) - Google Analytics --><scr
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9959</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9964</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,18 +130,6 @@ Specifically, it must <em>not</em> be a folder that is only local to the
 machine such as <code>file.path(tempdir(), ".future"</code> if an job scheduler
 on a HPC environment is used.
 (Default: <code>.future</code> in the current working directory)</p></dd>
-
-
-<dt><span class="option">future.delete</span>:</dt>
-<dd><p>(logical)
-Controls whether or not the future's <span class="pkg">batchtools</span> registry folder
-is deleted after the future result has been collected.
-If TRUE, it is always deleted.
-If FALSE, it is never deleted.
-If not set or NULL, then it is deleted, unless running in non-interactive
-mode and the batchtools job failed or expired, which helps to
-troubleshoot when running in batch mode.
-(Default: not set)</p></dd>
 
 
 </dl></div>

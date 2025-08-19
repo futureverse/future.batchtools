@@ -35,7 +35,7 @@ SSH batchtools futures."><!-- Global site tag (gtag.js) - Google Analytics --><s
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9959</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9964</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,6 +115,7 @@ SSH batchtools futures.</em></p>
 <span>  registry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  conf.file <span class="op">=</span> <span class="fu">findConfFile</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  interrupts <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  delete <span class="op">=</span> <span class="st">"on-success"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -175,6 +176,15 @@ The default file is the one found by <code><a href="https://rdrr.io/pkg/batchtoo
 <dd><p>If FALSE, attempts to interrupt futures will not take
 place on this backend, even if the backend supports it. This is useful
 when, for instance, it takes a long time to interrupt a future.</p></dd>
+
+
+<dt id="arg-delete">delete<a class="anchor" aria-label="anchor" href="#arg-delete"></a></dt>
+<dd><p>Controls if and when the batchtools job registry folder is
+deleted.
+If <code>"on-success"</code> (default), it is deleted if the future was resolved
+successfully <em>and</em> the expression did not produce an error.
+If <code>"never"</code>, then it is never deleted.
+If <code>"always"</code>, then it is always deleted.</p></dd>
 
 
 <dt id="arg-fs-latency">fs.latency<a class="anchor" aria-label="anchor" href="#arg-fs-latency"></a></dt>
@@ -251,7 +261,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> BatchtoolsCustomFutureBackend:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: 200c975a36473ea7cce70e8970b09e8a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: b367192d0c9ae7fe47e7b918a7ea3f9b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of free workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available cores: 8</span>
@@ -268,10 +278,10 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions template: &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools resources:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/RtmpZCn5BE/future.batchtools/docs/reference/.future/20250817_131923-gujUpt’ (0 folders)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/RtmpxnmTK1/future.batchtools/docs/reference/.future/20250818_183749-zpedCG’ (0 folders)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Main process ID: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 384753</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 904238</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
@@ -285,7 +295,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-in"><span><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">info</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     hostname    os cores    pid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hb-x1-2025 Linux     8 384944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hb-x1-2025 Linux     8 904458</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                    modules</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 CBI:r/4.5.1:bat/0.25.0:fzf/0.65.1:shellcheck/0.11.0:shellcheck-repl/0.4.4:restic/0.18.0:git-flow/1.12.3:git-extras/7.4.0:github-cli/2.76.2:port4me/0.7.1:pandoc/3.7.0.2:quarto/1.7.33:bash-startup/0.5.0</span>
 <span class="r-in"><span></span></span>
