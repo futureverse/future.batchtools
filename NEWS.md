@@ -33,6 +33,8 @@
    specified, corresponding `module load <name>` entries are injected
    to the job script.
 
+ * Print `plan()` for `batchtools_sge` reports on SGE version.
+
 ## Documentation
 
  * Add `timeout <runtime> ...` to the default `batchtools_bash`

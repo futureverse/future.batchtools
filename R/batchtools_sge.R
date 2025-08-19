@@ -6,6 +6,15 @@ BatchtoolsSGEFutureBackend <- function(...) {
   core
 }
 
+#' @export
+#' @keywords internal
+print.BatchtoolsSGEFutureBackend <- function(x, ...) {  
+  NextMethod()
+  printf("SGE version: %s\n", sge_version())
+  invisible(x)
+}
+
+
 #' A batchtools SGE backend resolves futures in parallel via a SGE job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
@@ -79,3 +88,29 @@ attr(batchtools_sge, "tweakable") <- c(
 )
 attr(batchtools_sge, "init") <- TRUE
 attr(batchtools_sge, "factory") <- BatchtoolsSGEFutureBackend
+
+
+sge_version <- local({
+  version <- NULL
+  
+  function() {
+    if (is.null(version)) {
+      out <- tryCatch(system2("qstat", args = c("-help"), stdout = TRUE, stderr = TRUE), error = identity)
+      if (inherits(out, "error")) {
+        version <<- "N/A (unexpected output from 'qstat -help')"
+      } else {
+        status <- attr(out, "status")
+        if (!is.null(status) && status != 0) {
+          version <<- "N/A (unexpected output from 'qstat -help')"
+        } else {
+          out <- gsub("(^[[:blank:]]+|[[:blank:]]+$)", "", out)
+          out <- out[nzchar(out)]
+          if (length(out) >= 1) {
+            version <<- out[1]
+          }
+        }
+      }
+    }
+    version
+  }
+})
