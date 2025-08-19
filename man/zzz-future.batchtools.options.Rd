@@ -3,11 +3,12 @@
 \name{zzz-future.batchtools.options}
 \alias{zzz-future.batchtools.options}
 \alias{future.batchtools.options}
-\alias{future.cache.path}
+\alias{future.batchtools.delete}
 \alias{future.batchtools.expiration.tail}
 \alias{future.batchtools.output}
 \alias{future.batchtools.workers}
 \alias{R_FUTURE_CACHE_PATH}
+\alias{R_FUTURE_BATCHTOOLS_DELETE}
 \alias{R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL}
 \alias{R_FUTURE_BATCHTOOLS_OUTPUT}
 \alias{R_FUTURE_BATCHTOOLS_WORKERS}
@@ -51,6 +52,15 @@ Specifically, it must \emph{not} be a folder that is only local to the
 machine such as \verb{file.path(tempdir(), ".future"} if an job scheduler
 on a HPC environment is used.
 (Default: \code{.future} in the current working directory)}
+
+\item{\option{future.batchtools.delete}:}{(character string)
+Controls whether or not the future's \pkg{batchtools} registry folder
+is deleted after the future result has been collected.
+If \code{"always"}, it is always deleted.
+If \code{"never"}, it is never deleted.
+If \code{"on-success"}, it is deleted if the future resolved successfully,
+whereas if it failed, it is left as-is to help with troubleshooting.
+(Default: \code{"on-success"})}
 }
 }
 

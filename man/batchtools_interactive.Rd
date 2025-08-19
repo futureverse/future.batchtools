@@ -4,7 +4,11 @@
 \alias{batchtools_interactive}
 \title{A batchtools backend that resolves futures sequentially in the current R session}
 \usage{
-batchtools_interactive(..., fs.latency = 0, delete = "on-success")
+batchtools_interactive(
+  ...,
+  fs.latency = 0,
+  delete = getOption("future.batchtools.delete", "on-success")
+)
 }
 \arguments{
 \item{fs.latency}{[\code{numeric(1)}]\cr

@@ -57,7 +57,7 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #' * <https://en.wikipedia.org/wiki/TORQUE>
 #'
 #' @export
-batchtools_torque <- function(..., template = "torque", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = "on-success", workers = getOption("future.batchtools.workers", default = 100L)) {
+batchtools_torque <- function(..., template = "torque", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_torque() must never be called directly")
 }
 class(batchtools_torque) <- c(

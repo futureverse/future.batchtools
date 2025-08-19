@@ -14,7 +14,7 @@ BatchtoolsTemplateFutureBackend(
   scheduler.latency = 1,
   fs.latency = 65,
   resources = list(),
-  delete = "on-success",
+  delete = getOption("future.batchtools.delete", "on-success"),
   template = NULL,
   makeClusterFunctions = NULL,
   workers = getOption("future.batchtools.workers", default = 100L),

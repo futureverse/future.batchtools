@@ -76,7 +76,7 @@ BatchtoolsBashFutureBackend <- function(..., template = "bash", fs.latency = 0.0
 #' print(info)
 #' 
 #' @export
-batchtools_bash <- function(..., template = "bash", fs.latency = 0.0, resources = list(), delete = "on-success") {
+batchtools_bash <- function(..., template = "bash", fs.latency = 0.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success")) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_bash() must never be called directly")
 }
 class(batchtools_bash) <- c(

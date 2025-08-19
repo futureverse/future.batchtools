@@ -5,12 +5,13 @@
  * **future.batchtools** now implements the FutureBackend API
    introduced in **future** 1.40.0 (2025-04-10).
 
- * Removed option `future.delete`. To control whether batchtools
-   futures should be deleted from the file system, see future backend
-   argument `delete`, which defaults to `"on-success"`, but can also
-   be set to `"never"` and `"always"`.
-
 ## New Features
+
+ * Batchtools future backends gained argument `delete` for controlling
+   if and when batchtools futures should be deleted from the file
+   system`. Supported values are `"on-success"`, `"never"` and
+   `"always"`. The default value can be set via R option
+   `future.batchtools.delete`.
 
  * Most types of batchtools future can now be interrupted, including
    `batchtools_multicore` and all job-scheduler backends, e.g.
@@ -52,6 +53,16 @@
    **future.batchtools** will no longer wait for such files and only
    read their content if they exists when checked.
 
+## Deprecated and Defunct
+
+ * R option `future.delete` is deprecated. Please use new R option
+   `future.batchtools.delete` instead. For backward compatible
+   reasons, if R option `future.delete` sets option
+   `future.batchtools.delete` when the packages is loaded and the
+   latter is not already set. If `future.delete` is FALSE, then
+   `future.batchtools.delete` is set to `"never"`.  If `future.delete`
+   is TRUE, then `future.batchtools.delete` is set to `"on-success"`.
+   
 
 # Version 0.12.2 [2025-06-06]
 
@@ -177,18 +188,15 @@
    `status()`, which were functions that were used for internal
    purposes.
 
-
 ## Documentation
 
  * Document option `future.delete` and clarify option
    `future.cache.path` in `help("future.batchtools.options")`.
 
-
 ## Bug Fixes
 
  * If `run()` was called twice for a BatchtoolsFuture, it would not
    produce a FutureError but only a regular non-classed error.
-
 
 ## Deprecated and Defunct
 

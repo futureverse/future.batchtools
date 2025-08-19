@@ -4,7 +4,11 @@
 \alias{batchtools_local}
 \title{A batchtools backend that resolves futures sequentially in transient background R sessions}
 \usage{
-batchtools_local(..., fs.latency = 0, delete = "on-success")
+batchtools_local(
+  ...,
+  fs.latency = 0,
+  delete = getOption("future.batchtools.delete", "on-success")
+)
 }
 \arguments{
 \item{fs.latency}{[\code{numeric(1)}]\cr

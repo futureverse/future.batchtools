@@ -10,7 +10,7 @@ batchtools_lsf(
   scheduler.latency = 1,
   fs.latency = 65,
   resources = list(),
-  delete = "on-success",
+  delete = getOption("future.batchtools.delete", "on-success"),
   workers = getOption("future.batchtools.workers", default = 100L)
 )
 }
