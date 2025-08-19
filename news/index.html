@@ -81,7 +81,7 @@
 <ul><li><p>Batchtools future backends gained argument <code>delete</code> for controlling if and when batchtools futures should be deleted from the file system. Supported values are <code>"on-success"</code>, <code>"never"</code> and <code>"always"</code>. The default value can be set via R option <code>future.batchtools.delete</code>.</p></li>
 <li><p>Most types of batchtools future can now be interrupted, including <code>batchtools_multicore</code> and all job-scheduler backends, e.g. <code>batchtools_sge</code> and <code>batchtools_slurm</code>.</p></li>
 <li><p>Canceling batchtools futures will now interrupt them by default, if the backend supports it.</p></li>
-<li><p>Tidy up built-in template job script for Bash, SGE, Slurm and Torque/PBS.</p></li>
+<li><p>Tidy up built-in template job scripts for Bash, SGE, Slurm and Torque/PBS.</p></li>
 <li><p>Add built-in template job scripts for LSF and OpenLava.</p></li>
 <li><p>Now all built-in template job scripts support “as-is” resource specifications via <code>resources[["asis"]]</code>.</p></li>
 <li><p>Now all built-in template job scripts support “environment module” resource specifications via <code>resources[["modules"]]</code>. When specified, corresponding <code>module load &lt;name&gt;</code> entries are injected to the job script.</p></li>
