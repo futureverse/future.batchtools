@@ -766,9 +766,17 @@ await <- function(future, cleanup = TRUE, ...) {
   ## Sleep function - increases geometrically as a function of iterations
   sleep_fcn <- function(i) delta * alpha ^ (i - 1)
  
+  if (debug) mdebugf_push("batchtools::waitForJobs(..., timeout = %s) ...", timeout)
   res <- waitForJobs(ids = jobid, timeout = timeout, sleep = sleep_fcn,
                      stop.on.error = FALSE, reg = reg)
-  if (debug) mdebugf("batchtools::waitForJobs(): %s", res)
+  if (!isTRUE(res)) {
+    warning(FutureWarning(sprintf("batchtools::waitForJobs(..., timeout = %s) returned FALSE", timeout), future = future))
+  }
+  if (debug) {
+    mdebugf("Result: %s", res)
+    mdebugf_pop()
+  }
+  
   stat <- status(future)
   if (debug) {
     mdebugf("status(): %s", paste(sQuote(stat), collapse = ", "))
