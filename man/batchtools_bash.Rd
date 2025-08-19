@@ -5,7 +5,13 @@
 \alias{makeClusterFunctionsBash}
 \title{A batchtools bash backend that resolves futures sequentially via a Bash template script}
 \usage{
-batchtools_bash(..., template = "bash", fs.latency = 0, resources = list())
+batchtools_bash(
+  ...,
+  template = "bash",
+  fs.latency = 0,
+  resources = list(),
+  delete = "on-success"
+)
 
 makeClusterFunctionsBash(template = "bash", fs.latency = 0, ...)
 }
@@ -23,6 +29,13 @@ Usually safe to set to \code{0} to disable the heuristic, e.g. if you are workin
 \item{resources}{(optional) A named list passed to the \pkg{batchtools}
 job-script template as variable \code{resources}.  See Section 'Resources'
 in \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} more details.}
+
+\item{delete}{Controls if and when the batchtools job registry folder is
+deleted.
+If \code{"on-success"} (default), it is deleted if the future was resolved
+successfully \emph{and} the expression did not produce an error.
+If \code{"never"}, then it is never deleted.
+If \code{"always"}, then it is always deleted.}
 
 \item{\ldots}{Not used.}
 }

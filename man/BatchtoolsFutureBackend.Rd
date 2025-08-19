@@ -21,6 +21,7 @@ BatchtoolsFutureBackend(
   registry = list(),
   conf.file = findConfFile(),
   interrupts = TRUE,
+  delete = "on-success",
   ...
 )
 
@@ -64,6 +65,13 @@ The default file is the one found by \code{\link[batchtools:findConfFile]{batcht
 \item{interrupts}{If FALSE, attempts to interrupt futures will not take
 place on this backend, even if the backend supports it. This is useful
 when, for instance, it takes a long time to interrupt a future.}
+
+\item{delete}{Controls if and when the batchtools job registry folder is
+deleted.
+If \code{"on-success"} (default), it is deleted if the future was resolved
+successfully \emph{and} the expression did not produce an error.
+If \code{"never"}, then it is never deleted.
+If \code{"always"}, then it is always deleted.}
 
 \item{fs.latency}{[\code{numeric(1)}]\cr
 Expected maximum latency of the file system, in seconds.

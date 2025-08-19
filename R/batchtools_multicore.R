@@ -31,7 +31,7 @@
 #' @importFrom parallelly availableCores supportsMulticore
 #' @importFrom tools pskill
 #' @export
-BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraints = "multicore"), fs.latency = 0.0, ...) {
+BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraints = "multicore"), fs.latency = 0.0, delete = "on-success", ...) {
   assert_no_positional_args_but_first()
 
   if (is.function(workers)) workers <- workers()
@@ -103,7 +103,7 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 #' print(info)
 #' 
 #' @export
-batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore"), fs.latency = 0.0) {
+batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore"), fs.latency = 0.0, delete = "on-success") {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_multicore() must never be called directly")
 }
 class(batchtools_multicore) <- c(

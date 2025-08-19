@@ -7,7 +7,8 @@
 batchtools_multicore(
   ...,
   workers = availableCores(constraints = "multicore"),
-  fs.latency = 0
+  fs.latency = 0,
+  delete = "on-success"
 )
 }
 \arguments{
@@ -19,6 +20,13 @@ Expected maximum latency of the file system, in seconds.
 Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
 access files and directories.
 Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
+
+\item{delete}{Controls if and when the batchtools job registry folder is
+deleted.
+If \code{"on-success"} (default), it is deleted if the future was resolved
+successfully \emph{and} the expression did not produce an error.
+If \code{"never"}, then it is never deleted.
+If \code{"always"}, then it is always deleted.}
 
 \item{\ldots}{Not used.}
 }

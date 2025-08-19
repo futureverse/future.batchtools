@@ -62,7 +62,7 @@ BatchtoolsInteractiveFutureBackend <- function(fs.latency = 0.0, ...) {
 #' @inheritParams BatchtoolsInteractiveFutureBackend
 #'
 #' @export
-batchtools_interactive <- function(..., fs.latency = 0.0) {
+batchtools_interactive <- function(..., fs.latency = 0.0, delete = "on-success") {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_interactive() must never be called directly")
 }
 class(batchtools_interactive) <- c(

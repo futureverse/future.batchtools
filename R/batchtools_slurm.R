@@ -64,7 +64,7 @@ BatchtoolsSlurmFutureBackend <- function(...) {
 #' * <https://en.wikipedia.org/wiki/Slurm_Workload_Manager>
 #'
 #' @export
-batchtools_slurm <- function(..., template = "slurm", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), workers = getOption("future.batchtools.workers", default = 100L)) {
+batchtools_slurm <- function(..., template = "slurm", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = "on-success", workers = getOption("future.batchtools.workers", default = 100L)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_slurm() must never be called directly")
 }
 class(batchtools_slurm) <- c(

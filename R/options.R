@@ -37,16 +37,6 @@
 #'     machine such as `file.path(tempdir(), ".future"` if an job scheduler
 #'     on a HPC environment is used.
 #'     (Default: `.future` in the current working directory)}
-#'
-#'   \item{\option{future.delete}:}{(logical)
-#'     Controls whether or not the future's \pkg{batchtools} registry folder
-#'     is deleted after the future result has been collected.
-#'     If TRUE, it is always deleted.
-#'     If FALSE, it is never deleted.
-#'     If not set or NULL, then it is deleted, unless running in non-interactive
-#'     mode and the batchtools job failed or expired, which helps to
-#'     troubleshoot when running in batch mode.
-#'     (Default: not set)}
 #' }
 #'
 #' @section Environment variables that set R options:
@@ -66,13 +56,11 @@
 #' future.batchtools.options
 #'
 #' future.cache.path
-#' future.delete
 #' future.batchtools.expiration.tail
 #' future.batchtools.output
 #' future.batchtools.workers
 #'
 #' R_FUTURE_CACHE_PATH
-#' R_FUTURE_DELETE
 #' R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL
 #' R_FUTURE_BATCHTOOLS_OUTPUT
 #' R_FUTURE_BATCHTOOLS_WORKERS
@@ -163,7 +151,6 @@ update_package_option <- function(name, mode = "character", default = NULL, spli
 ## Set future options based on environment variables
 update_package_options <- function(debug = FALSE) {
   update_package_option("future.cache.path", mode = "character", debug = debug)
-  update_package_option("future.delete", mode = "logical", debug = debug)
   
   update_package_option("future.batchtools.expiration.tail", mode = "integer", debug = debug)
   update_package_option("future.batchtools.output", mode = "logical", debug = debug)

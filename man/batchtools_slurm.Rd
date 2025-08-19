@@ -10,6 +10,7 @@ batchtools_slurm(
   scheduler.latency = 1,
   fs.latency = 65,
   resources = list(),
+  delete = "on-success",
   workers = getOption("future.batchtools.workers", default = 100L)
 )
 }
@@ -31,6 +32,13 @@ Usually safe to set to \code{0} to disable the heuristic, e.g. if you are workin
 \item{resources}{(optional) A named list passed to the \pkg{batchtools}
 job-script template as variable \code{resources}.  See Section 'Resources'
 in \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} more details.}
+
+\item{delete}{Controls if and when the batchtools job registry folder is
+deleted.
+If \code{"on-success"} (default), it is deleted if the future was resolved
+successfully \emph{and} the expression did not produce an error.
+If \code{"never"}, then it is never deleted.
+If \code{"always"}, then it is always deleted.}
 
 \item{workers}{The maximum number of workers the batchtools backend may
 use at any time, which for HPC schedulers corresponds to the maximum number

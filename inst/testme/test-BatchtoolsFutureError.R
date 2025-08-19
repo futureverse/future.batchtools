@@ -2,12 +2,10 @@ library(future)
 
 message("*** BatchtoolsFutureError() ...")
 
-plan(future.batchtools::batchtools_local)
+for (delete in c("never", "always")) {
+  mprintf("*** batchtools future error w/ delete = %s ...\n", delete)
 
-for (cleanup in c(FALSE, TRUE)) {
-  mprintf("*** batchtools future error w/ future.delete = %s ...\n", cleanup)
-
-  options(future.delete = cleanup)
+  plan(future.batchtools::batchtools_local, delete = delete)
 
   f <- future({
     x <- 1
@@ -35,9 +33,8 @@ for (cleanup in c(FALSE, TRUE)) {
   mprintf(" - batchtools Registry path (%s) exists: %s\n",
           sQuote(reg$file.dir), file_test("-d", reg$file.dir))
   
-  ## Assert removal of files only happens if there was not
-  ## a failure and option future.delete is not TRUE.
-  if (!cleanup) {
+  ## Assert removal of files only happens if there was not a failure
+  if (delete == "never") {
     ## FIXME: Does the new future::FutureResult trigger garbage collection?
     stopifnot(file_test("-d", reg$file.dir))
     log <- batchtools::getLog(reg = reg, id = 1L)
@@ -49,8 +46,8 @@ for (cleanup in c(FALSE, TRUE)) {
 
   stopifnot(!file_test("-d", reg$file.dir))
 
-  mprintf("*** batchtools future error w/ future.delete = %s ... DONE\n", cleanup)
-} ## for (cleanup ...)
+  mprintf("*** batchtools future error w/ delete = %s ... DONE\n", delete)
+} ## for (delete ...)
 
 
 message("*** BatchtoolsFuture - expired ...")

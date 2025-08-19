@@ -30,6 +30,13 @@
 #' job-script template as variable `resources`.  See Section 'Resources'
 #' in [batchtools::submitJobs()] more details.
 #'
+#' @param delete Controls if and when the batchtools job registry folder is
+#' deleted.
+#' If `"on-success"` (default), it is deleted if the future was resolved
+#' successfully _and_ the expression did not produce an error.
+#' If `"never"`, then it is never deleted.
+#' If `"always"`, then it is always deleted.
+#'
 #' @param \ldots Not used.
 #'
 #' @return A [future::FutureBackend] object of class BatchtoolsFutureBackend 
@@ -46,6 +53,7 @@ BatchtoolsFutureBackend <- function(
                              registry = list(),
                              conf.file = findConfFile(),
                              interrupts = TRUE,
+			     delete = "on-success",
                              ...) {
   assert_no_positional_args_but_first()
 
@@ -75,7 +83,9 @@ BatchtoolsFutureBackend <- function(
   }
   
   stop_if_not(is.list(resources))
-  
+  stop_if_not(is.character(delete))
+  delete <- match.arg(delete, choices = c("on-success", "never", "always"))
+
   core <- FutureBackend(
     reg = "workers-batchtools",
     workers = workers,
@@ -85,6 +95,7 @@ BatchtoolsFutureBackend <- function(
     registry = registry,
     finalize = finalize,
     interrupts = interrupts,
+    delete = delete,
     future.wait.timeout = getOption("future.wait.timeout", 30 * 24 * 60 * 60),
     future.wait.interval = getOption("future.wait.interval", 0.01),
     future.wait.alpha = getOption("future.wait.alpha", 1.01),
@@ -200,6 +211,7 @@ launchFuture.BatchtoolsFutureBackend <- local({
       mprint(list(config = config))
     }
     future[["config"]] <- config
+    future[["delete"]] <- backend[["delete"]]
 
     ## Register finalizer?
     if (backend[["finalize"]]) future <- add_finalizer(future)
@@ -309,12 +321,14 @@ launchFuture.BatchtoolsFutureBackend <- local({
         submitJobs(reg = reg, ids = jobid, resources = resources)
       })
     }, error = function(ex) {
+      path <- reg$file.dir
       msg <- conditionMessage(ex)
       label <- sQuoteLabel(future)
       msg <- sprintf("Failed to submit %s (%s). The reason was: %s", class(future)[1], label, msg)
       info <- capture.output(str(resources))
       info <- paste(info, collapse = "\n")
-      msg <- sprintf("%s\nTROUBLESHOOTING INFORMATION:\nbatchtools::submitJobs() was called with the following 'resources' argument:\n%s\n", msg, info)
+      msg <- sprintf("%s\nTROUBLESHOOTING INFORMATION:\nbatchtools::submitJobs() was called with the following 'resources' argument:\n%s", msg, info)
+      msg <- sprintf("%s\nDETAILS:\nThe batchtools registry path: %s", msg, sQuote(path))
       stop(FutureLaunchError(msg, future = future))
     })
     
@@ -944,11 +958,12 @@ delete.BatchtoolsFuture <- function(future,
 
   ## To simplify post mortem troubleshooting in non-interactive sessions,
   ## should the batchtools registry files be removed or not?
+  delete <- future[["delete"]]
   if (debug) {
-    mdebugf("delete(): Option 'future.delete = %s",
-            sQuote(getOption("future.delete", "<NULL>")))
+    mdebugf("delete(): Future backend argument 'delete' is %s", sQuote(delete))
   }
-  if (!getOption("future.delete", interactive())) {
+  
+  if (delete != "never") {
     status <- status(future)
     res <- future$result
     if (inherits(res, "FutureResult")) {
@@ -959,16 +974,18 @@ delete.BatchtoolsFuture <- function(future,
               paste(sQuote(status), collapse = ", "))
     }
     if (any(c("error", "expired") %in% status)) {
-      msg <- sprintf("Will not remove batchtools registry, because the status of the batchtools was %s and option 'future.delete' is FALSE or running in an interactive session: %s", paste(sQuote(status), collapse = ", "), sQuote(path)) #nolint
-      if (debug) mdebugf("delete(): %s", msg)
-      warning(msg)
-      return(invisible(FALSE))
+      if (delete == "on-success") {
+        msg <- sprintf("Will not remove batchtools registry, because the status of the batchtools was %s and future backend argument 'delete' is %s: %s", paste(sQuote(status), collapse = ", "), sQuote(delete), sQuote(path)) #nolint
+        if (debug) mdebugf("delete(): %s", msg)
+        warning(msg)
+        return(invisible(FALSE))
+      }	
     }
   }
 
   ## Have user disabled deletions?
-  if (!getOption("future.delete", TRUE)) {
-    msg <- sprintf("Option 'future.delete' is FALSE - will not delete batchtools registry: %s", sQuote(path))
+  if (delete == "never") {
+    msg <- sprintf("Future backend argument 'delete' is %s - will not delete batchtools registry: %s", sQuote(delete), sQuote(path))
     if (debug) mdebugf("delete(): %s", msg)
     return(invisible(FALSE))
   }

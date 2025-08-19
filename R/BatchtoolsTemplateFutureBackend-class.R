@@ -47,7 +47,7 @@
 #' @importFrom batchtools makeClusterFunctionsSlurm
 #' @importFrom batchtools makeClusterFunctionsTORQUE
 #' @export
-BatchtoolsTemplateFutureBackend <- function(type, scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), template = NULL, makeClusterFunctions = NULL, workers = getOption("future.batchtools.workers", default = 100L), ...) {
+BatchtoolsTemplateFutureBackend <- function(type, scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = "on-success", template = NULL, makeClusterFunctions = NULL, workers = getOption("future.batchtools.workers", default = 100L), ...) {
   assert_no_positional_args_but_first()
   stop_if_not(
     is.character(type),
@@ -105,6 +105,7 @@ BatchtoolsTemplateFutureBackend <- function(type, scheduler.latency = 1.0, fs.la
   args <- dotdotdot
   args[["cluster.functions"]] <- cluster.functions
   args[["workers"]] <- workers
+  args[["delete"]] <- delete
   
   core <- do.call(BatchtoolsMultiprocessFutureBackend, args = args)
   

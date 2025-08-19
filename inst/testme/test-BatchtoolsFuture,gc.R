@@ -23,7 +23,7 @@ for (how in c("resolve", "value")) {
   gc()
 
   ## Assert removal of files only happens if there was not
-  ## a failure and option future.delete is not TRUE.
+  ## a failure.
   stopifnot(!file_test("-d", reg$file.dir))
   fail <- try(checkIds(reg, ids = 1L), silent = TRUE)
   stopifnot(inherits(fail, "try-error"))

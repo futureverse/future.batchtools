@@ -5,6 +5,11 @@
  * **future.batchtools** now implements the FutureBackend API
    introduced in **future** 1.40.0 (2025-04-10).
 
+ * Removed option `future.delete`. To control whether batchtools
+   futures should be deleted from the file system, see future backend
+   argument `delete`, which defaults to `"on-success"`, but can also
+   be set to `"never"` and `"always"`.
+
 ## New Features
 
  * Most types of batchtools future can now be interrupted, including
