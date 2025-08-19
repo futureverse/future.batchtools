@@ -53,7 +53,7 @@ BatchtoolsFutureBackend <- function(
                              registry = list(),
                              conf.file = findConfFile(),
                              interrupts = TRUE,
-			     delete = "on-success",
+                             delete = getOption("future.batchtools.debug", "on-success"),
                              ...) {
   assert_no_positional_args_but_first()
 
@@ -987,7 +987,7 @@ delete.BatchtoolsFuture <- function(future,
         if (debug) mdebugf("delete(): %s", msg)
         warning(msg)
         return(invisible(FALSE))
-      }	
+      }
     }
   }
 

@@ -8,7 +8,7 @@ batchtools_multicore(
   ...,
   workers = availableCores(constraints = "multicore"),
   fs.latency = 0,
-  delete = "on-success"
+  delete = getOption("future.batchtools.delete", "on-success")
 )
 }
 \arguments{

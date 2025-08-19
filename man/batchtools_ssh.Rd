@@ -8,7 +8,7 @@ batchtools_ssh(
   ...,
   workers = availableWorkers(),
   fs.latency = 65,
-  delete = "on-success"
+  delete = getOption("future.batchtools.delete", "on-success")
 )
 }
 \arguments{

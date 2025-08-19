@@ -10,7 +10,7 @@ batchtools_bash(
   template = "bash",
   fs.latency = 0,
   resources = list(),
-  delete = "on-success"
+  delete = getOption("future.batchtools.delete", "on-success")
 )
 
 makeClusterFunctionsBash(template = "bash", fs.latency = 0, ...)

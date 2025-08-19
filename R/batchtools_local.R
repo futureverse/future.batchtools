@@ -92,7 +92,7 @@ BatchtoolsLocalFutureBackend <- function(fs.latency = 0.0, ...) {
 #' print(info)
 #' 
 #' @export
-batchtools_local <- function(..., fs.latency = 0.0, delete = "on-success") {
+batchtools_local <- function(..., fs.latency = 0.0, delete = getOption("future.batchtools.delete", "on-success")) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_local() must never be called directly")
 }
 class(batchtools_local) <- c(
