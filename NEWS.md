@@ -38,7 +38,12 @@
    - All built-in template job scripts support "environment module"
      resource specifications via `resources[["modules"]]`. When
      specified, corresponding `module load <name>` entries are
-     injected to the job script.
+     injected to the generated job script.
+     
+   - All built-in template job scripts support "startup code" resource
+     specifications via `resources[["startup"]]`. When specified,
+     corresponding lines are injected early in the generated job
+     script.
      
    - All built-in template job scripts, which are written in Bash,
      error and exit early, but setting more strict Bash options. This

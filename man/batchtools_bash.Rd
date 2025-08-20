@@ -73,16 +73,24 @@ set -u          # error on unset variables
 set -o pipefail # fail a pipeline if any command fails
 trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
 
-
 <\%
   ## Maximum runtime?
   runtime <- resources[["timeout"]]
   timeout <- if (is.null(runtime)) "" else sprintf("timeout \%s", runtime)
-  
+    
+  ## Shell "startup" code to evaluate
+  startup <- resources[["startup"]]
+  resources[["startup"]] <- NULL
+
   ## Environment modules specifications
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
 \%>
+
+<\% if (length(startup) > 0) \{
+  ## Inject optional shell code
+  writeLines(startup)
+\} \%>
 
 echo "Load environment modules:"
 <\% if (length(modules) > 0) \{

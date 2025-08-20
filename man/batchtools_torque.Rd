@@ -67,7 +67,7 @@ and comprise:
 ######################################################################
 # A batchtools launch script template for TORQUE/PBS
 #
-# Author: Henrik Bengtsson 
+# Author: Henrik Bengtsson
 ######################################################################
 
 ## Job name
@@ -84,6 +84,10 @@ and comprise:
   ## As-is resource specifications
   job_declarations <- resources[["asis"]]
   resources[["asis"]] <- NULL
+    
+  ## Shell "startup" code to evaluate
+  startup <- resources[["startup"]]
+  resources[["startup"]] <- NULL
      
   ## Environment modules specifications
   modules <- resources[["modules"]]
@@ -106,6 +110,11 @@ echo "Batchtools information:"
 echo "- job name: '<\%= job.name \%>'"
 echo "- job log file: '<\%= log.file \%>'"
 echo
+
+<\% if (length(startup) > 0) \{
+  ## Inject optional shell code
+  writeLines(startup)
+\} \%>
 
 echo "Load environment modules:"
 <\%

@@ -80,6 +80,10 @@ and comprise:
   ## As-is resource specifications
   job_declarations <- resources[["asis"]]
   resources[["asis"]] <- NULL
+    
+  ## Shell "startup" code to evaluate
+  startup <- resources[["startup"]]
+  resources[["startup"]] <- NULL
      
   ## Environment modules specifications
   modules <- resources[["modules"]]
@@ -102,6 +106,11 @@ echo "Batchtools information:"
 echo "- job name: '<\%= job.name \%>'"
 echo "- job log file: '<\%= log.file \%>'"
 echo
+
+<\% if (length(startup) > 0) \{
+  ## Inject optional shell code
+  writeLines(startup)
+\} \%>
 
 echo "Load environment modules:"
 <\% if (length(modules) > 0) \{
