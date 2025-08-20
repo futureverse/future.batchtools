@@ -43,8 +43,10 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/slurm.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
 #' This template and the built-in [batchtools::makeClusterFunctionsSlurm()]
-#' have been verified to work with Slurm v21.08.4 running on a Rocky 8 Linux
-#' cluster with an NFS global filesystem.
+#' have been verified to work on a few different Slurm HPC cluster;
+#'
+#'  1. Slurm 21.08.4, Rocky 8 Linux, NFS global filesystem (August 2025)
+#'  2. Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
 #'
 #'
 #' @examplesIf interactive()

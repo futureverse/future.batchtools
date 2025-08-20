@@ -134,8 +134,11 @@ exit "$\{res\}"
 }\if{html}{\out{</div>}}
 
 This template and the built-in \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}
-have been verified to work with Slurm v21.08.4 running on a Rocky 8 Linux
-cluster with an NFS global filesystem.
+have been verified to work on a few different Slurm HPC cluster;
+\enumerate{
+\item Slurm 21.08.4, Rocky 8 Linux, NFS global filesystem (August 2025)
+\item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
+}
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
