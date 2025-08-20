@@ -17,7 +17,7 @@ Please see the source code, for details."><!-- Global site tag (gtag.js) - Googl
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9975</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9976</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -154,7 +154,7 @@ installed on the current machine and the <code>timeout</code> command is availab
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span>          <span class="co"># exit on error</span></span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="bu">set</span> <span class="at">-u</span>          <span class="co"># error on unset variables</span></span>
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="bu">set</span> <span class="at">-o</span> pipefail <span class="co"># fail a pipeline if any command fails</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="bu">trap</span> <span class="st">'echo "future.batchtools job script failed on line $LINENO"; exit 1'</span> ERR</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="bu">trap</span> <span class="st">'echo "ERROR: future.batchtools job script failed on line $LINENO" &gt;&amp;2; exit 1'</span> ERR</span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
 <span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="op">&lt;</span>%</span>

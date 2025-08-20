@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9975</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9976</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -162,7 +162,7 @@ the current machine.</p>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#$ -o &lt;%= log.file %&gt;</span></span>
 <span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">## Merge standard error and output</span></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#PBS -j y</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#$ -j y</span></span>
 <span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">## Tell the queue system to use the current directory</span></span>
 <span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">## as the working directory</span></span>
@@ -189,7 +189,7 @@ the current machine.</p>
 <span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span>          <span class="co"># exit on error</span></span>
 <span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="bu">set</span> <span class="at">-u</span>          <span class="co"># error on unset variables</span></span>
 <span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="bu">set</span> <span class="at">-o</span> pipefail <span class="co"># fail a pipeline if any command fails</span></span>
-<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="bu">trap</span> <span class="st">'echo "future.batchtools job script failed on line $LINENO"; exit 1'</span> ERR</span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="bu">trap</span> <span class="st">'echo "ERROR: future.batchtools job script failed on line $LINENO" &gt;&amp;2; exit 1'</span> ERR</span>
 <span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a></span>
 <span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Batchtools information:"</span></span>
 <span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job name: '&lt;%= job.name %&gt;'"</span></span>

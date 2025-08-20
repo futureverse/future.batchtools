@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9975</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9976</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -180,7 +180,7 @@ the current machine.</p>
 <span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span>          <span class="co"># exit on error</span></span>
 <span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="bu">set</span> <span class="at">-u</span>          <span class="co"># error on unset variables</span></span>
 <span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="bu">set</span> <span class="at">-o</span> pipefail <span class="co"># fail a pipeline if any command fails</span></span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="bu">trap</span> <span class="st">'echo "future.batchtools job script failed on line $LINENO"; exit 1'</span> ERR</span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="bu">trap</span> <span class="st">'echo "ERROR: future.batchtools job script failed on line $LINENO" &gt;&amp;2; exit 1'</span> ERR</span>
 <span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a></span>
 <span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Batchtools information:"</span></span>
 <span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job name: '&lt;%= job.name %&gt;'"</span></span>
