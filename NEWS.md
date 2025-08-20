@@ -20,23 +20,30 @@
  * Canceling batchtools futures will now interrupt them by default,
    if the backend supports it.
 
- * Tidy up built-in template job scripts for Bash, SGE, Slurm and
-   Torque/PBS.
-
- * Add built-in template job scripts for LSF and OpenLava.
-
- * Now all built-in template job scripts support "as-is" resource
-   specifications via `resources[["asis"]]`.
-
- * Now all built-in template job scripts support "environment module"
-   resource specifications via `resources[["modules"]]`. When
-   specified, corresponding `module load <name>` entries are injected
-   to the job script.
-
  * Calling `plan()` on `batchtools_sge` and `batchtools_slurm` reports
    on the version of the scheduler.
    
  * Printing a batchtools future will show logged output.
+
+ * Built-in job-script templates:
+ 
+   - Tidy up built-in template job scripts for Bash, SGE, Slurm and
+     Torque/PBS.
+  
+   - Add built-in template job scripts for LSF and OpenLava.
+  
+   - All built-in template job scripts support "as-is" resource
+     specifications via `resources[["asis"]]`.
+  
+   - All built-in template job scripts support "environment module"
+     resource specifications via `resources[["modules"]]`. When
+     specified, corresponding `module load <name>` entries are
+     injected to the job script.
+     
+   - All built-in template job scripts, which are written in Bash,
+     error and exit early, but setting more strict Bash options. This
+     should help with any troubleshooting, especially when getting
+     started.
 
 ## Documentation
 
