@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9971</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9972</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,9 +191,9 @@ the current machine.</p>
 <span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="bu">echo</span></span>
 <span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a></span>
 <span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Load environment modules:"</span></span>
-<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="op">&lt;</span>%</span>
-<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"module load %s"</span><span class="ex">,</span> modules<span class="kw">))</span></span>
-<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">modules</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">c</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"module load %s"</span><span class="ex">,</span> modules<span class="kw">)</span><span class="ex">,</span> <span class="st">"module list"</span><span class="kw">))</span></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a></span>
 <span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Session information:"</span></span>
 <span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- timestamp: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span>

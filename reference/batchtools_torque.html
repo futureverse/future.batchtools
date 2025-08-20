@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9971</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9972</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -198,9 +198,9 @@ the current machine.</p>
 <span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="bu">echo</span></span>
 <span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a></span>
 <span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Job submission declarations:"</span></span>
-<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="op">&lt;</span>%</span>
-<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"echo '%s'"</span><span class="ex">,</span> job_declarations<span class="kw">))</span></span>
-<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">modules</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">c</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"module load %s"</span><span class="ex">,</span> modules<span class="kw">)</span><span class="ex">,</span> <span class="st">"module list"</span><span class="kw">))</span></span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a></span>
 <span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Job information:"</span></span>
 <span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-f</span> <span class="st">"</span><span class="va">${PBS_JOBID}</span><span class="st">"</span></span>

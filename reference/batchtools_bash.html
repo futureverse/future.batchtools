@@ -17,7 +17,7 @@ Please see the source code, for details."><!-- Global site tag (gtag.js) - Googl
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9971</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9972</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -161,9 +161,9 @@ installed on the current machine and the <code>timeout</code> command is availab
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a></span>
 <span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Load environment modules:"</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="op">&lt;</span>%</span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"module load %s"</span><span class="ex">,</span> modules<span class="kw">))</span></span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">modules</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">c</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"module load %s"</span><span class="ex">,</span> modules<span class="kw">)</span><span class="ex">,</span> <span class="st">"module list"</span><span class="kw">))</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a></span>
 <span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co"># Launch R and evaluate the batchtools R job</span></span>
 <span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="op">&lt;</span>%= <span class="fu">timeout</span> %<span class="op">&gt;</span> Rscript <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;", output = "&lt;%= log.file %&gt;")'</span></span></code></pre><p></p></div>
