@@ -17,7 +17,7 @@ cluster via a job scheduler."><!-- Global site tag (gtag.js) - Google Analytics 
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9976</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9977</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,7 +106,7 @@ cluster via a job scheduler.</p>
 <dt id="arg-scheduler-latency">scheduler.latency<a class="anchor" aria-label="anchor" href="#arg-scheduler-latency"></a></dt>
 <dd><p>[<code>numeric(1)</code>]<br>
 Time to sleep after important interactions with the scheduler to ensure a sane state.
-Currently only triggered after calling <code><a href="https://rdrr.io/pkg/batchtools/man/submitJobs.html" class="external-link">submitJobs</a></code>.</p></dd>
+Currently only triggered after calling <code><a href="https://batchtools.mlr-org.com/reference/submitJobs.html" class="external-link">submitJobs</a></code>.</p></dd>
 
 
 <dt id="arg-fs-latency">fs.latency<a class="anchor" aria-label="anchor" href="#arg-fs-latency"></a></dt>
@@ -120,7 +120,7 @@ Usually safe to set to <code>0</code> to disable the heuristic, e.g. if you are 
 <dt id="arg-resources">resources<a class="anchor" aria-label="anchor" href="#arg-resources"></a></dt>
 <dd><p>(optional) A named list passed to the <span class="pkg">batchtools</span>
 job-script template as variable <code>resources</code>.  See Section 'Resources'
-in <code><a href="https://rdrr.io/pkg/batchtools/man/submitJobs.html" class="external-link">batchtools::submitJobs()</a></code> more details.</p></dd>
+in <code><a href="https://batchtools.mlr-org.com/reference/submitJobs.html" class="external-link">batchtools::submitJobs()</a></code> more details.</p></dd>
 
 
 <dt id="arg-delete">delete<a class="anchor" aria-label="anchor" href="#arg-delete"></a></dt>
@@ -156,15 +156,15 @@ of queued jobs. The default is
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>These type of batchtools futures rely on batchtools backends set
-up using the following <span class="pkg">batchtools</span> functions:</p><ul><li><p><code><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsLSF.html" class="external-link">batchtools::makeClusterFunctionsLSF()</a></code> for
+up using the following <span class="pkg">batchtools</span> functions:</p><ul><li><p><code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsLSF.html" class="external-link">batchtools::makeClusterFunctionsLSF()</a></code> for
 <a href="https://en.wikipedia.org/wiki/Platform_LSF" class="external-link">Load Sharing Facility (LSF)</a></p></li>
-<li><p><code><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsOpenLava.html" class="external-link">batchtools::makeClusterFunctionsOpenLava()</a></code> for
+<li><p><code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsOpenLava.html" class="external-link">batchtools::makeClusterFunctionsOpenLava()</a></code> for
 <a href="https://en.wikipedia.org/wiki/OpenLava" class="external-link">OpenLava</a></p></li>
-<li><p><code><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsSGE.html" class="external-link">batchtools::makeClusterFunctionsSGE()</a></code> for
+<li><p><code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSGE.html" class="external-link">batchtools::makeClusterFunctionsSGE()</a></code> for
 <a href="https://en.wikipedia.org/wiki/Oracle_Grid_Engine" class="external-link">Sun/Oracle Grid Engine (SGE)</a></p></li>
-<li><p><code><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsSlurm.html" class="external-link">batchtools::makeClusterFunctionsSlurm()</a></code> for
+<li><p><code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSlurm.html" class="external-link">batchtools::makeClusterFunctionsSlurm()</a></code> for
 <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager" class="external-link">Slurm</a></p></li>
-<li><p><code><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsTORQUE.html" class="external-link">batchtools::makeClusterFunctionsTORQUE()</a></code> for
+<li><p><code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsTORQUE.html" class="external-link">batchtools::makeClusterFunctionsTORQUE()</a></code> for
 <a href="https://en.wikipedia.org/wiki/TORQUE" class="external-link">TORQUE</a> / PBS</p></li>
 </ul></div>
 

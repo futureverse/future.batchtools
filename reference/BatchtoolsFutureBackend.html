@@ -35,7 +35,7 @@ SSH batchtools futures."><!-- Global site tag (gtag.js) - Google Analytics --><s
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9976</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9977</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -144,32 +144,32 @@ will resolve to <code>getOption("<a href="zzz-future.batchtools.options.html">fu
 <dt id="arg-resources">resources<a class="anchor" aria-label="anchor" href="#arg-resources"></a></dt>
 <dd><p>(optional) A named list passed to the <span class="pkg">batchtools</span>
 job-script template as variable <code>resources</code>.  See Section 'Resources'
-in <code><a href="https://rdrr.io/pkg/batchtools/man/submitJobs.html" class="external-link">batchtools::submitJobs()</a></code> more details.</p></dd>
+in <code><a href="https://batchtools.mlr-org.com/reference/submitJobs.html" class="external-link">batchtools::submitJobs()</a></code> more details.</p></dd>
 
 
 <dt id="arg-finalize">finalize<a class="anchor" aria-label="anchor" href="#arg-finalize"></a></dt>
 <dd><p>If TRUE, a future's <span class="pkg">batchtools</span>
-<a href="https://rdrr.io/pkg/batchtools/man/makeRegistry.html" class="external-link">Registry</a> is automatically deleted when
+<a href="https://batchtools.mlr-org.com/reference/makeRegistry.html" class="external-link">Registry</a> is automatically deleted when
 the future is garbage collected, otherwise not.</p></dd>
 
 
 <dt id="arg-cluster-functions">cluster.functions<a class="anchor" aria-label="anchor" href="#arg-cluster-functions"></a></dt>
 <dd><p>(optional) Assigned as-is to the each future's
-<span class="pkg">batchtools</span> <a href="https://rdrr.io/pkg/batchtools/man/makeRegistry.html" class="external-link">Registry</a>.</p></dd>
+<span class="pkg">batchtools</span> <a href="https://batchtools.mlr-org.com/reference/makeRegistry.html" class="external-link">Registry</a>.</p></dd>
 
 
 <dt id="arg-registry">registry<a class="anchor" aria-label="anchor" href="#arg-registry"></a></dt>
 <dd><p>(optional) A named list of settings applied to each
-future's <span class="pkg">batchtools</span> <a href="https://rdrr.io/pkg/batchtools/man/makeRegistry.html" class="external-link">Registry</a>.
+future's <span class="pkg">batchtools</span> <a href="https://batchtools.mlr-org.com/reference/makeRegistry.html" class="external-link">Registry</a>.
 This is a more convenient alternative to using argument <code>conf.file</code>.</p></dd>
 
 
 <dt id="arg-conf-file">conf.file<a class="anchor" aria-label="anchor" href="#arg-conf-file"></a></dt>
 <dd><p>(optional) A "batchtools-configuration" R script, which
 is sourced when each future's <span class="pkg">batchtools</span>
-<a href="https://rdrr.io/pkg/batchtools/man/makeRegistry.html" class="external-link">Registry</a> is created. Any variables
+<a href="https://batchtools.mlr-org.com/reference/makeRegistry.html" class="external-link">Registry</a> is created. Any variables
 created by this script is assigned to the registry.
-The default file is the one found by <code><a href="https://rdrr.io/pkg/batchtools/man/findConfFile.html" class="external-link">batchtools::findConfFile()</a></code>, if any.</p></dd>
+The default file is the one found by <code><a href="https://batchtools.mlr-org.com/reference/findConfFile.html" class="external-link">batchtools::findConfFile()</a></code>, if any.</p></dd>
 
 
 <dt id="arg-interrupts">interrupts<a class="anchor" aria-label="anchor" href="#arg-interrupts"></a></dt>
@@ -209,9 +209,9 @@ Usually safe to set to <code>0</code> to disable the heuristic, e.g. if you are 
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>batchtools local futures rely on the batchtools backend set up by
-<code><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsInteractive.html" class="external-link">batchtools::makeClusterFunctionsInteractive(external = TRUE)</a></code>
+<code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html" class="external-link">batchtools::makeClusterFunctionsInteractive(external = TRUE)</a></code>
 and batchtools interactive futures on the one set up by
-<code><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsInteractive.html" class="external-link">batchtools::makeClusterFunctionsInteractive()</a></code>.
+<code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html" class="external-link">batchtools::makeClusterFunctionsInteractive()</a></code>.
 These are supported by all operating systems.</p>
 <p>An alternative to batchtools local futures is to use
 <a href="https://future.futureverse.org/reference/cluster.html" class="external-link">cluster</a> futures of the <span class="pkg">future</span>
@@ -220,7 +220,7 @@ package with a single local background session, i.e.
 <p>An alternative to batchtools interactive futures is to use
 <code>plan(sequential, split = TRUE)</code> futures of the <span class="pkg">future</span> package.</p>
 <p>batchtools SSH futures rely on the batchtools backend set
-up by <code><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsSSH.html" class="external-link">batchtools::makeClusterFunctionsSSH()</a></code>.
+up by <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSSH.html" class="external-link">batchtools::makeClusterFunctionsSSH()</a></code>.
 The batchtools SSH backend only works on operating systems
 supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linux and macOS.</p>
     </div>
@@ -230,7 +230,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Create custom cluster functions (here same as "local")</span></span></span>
-<span class="r-in"><span><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu">batchtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/batchtools/man/makeClusterFunctionsInteractive.html" class="external-link">makeClusterFunctionsInteractive</a></span><span class="op">(</span>external <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu">batchtools</span><span class="fu">::</span><span class="fu"><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html" class="external-link">makeClusterFunctionsInteractive</a></span><span class="op">(</span>external <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ClusterFunctions for mode: Interactive</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   List queued Jobs : FALSE</span>
@@ -261,7 +261,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> BatchtoolsCustomFutureBackend:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: 637a0bc10a084841601911c5e0ed5ded</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: 67543892fd0fa995bd1812327774ef4d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of free workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available cores: 8</span>
@@ -278,12 +278,12 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions template: &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools resources:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/RtmprptCJi/future.batchtools/docs/reference/.future/20250820_134756-3JQZSk’ (0 folders)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/RtmpsP4By8/future.batchtools/docs/reference/.future/20250820_144318-4VIv9Y’ (0 folders)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools resources:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  list()</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Main process ID: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 1512091</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 1536933</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
@@ -297,7 +297,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-in"><span><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">info</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     hostname    os cores     pid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hb-x1-2025 Linux     8 1512279</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hb-x1-2025 Linux     8 1537145</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                    modules</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 CBI:r/4.5.1:bat/0.25.0:fzf/0.65.1:shellcheck/0.11.0:shellcheck-repl/0.4.4:restic/0.18.0:git-flow/1.12.3:git-extras/7.4.0:github-cli/2.76.2:port4me/0.7.1:pandoc/3.7.0.2:quarto/1.7.33:bash-startup/0.5.0</span>
 <span class="r-in"><span></span></span>
