@@ -102,6 +102,12 @@ and comprise:
   writeLines(job_declarations)
 \%>
 
+## Bash settings
+set -e          # exit on error
+set -u          # error on unset variables
+set -o pipefail # fail a pipeline if any command fails
+trap 'echo "Error on line $LINENO"; exit 1' ERR
+
 echo "Batchtools information:"
 echo "- job name: '<\%= job.name \%>'"
 echo "- job log file: '<\%= log.file \%>'"

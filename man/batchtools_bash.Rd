@@ -67,6 +67,12 @@ and comprise:
 # Author: Henrik Bengtsson 
 ######################################################################
 
+## Bash settings
+set -e          # exit on error
+set -u          # error on unset variables
+set -o pipefail # fail a pipeline if any command fails
+trap 'echo "Error on line $LINENO"; exit 1' ERR
+
 <\%
   ## Maximum runtime?
   runtime <- resources[["timeout"]]
