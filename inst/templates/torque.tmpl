@@ -50,9 +50,9 @@ echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' '
 echo
 
 echo "Job submission declarations:"
-<%
-  writeLines(sprintf("echo '%s'", job_declarations))
-%>
+<% if (length(modules) > 0) {
+  writeLines(c(sprintf("module load %s", modules), "module list"))
+} %>
 
 echo "Job information:"
 qstat -f "${PBS_JOBID}"
