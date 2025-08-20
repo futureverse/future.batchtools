@@ -99,9 +99,9 @@ echo "- job log file: '<\%= log.file \%>'"
 echo
 
 echo "Load environment modules:"
-<\%
-  writeLines(sprintf("module load \%s", modules))
-\%>
+<\% if (length(modules) > 0) \{
+  writeLines(c(sprintf("module load \%s", modules), "module list"))
+\} \%>
 
 echo "Session information:"
 echo "- timestamp: $(date)"

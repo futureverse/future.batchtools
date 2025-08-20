@@ -98,9 +98,9 @@ echo "- job log file: '<\%= log.file \%>'"
 echo
 
 echo "Load environment modules:"
-<\%
-  writeLines(sprintf("module load \%s", modules))
-\%>
+<\% if (length(modules) > 0) \{
+  writeLines(c(sprintf("module load \%s", modules), "module list"))
+\} \%>
 
 echo "Session information:"
 echo "- timestamp: $(date)"
@@ -134,7 +134,7 @@ exit "$\{res\}"
 }\if{html}{\out{</div>}}
 
 This template and the built-in \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}
-have been verified to work on a few different Slurm HPC cluster;
+have been verified to work on a few different Slurm HPC clusters;
 \enumerate{
 \item Slurm 21.08.4, Rocky 8 Linux, NFS global filesystem (August 2025)
 \item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)

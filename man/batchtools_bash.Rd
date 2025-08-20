@@ -78,9 +78,9 @@ and comprise:
 \%>
 
 echo "Load environment modules:"
-<\%
-  writeLines(sprintf("module load \%s", modules))
-\%>
+<\% if (length(modules) > 0) \{
+  writeLines(c(sprintf("module load \%s", modules), "module list"))
+\} \%>
 
 # Launch R and evaluate the batchtools R job
 <\%= timeout \%> Rscript -e 'batchtools::doJobCollection("<\%= uri \%>", output = "<\%= log.file \%>")'
