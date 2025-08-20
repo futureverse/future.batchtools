@@ -46,7 +46,8 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' have been verified to work on a few different Slurm HPC clusters;
 #'
 #'  1. Slurm 21.08.4, Rocky 8 Linux, NFS global filesystem (August 2025)
-#'  2. Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
+#'  2. Slurm 22.05.11, Rocky 8 Linux, NFS global filesystem (August 2025)
+#'  3. Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
 #'
 #'
 #' @examplesIf interactive()

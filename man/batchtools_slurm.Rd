@@ -96,7 +96,7 @@ and comprise:
 set -e          # exit on error
 set -u          # error on unset variables
 set -o pipefail # fail a pipeline if any command fails
-trap 'echo "future.batchtools job script failed on line $LINENO"; exit 1' ERR
+trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
 
 echo "Batchtools information:"
 echo "- job name: '<\%= job.name \%>'"
@@ -143,6 +143,7 @@ This template and the built-in \code{\link[batchtools:makeClusterFunctionsSlurm]
 have been verified to work on a few different Slurm HPC clusters;
 \enumerate{
 \item Slurm 21.08.4, Rocky 8 Linux, NFS global filesystem (August 2025)
+\item Slurm 22.05.11, Rocky 8 Linux, NFS global filesystem (August 2025)
 \item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
 }
 }

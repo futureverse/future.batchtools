@@ -79,7 +79,7 @@ and comprise:
 #$ -o <\%= log.file \%>
 
 ## Merge standard error and output
-#PBS -j y
+#$ -j y
 
 ## Tell the queue system to use the current directory
 ## as the working directory
@@ -106,7 +106,7 @@ and comprise:
 set -e          # exit on error
 set -u          # error on unset variables
 set -o pipefail # fail a pipeline if any command fails
-trap 'echo "future.batchtools job script failed on line $LINENO"; exit 1' ERR
+trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
 
 echo "Batchtools information:"
 echo "- job name: '<\%= job.name \%>'"
