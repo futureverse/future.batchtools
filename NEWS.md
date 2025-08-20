@@ -35,6 +35,8 @@
 
  * Calling `plan()` on `batchtools_sge` and `batchtools_slurm` reports
    on the version of the scheduler.
+   
+ * Printing a batchtools future will show logged output.
 
 ## Documentation
 

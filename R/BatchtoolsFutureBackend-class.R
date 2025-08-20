@@ -449,8 +449,17 @@ print.BatchtoolsFuture <- function(x, ...) {
   ## Ask for status once
   status <- status(x)
   printf("batchtools status: %s\n", paste(sQuote(status), collapse = ", "))
-  if ("error" %in% status) {
-    printf("Error captured by batchtools: %s\n", loggedError(x))
+  if (any(c("finished", "error", "expired") %in% status)) {
+    if ("error" %in% status) {
+      lines <- loggedError(x)
+      lines <- sprintf("[error] %s", lines)
+      lines <- paste(lines, collapse = "\n")
+      printf("Error captured by batchtools:\n%s\n", lines)
+    }
+    lines <- loggedOutput(x)
+    lines <- sprintf("[output] %s", lines)
+    lines <- paste(lines, collapse = "\n")
+    printf("Output captured by batchtools:\n%s\n", lines)
   }
 
   if (is_na(status)) {
