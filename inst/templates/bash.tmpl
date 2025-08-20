@@ -20,6 +20,10 @@ trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exi
   startup <- resources[["startup"]]
   resources[["startup"]] <- NULL
 
+  ## Shell "shutdown" code to evaluate
+  shutdown <- resources[["shutdown"]]
+  resources[["shutdown"]] <- NULL
+     
   ## Environment modules specifications
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
@@ -36,4 +40,16 @@ echo "Load environment modules:"
 } %>
 
 # Launch R and evaluate the batchtools R job
+echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
 <%= timeout %> Rscript -e 'batchtools::doJobCollection("<%= uri %>", output = "<%= log.file %>")'
+res=$?
+echo " - exit code: ${res}"
+echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
+
+<% if (length(shutdown) > 0) {
+  ## Inject optional shell code
+  writeLines(shutdown)
+} %>
+
+## Relay the exit code from Rscript
+exit "${res}"

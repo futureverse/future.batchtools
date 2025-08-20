@@ -86,6 +86,10 @@ and comprise:
   startup <- resources[["startup"]]
   resources[["startup"]] <- NULL
      
+  ## Shell "shutdown" code to evaluate
+  shutdown <- resources[["shutdown"]]
+  resources[["shutdown"]] <- NULL
+     
   ## Environment modules specifications
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
@@ -144,6 +148,11 @@ echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ... done
 
 ## End-of-job summary
 bjobs -l "$\{LSB_JOBID\}"
+
+<\% if (length(shutdown) > 0) \{
+  ## Inject optional shell code
+  writeLines(shutdown)
+\} \%>
 
 ## Relay the exit code from Rscript
 exit "$\{res\}"
