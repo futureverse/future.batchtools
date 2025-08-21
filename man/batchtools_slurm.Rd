@@ -134,9 +134,11 @@ echo "Job submission declarations:"
   writeLines(sprintf("echo '\%s'", job_declarations))
 \%>
 
-echo "Slurm job information:"
-scontrol show job "$\{SLURM_JOB_ID\}"
-echo
+if command -v scontrol > /dev/null; then
+  echo "Slurm job information:"
+  scontrol show job "$\{SLURM_JOB_ID\}"
+  echo
+fi
 
 ## Launch R and evaluate the batchtools R job
 echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ..."
@@ -146,7 +148,10 @@ echo " - exit code: $\{res\}"
 echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ... done"
 
 ## End-of-job summary
-sstat --format="JobID,AveCPU,MaxRSS,MaxPages,MaxDiskRead,MaxDiskWrite" --allsteps --jobs="$\{SLURM_JOB_ID\}"
+if command -v qstat > /dev/null; then
+  echo "Job summary:"
+  sstat --format="JobID,AveCPU,MaxRSS,MaxPages,MaxDiskRead,MaxDiskWrite" --allsteps --jobs="$\{SLURM_JOB_ID\}"
+fi
 
 <\% if (length(shutdown) > 0) \{
   ## Inject optional shell code

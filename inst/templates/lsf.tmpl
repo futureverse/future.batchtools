@@ -70,9 +70,11 @@ echo "Job submission declarations:"
   writeLines(sprintf("echo '%s'", job_declarations))
 %>
 
-echo "Job information:"
-bjobs -l "${LSB_JOBID}"
-echo
+if command -v bjobs > /dev/null; then
+  echo "Job information:"
+  bjobs -l "${LSB_JOBID}"
+  echo
+fi    
 
 ## Launch R and evaluate the batchtools R job
 echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
@@ -82,7 +84,10 @@ echo " - exit code: ${res}"
 echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
 
 ## End-of-job summary
-bjobs -l "${LSB_JOBID}"
+if command -v bjobs > /dev/null; then
+  echo "Job summary:"
+  bjobs -l "${LSB_JOBID}"
+fi
 
 <% if (length(shutdown) > 0) {
   ## Inject optional shell code

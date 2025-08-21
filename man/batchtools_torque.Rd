@@ -121,9 +121,9 @@ echo
 \} \%>
 
 echo "Load environment modules:"
-<\%
-  writeLines(sprintf("module load \%s", modules))
-\%>
+<\% if (length(modules) > 0) \{
+  writeLines(c(sprintf("module load \%s", modules), "module list"))
+\} \%>
 
 echo "Session information:"
 echo "- timestamp: $(date)"
@@ -138,9 +138,11 @@ echo "Job submission declarations:"
   writeLines(c(sprintf("module load \%s", modules), "module list"))
 \} \%>
 
-echo "Job information:"
-qstat -f "$\{PBS_JOBID\}"
-echo
+if command -v qstat > /dev/null; then
+  echo "Job information:"
+  qstat -f "$\{PBS_JOBID\}"
+  echo
+fi
 
 ## Launch R and evaluate the batchtools R job
 echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ..."
@@ -150,7 +152,10 @@ echo " - exit code: $\{res\}"
 echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ... done"
 
 ## End-of-job summary
-qstat -f "$\{PBS_JOBID\}"
+if command -v qstat > /dev/null; then
+  echo "Job summary:"
+  qstat -f "$\{PBS_JOBID\}"
+fi    
 
 <\% if (length(shutdown) > 0) \{
   ## Inject optional shell code
