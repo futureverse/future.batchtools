@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9978</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9979</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -227,27 +227,32 @@ the current machine.</p>
 <span id="cb1-79"><a href="#cb1-79" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">sprintf</span><span class="er">(</span><span class="st">"echo '%s'"</span><span class="ex">,</span> job_declarations<span class="kw">))</span></span>
 <span id="cb1-80"><a href="#cb1-80" tabindex="-1"></a><span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb1-81"><a href="#cb1-81" tabindex="-1"></a></span>
-<span id="cb1-82"><a href="#cb1-82" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Job information:"</span></span>
-<span id="cb1-83"><a href="#cb1-83" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-j</span> <span class="st">"</span><span class="va">${JOB_ID}</span><span class="st">"</span></span>
-<span id="cb1-84"><a href="#cb1-84" tabindex="-1"></a><span class="bu">echo</span></span>
-<span id="cb1-85"><a href="#cb1-85" tabindex="-1"></a></span>
-<span id="cb1-86"><a href="#cb1-86" tabindex="-1"></a><span class="co">## Launch R and evaluate the batchtools R job</span></span>
-<span id="cb1-87"><a href="#cb1-87" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ..."</span></span>
-<span id="cb1-88"><a href="#cb1-88" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span>
-<span id="cb1-89"><a href="#cb1-89" tabindex="-1"></a><span class="va">res</span><span class="op">=</span><span class="va">$?</span></span>
-<span id="cb1-90"><a href="#cb1-90" tabindex="-1"></a><span class="bu">echo</span> <span class="st">" - exit code: </span><span class="va">${res}</span><span class="st">"</span></span>
-<span id="cb1-91"><a href="#cb1-91" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ... done"</span></span>
-<span id="cb1-92"><a href="#cb1-92" tabindex="-1"></a></span>
-<span id="cb1-93"><a href="#cb1-93" tabindex="-1"></a><span class="co">## End-of-job summary</span></span>
-<span id="cb1-94"><a href="#cb1-94" tabindex="-1"></a><span class="ex">qstat</span> <span class="at">-j</span> <span class="st">"</span><span class="va">${JOB_ID}</span><span class="st">"</span></span>
-<span id="cb1-95"><a href="#cb1-95" tabindex="-1"></a></span>
-<span id="cb1-96"><a href="#cb1-96" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">shutdown</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb1-97"><a href="#cb1-97" tabindex="-1"></a>  <span class="co">## Inject optional shell code</span></span>
-<span id="cb1-98"><a href="#cb1-98" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">shutdown</span><span class="kw">)</span></span>
-<span id="cb1-99"><a href="#cb1-99" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-82"><a href="#cb1-82" tabindex="-1"></a><span class="cf">if</span> <span class="bu">command</span> <span class="at">-v</span> qstat <span class="op">&gt;</span> /dev/null<span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb1-83"><a href="#cb1-83" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">"Job information:"</span></span>
+<span id="cb1-84"><a href="#cb1-84" tabindex="-1"></a>  <span class="ex">qstat</span> <span class="at">-j</span> <span class="st">"</span><span class="va">${JOB_ID}</span><span class="st">"</span></span>
+<span id="cb1-85"><a href="#cb1-85" tabindex="-1"></a>  <span class="bu">echo</span></span>
+<span id="cb1-86"><a href="#cb1-86" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb1-87"><a href="#cb1-87" tabindex="-1"></a></span>
+<span id="cb1-88"><a href="#cb1-88" tabindex="-1"></a><span class="co">## Launch R and evaluate the batchtools R job</span></span>
+<span id="cb1-89"><a href="#cb1-89" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ..."</span></span>
+<span id="cb1-90"><a href="#cb1-90" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span>
+<span id="cb1-91"><a href="#cb1-91" tabindex="-1"></a><span class="va">res</span><span class="op">=</span><span class="va">$?</span></span>
+<span id="cb1-92"><a href="#cb1-92" tabindex="-1"></a><span class="bu">echo</span> <span class="st">" - exit code: </span><span class="va">${res}</span><span class="st">"</span></span>
+<span id="cb1-93"><a href="#cb1-93" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Command: Rscript -e 'batchtools::doJobCollection("</span><span class="op">&lt;</span>%= uri %<span class="op">&gt;</span><span class="st">")' ... done"</span></span>
+<span id="cb1-94"><a href="#cb1-94" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" tabindex="-1"></a><span class="co">## End-of-job summary</span></span>
+<span id="cb1-96"><a href="#cb1-96" tabindex="-1"></a><span class="cf">if</span> <span class="bu">command</span> <span class="at">-v</span> qstat <span class="op">&gt;</span> /dev/null<span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb1-97"><a href="#cb1-97" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">"Job summary:"</span></span>
+<span id="cb1-98"><a href="#cb1-98" tabindex="-1"></a>  <span class="ex">qstat</span> <span class="at">-j</span> <span class="st">"</span><span class="va">${JOB_ID}</span><span class="st">"</span></span>
+<span id="cb1-99"><a href="#cb1-99" tabindex="-1"></a><span class="cf">fi</span></span>
 <span id="cb1-100"><a href="#cb1-100" tabindex="-1"></a></span>
-<span id="cb1-101"><a href="#cb1-101" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
-<span id="cb1-102"><a href="#cb1-102" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
+<span id="cb1-101"><a href="#cb1-101" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">shutdown</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb1-102"><a href="#cb1-102" tabindex="-1"></a>  <span class="co">## Inject optional shell code</span></span>
+<span id="cb1-103"><a href="#cb1-103" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">shutdown</span><span class="kw">)</span></span>
+<span id="cb1-104"><a href="#cb1-104" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-105"><a href="#cb1-105" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
+<span id="cb1-107"><a href="#cb1-107" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
 <p>This template and the built-in <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSGE.html" class="external-link">batchtools::makeClusterFunctionsSGE()</a></code>
 have been verified to work with SGE 8.1.9 (Son of Grid Engine) running on
 a Rocky 8 Linux cluster with a BeeGFS global filesystem.</p>
