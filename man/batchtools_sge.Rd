@@ -139,7 +139,6 @@ echo "- job log file: '<\%= log.file \%>'"
 echo
 
 <\% if (length(startup) > 0) \{
-  ## Inject optional shell code
   writeLines(startup)
 \} \%>
 
@@ -185,7 +184,6 @@ fi
 <\% \} \%>
 
 <\% if (length(shutdown) > 0) \{
-  ## Inject optional shell code
   writeLines(shutdown)
 \} \%>
 

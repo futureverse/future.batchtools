@@ -30,7 +30,6 @@ trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exi
 %>
 
 <% if (length(startup) > 0) {
-  ## Inject optional shell code
   writeLines(startup)
 } %>
 
@@ -47,7 +46,6 @@ echo " - exit code: ${res}"
 echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
 
 <% if (length(shutdown) > 0) {
-  ## Inject optional shell code
   writeLines(shutdown)
 } %>
 
