@@ -54,7 +54,9 @@ print.BatchtoolsSGEFutureBackend <- function(x, ...) {
 #' # Submit to the 'freecycle' queue.
 #' plan(future.batchtools::batchtools_sge, resources = list(
 #'   h_rt = "00:10:00", mem_free = "100M",  ## memory is per process
-#'   asis = c("-pe smp 4", "-q freecycle.q")
+#'   asis = c("-pe smp 4", "-q freecycle.q"),
+#'   modules = c("r", "jags"),
+#'   details = TRUE
 #' ))
 #'
 #' f <- future({

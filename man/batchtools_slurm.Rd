@@ -30,8 +30,21 @@ access files and directories.
 Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
 
 \item{resources}{(optional) A named list passed to the \pkg{batchtools}
-job-script template as variable \code{resources}.  See Section 'Resources'
-in \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} more details.}
+job-script template as variable \code{resources}. This is based on how
+\code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} works, with the exception for specially
+reserved names defined by the \pkg{future.batchtools} package;
+\itemize{
+\item \code{resources[["asis"]]} is a character vector that are passed as-is to
+the job script and are injected as job resource declarations.
+\item \code{resources[["modules"]]} is character vector of Linux environment
+modules to be loaded.
+\item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
+vectors of shell code to be injected to the job script as-is.
+\item \code{resources[["details"]]}, if TRUE, results in the job script outputting
+job details and job summaries at the beginning and then end.
+\item All remaining \code{resources} named elements are injected as named resource
+specification for the scheduler.
+}}
 
 \item{delete}{Controls if and when the batchtools job registry folder is
 deleted.
@@ -81,6 +94,10 @@ and comprise:
   job_declarations <- resources[["asis"]]
   resources[["asis"]] <- NULL
     
+  ## Shell "details" code to evaluate
+  details <- isTRUE(resources[["details"]])
+  resources[["details"]] <- NULL
+
   ## Shell "startup" code to evaluate
   startup <- resources[["startup"]]
   resources[["startup"]] <- NULL
@@ -134,11 +151,13 @@ echo "Job submission declarations:"
   writeLines(sprintf("echo '\%s'", job_declarations))
 \%>
 
+<\% if (details) \{ \%>
 if command -v scontrol > /dev/null; then
   echo "Slurm job information:"
   scontrol show job "$\{SLURM_JOB_ID\}"
   echo
 fi
+<\% \} \%>
 
 ## Launch R and evaluate the batchtools R job
 echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ..."
@@ -147,11 +166,12 @@ res=$?
 echo " - exit code: $\{res\}"
 echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ... done"
 
-## End-of-job summary
-if command -v qstat > /dev/null; then
+<\% if (details) \{ \%>
+if command -v sstat > /dev/null; then
   echo "Job summary:"
   sstat --format="JobID,AveCPU,MaxRSS,MaxPages,MaxDiskRead,MaxDiskWrite" --allsteps --jobs="$\{SLURM_JOB_ID\}"
 fi
+<\% \} \%>
 
 <\% if (length(shutdown) > 0) \{
   ## Inject optional shell code
@@ -179,7 +199,9 @@ library(future)
 # Submit to the 'freecycle' partition.
 plan(future.batchtools::batchtools_slurm, resources = list(
   time = "00:10:00", mem = "400M",
-  asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle")
+  asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
+  modules = c("r", "jags"),
+  details = TRUE
 ))
 
 f <- future({

@@ -40,7 +40,9 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #' # Submit to the 'freecycle' queue.
 #' plan(future.batchtools::batchtools_torque, resources = list(
 #'   walltime = "00:10:00", mem = "100mb",  ## memory is per process
-#'   asis = c("-l nodes=1:ppn=4", "-q freecycle")
+#'   asis = c("-l nodes=1:ppn=4", "-q freecycle"),
+#'   modules = c("r", "jags"),
+#'   details = TRUE
 #' ))
 #'
 #' f <- future({

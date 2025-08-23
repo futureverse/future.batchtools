@@ -33,19 +33,24 @@
    - Add built-in template job scripts for LSF and OpenLava.
   
    - All built-in template job scripts support "as-is" resource
-     specifications via `resources[["asis"]]`.
+     specifications via character vector `resources[["asis"]]`.
   
    - All built-in template job scripts support "environment module"
-     resource specifications via `resources[["modules"]]`. When
-     specified, corresponding `module load <name>` entries are
-     injected to the generated job script.
+     resource specifications via character vector
+     `resources[["modules"]]`. When specified, corresponding `module
+     load <name>` entries are injected to the generated job script.
      
    - All built-in template job scripts support "startup" and
-     "shutdown" code resource specifications via
+     "shutdown" code resource specifications via character vectors
      `resources[["startup"]]` and `resources[["shutdown"]]`. When
      specified, corresponding lines are injected in the generated job
      script and the beginning and end, respectively.
-     
+
+   - All built-in template job scripts support a "details" resource
+     specification via logical scalar `resources[["details"]]`. If
+     TRUE, scheduler job details are outputted to the log files at the
+     beginning and job summaries at the end.
+
    - All built-in template job scripts, which are written in Bash,
      error and exit early, but setting more strict Bash options. This
      should help with any troubleshooting, especially when getting

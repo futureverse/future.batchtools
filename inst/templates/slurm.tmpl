@@ -16,6 +16,10 @@
   job_declarations <- resources[["asis"]]
   resources[["asis"]] <- NULL
     
+  ## Shell "details" code to evaluate
+  details <- isTRUE(resources[["details"]])
+  resources[["details"]] <- NULL
+
   ## Shell "startup" code to evaluate
   startup <- resources[["startup"]]
   resources[["startup"]] <- NULL
@@ -69,11 +73,13 @@ echo "Job submission declarations:"
   writeLines(sprintf("echo '%s'", job_declarations))
 %>
 
+<% if (details) { %>
 if command -v scontrol > /dev/null; then
   echo "Slurm job information:"
   scontrol show job "${SLURM_JOB_ID}"
   echo
 fi
+<% } %>
 
 ## Launch R and evaluate the batchtools R job
 echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
@@ -82,11 +88,12 @@ res=$?
 echo " - exit code: ${res}"
 echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
 
-## End-of-job summary
+<% if (details) { %>
 if command -v sstat > /dev/null; then
   echo "Job summary:"
   sstat --format="JobID,AveCPU,MaxRSS,MaxPages,MaxDiskRead,MaxDiskWrite" --allsteps --jobs="${SLURM_JOB_ID}"
 fi
+<% } %>
 
 <% if (length(shutdown) > 0) {
   ## Inject optional shell code

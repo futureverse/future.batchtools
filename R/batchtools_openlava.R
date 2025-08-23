@@ -41,7 +41,9 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #' # Submit to the 'freecycle' queue.
 #' plan(future.batchtools::batchtools_openlava, resources = list(
 #'   W = "00:10:00", M = "400",
-#'   asis = c("-n 4", "-R 'span[hosts=1]'", "-q freecycle")
+#'   asis = c("-n 4", "-R 'span[hosts=1]'", "-q freecycle"),
+#'   modules = c("r", "jags"),
+#'   details = TRUE
 #' ))
 #'
 #' f <- future({

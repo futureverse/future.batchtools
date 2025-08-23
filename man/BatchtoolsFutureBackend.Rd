@@ -42,8 +42,21 @@ multiple workers. In the latter, the default is \code{workers = NULL}, which
 will resolve to \code{getOption("\link{future.batchtools.workers}", 100)}.}
 
 \item{resources}{(optional) A named list passed to the \pkg{batchtools}
-job-script template as variable \code{resources}.  See Section 'Resources'
-in \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} more details.}
+job-script template as variable \code{resources}. This is based on how
+\code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} works, with the exception for specially
+reserved names defined by the \pkg{future.batchtools} package;
+\itemize{
+\item \code{resources[["asis"]]} is a character vector that are passed as-is to
+the job script and are injected as job resource declarations.
+\item \code{resources[["modules"]]} is character vector of Linux environment
+modules to be loaded.
+\item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
+vectors of shell code to be injected to the job script as-is.
+\item \code{resources[["details"]]}, if TRUE, results in the job script outputting
+job details and job summaries at the beginning and then end.
+\item All remaining \code{resources} named elements are injected as named resource
+specification for the scheduler.
+}}
 
 \item{finalize}{If TRUE, a future's \pkg{batchtools}
 \link[batchtools:makeRegistry]{Registry} is automatically deleted when

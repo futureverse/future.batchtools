@@ -17,6 +17,10 @@
   job_declarations <- resources[["asis"]]
   resources[["asis"]] <- NULL
     
+  ## Should scheduler "details" be seen?
+  details <- isTRUE(resources[["details"]])
+  resources[["details"]] <- NULL
+
   ## Shell "startup" code to evaluate
   startup <- resources[["startup"]]
   resources[["startup"]] <- NULL
@@ -70,11 +74,14 @@ echo "Job submission declarations:"
   writeLines(sprintf("echo '%s'", job_declarations))
 %>
 
+<% if (details) { %>
 if command -v bjobs > /dev/null; then
   echo "Job information:"
   bjobs -l "${LSB_JOBID}"
   echo
 fi    
+<% } %>
+
 
 ## Launch R and evaluate the batchtools R job
 echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
@@ -83,11 +90,12 @@ res=$?
 echo " - exit code: ${res}"
 echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
 
-## End-of-job summary
+<% if (details) { %>
 if command -v bjobs > /dev/null; then
   echo "Job summary:"
   bjobs -l "${LSB_JOBID}"
 fi
+<% } %>
 
 <% if (length(shutdown) > 0) {
   ## Inject optional shell code
