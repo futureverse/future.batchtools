@@ -275,8 +275,8 @@ the current machine.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Limit runtime to 10 minutes and total memory to 400 MiB per future,</span></span></span>
 <span class="r-in"><span><span class="co"># request a parallel environment with four slots on a single host.</span></span></span>
-<span class="r-in"><span><span class="co"># Submit to the 'freecycle' queue. Report on job details at startup</span></span></span>
-<span class="r-in"><span><span class="co"># and at the end of the job.</span></span></span>
+<span class="r-in"><span><span class="co"># Submit to the 'freecycle' queue. Load environment modules 'r' and</span></span></span>
+<span class="r-in"><span><span class="co"># 'jags'. Report on job details at startup and at the end of the job.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va">batchtools_openlava</span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  W <span class="op">=</span> <span class="st">"00:10:00"</span>, M <span class="op">=</span> <span class="st">"400"</span>,</span></span>
 <span class="r-in"><span>  asis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-n 4"</span>, <span class="st">"-R 'span[hosts=1]'"</span>, <span class="st">"-q freecycle"</span><span class="op">)</span>,</span></span>
