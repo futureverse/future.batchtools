@@ -17,7 +17,7 @@ Please see the source code, for details."><!-- Global site tag (gtag.js) - Googl
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9979</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9980</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,8 +113,19 @@ Usually safe to set to <code>0</code> to disable the heuristic, e.g. if you are 
 
 <dt id="arg-resources">resources<a class="anchor" aria-label="anchor" href="#arg-resources"></a></dt>
 <dd><p>(optional) A named list passed to the <span class="pkg">batchtools</span>
-job-script template as variable <code>resources</code>.  See Section 'Resources'
-in <code><a href="https://batchtools.mlr-org.com/reference/submitJobs.html" class="external-link">batchtools::submitJobs()</a></code> more details.</p></dd>
+job-script template as variable <code>resources</code>. This is based on how
+<code><a href="https://batchtools.mlr-org.com/reference/submitJobs.html" class="external-link">batchtools::submitJobs()</a></code> works, with the exception for specially
+reserved names defined by the <span class="pkg">future.batchtools</span> package;</p><ul><li><p><code>resources[["asis"]]</code> is a character vector that are passed as-is to
+the job script and are injected as job resource declarations.</p></li>
+<li><p><code>resources[["modules"]]</code> is character vector of Linux environment
+modules to be loaded.</p></li>
+<li><p><code>resources[["startup"]]</code> and <code>resources[["shutdown"]]</code> are character
+vectors of shell code to be injected to the job script as-is.</p></li>
+<li><p><code>resources[["details"]]</code>, if TRUE, results in the job script outputting
+job details and job summaries at the beginning and then end.</p></li>
+<li><p>All remaining <code>resources</code> named elements are injected as named resource
+specification for the scheduler.</p></li>
+</ul></dd>
 
 
 <dt id="arg-delete">delete<a class="anchor" aria-label="anchor" href="#arg-delete"></a></dt>
