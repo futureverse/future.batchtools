@@ -17,6 +17,7 @@ exec > <%= log.file %> 2>&1
 <%
   ## Maximum runtime?
   runtime <- resources[["timeout"]]
+  resources[["timeout"]] <- NULL
   timeout <- if (is.null(runtime)) "" else sprintf("timeout %s", runtime)
     
   ## Shell "startup" code to evaluate
