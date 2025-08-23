@@ -150,10 +150,10 @@ of queued jobs. The default is
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Batchtools lsf futures use <span class="pkg">batchtools</span> cluster functions
-created by <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsLSF.html" class="external-link">batchtools::makeClusterFunctionsLSF()</a></code>, which requires
-that LSF commands <code>bsub</code>, <code>bjobs</code>, and <code>bkill</code> are installed on
-the current machine.</p>
+    <p>Batchtools Load Sharing Facility (LSF) futures use <span class="pkg">batchtools</span>
+cluster functions created by <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsLSF.html" class="external-link">batchtools::makeClusterFunctionsLSF()</a></code>,
+which requires that LSF commands <code>bsub</code>, <code>bjobs</code>, and <code>bkill</code> are
+installed on the current machine.</p>
 <p>The default template script <code>templates/lsf.tmpl</code> can be found in:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"templates"</span>, <span class="st">"lsf.tmpl"</span>, package <span class="op">=</span> <span class="st">"future.batchtools"</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>and comprise:</p>
@@ -275,7 +275,8 @@ the current machine.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Limit runtime to 10 minutes and total memory to 400 MiB per future,</span></span></span>
 <span class="r-in"><span><span class="co"># request a parallel environment with four slots on a single host.</span></span></span>
-<span class="r-in"><span><span class="co"># Submit to the 'freecycle' queue.</span></span></span>
+<span class="r-in"><span><span class="co"># Submit to the 'freecycle' queue. Report on job details at startup</span></span></span>
+<span class="r-in"><span><span class="co"># and at the end of the job.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va">batchtools_lsf</span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  W <span class="op">=</span> <span class="st">"00:10:00"</span>, M <span class="op">=</span> <span class="st">"400"</span>,</span></span>
 <span class="r-in"><span>  asis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-n 4"</span>, <span class="st">"-R 'span[hosts=1]'"</span>, <span class="st">"-q freecycle"</span><span class="op">)</span>,</span></span>
