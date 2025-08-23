@@ -64,7 +64,7 @@ of queued jobs. The default is
 A batchtools openlava backend resolves futures in parallel via a OpenLava job scheduler
 }
 \details{
-Batchtools openlava futures use \pkg{batchtools} cluster functions
+Batchtools OpenLava futures use \pkg{batchtools} cluster functions
 created by \code{\link[batchtools:makeClusterFunctionsOpenLava]{batchtools::makeClusterFunctionsOpenLava()}}, which requires
 that OpenLava commands \code{sbatch}, \code{squeue}, and \code{scancel} are installed on
 the current machine.

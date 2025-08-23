@@ -64,10 +64,10 @@ of queued jobs. The default is
 A batchtools LSF backend resolves futures in parallel via a Load Sharing Facility (LSF) job scheduler
 }
 \details{
-Batchtools lsf futures use \pkg{batchtools} cluster functions
-created by \code{\link[batchtools:makeClusterFunctionsLSF]{batchtools::makeClusterFunctionsLSF()}}, which requires
-that LSF commands \code{bsub}, \code{bjobs}, and \code{bkill} are installed on
-the current machine.
+Batchtools Load Sharing Facility (LSF) futures use \pkg{batchtools}
+cluster functions created by \code{\link[batchtools:makeClusterFunctionsLSF]{batchtools::makeClusterFunctionsLSF()}},
+which requires that LSF commands \code{bsub}, \code{bjobs}, and \code{bkill} are
+installed on the current machine.
 
 The default template script \code{templates/lsf.tmpl} can be found in:
 

@@ -18,7 +18,7 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #' @param \ldots Not used.
 #'
 #' @details
-#' Batchtools openlava futures use \pkg{batchtools} cluster functions
+#' Batchtools OpenLava futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsOpenLava()], which requires
 #' that OpenLava commands `sbatch`, `squeue`, and `scancel` are installed on
 #' the current machine.

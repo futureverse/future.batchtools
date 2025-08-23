@@ -15,7 +15,7 @@ print.BatchtoolsSGEFutureBackend <- function(x, ...) {
 }
 
 
-#' A batchtools SGE backend resolves futures in parallel via a SGE job scheduler
+#' A batchtools SGE backend resolves futures in parallel via a Sun/Son of/Oracle/Univa/Altair Grid Engine job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
 #'
@@ -26,7 +26,7 @@ print.BatchtoolsSGEFutureBackend <- function(x, ...) {
 #' @param \ldots Not used.
 #'
 #' @details
-#' Batchtools sge futures use \pkg{batchtools} cluster functions
+#' Batchtools SGE futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsSGE()], which requires
 #' that SGE commands `qsub`, `qstat`, and `qdel` are installed on
 #' the current machine.

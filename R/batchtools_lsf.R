@@ -18,10 +18,10 @@ BatchtoolsLsfFutureBackend <- function(...) {
 #' @param \ldots Not used.
 #'
 #' @details
-#' Batchtools lsf futures use \pkg{batchtools} cluster functions
-#' created by [batchtools::makeClusterFunctionsLSF()], which requires
-#' that LSF commands `bsub`, `bjobs`, and `bkill` are installed on
-#' the current machine.
+#' Batchtools Load Sharing Facility (LSF) futures use \pkg{batchtools}
+#' cluster functions created by [batchtools::makeClusterFunctionsLSF()],
+#' which requires that LSF commands `bsub`, `bjobs`, and `bkill` are
+#' installed on the current machine.
 #'
 #' The default template script `templates/lsf.tmpl` can be found in:
 #'

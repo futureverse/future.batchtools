@@ -2,7 +2,7 @@
 % Please edit documentation in R/batchtools_sge.R
 \name{batchtools_sge}
 \alias{batchtools_sge}
-\title{A batchtools SGE backend resolves futures in parallel via a SGE job scheduler}
+\title{A batchtools SGE backend resolves futures in parallel via a Sun/Son of/Oracle/Univa/Altair Grid Engine job scheduler}
 \usage{
 batchtools_sge(
   ...,
@@ -61,10 +61,10 @@ of queued jobs. The default is
 \item{\ldots}{Not used.}
 }
 \description{
-A batchtools SGE backend resolves futures in parallel via a SGE job scheduler
+A batchtools SGE backend resolves futures in parallel via a Sun/Son of/Oracle/Univa/Altair Grid Engine job scheduler
 }
 \details{
-Batchtools sge futures use \pkg{batchtools} cluster functions
+Batchtools SGE futures use \pkg{batchtools} cluster functions
 created by \code{\link[batchtools:makeClusterFunctionsSGE]{batchtools::makeClusterFunctionsSGE()}}, which requires
 that SGE commands \code{qsub}, \code{qstat}, and \code{qdel} are installed on
 the current machine.
