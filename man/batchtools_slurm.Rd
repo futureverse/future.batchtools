@@ -194,7 +194,8 @@ library(future)
 
 # Limit runtime to 10 minutes and memory to 400 MiB per future,
 # request a parallel environment with four slots on a single host.
-# Submit to the 'freecycle' partition.
+# Submit to the 'freecycle' partition. Load environment modules 'r' and
+# 'jags'. Report on job details at startup and at the end of the job.
 plan(future.batchtools::batchtools_slurm, resources = list(
   time = "00:10:00", mem = "400M",
   asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),

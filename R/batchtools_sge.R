@@ -51,7 +51,8 @@ print.BatchtoolsSGEFutureBackend <- function(x, ...) {
 #'
 #' # Limit runtime to 10 minutes and memory to 400 MiB per future,
 #' # request a parallel environment with four slots on a single host.
-#' # Submit to the 'freecycle' queue.
+#' # Submit to the 'freecycle' queue. Load environment modules 'r' and
+#' # 'jags'. Report on job details at startup and at the end of the job.
 #' plan(future.batchtools::batchtools_sge, resources = list(
 #'   h_rt = "00:10:00", mem_free = "100M",  ## memory is per process
 #'   asis = c("-pe smp 4", "-q freecycle.q"),

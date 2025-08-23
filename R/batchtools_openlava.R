@@ -38,7 +38,8 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #'
 #' # Limit runtime to 10 minutes and total memory to 400 MiB per future,
 #' # request a parallel environment with four slots on a single host.
-#' # Submit to the 'freecycle' queue.
+#' # Submit to the 'freecycle' queue. Load environment modules 'r' and
+#' # 'jags'. Report on job details at startup and at the end of the job.
 #' plan(future.batchtools::batchtools_openlava, resources = list(
 #'   W = "00:10:00", M = "400",
 #'   asis = c("-n 4", "-R 'span[hosts=1]'", "-q freecycle"),

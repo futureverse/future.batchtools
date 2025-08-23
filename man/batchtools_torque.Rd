@@ -190,7 +190,8 @@ library(future)
 
 # Limit runtime to 10 minutes and total memory to 400 MiB per future,
 # request a parallel environment with four slots on a single host.
-# Submit to the 'freecycle' queue.
+# Submit to the 'freecycle' queue. Load environment modules 'r' and
+# 'jags'. Report on job details at startup and at the end of the job.
 plan(future.batchtools::batchtools_torque, resources = list(
   walltime = "00:10:00", mem = "100mb",  ## memory is per process
   asis = c("-l nodes=1:ppn=4", "-q freecycle"),
