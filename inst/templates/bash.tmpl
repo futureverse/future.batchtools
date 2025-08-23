@@ -11,6 +11,9 @@ set -u          # error on unset variables
 set -o pipefail # fail a pipeline if any command fails
 trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
 
+## Redirect stdout and stderr to the batchtools log file
+exec > <%= log.file %> 2>&1
+
 <%
   ## Maximum runtime?
   runtime <- resources[["timeout"]]
@@ -33,17 +36,25 @@ trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exi
   writeLines(startup)
 } %>
 
-echo "Load environment modules:"
 <% if (length(modules) > 0) {
-  writeLines(c(sprintf("module load %s", modules), "module list"))
+  writeLines(c(
+    'echo "Load environment modules:"',
+    sprintf('echo "- modules: %s"', paste(modules, collapse = ", ")),
+    sprintf("module load %s", paste(modules, collapse = " ")),
+    "module list"
+  ))
 } %>
 
 # Launch R and evaluate the batchtools R job
-echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
-<%= timeout %> Rscript -e 'batchtools::doJobCollection("<%= uri %>", output = "<%= log.file %>")'
+echo "Rscript -e 'batchtools::doJobCollection()' ..."
+echo "- job name: '<%= job.name %>'"
+echo "- job log file: '<%= log.file %>'"
+echo "- job uri: '<%= uri %>'"
+<%= timeout %> Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
 res=$?
 echo " - exit code: ${res}"
-echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
+echo "Rscript -e 'batchtools::doJobCollection()' ... done"
+echo
 
 <% if (length(shutdown) > 0) {
   writeLines(shutdown)
