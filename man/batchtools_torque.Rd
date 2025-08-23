@@ -127,31 +127,12 @@ set -u          # error on unset variables
 set -o pipefail # fail a pipeline if any command fails
 trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
 
-echo "Batchtools information:"
-echo "- job name: '<\%= job.name \%>'"
-echo "- job log file: '<\%= log.file \%>'"
-echo
-
-<\% if (length(startup) > 0) \{
-  writeLines(startup)
-\} \%>
-
-echo "Load environment modules:"
-<\% if (length(modules) > 0) \{
-  writeLines(c(sprintf("module load \%s", modules), "module list"))
-\} \%>
-
-echo "Session information:"
-echo "- timestamp: $(date)"
-echo "- hostname: $(hostname)"
-echo "- Rscript path: $(which Rscript)"
-echo "- Rscript version: $(Rscript --version)"
-echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
-echo
-
-echo "Job submission declarations:"
-<\% if (length(modules) > 0) \{
-  writeLines(c(sprintf("module load \%s", modules), "module list"))
+<\% if (length(job_declarations) > 0) \{
+  writeLines(c(
+    "echo 'Job submission declarations:'",
+    sprintf("echo '\%s'", job_declarations),
+    "echo"
+  ))
 \} \%>
 
 <\% if (details) \{ \%>
@@ -162,12 +143,37 @@ if command -v qstat > /dev/null; then
 fi
 <\% \} \%>
 
+<\% if (length(startup) > 0) \{
+  writeLines(startup)
+\} \%>
+
+<\% if (length(modules) > 0) \{
+  writeLines(c(
+    "echo 'Load environment modules:'",
+    sprintf("echo '- modules: \%s'", paste(modules, collapse = ", ")),
+    sprintf("module load \%s", paste(modules, collapse = " ")),
+    "module list"
+  ))
+\} \%>
+
+echo "Session information:"
+echo "- timestamp: $(date)"
+echo "- hostname: $(hostname)"
+echo "- Rscript path: $(which Rscript)"
+echo "- Rscript version: $(Rscript --version)"
+echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo
+
 ## Launch R and evaluate the batchtools R job
-echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ..."
+echo "Rscript -e 'batchtools::doJobCollection()' ..."
+echo "- job name: '<\%= job.name \%>'"
+echo "- job log file: '<\%= log.file \%>'"
+echo "- job uri: '<\%= uri \%>'"
 Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")'
 res=$?
 echo " - exit code: $\{res\}"
-echo "Command: Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")' ... done"
+echo "Rscript -e 'batchtools::doJobCollection()' ... done"
+echo
 
 <\% if (details) \{ \%>
 if command -v qstat > /dev/null; then
