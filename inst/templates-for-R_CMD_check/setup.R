@@ -6,7 +6,7 @@
 
 path <- tools::R_user_dir("future.batchtools", "cache")
 path <- file.path(path, "R_CMD_check")
-if (!tools::file_test("-d", path)) dir.create(path, recursive = TRUE)
+if (!utils::file_test("-d", path)) dir.create(path, recursive = TRUE)
 
 tmpdir <- tempfile(tmpdir = path)
 if (!utils::file_test("-d", tmpdir)) {
