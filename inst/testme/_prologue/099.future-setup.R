@@ -20,7 +20,7 @@ all_strategies <- local({
     if (length(strategies) > 0L) {
       ## If there is a custom R_BATCHTOOLS_SEARCH_PATH/setup.R' file, run it
       pathname <- file.path(path, "setup.R")
-      if (file_test("-f", pathname)) source(pathname, local = envir)
+      if (utils::file_test("-f", pathname)) source(pathname, local = envir)
     }
     
     strategies <- c(future:::supportedStrategies(), strategies)

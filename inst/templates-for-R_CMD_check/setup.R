@@ -4,8 +4,11 @@
 ## typically not the case with the default tempdir()/TMPDIR, which
 ## often is local and unique to each machine
 
-tmpdir <- tempfile(pattern = "R_CMD_check_",
-                   tmpdir = file.path("~", "tmp", ".future.batchtools"))
+path <- tools::R_user_dir("future.batchtools", "cache")
+path <- file.path(path, "R_CMD_check")
+if (!tools::file_test("-d", path)) dir.create(path, recursive = TRUE)
+
+tmpdir <- tempfile(tmpdir = path)
 if (!utils::file_test("-d", tmpdir)) {
   dir.create(tmpdir, recursive = TRUE)
   if (!utils::file_test("-d", tmpdir)) {
