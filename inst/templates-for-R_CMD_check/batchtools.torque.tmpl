@@ -46,8 +46,17 @@
   
   ## SPECIAL: Since we change working directory, the 'startup.Rs' file used
   ## by R CMD check is no longer found
-  startup <- c(startup, "export R_TESTS=")
+  env <- Sys.getenv("R_TESTS", NA_character_)
+  if (!is.na(env)) startup <- c(startup, sprintf("export R_TESTS=%s", normalizePath(env)))
   
+  ## SPECIAL: Use the 'Rscript' on PATH when processing this template; not
+  ## the dummy one injected by 'R CMD check'
+  startup <- c(startup, sprintf('export PATH="%s:${PATH}"', R.home("bin")))
+
+  ## SPECIAL: Use the 'R_LIBS_USER' at compile time, because of 'R CMD check'
+  libs <- dirname(unique(vapply(c("future.batchtools", "batchtools"), FUN = find.package, FUN.VALUE = "")))
+  startup <- c(startup, sprintf("export R_LIBS_USER=%s", paste(libs, collapse = .Platform[["path.sep"]])))
+
   ## Remaining resources are assumed to be of type '-l <key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("-l %s=%s", names(opts), opts)
@@ -61,31 +70,12 @@ set -u          # error on unset variables
 set -o pipefail # fail a pipeline if any command fails
 trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
 
-echo "Batchtools information:"
-echo "- job name: '<%= job.name %>'"
-echo "- job log file: '<%= log.file %>'"
-echo
-
-<% if (length(startup) > 0) {
-  writeLines(startup)
-} %>
-
-echo "Load environment modules:"
-<% if (length(modules) > 0) {
-  writeLines(c(sprintf("module load %s", modules), "module list"))
-} %>
-
-echo "Session information:"
-echo "- timestamp: $(date)"
-echo "- hostname: $(hostname)"
-echo "- Rscript path: $(which Rscript)"
-echo "- Rscript version: $(Rscript --version)"
-echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
-echo
-
-echo "Job submission declarations:"
-<% if (length(modules) > 0) {
-  writeLines(c(sprintf("module load %s", modules), "module list"))
+<% if (length(job_declarations) > 0) {
+  writeLines(c(
+    "echo 'Job submission declarations:'",
+    sprintf("echo '%s'", job_declarations),
+    "echo"
+  ))
 } %>
 
 <% if (details) { %>
@@ -96,12 +86,37 @@ if command -v qstat > /dev/null; then
 fi
 <% } %>
 
+<% if (length(startup) > 0) {
+  writeLines(startup)
+} %>
+
+<% if (length(modules) > 0) {
+  writeLines(c(
+    "echo 'Load environment modules:'",
+    sprintf("echo '- modules: %s'", paste(modules, collapse = ", ")),
+    sprintf("module load %s", paste(modules, collapse = " ")),
+    "module list"
+  ))
+} %>
+
+echo "Session information:"
+echo "- timestamp: $(date)"
+echo "- hostname: $(hostname)"
+echo "- Rscript path: $(which Rscript)"
+echo "- Rscript version: $(Rscript --version)"
+echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo
+
 ## Launch R and evaluate the batchtools R job
-echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
+echo "Rscript -e 'batchtools::doJobCollection()' ..."
+echo "- job name: '<%= job.name %>'"
+echo "- job log file: '<%= log.file %>'"
+echo "- job uri: '<%= uri %>'"
 Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
 res=$?
 echo " - exit code: ${res}"
-echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
+echo "Rscript -e 'batchtools::doJobCollection()' ... done"
+echo
 
 <% if (details) { %>
 if command -v qstat > /dev/null; then
@@ -116,51 +131,3 @@ fi
 
 ## Relay the exit code from Rscript
 exit "${res}"
-#!/usr/bin/env bash
-
-## Job name:
-#PBS -N fbt-<%= job.hash %>
-
-## Merge standard error and output:
-#PBS -j oe
-
-## Direct streams to logfile:
-#PBS -o <%= log.file %>
-
-## Email on abort (a) and termination (e), but not when starting (b)
-#PBS -m ae
-
-## Mirror environment variables
-#PBS -V
-
-## Resources needed:
-<% if (exists("resources", mode = "list") && length(resources) > 0) {
-  if (isTRUE(getOption("future.debug"))) {
-    R.utils::mcat("resources:")
-    R.utils::mstr(resources)
-  }
-  opts <- unlist(resources, use.names = TRUE)
-  opts <- sprintf("%s=%s", names(opts), opts)
-  opts <- paste(opts, collapse = ",") %>
-#PBS -l <%= opts %>
-<% } %>
-
-## SPECIAL: For R CMD check package testing on HPC environments, which
-## typically uses a temporary working directory that is local, we force
-## it to use HPC-wide working directory
-#PBS -d <%= normalizePath(file.path("~", "tmp")) %>
-
-## SPECIAL: Since we change working directory, the 'startup.Rs' file used
-## by R CMD check is no longer found
-export R_TESTS=
-
-# For troubleshooting if there are errors
-date
-hostname
-which Rscript
-Rscript --version
-Rscript -e ".libPaths()"
-
-echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ..."
-Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
-echo "Command: Rscript -e 'batchtools::doJobCollection("<%= uri %>")' ... done"
