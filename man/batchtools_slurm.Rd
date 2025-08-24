@@ -153,7 +153,7 @@ fi
 \} \%>
 
 echo "Session information:"
-echo "- timestamp: $(date)"
+echo "- timestamp: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 echo "- hostname: $(hostname)"
 echo "- Rscript path: $(which Rscript)"
 echo "- Rscript version: $(Rscript --version)"
@@ -181,6 +181,8 @@ fi
 <\% if (length(shutdown) > 0) \{
   writeLines(shutdown)
 \} \%>
+
+echo "End time: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 
 ## Relay the exit code from Rscript
 exit "$\{res\}"

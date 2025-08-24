@@ -121,6 +121,14 @@ exec > <\%= log.file \%> 2>&1
   ))
 \} \%>
 
+echo "Session information:"
+echo "- timestamp: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
+echo "- hostname: $(hostname)"
+echo "- Rscript path: $(which Rscript)"
+echo "- Rscript version: $(Rscript --version)"
+echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo
+
 # Launch R and evaluate the batchtools R job
 echo "Rscript -e 'batchtools::doJobCollection()' ..."
 echo "- job name: '<\%= job.name \%>'"
@@ -135,6 +143,8 @@ echo
 <\% if (length(shutdown) > 0) \{
   writeLines(shutdown)
 \} \%>
+
+echo "End time: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 
 ## Relay the exit code from Rscript
 exit "$\{res\}"
