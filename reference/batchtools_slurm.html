@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9989</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9990</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -171,25 +171,25 @@ the current machine.</p>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="op">&lt;</span>%</span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="co">## As-is resource specifications</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="ex">job_declarations</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"asis"</span><span class="pp">]</span>]</span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"asis"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="co">## Shell "details" code to evaluate</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="ex">details</span> <span class="op">&lt;</span>- isTRUE<span class="er">(</span><span class="va">resources</span><span class="op">[</span>[<span class="st">"details"</span><span class="op">]</span><span class="ex">]</span><span class="kw">)</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"details"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
 <span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>  <span class="co">## Shell "details" code to evaluate</span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="ex">details</span> <span class="op">&lt;</span>- isTRUE<span class="er">(</span><span class="va">resources</span><span class="op">[</span>[<span class="st">"details"</span><span class="op">]</span><span class="ex">]</span><span class="kw">)</span></span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"details"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>  <span class="co">## Shell "startup" code to evaluate</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="ex">startup</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"startup"</span><span class="pp">]</span>]</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"startup"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
 <span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="co">## Shell "startup" code to evaluate</span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  <span class="ex">startup</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"startup"</span><span class="pp">]</span>]</span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"startup"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>  <span class="co">## Shell "shutdown" code to evaluate</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  <span class="ex">shutdown</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"shutdown"</span><span class="pp">]</span>]</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"shutdown"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
 <span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  <span class="co">## Shell "shutdown" code to evaluate</span></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="ex">shutdown</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"shutdown"</span><span class="pp">]</span>]</span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"shutdown"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  <span class="co">## Environment modules specifications</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="ex">modules</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"modules"</span><span class="pp">]</span>]</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"modules"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
 <span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>  <span class="co">## Environment modules specifications</span></span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>  <span class="ex">modules</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"modules"</span><span class="pp">]</span>]</span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"modules"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>  <span class="co">## As-is resource specifications</span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>  <span class="ex">job_declarations</span> <span class="op">&lt;</span>- resources[<span class="pp">[</span><span class="st">"asis"</span><span class="pp">]</span>]</span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  <span class="va">resources</span><span class="op">[</span>[<span class="st">"asis"</span><span class="op">]</span><span class="ex">]</span> <span class="op">&lt;</span>- NULL</span>
 <span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a></span>
 <span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>  <span class="co">## Remaining resources are assumed to be of type '--&lt;key&gt;=&lt;value&gt;'</span></span>
 <span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- unlist<span class="er">(</span><span class="ex">resources,</span> use.names = TRUE<span class="kw">)</span></span>
