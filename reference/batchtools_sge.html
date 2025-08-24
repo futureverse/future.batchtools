@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9987</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9989</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -244,7 +244,7 @@ the current machine.</p>
 <span id="cb1-85"><a href="#cb1-85" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb1-86"><a href="#cb1-86" tabindex="-1"></a></span>
 <span id="cb1-87"><a href="#cb1-87" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Session information:"</span></span>
-<span id="cb1-88"><a href="#cb1-88" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- timestamp: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-88"><a href="#cb1-88" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- timestamp: </span><span class="va">$(</span><span class="fu">date</span> +<span class="st">"%Y-%m-%d %H:%M:%S%z"</span><span class="va">)</span><span class="st">"</span></span>
 <span id="cb1-89"><a href="#cb1-89" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- hostname: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
 <span id="cb1-90"><a href="#cb1-90" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript path: </span><span class="va">$(</span><span class="fu">which</span> Rscript<span class="va">)</span><span class="st">"</span></span>
 <span id="cb1-91"><a href="#cb1-91" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript version: </span><span class="va">$(</span><span class="ex">Rscript</span> <span class="at">--version</span><span class="va">)</span><span class="st">"</span></span>
@@ -274,8 +274,10 @@ the current machine.</p>
 <span id="cb1-115"><a href="#cb1-115" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">shutdown</span><span class="kw">)</span></span>
 <span id="cb1-116"><a href="#cb1-116" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
 <span id="cb1-117"><a href="#cb1-117" tabindex="-1"></a></span>
-<span id="cb1-118"><a href="#cb1-118" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
-<span id="cb1-119"><a href="#cb1-119" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
+<span id="cb1-118"><a href="#cb1-118" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"End time: </span><span class="va">$(</span><span class="fu">date</span> +<span class="st">"%Y-%m-%d %H:%M:%S%z"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-119"><a href="#cb1-119" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="#cb1-120" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
+<span id="cb1-121"><a href="#cb1-121" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
 <p>This template and the built-in <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSGE.html" class="external-link">batchtools::makeClusterFunctionsSGE()</a></code>
 have been verified to work with SGE 8.1.9 (Son of Grid Engine) running on
 a Rocky 8 Linux cluster with a BeeGFS global filesystem.</p>
