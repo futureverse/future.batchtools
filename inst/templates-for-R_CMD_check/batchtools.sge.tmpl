@@ -48,7 +48,7 @@
   path <- tools::R_user_dir("future.batchtools", "cache")
   path <- file.path(path, "R_CMD_check")
   if (!utils::file_test("-d", path)) dir.create(path, recursive = TRUE)
-  job_declarations <- c(job_declarations, sprintf("-d %s", path))
+  job_declarations <- c(job_declarations, sprintf("-wd %s", path))
   
   ## SPECIAL: Since we change working directory, the 'startup.Rs' file used
   ## by R CMD check is no longer found
