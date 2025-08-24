@@ -16,10 +16,6 @@
 
 ## Resources needed:
 <%
-  ## As-is resource specifications
-  job_declarations <- resources[["asis"]]
-  resources[["asis"]] <- NULL
-    
   ## Should scheduler "details" be seen?
   details <- isTRUE(resources[["details"]])
   resources[["details"]] <- NULL
@@ -36,6 +32,10 @@
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
      
+  ## As-is resource specifications
+  job_declarations <- resources[["asis"]]
+  resources[["asis"]] <- NULL
+    
   ## SPECIAL: For R CMD check package testing on HPC environments, which
   ## typically uses a temporary working directory that is local, we force
   ## it to use HPC-wide working directory
@@ -100,7 +100,7 @@ fi
 } %>
 
 echo "Session information:"
-echo "- timestamp: $(date)"
+echo "- timestamp: $(date +"%Y-%m-%d %H:%M:%S%z")"
 echo "- hostname: $(hostname)"
 echo "- Rscript path: $(which Rscript)"
 echo "- Rscript version: $(Rscript --version)"
@@ -128,6 +128,8 @@ fi
 <% if (length(shutdown) > 0) {
   writeLines(shutdown)
 } %>
+
+echo "End time: $(date +"%Y-%m-%d %H:%M:%S%z")"
 
 ## Relay the exit code from Rscript
 exit "${res}"

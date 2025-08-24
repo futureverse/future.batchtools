@@ -100,10 +100,6 @@ and comprise:
 
 ## Resources needed:
 <\%
-  ## As-is resource specifications
-  job_declarations <- resources[["asis"]]
-  resources[["asis"]] <- NULL
-    
   ## Should scheduler "details" be seen?
   details <- isTRUE(resources[["details"]])
   resources[["details"]] <- NULL
@@ -120,6 +116,10 @@ and comprise:
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
      
+  ## As-is resource specifications
+  job_declarations <- resources[["asis"]]
+  resources[["asis"]] <- NULL
+    
   ## Remaining resources are assumed to be of type '-l <key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("-l \%s=\%s", names(opts), opts)
