@@ -37,7 +37,7 @@
 #' * `resources[["startup"]]` and `resources[["shutdown"]]` are character
 #'   vectors of shell code to be injected to the job script as-is.
 #' * `resources[["details"]]`, if TRUE, results in the job script outputting
-#'   job details and job summaries at the beginning and then end.
+#'   job details and job summaries at the beginning and at the end.
 #' * All remaining `resources` named elements are injected as named resource
 #'   specification for the scheduler.
 #'
