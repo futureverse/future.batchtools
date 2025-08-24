@@ -156,13 +156,10 @@ print.BatchtoolsFutureBackend <- function(x, ...) {
   template <- attr(cluster.functions, "template")
   printf("batchtools cluster functions template: %s\n", file_info(template))
 
-  resources <- backend[["resources"]]
-  printf("batchtools resources:\n")
-  str(resources)
-
   path <- future_cache_path()
   printf("Cache directory: %s\n", dir_info(path))
 
+  resources <- backend[["resources"]]
   printf("batchtools resources:\n")
   str(resources)
 
