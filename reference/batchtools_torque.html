@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9990</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9991</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -150,9 +150,10 @@ of queued jobs. The default is
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Batchtools torque futures use <span class="pkg">batchtools</span> cluster functions
-created by <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsTORQUE.html" class="external-link">batchtools::makeClusterFunctionsTORQUE()</a></code>, which requires
-that TORQUE commands <code>qsub</code>, <code>qselect</code>, and <code>qdel</code> are installed on
+    <p>Batchtools TORQUE/PBS futures use <span class="pkg">batchtools</span> cluster functions
+created by <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsTORQUE.html" class="external-link">batchtools::makeClusterFunctionsTORQUE()</a></code>, which are used
+to interact with the TORQUE/PBS job scheduler. This requires that
+TORQUE/PBS commands <code>qsub</code>, <code>qselect</code>, and <code>qdel</code> are available on
 the current machine.</p>
 <p>The default template script <code>templates/torque.tmpl</code> can be found in:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"templates"</span>, <span class="st">"torque.tmpl"</span>, package <span class="op">=</span> <span class="st">"future.batchtools"</span><span class="op">)</span></span></code></pre><p></p></div>

@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9990</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9991</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -152,8 +152,9 @@ of queued jobs. The default is
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Batchtools Load Sharing Facility (LSF) futures use <span class="pkg">batchtools</span>
 cluster functions created by <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsLSF.html" class="external-link">batchtools::makeClusterFunctionsLSF()</a></code>,
-which requires that LSF commands <code>bsub</code>, <code>bjobs</code>, and <code>bkill</code> are
-installed on the current machine.</p>
+which are used to interact with the LSF job scheduler. This requires
+that LSF commands <code>bsub</code>, <code>bjobs</code>, and <code>bkill</code> are available on the
+current machine.</p>
 <p>The default template script <code>templates/lsf.tmpl</code> can be found in:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"templates"</span>, <span class="st">"lsf.tmpl"</span>, package <span class="op">=</span> <span class="st">"future.batchtools"</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>and comprise:</p>
