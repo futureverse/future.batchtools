@@ -1,29 +1,114 @@
 #!/bin/bash
 ######################################################################
-# A batchtools launch script template for Torque/PBS
+# A batchtools launch script template for TORQUE/PBS
 #
-# Author: Henrik Bengtsson 
+# Author: Henrik Bengtsson
 ######################################################################
 
-## Job name:
-#PBS -N <%= if (exists("job.name", mode = "character")) job.name else job.hash %>
+## Job name
+#PBS -N <%= job.name %>
 
-## Direct streams to logfile:
+## Direct streams to logfile
 #PBS -o <%= log.file %>
 
-## Merge standard error and output:
+## Merge standard error and output
 #PBS -j oe
 
-## Email on abort (a) and termination (e), but not when starting (b)
-#PBS -m ae
-
 ## Resources needed:
-<% if (length(resources) > 0) {
+<%
+  ## Should scheduler "details" be seen?
+  details <- isTRUE(resources[["details"]])
+  resources[["details"]] <- NULL
+
+  ## Shell "startup" code to evaluate
+  startup <- resources[["startup"]]
+  resources[["startup"]] <- NULL
+     
+  ## Shell "shutdown" code to evaluate
+  shutdown <- resources[["shutdown"]]
+  resources[["shutdown"]] <- NULL
+     
+  ## Environment modules specifications
+  modules <- resources[["modules"]]
+  resources[["modules"]] <- NULL
+     
+  ## As-is resource specifications
+  job_declarations <- resources[["asis"]]
+  resources[["asis"]] <- NULL
+    
+  ## Remaining resources are assumed to be of type '-l <key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
-  opts <- sprintf("%s=%s", names(opts), opts)
-  opts <- paste(opts, collapse = ",") %>
-#PBS -l <%= opts %>
+  opts <- sprintf("-l %s=%s", names(opts), opts)
+  job_declarations <- sprintf("#PBS %s", c(job_declarations, opts))
+  writeLines(job_declarations)
+%>
+
+## Bash settings
+set -e          # exit on error
+set -u          # error on unset variables
+set -o pipefail # fail a pipeline if any command fails
+trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
+
+<% if (length(job_declarations) > 0) {
+  writeLines(c(
+    "echo 'Job submission declarations:'",
+    sprintf("echo '%s'", job_declarations),
+    "echo"
+  ))
+} %>
+
+<% if (details) { %>
+if command -v qstat > /dev/null; then
+  echo "Job information:"
+  qstat -f "${PBS_JOBID}"
+  echo
+fi
 <% } %>
 
-## Launch R and evaluated the batchtools R job
+<% if (length(startup) > 0) {
+  writeLines(startup)
+} %>
+
+<% if (length(modules) > 0) {
+  writeLines(c(
+    "echo 'Load environment modules:'",
+    sprintf("echo '- modules: %s'", paste(modules, collapse = ", ")),
+    sprintf("module load %s", paste(modules, collapse = " ")),
+    "module list"
+  ))
+} %>
+
+echo "Session information:"
+echo "- timestamp: $(date +"%Y-%m-%d %H:%M:%S%z")"
+echo "- hostname: $(hostname)"
+echo "- Rscript path: $(which Rscript)"
+echo "- Rscript version: $(Rscript --version)"
+echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo
+
+## Launch R and evaluate the batchtools R job
+echo "Rscript -e 'batchtools::doJobCollection()' ..."
+echo "- job name: '<%= job.name %>'"
+echo "- job log file: '<%= log.file %>'"
+echo "- job uri: '<%= uri %>'"
 Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
+res=$?
+echo " - exit code: ${res}"
+echo "Rscript -e 'batchtools::doJobCollection()' ... done"
+echo
+
+<% if (details) { %>
+if command -v qstat > /dev/null; then
+  echo "Job summary:"
+  qstat -f "${PBS_JOBID}"
+fi    
+<% } %>
+
+<% if (length(shutdown) > 0) {
+  writeLines(shutdown)
+} %>
+
+echo "End time: $(date +"%Y-%m-%d %H:%M:%S%z")"
+
+## Relay the exit code from Rscript
+exit "${res}"

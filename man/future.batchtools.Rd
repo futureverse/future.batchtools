@@ -18,26 +18,11 @@ select the type of future you wish to use via
 \code{\link[future:plan]{future::plan()}}.
 }
 \examples{
-library(future.batchtools)
-
-## Use local batchtools futures
-plan(batchtools_local)
-
-## A global variable
-a <- 1
-
-v \%<-\% {
-  b <- 3
-  c <- 2
-  a * b * c
-}
-
-print(v)
-\donttest{
-plan(batchtools_local)
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(future)
+plan(future.batchtools::batchtools_local)
 demo("mandelbrot", package = "future", ask = FALSE)
-}
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Useful links:

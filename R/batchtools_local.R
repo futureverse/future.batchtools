@@ -7,9 +7,10 @@
 #' be assigned to the calling environment rather than to a local one).
 #' Both types of futures will block until the futures are resolved.
 #'
-#' @inheritParams BatchtoolsUniprocessFuture
+#' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams batchtools::makeClusterFunctions
 #' 
-#' @param \ldots Additional arguments passed to [BatchtoolsUniprocessFuture()].
+#' @param \ldots Additional arguments passed to [BatchtoolsFutureBackend()].
 #'
 #' @return An object of class `BatchtoolsUniprocessFuture`.
 #'
@@ -28,16 +29,71 @@
 #' An alternative to batchtools interactive futures is to use
 #' `plan(sequential, split = TRUE)` futures of the \pkg{future} package.
 #'
-#' @example incl/batchtools_local.R
+#' @rdname BatchtoolsFutureBackend
+#' @keywords internal
 #'
 #' @importFrom batchtools makeClusterFunctionsInteractive
-#' @aliases batchtools_interactive batchtools_bash
+#' @aliases BatchtoolsLocalFutureBackend BatchtoolsBashFutureBackend
 #' @export
-batchtools_local <- function(..., envir = parent.frame()) {
-  cf <- makeClusterFunctionsInteractive(external = TRUE)
-  future <- BatchtoolsLocalFuture(..., envir = envir, cluster.functions = cf)
-  if (!future$lazy) future <- run(future)
-  invisible(future)
+BatchtoolsLocalFutureBackend <- function(fs.latency = 0.0, ...) {
+  assert_no_positional_args_but_first()
+
+  args <- list(...)
+  if ("workers" %in% names(args)) {
+    stop("Unknown argument 'workers'")
+  }
+
+  core <- BatchtoolsUniprocessFutureBackend(
+    cluster.functions = makeClusterFunctionsInteractive(fs.latency = fs.latency, external = TRUE),
+    ...
+  )
+
+  core[["futureClasses"]] <- c("BatchtoolsLocalFuture", "BatchtoolsUniprocessFuture", core[["futureClasses"]])
+  core <- structure(core, class = c("BatchtoolsLocalFutureBackend", class(core)))
+  core
+}
+
+
+#' A batchtools backend that resolves futures sequentially in transient background R sessions
+#'
+#' The batchtools local backend is useful for verifying parts of your
+#' \pkg{batchtools} setup locally, before using a more advanced backend such
+#' as the job-scheduler backends.
+#'
+#' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams BatchtoolsLocalFutureBackend
+#'
+#' @param \ldots Not used.
+#'
+#' @details
+#' Batchtools local futures use \pkg{batchtools} cluster functions
+#' created by [batchtools::makeClusterFunctionsInteractive()] with
+#' `external = TRUE`.
+#'
+#' An alternative to the batchtools interactive backend is to use
+#' `plan(future::cluster, workers = I(1))`.
+#'
+#' @examples
+#' library(future)
+#' plan(future.batchtools::batchtools_local)
+#'
+#' message("Main process ID: ", Sys.getpid())
+#'
+#' f <- future({
+#'   data.frame(
+#'     hostname = Sys.info()[["nodename"]],
+#'           os = Sys.info()[["sysname"]],
+#'        cores = unname(parallelly::availableCores()),
+#'          pid = Sys.getpid(),
+#'      modules = Sys.getenv("LOADEDMODULES")
+#'   )
+#' })
+#' info <- value(f)
+#' print(info)
+#' 
+#' @export
+batchtools_local <- function(..., fs.latency = 0.0, delete = getOption("future.batchtools.delete", "on-success")) {
+ stop("INTERNAL ERROR: The future.batchtools::batchtools_local() must never be called directly")
 }
 class(batchtools_local) <- c(
   "batchtools_local", "batchtools_uniprocess", "batchtools",
@@ -45,3 +101,5 @@ class(batchtools_local) <- c(
 )
 attr(batchtools_local, "tweakable") <- c("finalize")
 attr(batchtools_local, "untweakable") <- c("workers")
+attr(batchtools_local, "init") <- TRUE
+attr(batchtools_local, "factory") <- BatchtoolsLocalFutureBackend

@@ -165,6 +165,27 @@ file_info <- function(file) {
 }
 
 
+#' @importFrom utils file_test
+dir_info <- function(dir) {
+  if (is.null(dir) || is.na(dir)) return("<NA>")
+  if (file_test("-d", dir)) {
+    files <- dir(path = dir, full.names = TRUE)
+    info <- file.info(files)
+    info <- info[info[["isdir"]], "mtime"]
+    if (length(info) == 0) {
+      info <- "0 folders"
+    } else {
+      period <- range(info)
+      period <- format(period, "%FT%T")
+      info <- sprintf("%d folders; %s/%s", length(info), period[1], period[2])
+    }
+  } else {
+    info <- "<non-existing>"
+  }
+  sprintf("%s (%s)", sQuote(dir), info)
+}
+
+
 assert_no_positional_args_but_first <- function(call = sys.call(sys.parent())) {
   ast <- as.list(call)
   if (length(ast) <= 2L) return()

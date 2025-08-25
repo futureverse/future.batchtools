@@ -1,20 +1,109 @@
+# Version 0.20.0 [2025-08-25]
+
+## Significant Changes
+
+ * **future.batchtools** now implements the FutureBackend API
+   introduced in **future** 1.40.0 (2025-04-10).
+
+## New Features
+
+ * Most types of batchtools future can now be interrupted, including
+   `batchtools_multicore` and all job-scheduler backends, e.g.
+   `batchtools_sge` and `batchtools_slurm`.
+
+ * Canceling batchtools futures will now interrupt them by default,
+   if the backend supports it.
+
+ * Calling `plan()` on `batchtools_sge` and `batchtools_slurm` reports
+   on the version of the scheduler.
+   
+ * Printing a batchtools future will show logged output.
+
+ * Built-in job-script templates:
+ 
+   - Tidy up built-in template job scripts for Bash, SGE, Slurm and
+     Torque/PBS.
+  
+   - Add built-in template job scripts for LSF and OpenLava.
+  
+   - All built-in template job scripts support "as-is" resource
+     specifications via character vector `resources[["asis"]]`.
+  
+   - All built-in template job scripts support "environment module"
+     resource specifications via character vector
+     `resources[["modules"]]`. When specified, corresponding `module
+     load <name>` entries are injected to the generated job script.
+     
+   - All built-in template job scripts support "startup" and
+     "shutdown" code resource specifications via character vectors
+     `resources[["startup"]]` and `resources[["shutdown"]]`. When
+     specified, corresponding lines are injected in the generated job
+     script and the beginning and end, respectively.
+
+   - All built-in template job scripts support a "details" resource
+     specification via logical scalar `resources[["details"]]`. If
+     TRUE, scheduler job details are outputted to the log files at the
+     beginning and job summaries at the end.
+
+   - All built-in template job scripts, which are written in Bash,
+     error and exit early, by setting more strict Bash options. This
+     should help with any troubleshooting, especially when getting
+     started.
+
+ * Batchtools future backends gained argument `delete` for controlling
+   if and when batchtools futures should be deleted from the file
+   system. Supported values are `"on-success"`, `"never"` and
+   `"always"`. The default value can be set via R option
+   `future.batchtools.delete`.
+
+## Documentation
+
+ * Add explicit **batchtools** arguments `scheduler.latency` and
+   `fs.latency` to batchtools backends, where applicable.
+
+ * Add `timeout <runtime> ...` to the default `batchtools_bash`
+   template script to illustrate how to control this runtime via the
+   backend `resources` argument.
+   
+## Bug Fixes
+
+ * Calling `value()` on a terminated batchtools job could take a very
+   long time before it returned with an error. This was because it
+   read logged output to be part of the error message. When there was
+   no output file, **batchtools** would wait for the file up to
+   `fs.latency` seconds (default 65 seconds) to give job schedulers
+   and any global file system time to write output to file. Now
+   **future.batchtools** will no longer wait for such files and only
+   read their content if they exists when checked.
+
+## Deprecated and Defunct
+
+ * R option `future.delete` is deprecated. Please use new R option
+   `future.batchtools.delete` instead. For backward compatible
+   reasons, if R option `future.delete` sets option
+   `future.batchtools.delete` when the packages is loaded and the
+   latter is not already set. If `future.delete` is FALSE, then
+   `future.batchtools.delete` is set to `"never"`.  If `future.delete`
+   is TRUE, then `future.batchtools.delete` is set to `"on-success"`.
+   
+
 # Version 0.12.2 [2025-06-06]
 
 ## Bug Fixes
 
-* Attempts to cancel batchtools futures via `cancel()` would result in
-  "Interruption of futures require a backend implementing the
-  FutureBackend API". Until this package implements the new
-  FutureBackend API of future (>= 1.40.0), any calls to `cancel()`
-  will be silently ignored.
+ * Attempts to cancel batchtools futures via `cancel()` would result
+   in "Interruption of futures require a backend implementing the
+   FutureBackend API". Until this package implements the new
+   FutureBackend API of future (>= 1.40.0), any calls to `cancel()`
+   will be silently ignored.
   
 
 # Version 0.12.1 [2023-12-19]
 
 ## Bug Fixes
 
- * `plan(batchtools_multicore)` did not support `workers` argument
-   being a function.
+ * `plan(future.batchtools::batchtools_multicore)` did not support
+   `workers` argument being a function.
 
 
 # Version 0.12.0 [2023-02-24]
@@ -51,12 +140,12 @@
 
  * It is now possible to tweak arguments used by an underlying
    `batchtools::makeClusterFunctionsNnn()` function for some of the
-   `batchtools_nnn` backends, e.g. `plan(batchtools_slurm,
-   scheduler.latency = 60)`.
+   `batchtools_nnn` backends, e.g.
+   `plan(future.batchtools::batchtools_slurm, scheduler.latency = 60)`.
  
- * `plan(batchtools_multicore, workers = I(1))` overrides the fallback
-   to `batchtools_local` and forces a single `batchtools_multicore`
-   worker.
+ * `plan(future.batchtools::batchtools_multicore, workers = I(1))`
+   overrides the fallback to `batchtools_local` and forces a single
+   `batchtools_multicore` worker.
  
  * `print()` for BatchtoolsFuture now reports on the batchtools
    configuration file (an R script) and the the batchtools job template
@@ -100,8 +189,9 @@
 
 ## Bug Fixes
 
- * Using `plan(batchtools_nnn, finalize = FALSE)` would give a warning
-   on `Detected 1 unknown future arguments: 'finalize'`.
+ * Using `plan(future.batchtools::batchtools_nnn, finalize = FALSE)`
+   would give a warning on `Detected 1 unknown future arguments:
+   'finalize'`.
 
  * Template files in `system.file(package = "future.batchtools",
    "templates")` were not found.
@@ -121,18 +211,15 @@
    `status()`, which were functions that were used for internal
    purposes.
 
-
 ## Documentation
 
  * Document option `future.delete` and clarify option
    `future.cache.path` in `help("future.batchtools.options")`.
 
-
 ## Bug Fixes
 
  * If `run()` was called twice for a BatchtoolsFuture, it would not
    produce a FutureError but only a regular non-classed error.
-
 
 ## Deprecated and Defunct
 
@@ -156,34 +243,36 @@
    `future.batchtools.workers` or environment variable
    `R_FUTURE_BATCHTOOLS_WORKERS`.
 
- * It is now possible to configure the **batchtools** registries that are
-   used by batchtools futures via new argument `registry` to `plan()`.
-   This argument should be a named list of parameters recognized by
-   the **batchtools** package, e.g. `plan(batchtools_sge, registry =
+ * It is now possible to configure the **batchtools** registries that
+   are used by batchtools futures via new argument `registry` to
+   `plan()`.  This argument should be a named list of parameters
+   recognized by the **batchtools** package,
+   e.g. `plan(future.batchtools::batchtools_sge, registry =
    list(...))`.  For notable example, see below news entries.
 
  * The default working directory for batchtools futures is the current
    working directory of R _when_ the batchtools future is created.
-   This corresponds to specifying `plan(batchtools_nnn, registry =
-   list(work.dir = NULL)`.  Sometimes it is useful to use a explicit
-   working directory that is guaranteed to be available on all workers
-   on a shared file system, e.g. `plan(batchtools_nnn, registry =
+   This corresponds to specifying
+   `plan(future.batchtools::batchtools_nnn, registry = list(work.dir =
+   NULL)`.  Sometimes it is useful to use a explicit working directory
+   that is guaranteed to be available on all workers on a shared file
+   system, e.g. `plan(future.batchtools::batchtools_nnn, registry =
    list(work.dir = "~"))`.
 
  * It is possible to control if and how **batchtools** should use file
    compression for exported globals and results by specifying
-   **batchtools** registry parameter `compress`.  For example, to turn off
-   file compression, use `plan(batchtools_nnn, registry =
-   list(compress = FALSE))`.
+   **batchtools** registry parameter `compress`.  For example, to turn
+   off file compression, use `plan(future.batchtools::batchtools_nnn,
+   registry = list(compress = FALSE))`.
 
  * The default location of the `.future` folder can be controlled by R
    option `future.cache.path` or environment variable
    `R_FUTURE_CACHE_PATH`.
 
  * `batchtools_custom()` and BatchtoolsFuture gained argument
-   `conf.file`. Using `plan(batchtools_custom)` will now use any
-   **batchtools** configuration file (an R script) found on the
-   `batchtools::findConfFile()` search path.
+   `conf.file`. Using `plan(future.batchtools::batchtools_custom)`
+   will now use any **batchtools** configuration file (an R script)
+   found on the `batchtools::findConfFile()` search path.
 
 
 ## Documentation
@@ -280,10 +369,11 @@
 
  * Argument `workers` of future strategies may now also be a function,
    which is called without argument when the future strategy is set up
-   and used as-is.  For instance, `plan(callr, workers = halfCores)`
-   where `halfCores <- function() { max(1, round(availableCores() /
-   2)) }` will use half of the number of available cores.  This is
-   useful when using nested future strategies with remote machines.
+   and used as-is.  For instance, `plan(future.callr::callr, workers =
+   halfCores)` where `halfCores <- function() { max(1,
+   round(availableCores() / 2)) }` will use half of the number of
+   available cores.  This is useful when using nested future
+   strategies with remote machines.
 
 
 ## Code Refactoring
@@ -353,9 +443,9 @@
 
 ## Bug Fixes
 
- * Under `plan(batchtools_*)`, when being created futures would
-   produce an error on `all(is.finite(workers)) is not TRUE` due to an
-   outdated sanity check.
+ * Under `plan(future.batchtools::batchtools_nnn)`, when being created
+   futures would produce an error on `all(is.finite(workers)) is not
+   TRUE` due to an outdated sanity check.
 
 
 ## Software Quality
@@ -382,8 +472,8 @@
    decide how many futures should be used to best partition the
    elements, this means that `future_lapply()` will always use one
    future per element.  Because of this, it is now possible to specify
-   `plan(batchtools_*, workers = n)` where `n` is the target number of
-   workers.
+   `plan(future.batchtools::batchtools_nnn, workers = n)` where `n` is
+   the target number of workers.
 
 
 # Version 0.2.0 [2017-02-23]

@@ -2,66 +2,59 @@
 % Please edit documentation in R/batchtools_local.R
 \name{batchtools_local}
 \alias{batchtools_local}
-\alias{batchtools_interactive}
-\alias{batchtools_bash}
-\title{batchtools local and interactive futures}
+\title{A batchtools backend that resolves futures sequentially in transient background R sessions}
 \usage{
-batchtools_local(..., envir = parent.frame())
+batchtools_local(
+  ...,
+  fs.latency = 0,
+  delete = getOption("future.batchtools.delete", "on-success")
+)
 }
 \arguments{
-\item{envir}{The environment in which global environment
-should be located.}
+\item{fs.latency}{[\code{numeric(1)}]\cr
+Expected maximum latency of the file system, in seconds.
+Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
+access files and directories.
+Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
 
-\item{\ldots}{Additional arguments passed to \code{\link[=BatchtoolsUniprocessFuture]{BatchtoolsUniprocessFuture()}}.}
-}
-\value{
-An object of class \code{BatchtoolsUniprocessFuture}.
+\item{delete}{Controls if and when the batchtools job registry folder is
+deleted.
+If \code{"on-success"} (default), it is deleted if the future was resolved
+successfully \emph{and} the expression did not produce an error.
+If \code{"never"}, then it is never deleted.
+If \code{"always"}, then it is always deleted.}
+
+\item{\ldots}{Not used.}
 }
 \description{
-A batchtools local future is an synchronous uniprocess future that
-will be evaluated in a background R session.
-A batchtools interactive future is an synchronous uniprocess future
-that will be evaluated in the current R session (and variables will
-be assigned to the calling environment rather than to a local one).
-Both types of futures will block until the futures are resolved.
+The batchtools local backend is useful for verifying parts of your
+\pkg{batchtools} setup locally, before using a more advanced backend such
+as the job-scheduler backends.
 }
 \details{
-batchtools local futures rely on the batchtools backend set up by
-\code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive(external = TRUE)}}
-and batchtools interactive futures on the one set up by
-\code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive()}}.
-These are supported by all operating systems.
+Batchtools local futures use \pkg{batchtools} cluster functions
+created by \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive()}} with
+\code{external = TRUE}.
 
-An alternative to batchtools local futures is to use
-\link[future:cluster]{cluster} futures of the \pkg{future}
-package with a single local background session, i.e.
-\code{plan(cluster, workers = "localhost")}.
-
-An alternative to batchtools interactive futures is to use
-\code{plan(sequential, split = TRUE)} futures of the \pkg{future} package.
+An alternative to the batchtools interactive backend is to use
+\code{plan(future::cluster, workers = I(1))}.
 }
 \examples{
-## Use local batchtools futures
-plan(batchtools_local)
+library(future)
+plan(future.batchtools::batchtools_local)
 
-## A global variable
-a <- 1
+message("Main process ID: ", Sys.getpid())
 
-## Create explicit future
 f <- future({
-  b <- 3
-  c <- 2
-  a * b * c
+  data.frame(
+    hostname = Sys.info()[["nodename"]],
+          os = Sys.info()[["sysname"]],
+       cores = unname(parallelly::availableCores()),
+         pid = Sys.getpid(),
+     modules = Sys.getenv("LOADEDMODULES")
+  )
 })
-v <- value(f)
-print(v)
+info <- value(f)
+print(info)
 
-
-## Create implicit future
-v \%<-\% {
-  b <- 3
-  c <- 2
-  a * b * c
-}
-print(v)
 }

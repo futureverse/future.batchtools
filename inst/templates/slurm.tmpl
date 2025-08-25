@@ -5,18 +5,106 @@
 # Author: Henrik Bengtsson 
 ######################################################################
 
+## Job name
 #SBATCH --job-name=<%= job.name %>
+## Direct streams to logfile
 #SBATCH --output=<%= log.file %>
-#SBATCH --nodes=1
-#SBATCH --time=00:05:00
 
 ## Resources needed:
-<% if (length(resources) > 0) {
+<%
+  ## Shell "details" code to evaluate
+  details <- isTRUE(resources[["details"]])
+  resources[["details"]] <- NULL
+
+  ## Shell "startup" code to evaluate
+  startup <- resources[["startup"]]
+  resources[["startup"]] <- NULL
+     
+  ## Shell "shutdown" code to evaluate
+  shutdown <- resources[["shutdown"]]
+  resources[["shutdown"]] <- NULL
+     
+  ## Environment modules specifications
+  modules <- resources[["modules"]]
+  resources[["modules"]] <- NULL
+     
+  ## As-is resource specifications
+  job_declarations <- resources[["asis"]]
+  resources[["asis"]] <- NULL
+    
+  ## Remaining resources are assumed to be of type '--<key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
   opts <- sprintf("--%s=%s", names(opts), opts)
-  opts <- paste(opts, collapse = " ") %>
-#SBATCH <%= opts %>
+  job_declarations <- sprintf("#SBATCH %s", c(job_declarations, opts))
+  writeLines(job_declarations)
+%>
+
+## Bash settings
+set -e          # exit on error
+set -u          # error on unset variables
+set -o pipefail # fail a pipeline if any command fails
+trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
+
+<% if (length(job_declarations) > 0) {
+  writeLines(c(
+    "echo 'Job submission declarations:'",
+    sprintf("echo '%s'", job_declarations),
+    "echo"
+  ))
+} %>
+
+<% if (details) { %>
+if command -v scontrol > /dev/null; then
+  echo "Job information:"
+  scontrol show job "${SLURM_JOB_ID}"
+  echo
+fi
 <% } %>
 
-## Launch R and evaluated the batchtools R job
+<% if (length(startup) > 0) {
+  writeLines(startup)
+} %>
+
+<% if (length(modules) > 0) {
+  writeLines(c(
+    "echo 'Load environment modules:'",
+    sprintf("echo '- modules: %s'", paste(modules, collapse = ", ")),
+    sprintf("module load %s", paste(modules, collapse = " ")),
+    "module list"
+  ))
+} %>
+
+echo "Session information:"
+echo "- timestamp: $(date +"%Y-%m-%d %H:%M:%S%z")"
+echo "- hostname: $(hostname)"
+echo "- Rscript path: $(which Rscript)"
+echo "- Rscript version: $(Rscript --version)"
+echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo
+
+## Launch R and evaluate the batchtools R job
+echo "Rscript -e 'batchtools::doJobCollection()' ..."
+echo "- job name: '<%= job.name %>'"
+echo "- job log file: '<%= log.file %>'"
+echo "- job uri: '<%= uri %>'"
 Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
+res=$?
+echo " - exit code: ${res}"
+echo "Rscript -e 'batchtools::doJobCollection()' ... done"
+echo
+
+<% if (details) { %>
+if command -v sstat > /dev/null; then
+  echo "Job summary:"
+  sstat --format="JobID,AveCPU,MaxRSS,MaxPages,MaxDiskRead,MaxDiskWrite" --allsteps --jobs="${SLURM_JOB_ID}"
+fi
+<% } %>
+
+<% if (length(shutdown) > 0) {
+  writeLines(shutdown)
+} %>
+
+echo "End time: $(date +"%Y-%m-%d %H:%M:%S%z")"
+
+## Relay the exit code from Rscript
+exit "${res}"

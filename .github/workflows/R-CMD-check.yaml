@@ -21,16 +21,15 @@ jobs:
           - {os: windows-latest, r: 'oldrel'   }
 #          - {os: macOS-latest,   r: 'devel'    }
           - {os: macOS-latest,   r: 'release'  }
-          - {os: macOS-latest,   r: 'oldrel'   }
+#          - {os: macOS-latest,   r: 'oldrel'   }
           - {os: ubuntu-latest,  r: 'devel'    }
           - {os: ubuntu-latest,  r: 'release'  }
+          - {os: ubuntu-latest,  r: 'release', future_version: develop, label: 'future develop' }
           - {os: ubuntu-latest,  r: 'oldrel'   }
           - {os: ubuntu-latest,  r: 'oldrel-1' }
           - {os: ubuntu-latest,  r: 'oldrel-2' }
-          - {os: ubuntu-latest,  r: '3.6'      }
+          - {os: ubuntu-latest,  r: '4.0'      }
           - {os: ubuntu-latest,  r: 'release'  , language: ko,    label: ko    }
-          - {os: ubuntu-latest,  r: 'release', future_version: develop, label: 'w/ future-develop' }
-          - {os: ubuntu-latest,  r: 'release', future_version: feature/evalFuture-3, label: 'w/ future-feature/evalFuture-3' }
  
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

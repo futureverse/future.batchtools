@@ -13,10 +13,11 @@
 #' @importFrom future nbrOfWorkers
 #' @export
 #' @keywords internal
-nbrOfWorkers.batchtools <- function(evaluator) {
+nbrOfWorkers.BatchtoolsFutureBackend <- function(evaluator) {
+  backend <- evaluator
+
   ## 1. Infer from 'workers' argument
-  expr <- formals(evaluator)$workers
-  workers <- eval(expr, enclos = baseenv())
+  workers <- backend[["workers"]]
   if (!is.null(workers)) {
     if (is.function(workers)) workers <- workers()
     stop_if_not(length(workers) >= 1)
@@ -26,13 +27,12 @@ nbrOfWorkers.batchtools <- function(evaluator) {
   }
 
   ## 2. Infer from 'cluster.functions' argument
-  expr <- formals(evaluator)$cluster.functions
-  cf <- eval(expr, enclos = baseenv())
-  if (!is.null(cf)) {
-    stop_if_not(inherits(cf, "ClusterFunctions"))
+  cluster.functions <- backend[["cluster.functions"]]
+  if (!is.null(cluster.functions)) {
+    stop_if_not(inherits(cluster.functions, "ClusterFunctions"))
 
-    name <- cf$name
-    if (is.null(name)) name <- cf$Name
+    name <- cluster.functions$name
+    if (is.null(name)) name <- cluster.functions$Name
 
     ## Uni-process backends
     if (name %in% c("Local", "Interactive")) return(1L)
@@ -48,31 +48,37 @@ nbrOfWorkers.batchtools <- function(evaluator) {
 }
 
 #' @export
-nbrOfWorkers.batchtools_uniprocess <- function(evaluator) {
+nbrOfWorkers.BatchtoolsUniprocessFutureBackend <- function(evaluator) {
   assert_no_positional_args_but_first()
   1L
 }
 
 #' @export
-nbrOfWorkers.batchtools_multicore <- function(evaluator) {
+nbrOfWorkers.BatchtoolsMulticoreFutureBackend <- function(evaluator) {
+  assert_no_positional_args_but_first()
+
+  backend <- evaluator
+
   ## 1. Infer from 'workers' argument
-  expr <- formals(evaluator)$workers
-  workers <- eval(expr, enclos = baseenv())
+  workers <- backend[["workers"]]
   if (is.function(workers)) workers <- workers()
   stop_if_not(length(workers) == 1L, is.numeric(workers), !is.na(workers), is.finite(workers), workers >= 1)
   workers
 }
 
+
 #' @importFrom future nbrOfWorkers nbrOfFreeWorkers
 #' @export
-nbrOfFreeWorkers.batchtools <- function(evaluator, background = FALSE, ...) {
+nbrOfFreeWorkers.BatchtoolsFutureBackend <- function(evaluator, background = FALSE, ...) {
+  backend <- evaluator
+
   ## Special case #1: Fall back to uniprocess processing
-  if (inherits(evaluator, "uniprocess")) {
+  if (inherits(backend, "BatchtoolsUniprocessFutureBackend")) {
     return(NextMethod())
   }
   
   ## Special case #2: Infinite number of workers
-  workers <- nbrOfWorkers(evaluator)
+  workers <- nbrOfWorkers(backend)
   if (is.infinite(workers)) return(workers)
 
   ## In all other cases, we need to figure out how many workers
@@ -88,7 +94,7 @@ nbrOfFreeWorkers.batchtools <- function(evaluator, background = FALSE, ...) {
 
 
 #' @export
-nbrOfFreeWorkers.batchtools_uniprocess <- function(evaluator, background = FALSE, ...) {
+nbrOfFreeWorkers.BatchtoolsUniprocessFutureBackend <- function(evaluator, background = FALSE, ...) {
   assert_no_positional_args_but_first()
   if (isTRUE(background)) 0L else 1L
 }
@@ -96,15 +102,17 @@ nbrOfFreeWorkers.batchtools_uniprocess <- function(evaluator, background = FALSE
 
 
 #' @export
-nbrOfFreeWorkers.batchtools_multiprocess <- function(evaluator, background = FALSE, ...) {
+nbrOfFreeWorkers.BatchtoolsMultiprocessFutureBackend <- function(evaluator, background = FALSE, ...) {
   assert_no_positional_args_but_first()
 
-  workers <- nbrOfWorkers(evaluator)
+  backend <- evaluator
 
-  ## Create a dummy future
-  future <- evaluator(NULL, globals = FALSE, lazy = TRUE)
-  freg <- sprintf("workers-%s", class(future)[1])
-  usedWorkers <- length(FutureRegistry(freg, action = "list"))
+  workers <- nbrOfWorkers(backend)
+  
+  ## Special case: Infinite number of workers
+  if (is.infinite(workers)) return(workers)
+
+  usedWorkers <- length(FutureRegistry(backend[["reg"]], action = "list"))
   
   workers <- workers - usedWorkers
   stop_if_not(length(workers) == 1L, !is.na(workers), workers >= 0L)

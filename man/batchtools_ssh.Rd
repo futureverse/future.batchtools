@@ -2,63 +2,47 @@
 % Please edit documentation in R/batchtools_ssh.R
 \name{batchtools_ssh}
 \alias{batchtools_ssh}
-\title{batchtools SSH futures}
+\title{A batchtools backend that resolves futures in parallel via background R sessions over SSH}
 \usage{
 batchtools_ssh(
-  expr,
-  envir = parent.frame(),
-  substitute = TRUE,
-  globals = TRUE,
-  label = NULL,
+  ...,
   workers = availableWorkers(),
-  registry = list(),
-  ...
+  fs.latency = 65,
+  delete = getOption("future.batchtools.delete", "on-success")
 )
 }
 \arguments{
-\item{expr}{The R expression to be evaluated}
+\item{workers}{(optional) The maximum number of workers the batchtools
+backend may use at any time.   Interactive and "local" backends can only
+process one future at the time (\code{workers = 1}), whereas HPC backends,
+where futures are resolved via separate jobs on a scheduler, can have
+multiple workers. In the latter, the default is \code{workers = NULL}, which
+will resolve to \code{getOption("\link{future.batchtools.workers}", 100)}.}
 
-\item{envir}{The environment in which global environment
-should be located.}
+\item{fs.latency}{[\code{numeric(1)}]\cr
+Expected maximum latency of the file system, in seconds.
+Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
+access files and directories.
+Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
 
-\item{substitute}{Controls whether \code{expr} should be
-\code{substitute()}:d or not.}
-
-\item{globals}{(optional) a logical, a character vector, a named list, or a
-\link[globals:Globals]{Globals} object.  If TRUE, globals are identified by code
-inspection based on \code{expr} and \code{tweak} searching from environment
-\code{envir}.  If FALSE, no globals are used.  If a character vector, then
-globals are identified by lookup based their names \code{globals} searching
-from environment \code{envir}.  If a named list or a Globals object, the
-globals are used as is.}
-
-\item{label}{(optional) Label of the future (where applicable, becomes the
-job name for most job schedulers).}
-
-\item{workers}{The number of SSH processes to be
-available for concurrent batchtools SSH futures.}
-
-\item{registry}{(optional) A named list of settings to control the setup
-of the batchtools registry.}
-
-\item{\ldots}{Additional arguments passed
-to \code{\link[=BatchtoolsFuture]{BatchtoolsFuture()}}.}
-}
-\value{
-An object of class \code{BatchtoolsMulticoreFuture}.
+\item{delete}{Controls if and when the batchtools job registry folder is
+deleted.
+If \code{"on-success"} (default), it is deleted if the future was resolved
+successfully \emph{and} the expression did not produce an error.
+If \code{"never"}, then it is never deleted.
+If \code{"always"}, then it is always deleted.}
 }
 \description{
-A batchtools SSH future is an asynchronous multiprocess
-future that will be evaluated in a background R session.\cr
-\cr
-\emph{We highly recommend using \link[future:multisession]{future::multisession}
-(sic!) futures of the \pkg{future} package instead of
-SSH batchtools futures.}
+A batchtools backend that resolves futures in parallel via background R sessions over SSH
 }
 \details{
-batchtools SSH futures rely on the batchtools backend set
-up by \code{\link[batchtools:makeClusterFunctionsSSH]{batchtools::makeClusterFunctionsSSH()}}.
-The batchtools SSH backend only works on operating systems
-supporting the \code{ssh} and \code{ps} command-line tool, e.g. Linux and macOS.
+The \code{batchtools_ssh} backend uses the batchtools backend set
+up by \code{\link[batchtools:makeClusterFunctionsSSH]{batchtools::makeClusterFunctionsSSH()}}, which requires
+system commands \code{ssh} and \code{ps} as available on Linux and macOS.
+
+An alternative to \code{batchtools_ssh} is to use
+\link[future:cluster]{cluster} futures of the \pkg{future}
+package with a single local background session, i.e.
+\code{plan(cluster, workers = c("localhost"))}.
 }
 \keyword{internal}

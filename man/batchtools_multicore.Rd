@@ -2,63 +2,62 @@
 % Please edit documentation in R/batchtools_multicore.R
 \name{batchtools_multicore}
 \alias{batchtools_multicore}
-\title{batchtools multicore futures}
+\title{A batchtools backend that resolves futures in parallel via forked background R processes}
 \usage{
 batchtools_multicore(
-  expr,
-  envir = parent.frame(),
-  substitute = TRUE,
-  globals = TRUE,
-  label = NULL,
+  ...,
   workers = availableCores(constraints = "multicore"),
-  registry = list(),
-  ...
+  fs.latency = 0,
+  delete = getOption("future.batchtools.delete", "on-success")
 )
 }
 \arguments{
-\item{expr}{The R expression to be evaluated}
-
-\item{envir}{The environment in which global environment
-should be located.}
-
-\item{substitute}{Controls whether \code{expr} should be
-\code{substitute()}:d or not.}
-
-\item{globals}{(optional) a logical, a character vector, a named list, or a
-\link[globals:Globals]{Globals} object.  If TRUE, globals are identified by code
-inspection based on \code{expr} and \code{tweak} searching from environment
-\code{envir}.  If FALSE, no globals are used.  If a character vector, then
-globals are identified by lookup based their names \code{globals} searching
-from environment \code{envir}.  If a named list or a Globals object, the
-globals are used as is.}
-
-\item{label}{(optional) Label of the future (where applicable, becomes the
-job name for most job schedulers).}
-
 \item{workers}{The number of multicore processes to be
 available for concurrent batchtools multicore futures.}
 
-\item{registry}{(optional) A named list of settings to control the setup
-of the batchtools registry.}
+\item{fs.latency}{[\code{numeric(1)}]\cr
+Expected maximum latency of the file system, in seconds.
+Set to a positive number for network file systems like NFS which enables more robust (but also more expensive) mechanisms to
+access files and directories.
+Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
 
-\item{\ldots}{Additional arguments passed
-to \code{\link[=BatchtoolsFuture]{BatchtoolsFuture()}}.}
-}
-\value{
-An object of class \code{BatchtoolsMulticoreFuture}.
+\item{delete}{Controls if and when the batchtools job registry folder is
+deleted.
+If \code{"on-success"} (default), it is deleted if the future was resolved
+successfully \emph{and} the expression did not produce an error.
+If \code{"never"}, then it is never deleted.
+If \code{"always"}, then it is always deleted.}
+
+\item{\ldots}{Not used.}
 }
 \description{
-A batchtools multicore future is an asynchronous multiprocess
-future that will be evaluated in a background R session.\cr
-\cr
-\emph{We highly recommend using \link[future:multisession]{future::multisession}
-(sic!) futures of the \pkg{future} package instead of
-multicore batchtools futures.}
+A batchtools backend that resolves futures in parallel via forked background R processes
 }
 \details{
-batchtools multicore futures rely on the batchtools backend set
-up by \code{\link[batchtools:makeClusterFunctionsMulticore]{batchtools::makeClusterFunctionsMulticore()}}.
-The batchtools multicore backend only works on operating systems
-supporting the \code{ps} command-line tool, e.g. Linux and macOS.
+Batchtools multicore futures use \pkg{batchtools} cluster functions
+created by \code{\link[batchtools:makeClusterFunctionsMulticore]{batchtools::makeClusterFunctionsMulticore()}} with
+\code{ncpus = workers}.
+
+An alternative to the batchtools multicore backend is to use
+\code{plan(future::multicore)}.
 }
-\keyword{internal}
+\examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(future)
+plan(future.batchtools::batchtools_multicore, workers = 2)
+
+message("Main process ID: ", Sys.getpid())
+
+f <- future({
+  data.frame(
+    hostname = Sys.info()[["nodename"]],
+          os = Sys.info()[["sysname"]],
+       cores = unname(parallelly::availableCores()),
+         pid = Sys.getpid(),
+     modules = Sys.getenv("LOADEDMODULES")
+  )
+})
+info <- value(f)
+print(info)
+\dontshow{\}) # examplesIf}
+}

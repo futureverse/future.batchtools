@@ -1,12 +1,83 @@
-#' @inheritParams batchtools_custom
-#' @inheritParams batchtools_template
+#' @inheritParams BatchtoolsTemplateFutureBackend
+#' @inheritParams batchtools::makeClusterFunctions
+#'
+#' @keywords internal
 #'
 #' @export
-batchtools_bash <- function(..., envir = parent.frame(), template = "bash") {
-  cf <- makeClusterFunctionsBash(template = template)
-  future <- BatchtoolsBashFuture(..., envir = envir, cluster.functions = cf)
-  if (!future$lazy) future <- run(future)
-  invisible(future)
+BatchtoolsBashFutureBackend <- function(..., template = "bash", fs.latency = 0.0) {
+  assert_no_positional_args_but_first()
+
+  args <- list(...)
+  if ("workers" %in% names(args)) {
+    stop("Unknown argument 'workers'")
+  }
+  
+  core <- BatchtoolsTemplateFutureBackend(
+    ...,
+    template = template,
+    workers = 1L,
+    type = "bash",
+    makeClusterFunctions = makeClusterFunctionsBash
+  )
+
+  core[["futureClasses"]] <- c("BatchtoolsBashFuture", core[["futureClasses"]])
+  core <- structure(core, class = c("BatchtoolsBashFutureBackend", class(core)))
+  core
+}
+
+
+#' A batchtools bash backend that resolves futures sequentially via a Bash template script
+#'
+#' The `batchtools_bash` backend was added to illustrate how to write a
+#' custom \pkg{future.batchtools} backend that uses a templated job script.
+#' Please see the source code, for details.
+#'
+#' @inheritParams BatchtoolsTemplateFutureBackend
+#'
+#' @param template (optional) Name of job-script template to be searched
+#' for by [batchtools::findTemplateFile()]. If not found, it defaults to
+#' the `templates/bash.tmpl` part of this package (see below).
+#'
+#' @param \ldots Not used.
+#'
+#' @details
+#' Batchtools bash futures use \pkg{batchtools} cluster functions
+#' created by [makeClusterFunctionsBash()] and requires that `bash` is
+#' installed on the current machine and the `timeout` command is available.
+#'
+#' The default template script `templates/bash.tmpl` can be found in:
+#'
+#' ```r
+#' system.file("templates", "bash.tmpl", package = "future.batchtools")
+#' ```
+#'
+#' and comprise:
+#'
+#' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/bash.tmpl"), "\x60\x60\x60"), collapse = "\n")`
+#'
+#' @examplesIf interactive()
+#' library(future)
+#'
+#' # Limit runtime to 30 seconds per future
+#' plan(future.batchtools::batchtools_bash, resources = list(runtime = 30))
+#'
+#' message("Main process ID: ", Sys.getpid())
+#'
+#' f <- future({
+#'   data.frame(
+#'     hostname = Sys.info()[["nodename"]],
+#'           os = Sys.info()[["sysname"]],
+#'        cores = unname(parallelly::availableCores()),
+#'          pid = Sys.getpid(),
+#'      modules = Sys.getenv("LOADEDMODULES")
+#'   )
+#' })
+#' info <- value(f)
+#' print(info)
+#' 
+#' @export
+batchtools_bash <- function(..., template = "bash", fs.latency = 0.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success")) {
+ stop("INTERNAL ERROR: The future.batchtools::batchtools_bash() must never be called directly")
 }
 class(batchtools_bash) <- c(
   "batchtools_bash", "batchtools_custom",
@@ -15,11 +86,22 @@ class(batchtools_bash) <- c(
 )
 attr(batchtools_bash, "tweakable") <- c("finalize")
 attr(batchtools_bash, "untweakable") <- c("workers")
+attr(batchtools_bash, "init") <- TRUE
+attr(batchtools_bash, "factory") <- BatchtoolsBashFutureBackend
 
 
+#' @inheritParams batchtools::makeClusterFunctions
+#'
+#' @return
+#' `makeClusterFunctionsBash()` returns a
+#' \link[batchtools:makeClusterFunctions]{ClusterFunctions} object.
+#'
+#' @rdname batchtools_bash
+#'
 #' @importFrom batchtools cfReadBrewTemplate cfBrewTemplate makeClusterFunctions makeSubmitJobResult
 #' @importFrom utils file_test
-makeClusterFunctionsBash <- function(template = "bash") {
+#' @export
+makeClusterFunctionsBash <- function(template = "bash", fs.latency = 0.0, ...) {
   bin <- Sys.which("bash")
   stop_if_not(file_test("-f", bin), file_test("-x", bin))
   
@@ -31,7 +113,7 @@ makeClusterFunctionsBash <- function(template = "bash") {
     stop_if_not(inherits(jc, "JobCollection"))
 
     script <- cfBrewTemplate(reg, text = template_text, jc = jc)
-    output <- system2(bin, args = c(script), stdout = TRUE, stderr = TRUE)
+    output <- system2(bin, args = c(script), stdout = TRUE, stderr = TRUE, wait = TRUE)
     debug <- isTRUE(getOption("future.debug"))
     if (debug) {
       mdebug_push("makeClusterFunctionsBash() ...")
@@ -53,7 +135,8 @@ makeClusterFunctionsBash <- function(template = "bash") {
   cf <- makeClusterFunctions(
     name = "Bash",
     submitJob = submitJob,
-    store.job.collection = TRUE
+    store.job.collection = TRUE,
+    fs.latency = fs.latency
   )
   attr(cf, "template") <- template
   attr(cf, "template_text") <- template_text

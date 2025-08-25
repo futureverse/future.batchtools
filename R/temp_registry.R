@@ -7,6 +7,15 @@ temp_registry <- local({
     ## Temporarily disable batchtools output?
     ## (i.e. messages and progress bars)
     debug <- isTRUE(getOption("future.debug"))
+    if (debug) {
+      mdebugf_push("make_registry() ...")
+      mdebug("cluster.functions:")
+      mstr(cluster.functions)
+      mdebug("config:")
+      mstr(config)
+      on.exit(mdebug_pop())
+    }
+
     batchtools_output <- getOption("future.batchtools.output", debug)
 
     work.dir <- config$work.dir
@@ -15,7 +24,7 @@ temp_registry <- local({
     
     if (!batchtools_output) {
       oopts <- options(batchtools.verbose = FALSE, batchtools.progress = FALSE)
-      on.exit(options(oopts))
+      on.exit(options(oopts), add = TRUE)
     }
 
     ## WORKAROUND: batchtools::makeRegistry() updates the RNG state,
@@ -41,7 +50,13 @@ temp_registry <- local({
     reg
   } ## make_registry()
 
-  function(label = "batchtools", path = NULL, config = list(), ...) {
+  function(label = "batchtools", path = NULL, cluster.functions = NULL, config = list(), ...) {
+    debug <- isTRUE(getOption("future.debug"))
+    if (debug) {
+      mdebugf_push("temp_registry() ...")
+      on.exit(mdebug_pop())
+    }
+
     if (is.null(label)) label <- "batchtools"
     ## The job label (the name on the job queue) - may be duplicated
     label <- as.character(label)
@@ -83,7 +98,7 @@ temp_registry <- local({
     ## expression "^[a-zA-Z]+[0-9a-zA-Z_]*$".
     ## /HB 2016-10-19
     reg_id <- as_valid_registry_id(label)
-    make_registry(file.dir = path_registry, config = config, ...)
+    make_registry(file.dir = path_registry, cluster.functions = cluster.functions, config = config, ...)
   }
 })
 

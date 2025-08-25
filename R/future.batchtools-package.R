@@ -10,13 +10,10 @@
 #' select the type of future you wish to use via
 #' [future::plan()].
 #'
-#' @example incl/future.batchtools.R
-#'
-#' @examples
-#' \donttest{
-#' plan(batchtools_local)
+#' @examplesIf interactive()
+#' library(future)
+#' plan(future.batchtools::batchtools_local)
 #' demo("mandelbrot", package = "future", ask = FALSE)
-#' }
 #'
 #' @name future.batchtools
 #' @aliases future.batchtools-package

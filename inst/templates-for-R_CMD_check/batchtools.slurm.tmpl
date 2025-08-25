@@ -1,0 +1,131 @@
+#!/bin/bash
+######################################################################
+# A batchtools launch script template for Slurm
+#
+# Author: Henrik Bengtsson 
+######################################################################
+
+## Job name
+#SBATCH --job-name=<%= job.name %>
+## Direct streams to logfile
+#SBATCH --output=<%= log.file %>
+
+## Resources needed:
+<%
+  ## Shell "details" code to evaluate
+  details <- isTRUE(resources[["details"]])
+  resources[["details"]] <- NULL
+
+  ## Shell "startup" code to evaluate
+  startup <- resources[["startup"]]
+  resources[["startup"]] <- NULL
+     
+  ## Shell "shutdown" code to evaluate
+  shutdown <- resources[["shutdown"]]
+  resources[["shutdown"]] <- NULL
+     
+  ## Environment modules specifications
+  modules <- resources[["modules"]]
+  resources[["modules"]] <- NULL
+     
+  ## As-is resource specifications
+  job_declarations <- resources[["asis"]]
+  resources[["asis"]] <- NULL
+    
+  ## SPECIAL: For R CMD check package testing on HPC environments, which
+  ## typically uses a temporary working directory that is local, we force
+  ## it to use HPC-wide working directory
+  path <- tools::R_user_dir("future.batchtools", "cache")
+  path <- file.path(path, "R_CMD_check")
+  if (!utils::file_test("-d", path)) dir.create(path, recursive = TRUE)
+  job_declarations <- c(job_declarations, sprintf("--chdir=%s", path))
+  
+  ## SPECIAL: Since we change working directory, the 'startup.Rs' file used
+  ## by R CMD check is no longer found
+  env <- Sys.getenv("R_TESTS", NA_character_)
+  if (!is.na(env)) startup <- c(startup, sprintf("export R_TESTS=%s", normalizePath(env)))
+  
+  ## SPECIAL: Use the 'Rscript' on PATH when processing this template; not
+  ## the dummy one injected by 'R CMD check'
+  startup <- c(startup, sprintf('export PATH="%s:${PATH}"', R.home("bin")))
+
+  ## SPECIAL: Use the 'R_LIBS_USER' at compile time, because of 'R CMD check'
+  libs <- dirname(unique(vapply(c("future.batchtools", "batchtools"), FUN = find.package, FUN.VALUE = "")))
+  startup <- c(startup, sprintf("export R_LIBS_USER=%s", paste(libs, collapse = .Platform[["path.sep"]])))
+
+  ## Remaining resources are assumed to be of type '--<key>=<value>'
+  opts <- unlist(resources, use.names = TRUE)
+  opts <- sprintf("--%s=%s", names(opts), opts)
+  job_declarations <- sprintf("#SBATCH %s", c(job_declarations, opts))
+  writeLines(job_declarations)
+%>
+
+## Bash settings
+set -e          # exit on error
+set -u          # error on unset variables
+set -o pipefail # fail a pipeline if any command fails
+trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
+
+<% if (length(job_declarations) > 0) {
+  writeLines(c(
+    "echo 'Job submission declarations:'",
+    sprintf("echo '%s'", job_declarations),
+    "echo"
+  ))
+} %>
+
+<% if (details) { %>
+if command -v scontrol > /dev/null; then
+  echo "Job information:"
+  scontrol show job "${SLURM_JOB_ID}"
+  echo
+fi
+<% } %>
+
+<% if (length(startup) > 0) {
+  writeLines(startup)
+} %>
+
+<% if (length(modules) > 0) {
+  writeLines(c(
+    "echo 'Load environment modules:'",
+    sprintf("echo '- modules: %s'", paste(modules, collapse = ", ")),
+    sprintf("module load %s", paste(modules, collapse = " ")),
+    "module list"
+  ))
+} %>
+
+echo "Session information:"
+echo "- timestamp: $(date +"%Y-%m-%d %H:%M:%S%z")"
+echo "- hostname: $(hostname)"
+echo "- Rscript path: $(which Rscript)"
+echo "- Rscript version: $(Rscript --version)"
+echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo
+
+## Launch R and evaluate the batchtools R job
+echo "Rscript -e 'batchtools::doJobCollection()' ..."
+echo "- job name: '<%= job.name %>'"
+echo "- job log file: '<%= log.file %>'"
+echo "- job uri: '<%= uri %>'"
+Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
+res=$?
+echo " - exit code: ${res}"
+echo "Rscript -e 'batchtools::doJobCollection()' ... done"
+echo
+
+<% if (details) { %>
+if command -v sstat > /dev/null; then
+  echo "Job summary:"
+  sstat --format="JobID,AveCPU,MaxRSS,MaxPages,MaxDiskRead,MaxDiskWrite" --allsteps --jobs="${SLURM_JOB_ID}"
+fi
+<% } %>
+
+<% if (length(shutdown) > 0) {
+  writeLines(shutdown)
+} %>
+
+echo "End time: $(date +"%Y-%m-%d %H:%M:%S%z")"
+
+## Relay the exit code from Rscript
+exit "${res}"

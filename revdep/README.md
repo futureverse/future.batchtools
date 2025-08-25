@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                                               |
 |ctype    |en_US.UTF-8                                               |
 |tz       |America/Los_Angeles                                       |
-|date     |2025-06-05                                                |
+|date     |2025-08-21                                                |
 |pandoc   |3.6.3 @ /software/c4/cbi/software/pandoc-3.6.3/bin/pandoc |
 |quarto   |NA                                                        |
 
@@ -18,25 +18,25 @@
 
 |package           |old    |new         |Δ  |
 |:-----------------|:------|:-----------|:--|
-|future.batchtools |0.12.1 |0.12.1-9010 |*  |
+|future.batchtools |0.12.2 |0.12.2-9979 |*  |
 |backports         |1.5.0  |1.5.0       |   |
 |base64url         |1.4    |1.4         |   |
-|batchtools        |0.9.17 |0.9.17      |   |
+|batchtools        |0.9.18 |0.9.18      |   |
 |brew              |1.0-10 |1.0-10      |   |
-|checkmate         |2.3.2  |2.3.2       |   |
+|checkmate         |2.3.3  |2.3.3       |   |
 |cli               |3.6.5  |3.6.5       |   |
 |codetools         |0.2-20 |0.2-20      |   |
 |crayon            |1.5.3  |1.5.3       |   |
-|data.table        |1.17.4 |1.17.4      |   |
+|data.table        |1.17.8 |1.17.8      |   |
 |digest            |0.6.37 |0.6.37      |   |
 |fs                |1.6.6  |1.6.6       |   |
-|future            |1.58.0 |1.58.0      |   |
+|future            |1.67.0 |1.67.0      |   |
 |globals           |0.18.0 |0.18.0      |   |
 |glue              |1.8.0  |1.8.0       |   |
 |hms               |1.1.3  |1.1.3       |   |
 |lifecycle         |1.0.4  |1.0.4       |   |
 |listenv           |0.9.1  |0.9.1       |   |
-|parallelly        |1.45.0 |1.45.0      |   |
+|parallelly        |1.45.1 |1.45.1      |   |
 |pkgconfig         |2.0.3  |2.0.3       |   |
 |prettyunits       |1.2.0  |1.2.0       |   |
 |progress          |1.2.3  |1.2.3       |   |
@@ -53,10 +53,10 @@
 
 |package     |version |error |warning |note |
 |:-----------|:-------|:-----|:-------|:----|
-|[batchtools](problems.md#batchtools)|0.9.17  |      |        |1    |
+|batchtools  |0.9.18  |      |        |     |
 |FAMoS       |0.3.1   |      |        |     |
 |futureverse |0.1.0   |      |        |     |
 |nncc        |2.0.0   |      |        |     |
-|SimDesign   |2.19.2  |      |        |     |
+|SimDesign   |2.20.0  |      |        |     |
 |targets     |1.11.3  |      |        |     |
 

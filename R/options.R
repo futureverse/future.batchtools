@@ -38,15 +38,14 @@
 #'     on a HPC environment is used.
 #'     (Default: `.future` in the current working directory)}
 #'
-#'   \item{\option{future.delete}:}{(logical)
+#'   \item{\option{future.batchtools.delete}:}{(character string)
 #'     Controls whether or not the future's \pkg{batchtools} registry folder
 #'     is deleted after the future result has been collected.
-#'     If TRUE, it is always deleted.
-#'     If FALSE, it is never deleted.
-#'     If not set or NULL, the it is deleted, unless running in non-interactive
-#'     mode and the batchtools job failed or expired, which helps to
-#'     troubleshoot when running in batch mode.
-#'     (Default: NULL (not set))}
+#'     If `"always"`, it is always deleted.
+#'     If `"never"`, it is never deleted.
+#'     If `"on-success"`, it is deleted if the future resolved successfully,
+#'     whereas if it failed, it is left as-is to help with troubleshooting.
+#'     (Default: `"on-success"`)}
 #' }
 #'
 #' @section Environment variables that set R options:
@@ -63,18 +62,20 @@
 #' options(future.cache.path = "/cluster-wide/folder/.future")
 #'
 #' @aliases
-#' future.cache.path
-#' future.delete
-#' R_FUTURE_CACHE_PATH
-#' R_FUTURE_DELETE
+#' future.batchtools.options
+#'
+#' future.batchtools.delete
 #' future.batchtools.expiration.tail
 #' future.batchtools.output
 #' future.batchtools.workers
+#'
+#' R_FUTURE_CACHE_PATH
+#' R_FUTURE_BATCHTOOLS_DELETE
 #' R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL
 #' R_FUTURE_BATCHTOOLS_OUTPUT
 #' R_FUTURE_BATCHTOOLS_WORKERS
 #'
-#' @name future.batchtools.options
+#' @name zzz-future.batchtools.options
 NULL
 
 
@@ -160,8 +161,18 @@ update_package_option <- function(name, mode = "character", default = NULL, spli
 ## Set future options based on environment variables
 update_package_options <- function(debug = FALSE) {
   update_package_option("future.cache.path", mode = "character", debug = debug)
-  update_package_option("future.delete", mode = "logical", debug = debug)
-  
+
+  update_package_option("future.delete", mode = "character", debug = debug)
+  update_package_option("future.batchtools.delete", mode = "character", debug = debug)
+  value <- getOption("future.batchtools.delete")
+  if (is.null(value)) {
+    value <- getOption("future.delete")
+    if (is.logical(value)) {
+      value <- if (isTRUE(value)) "on-success" else "never"
+      options(future.batchtools.delete = value)
+    }
+  }
+
   update_package_option("future.batchtools.expiration.tail", mode = "integer", debug = debug)
   update_package_option("future.batchtools.output", mode = "logical", debug = debug)
   update_package_option("future.batchtools.workers", mode = "numeric", debug = debug)
