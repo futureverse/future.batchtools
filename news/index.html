@@ -91,7 +91,7 @@
 <li><p>All built-in template job scripts support “environment module” resource specifications via character vector <code>resources[["modules"]]</code>. When specified, corresponding <code>module load &lt;name&gt;</code> entries are injected to the generated job script.</p></li>
 <li><p>All built-in template job scripts support “startup” and “shutdown” code resource specifications via character vectors <code>resources[["startup"]]</code> and <code>resources[["shutdown"]]</code>. When specified, corresponding lines are injected in the generated job script and the beginning and end, respectively.</p></li>
 <li><p>All built-in template job scripts support a “details” resource specification via logical scalar <code>resources[["details"]]</code>. If TRUE, scheduler job details are outputted to the log files at the beginning and job summaries at the end.</p></li>
-<li><p>All built-in template job scripts, which are written in Bash, error and exit early, but setting more strict Bash options. This should help with any troubleshooting, especially when getting started.</p></li>
+<li><p>All built-in template job scripts, which are written in Bash, error and exit early, by setting more strict Bash options. This should help with any troubleshooting, especially when getting started.</p></li>
 </ul></li>
 </ul></div>
 <div class="section level3">
