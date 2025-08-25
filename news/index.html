@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2-9991</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,14 +70,14 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.20.0" id="version-0200">Version 0.20.0<a class="anchor" aria-label="anchor" href="#version-0200"></a></h2>
 <div class="section level3">
-<h3 id="significant-changes-development-version">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-development-version"></a></h3>
+<h3 id="significant-changes-0-20-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-0-20-0"></a></h3>
 <ul><li>
 <strong>future.batchtools</strong> now implements the FutureBackend API introduced in <strong>future</strong> 1.40.0 (2025-04-10).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-0-20-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-20-0"></a></h3>
 <ul><li><p>Most types of batchtools future can now be interrupted, including <code>batchtools_multicore</code> and all job-scheduler backends, e.g. <code>batchtools_sge</code> and <code>batchtools_slurm</code>.</p></li>
 <li><p>Canceling batchtools futures will now interrupt them by default, if the backend supports it.</p></li>
 <li><p>Calling <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan()</a></code> on <code>batchtools_sge</code> and <code>batchtools_slurm</code> reports on the version of the scheduler.</p></li>
@@ -95,16 +95,16 @@
 <li><p>Batchtools future backends gained argument <code>delete</code> for controlling if and when batchtools futures should be deleted from the file system. Supported values are <code>"on-success"</code>, <code>"never"</code> and <code>"always"</code>. The default value can be set via R option <code>future.batchtools.delete</code>.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<h3 id="documentation-0-20-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-20-0"></a></h3>
 <ul><li><p>Add explicit <strong>batchtools</strong> arguments <code>scheduler.latency</code> and <code>fs.latency</code> to batchtools backends, where applicable.</p></li>
 <li><p>Add <code>timeout &lt;runtime&gt; ...</code> to the default <code>batchtools_bash</code> template script to illustrate how to control this runtime via the backend <code>resources</code> argument.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-0-20-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-20-0"></a></h3>
 <ul><li>Calling <code><a href="https://future.futureverse.org/reference/value.html" class="external-link">value()</a></code> on a terminated batchtools job could take a very long time before it returned with an error. This was because it read logged output to be part of the error message. When there was no output file, <strong>batchtools</strong> would wait for the file up to <code>fs.latency</code> seconds (default 65 seconds) to give job schedulers and any global file system time to write output to file. Now <strong>future.batchtools</strong> will no longer wait for such files and only read their content if they exists when checked.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="deprecated-and-defunct-development-version">Deprecated and Defunct<a class="anchor" aria-label="anchor" href="#deprecated-and-defunct-development-version"></a></h3>
+<h3 id="deprecated-and-defunct-0-20-0">Deprecated and Defunct<a class="anchor" aria-label="anchor" href="#deprecated-and-defunct-0-20-0"></a></h3>
 <ul><li>R option <code>future.delete</code> is deprecated. Please use new R option <code>future.batchtools.delete</code> instead. For backward compatible reasons, if R option <code>future.delete</code> sets option <code>future.batchtools.delete</code> when the packages is loaded and the latter is not already set. If <code>future.delete</code> is FALSE, then <code>future.batchtools.delete</code> is set to <code>"never"</code>. If <code>future.delete</code> is TRUE, then <code>future.batchtools.delete</code> is set to <code>"on-success"</code>.</li>
 </ul></div>
 </div>
