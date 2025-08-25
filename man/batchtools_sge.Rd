@@ -65,9 +65,10 @@ A batchtools SGE backend resolves futures in parallel via a Sun/Son of/Oracle/Un
 }
 \details{
 Batchtools SGE futures use \pkg{batchtools} cluster functions
-created by \code{\link[batchtools:makeClusterFunctionsSGE]{batchtools::makeClusterFunctionsSGE()}}, which requires
-that SGE commands \code{qsub}, \code{qstat}, and \code{qdel} are installed on
-the current machine.
+created by \code{\link[batchtools:makeClusterFunctionsSGE]{batchtools::makeClusterFunctionsSGE()}}, which are used
+to interact with the SGE job scheduler. This requires that SGE
+commands \code{qsub}, \code{qstat}, and \code{qdel} are available on the current
+machine.
 
 The default template script \code{templates/sge.tmpl} can be found in:
 

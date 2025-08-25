@@ -66,8 +66,9 @@ A batchtools LSF backend resolves futures in parallel via a Load Sharing Facilit
 \details{
 Batchtools Load Sharing Facility (LSF) futures use \pkg{batchtools}
 cluster functions created by \code{\link[batchtools:makeClusterFunctionsLSF]{batchtools::makeClusterFunctionsLSF()}},
-which requires that LSF commands \code{bsub}, \code{bjobs}, and \code{bkill} are
-installed on the current machine.
+which are used to interact with the LSF job scheduler. This requires
+that LSF commands \code{bsub}, \code{bjobs}, and \code{bkill} are available on the
+current machine.
 
 The default template script \code{templates/lsf.tmpl} can be found in:
 

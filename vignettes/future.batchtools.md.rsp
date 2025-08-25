@@ -21,8 +21,8 @@ options(mc.cores = 2L)
 
 ## TL;DR
 
-Here is an example on how evaluate R expression on a Slurm
-high-performance compute (HPC) cluster.
+Here is an example on how to evaluate R expressions on a Slurm
+high-performance compute (HPC) cluster from within R.
 
 ```r
 library(future)
@@ -69,9 +69,9 @@ users of your package to leverage the compute power of
 high-performance computing (HPC) clusters via a simple switch in
 settings - without having to change any code at all.
 
-For instance, if **batchtools** is properly configured, the below two
-expressions for two futures will be processed on two different compute
-nodes:
+For instance, the below two two future R expression will be processed
+by parallel R workers that launched on different compute nodes by the
+specified job scheduler:
 
 ```r
 library(future)

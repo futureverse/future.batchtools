@@ -65,9 +65,10 @@ A batchtools slurm backend resolves futures in parallel via a Slurm job schedule
 }
 \details{
 Batchtools slurm futures use \pkg{batchtools} cluster functions
-created by \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}, which requires
-that Slurm commands \code{sbatch}, \code{squeue}, and \code{scancel} are installed on
-the current machine.
+created by \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}, which are used
+to interact with the Slurm job scheduler. This requires that Slurm
+commands \code{sbatch}, \code{squeue}, and \code{scancel} are available on the current
+machine.
 
 The default template script \code{templates/slurm.tmpl} can be found in:
 

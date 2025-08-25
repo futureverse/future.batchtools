@@ -27,9 +27,10 @@ print.BatchtoolsSGEFutureBackend <- function(x, ...) {
 #'
 #' @details
 #' Batchtools SGE futures use \pkg{batchtools} cluster functions
-#' created by [batchtools::makeClusterFunctionsSGE()], which requires
-#' that SGE commands `qsub`, `qstat`, and `qdel` are installed on
-#' the current machine.
+#' created by [batchtools::makeClusterFunctionsSGE()], which are used
+#' to interact with the SGE job scheduler. This requires that SGE
+#' commands `qsub`, `qstat`, and `qdel` are available on the current
+#' machine.
 #'
 #' The default template script `templates/sge.tmpl` can be found in:
 #'

@@ -65,9 +65,10 @@ A batchtools openlava backend resolves futures in parallel via a OpenLava job sc
 }
 \details{
 Batchtools OpenLava futures use \pkg{batchtools} cluster functions
-created by \code{\link[batchtools:makeClusterFunctionsOpenLava]{batchtools::makeClusterFunctionsOpenLava()}}, which requires
-that OpenLava commands \code{sbatch}, \code{squeue}, and \code{scancel} are installed on
-the current machine.
+created by \code{\link[batchtools:makeClusterFunctionsOpenLava]{batchtools::makeClusterFunctionsOpenLava()}}, which are used
+to interact with the OpenLava job scheduler. This requires that OpenLava
+commands \code{bsub}, \code{bjobs}, and \code{bkill} are available on the current
+machine.
 
 The default template script \code{templates/openlava.tmpl} can be found in:
 

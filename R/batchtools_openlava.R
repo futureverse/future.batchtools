@@ -19,9 +19,10 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #'
 #' @details
 #' Batchtools OpenLava futures use \pkg{batchtools} cluster functions
-#' created by [batchtools::makeClusterFunctionsOpenLava()], which requires
-#' that OpenLava commands `sbatch`, `squeue`, and `scancel` are installed on
-#' the current machine.
+#' created by [batchtools::makeClusterFunctionsOpenLava()], which are used
+#' to interact with the OpenLava job scheduler. This requires that OpenLava
+#' commands `bsub`, `bjobs`, and `bkill` are available on the current
+#' machine.
 #'
 #' The default template script `templates/openlava.tmpl` can be found in:
 #'

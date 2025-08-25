@@ -17,9 +17,10 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #' @param \ldots Not used.
 #'
 #' @details
-#' Batchtools torque futures use \pkg{batchtools} cluster functions
-#' created by [batchtools::makeClusterFunctionsTORQUE()], which requires
-#' that TORQUE commands `qsub`, `qselect`, and `qdel` are installed on
+#' Batchtools TORQUE/PBS futures use \pkg{batchtools} cluster functions
+#' created by [batchtools::makeClusterFunctionsTORQUE()], which are used
+#' to interact with the TORQUE/PBS job scheduler. This requires that
+#' TORQUE/PBS commands `qsub`, `qselect`, and `qdel` are available on
 #' the current machine.
 #'
 #' The default template script `templates/torque.tmpl` can be found in:

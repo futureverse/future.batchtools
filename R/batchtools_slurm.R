@@ -28,9 +28,10 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'
 #' @details
 #' Batchtools slurm futures use \pkg{batchtools} cluster functions
-#' created by [batchtools::makeClusterFunctionsSlurm()], which requires
-#' that Slurm commands `sbatch`, `squeue`, and `scancel` are installed on
-#' the current machine.
+#' created by [batchtools::makeClusterFunctionsSlurm()], which are used
+#' to interact with the Slurm job scheduler. This requires that Slurm
+#' commands `sbatch`, `squeue`, and `scancel` are available on the current
+#' machine.
 #'
 #' The default template script `templates/slurm.tmpl` can be found in:
 #'

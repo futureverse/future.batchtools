@@ -64,9 +64,10 @@ of queued jobs. The default is
 A batchtools TORQUE backend resolves futures in parallel via a TORQUE/PBS job scheduler
 }
 \details{
-Batchtools torque futures use \pkg{batchtools} cluster functions
-created by \code{\link[batchtools:makeClusterFunctionsTORQUE]{batchtools::makeClusterFunctionsTORQUE()}}, which requires
-that TORQUE commands \code{qsub}, \code{qselect}, and \code{qdel} are installed on
+Batchtools TORQUE/PBS futures use \pkg{batchtools} cluster functions
+created by \code{\link[batchtools:makeClusterFunctionsTORQUE]{batchtools::makeClusterFunctionsTORQUE()}}, which are used
+to interact with the TORQUE/PBS job scheduler. This requires that
+TORQUE/PBS commands \code{qsub}, \code{qselect}, and \code{qdel} are available on
 the current machine.
 
 The default template script \code{templates/torque.tmpl} can be found in:
