@@ -78,8 +78,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li><p>Batchtools future backends gained argument <code>delete</code> for controlling if and when batchtools futures should be deleted from the file system. Supported values are <code>"on-success"</code>, <code>"never"</code> and <code>"always"</code>. The default value can be set via R option <code>future.batchtools.delete</code>.</p></li>
-<li><p>Most types of batchtools future can now be interrupted, including <code>batchtools_multicore</code> and all job-scheduler backends, e.g. <code>batchtools_sge</code> and <code>batchtools_slurm</code>.</p></li>
+<ul><li><p>Most types of batchtools future can now be interrupted, including <code>batchtools_multicore</code> and all job-scheduler backends, e.g. <code>batchtools_sge</code> and <code>batchtools_slurm</code>.</p></li>
 <li><p>Canceling batchtools futures will now interrupt them by default, if the backend supports it.</p></li>
 <li><p>Calling <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan()</a></code> on <code>batchtools_sge</code> and <code>batchtools_slurm</code> reports on the version of the scheduler.</p></li>
 <li><p>Printing a batchtools future will show logged output.</p></li>
@@ -93,11 +92,12 @@
 <li><p>All built-in template job scripts support a “details” resource specification via logical scalar <code>resources[["details"]]</code>. If TRUE, scheduler job details are outputted to the log files at the beginning and job summaries at the end.</p></li>
 <li><p>All built-in template job scripts, which are written in Bash, error and exit early, by setting more strict Bash options. This should help with any troubleshooting, especially when getting started.</p></li>
 </ul></li>
+<li><p>Batchtools future backends gained argument <code>delete</code> for controlling if and when batchtools futures should be deleted from the file system. Supported values are <code>"on-success"</code>, <code>"never"</code> and <code>"always"</code>. The default value can be set via R option <code>future.batchtools.delete</code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
-<ul><li><p>Add <code>timeout &lt;runtime&gt; ...</code> to the default <code>batchtools_bash</code> template script to illustrate how to control this runtime via the backend <code>resources</code> argument.</p></li>
-<li><p>Add explicit <strong>batchtools</strong> arguments <code>scheduler.latency</code> and <code>fs.latency</code> to batchtools backends, where applicable.</p></li>
+<ul><li><p>Add explicit <strong>batchtools</strong> arguments <code>scheduler.latency</code> and <code>fs.latency</code> to batchtools backends, where applicable.</p></li>
+<li><p>Add <code>timeout &lt;runtime&gt; ...</code> to the default <code>batchtools_bash</code> template script to illustrate how to control this runtime via the backend <code>resources</code> argument.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
