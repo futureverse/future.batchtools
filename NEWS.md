@@ -52,7 +52,7 @@
      beginning and job summaries at the end.
 
    - All built-in template job scripts, which are written in Bash,
-     error and exit early, but setting more strict Bash options. This
+     error and exit early, by setting more strict Bash options. This
      should help with any troubleshooting, especially when getting
      started.
 

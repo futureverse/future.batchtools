@@ -28,6 +28,7 @@ Globals
 HPC
 LOADEDMODULES
 LSF
+LTS
 MiB
 NFS
 ORCID
@@ -38,6 +39,7 @@ Rscript
 SGE
 Slurm
 Sys
+Univa
 VignetteAuthor
 VignetteEngine
 VignetteIndexEntry

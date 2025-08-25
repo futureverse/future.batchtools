@@ -201,8 +201,11 @@ exit "$\{res\}"
 }\if{html}{\out{</div>}}
 
 This template and the built-in \code{\link[batchtools:makeClusterFunctionsSGE]{batchtools::makeClusterFunctionsSGE()}}
-have been verified to work with SGE 8.1.9 (Son of Grid Engine) running on
-a Rocky 8 Linux cluster with a BeeGFS global filesystem.
+have been verified to work on a few different Grid Engine HPC clusters;
+\enumerate{
+\item SGE 8.1.9 (Son of Grid Engine), Rocky 8 Linux, BeeGFS global filesystem (August 2025)
+\item AGE 2024.1.0 (8.9.0), Rocky 9 Linux, NSF global filesystem (August 2025)
+}
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
