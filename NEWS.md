@@ -7,12 +7,6 @@
 
 ## New Features
 
- * Batchtools future backends gained argument `delete` for controlling
-   if and when batchtools futures should be deleted from the file
-   system. Supported values are `"on-success"`, `"never"` and
-   `"always"`. The default value can be set via R option
-   `future.batchtools.delete`.
-
  * Most types of batchtools future can now be interrupted, including
    `batchtools_multicore` and all job-scheduler backends, e.g.
    `batchtools_sge` and `batchtools_slurm`.
@@ -56,15 +50,21 @@
      should help with any troubleshooting, especially when getting
      started.
 
+ * Batchtools future backends gained argument `delete` for controlling
+   if and when batchtools futures should be deleted from the file
+   system. Supported values are `"on-success"`, `"never"` and
+   `"always"`. The default value can be set via R option
+   `future.batchtools.delete`.
+
 ## Documentation
+
+ * Add explicit **batchtools** arguments `scheduler.latency` and
+   `fs.latency` to batchtools backends, where applicable.
 
  * Add `timeout <runtime> ...` to the default `batchtools_bash`
    template script to illustrate how to control this runtime via the
    backend `resources` argument.
    
- * Add explicit **batchtools** arguments `scheduler.latency` and
-   `fs.latency` to batchtools backends, where applicable.
-
 ## Bug Fixes
 
  * Calling `value()` on a terminated batchtools job could take a very
