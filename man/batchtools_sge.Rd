@@ -208,7 +208,7 @@ have been verified to work on a few different Grid Engine HPC clusters;
 }
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 library(future)
 
 # Limit runtime to 10 minutes and memory to 400 MiB per future,

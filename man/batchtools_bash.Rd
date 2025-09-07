@@ -151,7 +151,7 @@ exit "$\{res\}"
 }\if{html}{\out{</div>}}
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 library(future)
 
 # Limit runtime to 30 seconds per future

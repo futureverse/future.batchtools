@@ -192,13 +192,42 @@ exit "$\{res\}"
 This template and the built-in \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}
 have been verified to work on a few different Slurm HPC clusters;
 \enumerate{
-\item Slurm 21.08.4, Rocky 8 Linux, NFS global filesystem (August 2025)
-\item Slurm 22.05.11, Rocky 8 Linux, NFS global filesystem (August 2025)
+\item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (August 2025)
+\item Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (August 2025)
 \item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
+\item Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)
 }
 }
+\section{Known issue "Error Future of class BatchtoolsSlurmFuture expired"}{
+
+
+Some users report (e.g. Issue \href{https://github.com/futureverse/future.batchtools/issues/74}{#74}, Discussion \href{https://github.com/futureverse/future/discussions/810}{#810})
+that they fail to launch futures on their Slurm clusters using
+\code{plan(batchtools_slurm)}. When attempted, these futures fail with an
+error on the "future being expired". Specifically, the error received is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Error: Future (<unnamed-1>) of class BatchtoolsSlurmFuture expired, which indicates
+that it crashed or was killed. No log output file exist (at the moment)
+In addition: Warning messages:
+1: batchtools::waitForJobs(..., timeout = 2592000) returned FALSE
+2: In delete.BatchtoolsFuture(future) :
+Will not remove batchtools registry, because the status of the batchtools was
+'error', 'defined', 'expired', 'submitted'
+}\if{html}{\out{</div>}}
+
+We suspect this is related to how some Slurm schedulers provision jobs.
+But, because I cannot reproduce this on any of the three Slurm clusters
+I have access to, it is hard for me to troubleshoot and fix this myself.
+So, I need your help to figure this one out. If you get this error, please
+get in touch, preferably by opening an issue at
+\url{https://github.com/futureverse/future.batchtools/issues} and share what
+version of \strong{future.batchtools} you have installed and what version of
+Slurm (\code{sbatch --version}) your system have. Then we take it from there.
+Thank you.
+}
+
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 library(future)
 
 # Limit runtime to 10 minutes and memory to 400 MiB per future,
