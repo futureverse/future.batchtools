@@ -863,10 +863,16 @@ await <- function(future, cleanup = TRUE, ...) {
         ))
         if (length(slurm_job_ids) > 0) {
           info <- sprintf("Slurm job ID: [n=%d] %s", length(slurm_job_ids), commaq(slurm_job_ids))
-          args <- c("--noheader", "--format='job_id=%i,state=%T,submitted_on=%V,time_used=%M'", "-j", paste(slurm_job_ids, collapse = ","))
+	  
+          args <- c("--noheader", "--format='job_id=%i,state=%T,submitted_on=%V,time_used=%M'", sprintf("--jobs=%s", paste(slurm_job_ids, collapse = ",")))
           res <- system2("squeue", args = args, stdout = TRUE, stderr = TRUE)
-          res <- paste(res, collapse = "; ") ## should only be a single line, but ...
-          info <- c(info, sprintf("Slurm job status: %s", res))
+          res <- paste(res, collapse = "\n")
+          info <- c(info, sprintf("Slurm 'squeue' job status:\n%s", res))
+
+          args <- c("--noheader", "--parsable2", "--allocations", "--format='JobID,State,ExitCode'", sprintf("--jobs=%s", paste(slurm_job_ids, collapse = ",")))
+          res <- system2("sacct", args = args, stdout = TRUE, stderr = TRUE)
+          res <- paste(res, collapse = "\n")
+          info <- c(info, sprintf("Slurm 'sacct' job status:\n%s", res))
 	} else {
           info <- "Slurm job ID: <not found>"
           info <- c(info, sprintf("Slurm job status: <unknown>"))
