@@ -667,7 +667,7 @@ resolved.BatchtoolsFuture <- function(x, ...) {
   ## Assert that the process that created the future is
   ## also the one that evaluates/resolves/queries it.
   assertOwner(x)
-
+  
   ## If not, checks the batchtools registry status
   resolved <- finished(x)
   if (is.na(resolved)) return(FALSE)
@@ -845,25 +845,59 @@ await <- function(future, cleanup = TRUE, ...) {
       ## how we can distinguish the two right now, but I'll assume that
       ## started jobs have a 'submitted' or 'started' status flag too,
       ## whereas jobs that failed to launch won't. /HB 2025-07-15
+      hints <- NULL
+      
+      state <- future[["state"]]
+      info <- sprintf("Future state: %s", sQuote(state))
+      hints <- c(hints, info)
+      info <- sprintf("Batchtools status: %s", commaq(stat))
+      hints <- c(hints, info)
 
-      hint <- tryCatch({
-        output <- loggedOutput(future, timeout = 0.0)
-        hint <- unlist(strsplit(output, split = "\n", fixed = TRUE))
-        hint <- hint[nzchar(hint)]
-        hint <- tail(hint, n = getOption("future.batchtools.expiration.tail", 48L))
-      }, error = function(e) NULL)
-      if (length(hint) > 0) {
-        hint <- c("The last few lines of the logged output:", hint)
-        hint <- paste(hint, collapse = "\n")
-      } else {
-        hint <- "No logged output file exist (at the moment)"
+      ## SPECIAL CASE: Some Slurm users report on 'expired' jobs, although they never started.
+      ## Output more breadcrumbs to be able to narrow in on what causes this. /HB 2025-09-07
+      if (inherits(future, "BatchtoolsSlurmFuture")) {
+        ## Get _all_ jobs of the users, including those not submitted via future.batchtools
+        slurm_job_ids <- unique(c(
+          reg$cluster.functions$listJobsQueued(reg),
+          reg$cluster.functions$listJobsRunning(reg)
+        ))
+        if (length(slurm_job_ids) > 0) {
+          info <- sprintf("Slurm job ID: [n=%d] %s", length(slurm_job_ids), commaq(slurm_job_ids))
+          args <- c("--noheader", "--format='job_id=%i,state=%T,submitted_on=%V,time_used=%M'", "-j", paste(slurm_job_ids, collapse = ","))
+          res <- system2("squeue", args = args, stdout = TRUE, stderr = TRUE)
+          res <- paste(res, collapse = "; ") ## should only be a single line, but ...
+          info <- c(info, sprintf("Slurm job status: %s", res))
+	} else {
+          info <- "Slurm job ID: <not found>"
+          info <- c(info, sprintf("Slurm job status: <unknown>"))
+        }
+	hints <- c(hints, info)
       }
 
+      ## TROUBLESHOOTING: Logged output
+      info <- tryCatch({
+        output <- loggedOutput(future, timeout = 0.0)
+        info <- unlist(strsplit(output, split = "\n", fixed = TRUE))
+        info <- info[nzchar(info)]
+        info <- tail(info, n = getOption("future.batchtools.expiration.tail", 48L))
+      }, error = function(e) NULL)
+
+      if (length(info) > 0) {
+        info <- c("The last few lines of the logged output:", info)
+      } else {
+        info <- "No logged output file exist (at the moment)"
+      }
+      hints <- c(hints, info)
+
+      if (length(hints) > 0) {
+        hints <- c("\nPost-mortem details:", hints)
+        hints <- paste(hints, collapse = "\n")
+      }	
       if (any(c("submitted", "started") %in% stat)) {
-        msg <- sprintf("Future (%s) of class %s expired, which indicates that it crashed or was killed. %s", label, class(future)[1], hint)
+        msg <- sprintf("Future (%s) of class %s expired, which indicates that it crashed or was killed.%s", label, class(future)[1], hints)
         result <- FutureInterruptError(msg, future = future)
       } else {
-        msg <- sprintf("Future (%s) of class %s failed to launch. %s", label, class(future)[1], hint)
+        msg <- sprintf("Future (%s) of class %s failed to launch.%s", label, class(future)[1], hints)
         result <- FutureLaunchError(msg, future = future)
       }
     } else if (future[["state"]] %in% c("canceled", "interrupted")) {
