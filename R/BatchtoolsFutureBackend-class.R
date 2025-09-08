@@ -856,23 +856,27 @@ await <- function(future, cleanup = TRUE, ...) {
       ## SPECIAL CASE: Some Slurm users report on 'expired' jobs, although they never started.
       ## Output more breadcrumbs to be able to narrow in on what causes this. /HB 2025-09-07
       if (inherits(future, "BatchtoolsSlurmFuture")) {
-        ## Get _all_ jobs of the users, including those not submitted via future.batchtools
-        slurm_job_ids <- unique(c(
-          reg$cluster.functions$listJobsQueued(reg),
-          reg$cluster.functions$listJobsRunning(reg)
-        ))
-        if (length(slurm_job_ids) > 0) {
-          info <- sprintf("Slurm job ID: [n=%d] %s", length(slurm_job_ids), commaq(slurm_job_ids))
+        batch_id <- reg[["status"]][["batch.id"]]
+        if (length(batch_id) > 0) {
+          info <- sprintf("Slurm job ID: [n=%d] %s", length(batch_id), commaq(batch_id))
 	  
-          args <- c("--noheader", "--format='job_id=%i,state=%T,submitted_on=%V,time_used=%M'", sprintf("--jobs=%s", paste(slurm_job_ids, collapse = ",")))
+          args <- c("--noheader", "--format='job_id=%i,state=%T,submitted_on=%V,time_used=%M'", sprintf("--jobs=%s", paste(batch_id, collapse = ",")))
           res <- system2("squeue", args = args, stdout = TRUE, stderr = TRUE)
-          res <- paste(res, collapse = "\n")
-          info <- c(info, sprintf("Slurm 'squeue' job status:\n%s", res))
+	  if (length(res) == 0) {
+	    res <- "<empty>"
+	  } else {
+            res <- paste(res, collapse = "; ") ## should only be one, but just in case ...
+	  }
+          info <- c(info, sprintf("Slurm 'squeue' job status: %s", res))
 
-          args <- c("--noheader", "--parsable2", "--allocations", "--format='JobID,State,ExitCode'", sprintf("--jobs=%s", paste(slurm_job_ids, collapse = ",")))
+          args <- c("--noheader", "--parsable2", "--allocations", "--format='JobID,State,ExitCode'", sprintf("--jobs=%s", paste(batch_id, collapse = ",")))
           res <- system2("sacct", args = args, stdout = TRUE, stderr = TRUE)
-          res <- paste(res, collapse = "\n")
-          info <- c(info, sprintf("Slurm 'sacct' job status:\n%s", res))
+	  if (length(res) == 0) {
+	    res <- "<empty>"
+	  } else {
+            res <- paste(res, collapse = "; ") ## should only be one, but just in case ...
+	  }
+          info <- c(info, sprintf("Slurm 'sacct' job status: %s", res))
 	} else {
           info <- "Slurm job ID: <not found>"
           info <- c(info, sprintf("Slurm job status: <unknown>"))
