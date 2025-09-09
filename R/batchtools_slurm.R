@@ -28,10 +28,10 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'
 #' @details
 #' Batchtools slurm futures use \pkg{batchtools} cluster functions
-#' created by [batchtools::makeClusterFunctionsSlurm()], which are used
+#' created by [makeClusterFunctionsSlurm2()], which are used
 #' to interact with the Slurm job scheduler. This requires that Slurm
-#' commands `sbatch`, `squeue`, and `scancel` are available on the current
-#' machine.
+#' commands `sbatch`, `squeue`, `sacct`, and `scancel` are available on
+#' the current machine.
 #'
 #' The default template script `templates/slurm.tmpl` can be found in:
 #'
@@ -43,7 +43,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/slurm.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
-#' This template and the built-in [batchtools::makeClusterFunctionsSlurm()]
+#' This template and the built-in [makeClusterFunctionsSlurm2()]
 #' have been verified to work on a few different Slurm HPC clusters;
 #'
 #'  1. Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (August 2025)
@@ -265,10 +265,25 @@ patchClusterFunctionsSlurm2 <- function(cf) {
 } ## patchClusterFunctionsSlurm2()
 
 
-#' @importFrom batchtools makeClusterFunctionsSlurm
 
-makeClusterFunctionsSlurm2 <- function(template = "slurm", array.jobs = TRUE, nodename = "localhost", scheduler.latency = 1, fs.latency = 65, ...) {
-  cf <- makeClusterFunctionsSlurm(template = template, array.jobs = array.jobs, nodename = nodename, scheduler.latency = scheduler.latency, fs.latency =fs.latency, ...)
+
+#' ClusterFunctions for Slurm Systems (robustified)
+#'
+#' This functions enhances [batchtools::makeClusterFunctionsSlurm()] by
+#' patching the `listJobsQueued()` cluster function such that it falls
+#' back to querying Slurm's account database (`sacct`), if the future was
+#' _not_ found in the Slurm job queue (`squeue`), which might be the case
+#' when Slurm provisions a job that was just submitted to the scheduler.
+#' 
+#' @inheritParams batchtools::makeClusterFunctionsSlurm
+#'
+#' @return
+#' A [batchtools::ClusterFunctions] object.
+#'
+#' @importFrom batchtools makeClusterFunctionsSlurm
+#' @export
+makeClusterFunctionsSlurm2 <- function(template = "slurm", array.jobs = TRUE, nodename = "localhost", scheduler.latency = 1, fs.latency = 65) {
+  cf <- makeClusterFunctionsSlurm(template = template, array.jobs = array.jobs, nodename = nodename, scheduler.latency = scheduler.latency, fs.latency =fs.latency)
   cf <- patchClusterFunctionsSlurm2(cf)
   cf
 }

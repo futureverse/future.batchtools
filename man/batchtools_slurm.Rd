@@ -65,10 +65,10 @@ A batchtools slurm backend resolves futures in parallel via a Slurm job schedule
 }
 \details{
 Batchtools slurm futures use \pkg{batchtools} cluster functions
-created by \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}, which are used
+created by \code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}, which are used
 to interact with the Slurm job scheduler. This requires that Slurm
-commands \code{sbatch}, \code{squeue}, and \code{scancel} are available on the current
-machine.
+commands \code{sbatch}, \code{squeue}, \code{sacct}, and \code{scancel} are available on
+the current machine.
 
 The default template script \code{templates/slurm.tmpl} can be found in:
 
@@ -189,7 +189,7 @@ echo "End time: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 exit "$\{res\}"
 }\if{html}{\out{</div>}}
 
-This template and the built-in \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}
+This template and the built-in \code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}
 have been verified to work on a few different Slurm HPC clusters;
 \enumerate{
 \item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (August 2025)
