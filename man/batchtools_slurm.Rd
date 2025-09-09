@@ -193,10 +193,14 @@ This template and the built-in \code{\link[=makeClusterFunctionsSlurm2]{makeClus
 have been verified to work on a few different Slurm HPC clusters;
 \enumerate{
 \item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (August 2025)
-\item Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (August 2025)
-\item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
-\item Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)
+\item Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (August 2025)*
+\item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)*
+\item Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)*
 }
+
+(*) Verified with \strong{future.batchtools} 1.20.0, which used
+\code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}, which the new
+\code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}} enhances.
 }
 \section{Known issue "Error Future of class BatchtoolsSlurmFuture expired"}{
 
