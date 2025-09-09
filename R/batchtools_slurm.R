@@ -214,12 +214,12 @@ patchClusterFunctionsSlurm2 <- function(cf) {
   nodename <- env[["nodename"]]
   org_listJobsQueued <- env[["listJobsQueued"]]
 
-  isJobQueued <- function(reg, batch_id, since = NULL) {
+  ## Allow for a 15-minute offset in time between host and Slurm's sacct server
+  isJobQueued <- function(reg, batch_id, since = NULL, offset = 15*60) {
     stopifnot(length(batch_id) == 1L, !is.na(batch_id), nzchar(batch_id))
     stopifnot(is.null(since) || inherits(since, "POSIXct"))
     
-    ## FIXME: Add also --starttime=<start time>, because 'sacct' only returns jobs ran today
-    args <- c("--user=$USER", "--noheader", "--parsable2", "--allocations", "--format=State", sprintf("--jobs=%s", batch_id), sprintf("--start-time=%s", format(since - 15*60, format = "%FT%T"))) ## Allow for 15-min time offsets
+    args <- c("--user=$USER", "--noheader", "--parsable2", "--allocations", "--format=State", sprintf("--jobs=%s", batch_id), sprintf("--starttime=%s", format(since - offset, format = "%FT%T")))
     clusters <- getClusters(reg)
     if (length(clusters) > 0) {
        args <- c(args, sprintf("--clusters=%s", clusters))
