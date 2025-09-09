@@ -1,12 +1,14 @@
 Package: future.batchtools
-Version: 0.20.0-9010
+Version: 0.20.0-9011
 Depends:
     R (>= 3.2.0),
     parallelly,
     future (>= 1.58.0)
 Imports:
     batchtools (>= 0.9.17),
-    utils
+    utils,
+    checkmate,
+    stringi
 Suggests:
     globals,
     future.apply,
