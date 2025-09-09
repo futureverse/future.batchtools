@@ -213,12 +213,13 @@ patchClusterFunctionsSlurm2 <- function(cf) {
   getClusters <- env[["getClusters"]]
   nodename <- env[["nodename"]]
   org_listJobsQueued <- env[["listJobsQueued"]]
-  
-  isJobQueued <- function(reg, batch_id) {
+
+  isJobQueued <- function(reg, batch_id, since = NULL) {
     stopifnot(length(batch_id) == 1L, !is.na(batch_id), nzchar(batch_id))
+    stopifnot(is.null(since) || inherits(since, "POSIXct"))
     
     ## FIXME: Add also --starttime=<start time>, because 'sacct' only returns jobs ran today
-    args <- c("--user=$USER", "--noheader", "--parsable2", "--allocations", "--format=State", sprintf("--jobs=%s", batch_id))
+    args <- c("--user=$USER", "--noheader", "--parsable2", "--allocations", "--format=State", sprintf("--jobs=%s", batch_id), sprintf("--start-time=%s", format(since - 15*60, format = "%FT%T"))) ## Allow for 15-min time offsets
     clusters <- getClusters(reg)
     if (length(clusters) > 0) {
        args <- c(args, sprintf("--clusters=%s", clusters))
@@ -252,7 +253,10 @@ patchClusterFunctionsSlurm2 <- function(cf) {
     }
 
     ## Ask 'sacct' it if is PENDING or REQUEUED
-    if (isJobQueued(reg, batch_id)) jobs <- as.character(batch_id)
+    submitted_on <- getOption("future.batchtools.submitted_on", NULL)
+    if (isJobQueued(reg, batch_id, since = submitted_on)) {
+      jobs <- as.character(batch_id)
+    }
 
     jobs
   }

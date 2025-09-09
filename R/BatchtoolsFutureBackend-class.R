@@ -325,7 +325,8 @@ launchFuture.BatchtoolsFutureBackend <- local({
     resources <- backend[["resources"]]
     config[["resources"]] <- resources
     future[["config"]] <- config
-
+    submitted_on <- Sys.time()
+    
     ## WORKAROUND: batchtools::submitJobs() updates the RNG state,
     ## which we must make sure to undo.
     tryCatch({
@@ -343,9 +344,10 @@ launchFuture.BatchtoolsFutureBackend <- local({
       msg <- sprintf("%s\nDETAILS:\nThe batchtools registry path: %s", msg, sQuote(path))
       stop(FutureLaunchError(msg, future = future))
     })
-    
+
     if (debug) mdebugf("Launched future #%d", jobid$job.id)
 
+    future[["submitted_on"]] <- submitted_on
     future[["state"]] <- "running"
   
     ## 6. Reserve worker for future
@@ -540,8 +542,14 @@ status <- function(future, ...) {
   batch_id <- reg[["status"]][["batch.id"]]
   ## Pass this to cluster functions listJobsQueued() and listJobsRunning()
   ## via an R option, because we cannot pass as an argument.
-  options(future.batchtools.batch_id = batch_id)
-  on.exit(options(future.batchtools.batch_id = NULL), add = TRUE)
+  options(
+    future.batchtools.batch_id = batch_id,
+    future.batchtools.submitted_on = future[["submitted_on"]]
+  )
+  on.exit(options(
+    future.batchtools.batch_id = NULL,
+    future.batchtools.submitted_on = NULL
+  ), add = TRUE)
 
   status <- get_status(reg = reg, ids = jobid)
   status <- (unlist(status) == 1L)
