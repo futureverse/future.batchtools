@@ -535,6 +535,14 @@ status <- function(future, ...) {
 
   jobid <- config$jobid
   if (is.na(jobid)) return("not submitted")
+
+  ## Optionally filter by the scheduler's job ID, if it exists
+  batch_id <- reg[["status"]][["batch.id"]]
+  ## Pass this to cluster functions listJobsQueued() and listJobsRunning()
+  ## via an R option, because we cannot pass as an argument.
+  options(future.batchtools.batch_id = batch_id)
+  on.exit(options(future.batchtools.batch_id = NULL), add = TRUE)
+
   status <- get_status(reg = reg, ids = jobid)
   status <- (unlist(status) == 1L)
   status <- status[status]
