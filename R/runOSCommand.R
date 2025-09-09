@@ -1,6 +1,6 @@
 #' @importFrom checkmate assertCharacter assertString %??%
 #' @importFrom stringi stri_replace_all_fixed stri_flatten
-runOSCommand = function(sys.cmd, sys.args = character(0L), stdin = "", nodename = "localhost") {
+runOSCommand = function(sys.cmd, sys.args = character(0L), stdin = "", stdout = TRUE, stderr = TRUE, nodename = "localhost") {
   assertCharacter(sys.cmd, any.missing = FALSE, len = 1L)
   assertCharacter(sys.args, any.missing = FALSE)
   assertString(nodename, min.chars = 1L)
@@ -18,7 +18,7 @@ runOSCommand = function(sys.cmd, sys.args = character(0L), stdin = "", nodename 
   "!DEBUG [runOSCommand]: cmd: `sys.cmd` `stri_flatten(sys.args, ' ')`"
 
   if (nzchar(Sys.which(sys.cmd))) {
-    res = suppressWarnings(system2(command = sys.cmd, args = sys.args, stdin = stdin, stdout = TRUE, stderr = TRUE, wait = TRUE))
+    res = suppressWarnings(system2(command = sys.cmd, args = sys.args, stdin = stdin, stdout = stdout, stderr = stderr, wait = TRUE))
     output = as.character(res)
     exit.code = attr(res, "status") %??% 0L
   } else {
