@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0-9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0-9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,8 +71,20 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
-<ul><li>…</li>
+<div class="section level3">
+<h3 id="significant-changes-development-version">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> now uses <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>Add <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>, which enhances <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSlurm.html" class="external-link">batchtools::makeClusterFunctionsSlurm()</a></code> by patching the <code>listJobsQueued()</code> cluster function such that it falls back to querying Slurm’s account database (<code>sacct</code>), if the future was <em>not</em> found in the Slurm job queue (<code>squeue</code>), which might be the case when Slurm provisions a job that was just submitted to the scheduler.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<p><code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> would produce “Future of class BatchtoolsSlurmFuture expired, which indicates that it crashed or was killed” errors on some Slurm clusters. We believe this happened because a recently submitted future job would not immediately show up on the job queue, which caused <strong>future.batchtools</strong> to incorrectly conclude that the job had already finished, but without producing any results. <code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> now uses the new <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>, which does a better job inferring whether a job is queued or not.</p>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.20.0" id="version-0200">Version 0.20.0<a class="anchor" aria-label="anchor" href="#version-0200"></a></h2><p class="text-muted">CRAN release: 2025-08-25</p>
 <div class="section level3">
