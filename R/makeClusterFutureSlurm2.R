@@ -12,8 +12,11 @@ patchClusterFunctionsSlurm2 <- function(cf) {
   nodename <- env[["nodename"]]
   org_listJobsQueued <- env[["listJobsQueued"]]
 
-  ## Inject runOSCommand() that defaults to runOSCommand(..., stderr = FALSE)
-  env[["runOSCommand"]] <- function(..., stderr = FALSE) {
+  ## Patch submitJob() to use runOSCommand(..., stderr = FALSE)
+  ## See https://github.com/mlr-org/batchtools/pull/314
+  submitJob <- cf[["submitJob"]]
+  env_submitJob <- new.env(parent = environment(submitJob))
+  env_submitJob[["runOSCommand"]] <- function(..., stderr = FALSE) {
     debug <- isTRUE(getOption("future.batchtools.debug"))
     if (debug) {
       mdebugf_push("runOSCommand(..., stderr = FALSE) ...")
@@ -22,6 +25,8 @@ patchClusterFunctionsSlurm2 <- function(cf) {
     }
     runOSCommand(..., stderr = stderr)
   }
+  environment(submitJob) <- env_submitJob
+  cf[["submitJob"]] <- submitJob
 
   ## Allow for a 15-minute offset in time between host and Slurm's sacct server
   isJobQueued <- function(reg, batch_id, since = NULL, offset = 15*60) {
@@ -84,11 +89,16 @@ patchClusterFunctionsSlurm2 <- function(cf) {
 
 #' ClusterFunctions for Slurm Systems (patched)
 #'
-#' This functions enhances [batchtools::makeClusterFunctionsSlurm()] by
-#' patching the `listJobsQueued()` cluster function such that it falls
-#' back to querying Slurm's account database (`sacct`), if the future was
-#' _not_ found in the Slurm job queue (`squeue`), which might be the case
+#' This functions enhances [batchtools::makeClusterFunctionsSlurm()] with
+#' a few patches.
+#' Firstly, it patches the `listJobsQueued()` cluster function such that it
+#' falls back to querying Slurm's account database (`sacct`), if the future
+#' was _not_ found in the Slurm job queue (`squeue`), which might be the case
 #' when Slurm provisions a job that was just submitted to the scheduler.
+#' Secondly, it patched the `submitJob()` cluster function such that the
+#' system call to `sbatch` does to capture stderr together with stdout, but
+#' rather separately such that any extra INFO messages from `sbatch` do
+#' not corrupt the output intended to come from stdout only.
 #' 
 #' @inheritParams batchtools::makeClusterFunctionsSlurm
 #'

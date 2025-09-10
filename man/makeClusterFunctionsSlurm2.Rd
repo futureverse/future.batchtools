@@ -48,9 +48,14 @@ Usually safe to set to \code{0} to disable the heuristic, e.g. if you are workin
 A \link[batchtools:makeClusterFunctions]{batchtools::ClusterFunctions} object.
 }
 \description{
-This functions enhances \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}} by
-patching the \code{listJobsQueued()} cluster function such that it falls
-back to querying Slurm's account database (\code{sacct}), if the future was
-\emph{not} found in the Slurm job queue (\code{squeue}), which might be the case
+This functions enhances \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}} with
+a few patches.
+Firstly, it patches the \code{listJobsQueued()} cluster function such that it
+falls back to querying Slurm's account database (\code{sacct}), if the future
+was \emph{not} found in the Slurm job queue (\code{squeue}), which might be the case
 when Slurm provisions a job that was just submitted to the scheduler.
+Secondly, it patched the \code{submitJob()} cluster function such that the
+system call to \code{sbatch} does to capture stderr together with stdout, but
+rather separately such that any extra INFO messages from \code{sbatch} do
+not corrupt the output intended to come from stdout only.
 }
