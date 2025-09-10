@@ -192,9 +192,9 @@ exit "$\{res\}"
 This template and the built-in \code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}
 have been verified to work on a few different Slurm HPC clusters;
 \enumerate{
-\item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (August 2025)
-\item Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (August 2025)*
-\item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
+\item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (September 2025)
+\item Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (September 2025)
+\item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (September 2025)
 \item Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)*
 }
 

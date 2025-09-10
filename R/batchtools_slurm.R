@@ -46,9 +46,9 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' This template and the built-in [makeClusterFunctionsSlurm2()]
 #' have been verified to work on a few different Slurm HPC clusters;
 #'
-#'  1. Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (August 2025)
-#'  2. Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (August 2025)*
-#'  3. Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
+#'  1. Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (September 2025)
+#'  2. Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (September 2025)
+#'  3. Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (September 2025)
 #'  4. Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)*
 #'
 #' (*) Verified with **future.batchtools** 0.20.0, which used
