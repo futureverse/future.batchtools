@@ -540,6 +540,12 @@ status <- function(future, ...) {
 
   ## Optionally filter by the scheduler's job ID, if it exists
   batch_id <- reg[["status"]][["batch.id"]]
+  if (!is.null(batch_id)) {
+    if (!is.character(batch_id) || length(batch_id) != 1L || is.na(batch_id) || !nzchar(batch_id) || !grepl("^[[:digit:].]+$", batch_id)) {
+      stop(sprintf("Unknown value of 'batch.id': [class=%d] %s", class(batch_id)[1], paste(sQuote(batch_id), collapse = ", ")))
+    }
+  }
+  
   ## Pass this to cluster functions listJobsQueued() and listJobsRunning()
   ## via an R option, because we cannot pass as an argument.
   options(
