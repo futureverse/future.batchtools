@@ -540,23 +540,23 @@ status <- function(future, ...) {
 
   ## Optionally filter by the scheduler's job ID, if it exists
   batch_id <- reg[["status"]][["batch.id"]]
-  if (!is.null(batch_id)) {
+  if (!is.null(batch_id) && inherits(future, "BatchtoolsTemplateFutureBackend")) {
     if (!is.character(batch_id) || length(batch_id) != 1L || is.na(batch_id) || !nzchar(batch_id) || !grepl("^[[:digit:].]+$", batch_id)) {
       stop(sprintf("Unknown value of 'batch.id': [class=%s] %s", class(batch_id)[1], paste(sQuote(batch_id), collapse = ", ")))
     }
+  
+    ## Pass this to cluster functions listJobsQueued() and listJobsRunning()
+    ## via an R option, because we cannot pass as an argument.
+    options(
+      future.batchtools.batch_id = batch_id,
+      future.batchtools.submitted_on = future[["submitted_on"]]
+    )
+    on.exit(options(
+      future.batchtools.batch_id = NULL,
+      future.batchtools.submitted_on = NULL
+    ), add = TRUE)
   }
   
-  ## Pass this to cluster functions listJobsQueued() and listJobsRunning()
-  ## via an R option, because we cannot pass as an argument.
-  options(
-    future.batchtools.batch_id = batch_id,
-    future.batchtools.submitted_on = future[["submitted_on"]]
-  )
-  on.exit(options(
-    future.batchtools.batch_id = NULL,
-    future.batchtools.submitted_on = NULL
-  ), add = TRUE)
-
   status <- get_status(reg = reg, ids = jobid)
   status <- (unlist(status) == 1L)
   status <- status[status]
