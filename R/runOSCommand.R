@@ -1,6 +1,7 @@
 #' @importFrom checkmate assertCharacter assertString %??%
 #' @importFrom stringi stri_replace_all_fixed stri_flatten
 runOSCommand = function(sys.cmd, sys.args = character(0L), stdin = "", stdout = TRUE, stderr = TRUE, nodename = "localhost") {
+  isLocalHost <- import_from("isLocalHost", package = "batchtools")
   assertCharacter(sys.cmd, any.missing = FALSE, len = 1L)
   assertCharacter(sys.args, any.missing = FALSE)
   assertString(nodename, min.chars = 1L)
@@ -30,8 +31,4 @@ runOSCommand = function(sys.cmd, sys.args = character(0L), stdin = "", stdout = 
   "!DEBUG [runOSCommand]: `paste0(output, sep = '\n')`"
 
   return(list(sys.cmd = sys.cmd, sys.args = sys.args, exit.code = exit.code, output = output))
-}
-
-isLocalHost = function(nodename) {
-  is.null(nodename) || nodename %chin% c("localhost", "127.0.0.1", "::1")
 }

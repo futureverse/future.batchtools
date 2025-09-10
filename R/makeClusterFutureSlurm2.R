@@ -1,6 +1,6 @@
 # Patch Slurm cluster functions listJobsQueued() and listJobsRunning()
 # to use `sacct` instead of `squeue`
-#' @importFrom batchtools assertRegistry runOSCommand
+#' @importFrom batchtools assertRegistry
 #' @importFrom utils tail
 patchClusterFunctionsSlurm2 <- function(cf) {
   OSError <- import_from("OSError", package = "batchtools")
@@ -11,6 +11,17 @@ patchClusterFunctionsSlurm2 <- function(cf) {
   getClusters <- env[["getClusters"]]
   nodename <- env[["nodename"]]
   org_listJobsQueued <- env[["listJobsQueued"]]
+
+  ## Inject runOSCommand() that defaults to runOSCommand(..., stderr = FALSE)
+  env[["runOSCommand"]] <- function(..., stderr = FALSE) {
+    debug <- isTRUE(getOption("future.batchtools.debug"))
+    if (debug) {
+      mdebugf_push("runOSCommand(..., stderr = FALSE) ...")
+      mprint(list(args = list(..., stderr = stderr)))
+      on.exit(mdebugf_pop())
+    }
+    runOSCommand(..., stderr = stderr)
+  }
 
   ## Allow for a 15-minute offset in time between host and Slurm's sacct server
   isJobQueued <- function(reg, batch_id, since = NULL, offset = 15*60) {
@@ -38,6 +49,12 @@ patchClusterFunctionsSlurm2 <- function(cf) {
   } ## isJobQueued()
   
   cf$listJobsQueued <- function(reg) {
+    debug <- isTRUE(getOption("future.batchtools.debug"))
+    if (debug) {
+      mdebugf_push("[makeClusterFunctionsSlurm2()]$listJobsQueued() ...")
+      on.exit(mdebugf_pop())
+    }
+    
     batch_id <- getOption("future.batchtools.batch_id", NULL)
     
     ## Queued jobs according to 'squeue'
