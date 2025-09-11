@@ -12,14 +12,15 @@ patchClusterFunctionsSlurm2 <- function(cf) {
   nodename <- env[["nodename"]]
   org_listJobsQueued <- env[["listJobsQueued"]]
 
-  ## Patch submitJob() to use runOSCommand(..., stderr = FALSE)
+  ## Patch submitJob() to use runOSCommand(..., stderr = NA),
+  ## which captures 'stderr' separately from 'stdout'
   ## See https://github.com/mlr-org/batchtools/pull/314
   submitJob <- cf[["submitJob"]]
   env_submitJob <- new.env(parent = environment(submitJob))
-  env_submitJob[["runOSCommand"]] <- function(..., stderr = FALSE) {
+  env_submitJob[["runOSCommand"]] <- function(..., stderr = NA) {
     debug <- isTRUE(getOption("future.batchtools.debug"))
     if (debug) {
-      mdebugf_push("runOSCommand(..., stderr = FALSE) ...")
+      mdebugf_push("runOSCommand(..., stderr = %s) ...", stderr)
       mprint(list(args = list(..., stderr = stderr)))
       on.exit(mdebugf_pop())
     }

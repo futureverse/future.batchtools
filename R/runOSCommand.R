@@ -19,16 +19,30 @@ runOSCommand = function(sys.cmd, sys.args = character(0L), stdin = "", stdout = 
   "!DEBUG [runOSCommand]: cmd: `sys.cmd` `stri_flatten(sys.args, ' ')`"
 
   if (nzchar(Sys.which(sys.cmd))) {
-    res = suppressWarnings(system2(command = sys.cmd, args = sys.args, stdin = stdin, stdout = stdout, stderr = stderr, wait = TRUE))
+    ## Capture stderr separately
+    if (is.na(stderr)) {
+      stderr_file = tempfile()
+      on.exit(file.remove(stderr_file))
+    } else {
+      stderr_file = stderr
+    }
+    res = suppressWarnings(system2(command = sys.cmd, args = sys.args, stdin = stdin, stdout = stdout, stderr = stderr_file, wait = TRUE))
     output = as.character(res)
     exit.code = attr(res, "status") %??% 0L
+    if (is.na(stderr)) {
+      output_stderr = readLines(stderr_file, warn = FALSE)
+    } else {
+      output_stderr = NULL
+    }
   } else {
     output = "command not found"
+    output_stderr = NULL
     exit.code = 127L
   }
 
   "!DEBUG [runOSCommand]: OS result (stdin '`stdin`', exit code `exit.code`):"
   "!DEBUG [runOSCommand]: `paste0(output, sep = '\n')`"
+  "!DEBUG [runOSCommand]: `paste0(output_stderr, sep = '\n')`"
 
-  return(list(sys.cmd = sys.cmd, sys.args = sys.args, exit.code = exit.code, output = output))
+  return(list(sys.cmd = sys.cmd, sys.args = sys.args, exit.code = exit.code, output = output, stderr = output_stderr))
 }

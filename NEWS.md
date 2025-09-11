@@ -6,13 +6,16 @@
 
 ## New Features
 
- * Add `makeClusterFunctionsSlurm2()`, which enhances
-   `batchtools::makeClusterFunctionsSlurm()` by patching the
+ * Add `makeClusterFunctionsSlurm2()`, which patches
+   `batchtools::makeClusterFunctionsSlurm()`.  Firstly, it patches the
    `listJobsQueued()` cluster function such that it falls back to
    querying Slurm's account database (`sacct`), if the future was
    _not_ found in the Slurm job queue (`squeue`), which might be the
    case when Slurm provisions a job that was just submitted to the
-   scheduler.
+   scheduler.  Secondly, it patched the `submitJob()` cluster function
+   such that the system call to `sbatch` captures stderr separately
+   from stdout, which prevents auxillary INFO messages from `sbatch`
+   to corrupt the output to be parsed.
 
 ## Bug Fixes
 
