@@ -31,6 +31,9 @@ runOSCommand = function(sys.cmd, sys.args = character(0L), stdin = "", stdout = 
     exit.code = attr(res, "status") %??% 0L
     if (is.na(stderr)) {
       output_stderr = readLines(stderr_file, warn = FALSE)
+      if (length(output_stderr) > 0 && exit.code > 0) {
+        warning(sprintf("%s return with exit code %d and a standard error message:\n%s", sQuote(sys.cmd), exit.code, paste(output_stderr, collapse = "\n")), immediate. = TRUE)
+      }
     } else {
       output_stderr = NULL
     }
