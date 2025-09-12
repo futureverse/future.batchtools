@@ -156,6 +156,12 @@ fi
 echo "Session information:"
 echo "- timestamp: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 echo "- hostname: $(hostname)"
+
+if command -v Rscript &> /dev/null; then
+    >&2 echo "ERROR: 'Rscript' could not be found. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_slurm, resources = list(modules = c(\\"r\\")))'. The search PATH for 'Rscript' was $\{PATH\}"
+    exit 1
+fi
+
 echo "- Rscript path: $(which Rscript)"
 echo "- Rscript version: $(Rscript --version)"
 echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"

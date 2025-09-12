@@ -17,6 +17,11 @@
    from stdout, which prevents auxillary INFO messages from `sbatch`
    to corrupt the output to be parsed.
 
+ * The built-in job script templates assert that `Rscript` is found,
+   and if not, they give an informative error message suggesting to
+   declare environment modules, via the `resources` argument, that
+   should be loaded by the job script.
+
 ## Bug Fixes
 
   `batchtools_slurm()` would produce "Future of class
