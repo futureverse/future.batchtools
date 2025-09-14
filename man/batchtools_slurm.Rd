@@ -293,7 +293,7 @@ f <- future({
 info <- value(f)
 print(info)
 
-# As above, but run R within the Rocker 'r-base' Linux container;
+# As above, but use R from the Rocker 'r-base' Linux container;
 #
 #   mkdir -p ~/lxc
 #   apptainer build ~/lxc/rocker_r-base.sif docker://rocker/r-base
@@ -309,7 +309,6 @@ print(info)
 plan(future.batchtools::batchtools_slurm, resources = list(
   time = "00:10:00", mem = "400M",
   asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
-  modules = c("r", "jags"),
   details = TRUE,
   envs = c(R_LIBS_USER="~/R/rocker-\%p-library/\%v"),
   rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "Rscript")
