@@ -294,15 +294,25 @@ f <- future({
 info <- value(f)
 print(info)
 
-# As above, but run R within the Rocker 'r-base' Linux container.
+# As above, but run R within the Rocker 'r-base' Linux container;
+#
+#   mkdir -p ~/lxc
+#   apptainer build ~/lxc/rocker_r-base.sif docker://rocker/r-base
+#
 # It assumes that 'future.batchtools' has been installed in the
-# container already to the below 'R_LIBS_USER' library path.
+# container already with 'R_LIBS_USER' on host;
+#
+#   R_LIBS_USER="~/R/rocker-\%p-library/\%v" \
+#     apptainer exec ~/lxc/rocker_r-base.sif R --quiet
+#   > chooseCRANmirror(ind = 1)
+#   > install.packages("future.batchtools")
+#
 plan(future.batchtools::batchtools_slurm, resources = list(
   time = "00:10:00", mem = "400M",
   asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
   modules = c("r", "jags"),
   details = TRUE,
-  envs = c(R_LIBS_USER="~/R/rocker-\%p-library/\%v-CBI-gcc13"),
+  envs = c(R_LIBS_USER="~/R/rocker-\%p-library/\%v"),
   rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "Rscript")
 ))
 
