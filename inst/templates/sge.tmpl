@@ -51,6 +51,13 @@
   resources[["rscript_args"]] <- NULL
   rscript_call <- paste(c(rscript, rscript_args), collapse = " ")
 
+  ## Environment variables to be set
+  envs <- resources[["envs"]]
+  if (length(envs) > 0) {
+    stopifnot(is.character(envs), !is.null(names(envs)))
+  }
+  resources[["envs"]] <- NULL
+    
   ## As-is resource specifications
   job_declarations <- resources[["asis"]]
   resources[["asis"]] <- NULL
@@ -86,6 +93,14 @@ fi
 
 <% if (length(startup) > 0) {
   writeLines(startup)
+} %>
+
+<% if (length(envs) > 0) {
+  writeLines(c(
+    sprintf("echo 'Setting environment variables: [n=%d]'", length(envs)),
+    sprintf("echo ' - %s=%s'", names(envs), shQuote(envs)),
+    sprintf("export %s=%s", names(envs), shQuote(envs))
+  ))
 } %>
 
 <% if (length(modules) > 0) {

@@ -10,6 +10,9 @@
    script templates. This can be done via fields 'rscript' and
    'rscript_args' of the 'resources' argument.
  
+ * Add support for setting environment variables in the built-in job
+   script templates. This can be done via field 'envs'.
+ 
  * The built-in job script templates assert that the `Rscript`
    launcher is found, and if not, they give an informative error
    message suggesting to declare environment modules, via the

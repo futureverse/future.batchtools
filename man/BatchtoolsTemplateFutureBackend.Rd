@@ -49,6 +49,8 @@ job details and job summaries at the beginning and at the end.
 how the 'Rscript' is launched. The \code{resources[["rscript_args"]]} field
 is an optional character vector specifying the 'Rscript' command-line
 arguments.
+\item \code{resources[["envs"]]}, is an optional names character vector specifying
+environment variables to be set.
 \item \code{resources[["asis"]]} is a character vector that are passed as-is to
 the job script and are injected as job resource declarations.
 \item All remaining \code{resources} named elements are injected as named resource
