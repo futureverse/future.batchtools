@@ -34,8 +34,6 @@ job-script template as variable \code{resources}. This is based on how
 \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} works, with the exception for specially
 reserved names defined by the \pkg{future.batchtools} package;
 \itemize{
-\item \code{resources[["asis"]]} is a character vector that are passed as-is to
-the job script and are injected as job resource declarations.
 \item \code{resources[["modules"]]} is character vector of Linux environment
 modules to be loaded.
 \item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
@@ -46,6 +44,8 @@ job details and job summaries at the beginning and at the end.
 how the 'Rscript' is launched. The \code{resources[["rscript_args"]]} field
 is an optional character vector specifying the 'Rscript' command-line
 arguments.
+\item \code{resources[["asis"]]} is a character vector that are passed as-is to
+the job script and are injected as job resource declarations.
 \item All remaining \code{resources} named elements are injected as named resource
 specification for the scheduler.
 }}

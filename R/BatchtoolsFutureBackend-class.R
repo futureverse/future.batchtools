@@ -30,8 +30,6 @@
 #' job-script template as variable `resources`. This is based on how
 #' [batchtools::submitJobs()] works, with the exception for specially
 #' reserved names defined by the \pkg{future.batchtools} package;
-#' * `resources[["asis"]]` is a character vector that are passed as-is to
-#'   the job script and are injected as job resource declarations.
 #' * `resources[["modules"]]` is character vector of Linux environment
 #'   modules to be loaded.
 #' * `resources[["startup"]]` and `resources[["shutdown"]]` are character
@@ -42,6 +40,8 @@
 #'   how the 'Rscript' is launched. The `resources[["rscript_args"]]` field
 #'   is an optional character vector specifying the 'Rscript' command-line
 #'   arguments.
+#' * `resources[["asis"]]` is a character vector that are passed as-is to
+#'   the job script and are injected as job resource declarations.
 #' * All remaining `resources` named elements are injected as named resource
 #'   specification for the scheduler.
 #'
