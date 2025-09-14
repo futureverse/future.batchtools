@@ -378,11 +378,11 @@ Thank you.</p>
 <span class="r-in"><span><span class="co">#   mkdir -p ~/lxc</span></span></span>
 <span class="r-in"><span><span class="co">#   apptainer build ~/lxc/rocker_r-base.sif docker://rocker/r-base</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># It assumes that 'future.batchtools' has been installed in the</span></span></span>
-<span class="r-in"><span><span class="co"># container already with 'R_LIBS_USER' on host;</span></span></span>
+<span class="r-in"><span><span class="co"># It assumes that 'future.batchtools' has already been installed in the</span></span></span>
+<span class="r-in"><span><span class="co"># container to the 'R_LIBS_USER' package folder living on the host;</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co">#   R_LIBS_USER="~/R/rocker-%p-library/%v" \</span></span></span>
-<span class="r-in"><span><span class="co">#     apptainer exec ~/lxc/rocker_r-base.sif R --quiet</span></span></span>
+<span class="r-in"><span><span class="co">#   R_LIBS_USER="~/R/rocker-%p-library/%v" ~/lxc/rocker_r-base.sif</span></span></span>
+<span class="r-in"><span><span class="co">#   ...</span></span></span>
 <span class="r-in"><span><span class="co">#   &gt; chooseCRANmirror(ind = 1)</span></span></span>
 <span class="r-in"><span><span class="co">#   &gt; install.packages("future.batchtools")</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
