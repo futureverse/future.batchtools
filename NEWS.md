@@ -7,11 +7,12 @@
 ## New Features
 
  * Add support for controlling the 'Rscript' call in the built-in job
-   script templates. This can be done via fields 'rscript' and
-   'rscript_args' of the 'resources' argument.
+   script templates. This can be done via fields `rscript` and
+   `rscript_args` of the `resources` argument.
  
  * Add support for setting environment variables in the built-in job
-   script templates. This can be done via field 'envs'.
+   script templates. This can be done via field `envs` of the
+   `resources` argument.
  
  * The built-in job script templates assert that the `Rscript`
    launcher is found, and if not, they give an informative error
@@ -28,6 +29,11 @@
    such that the system call to `sbatch` captures stderr separately
    from stdout, which prevents auxillary INFO messages from `sbatch`
    to corrupt the output to be parsed.
+
+## Documentation
+
+ * Add example on how to configure `batchtools_slurm()` to run R
+   within a Linux container.
 
 ## Bug Fixes
 
