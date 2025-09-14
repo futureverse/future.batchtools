@@ -6,6 +6,15 @@
 
 ## New Features
 
+ * Add support for controlling the 'Rscript' call in the built-in job
+   script templates. This can be done via fields 'rscript' and
+   'rscript_args' of the 'resources' argument.
+ 
+ * The built-in job script templates assert that the `Rscript`
+   launcher is found, and if not, they give an informative error
+   message suggesting to declare environment modules, via the
+   `resources` argument, that should be loaded by the job script.
+
  * Add `makeClusterFunctionsSlurm2()`, which patches
    `batchtools::makeClusterFunctionsSlurm()`.  Firstly, it patches the
    `listJobsQueued()` cluster function such that it falls back to
@@ -16,11 +25,6 @@
    such that the system call to `sbatch` captures stderr separately
    from stdout, which prevents auxillary INFO messages from `sbatch`
    to corrupt the output to be parsed.
-
- * The built-in job script templates assert that `Rscript` is found,
-   and if not, they give an informative error message suggesting to
-   declare environment modules, via the `resources` argument, that
-   should be loaded by the job script.
 
 ## Bug Fixes
 

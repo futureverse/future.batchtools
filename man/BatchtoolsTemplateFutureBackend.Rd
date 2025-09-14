@@ -47,6 +47,10 @@ modules to be loaded.
 vectors of shell code to be injected to the job script as-is.
 \item \code{resources[["details"]]}, if TRUE, results in the job script outputting
 job details and job summaries at the beginning and at the end.
+\item \code{resources[["rscript"]]} is an optional character vector specifying
+how the 'Rscript' is launched. The \code{resources[["rscript_args"]]} field
+is an optional character vector specifying the 'Rscript' command-line
+arguments.
 \item All remaining \code{resources} named elements are injected as named resource
 specification for the scheduler.
 }}
