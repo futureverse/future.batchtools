@@ -98,12 +98,11 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' ))
 #'
 #' f <- future({
-#'   readRenviron("/etc/os-release")
 #'   data.frame(
-#'     hostname = Sys.info()[["nodename"]],
-#'           os = Sys.info()[["sysname"]],
-#'       distro = Sys.getenv("PRETTY_NAME"),
-#'        cores = unname(parallelly::availableCores())
+#'      hostname = Sys.info()[["nodename"]],
+#'            os = Sys.info()[["sysname"]],
+#'     osVersion = utils::osVersion,
+#'         cores = unname(parallelly::availableCores())
 #'   )
 #' })
 #' info <- value(f)
@@ -132,12 +131,11 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' ))
 #'
 #' f <- future({
-#'   readRenviron("/etc/os-release")
 #'   data.frame(
-#'     hostname = Sys.info()[["nodename"]],
-#'           os = Sys.info()[["sysname"]],
-#'       distro = Sys.getenv("PRETTY_NAME"),
-#'        cores = unname(parallelly::availableCores())
+#'      hostname = Sys.info()[["nodename"]],
+#'            os = Sys.info()[["sysname"]],
+#'     osVersion = utils::osVersion,
+#'         cores = unname(parallelly::availableCores())
 #'   )
 #' })
 #' info <- value(f)
