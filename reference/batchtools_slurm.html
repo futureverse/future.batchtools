@@ -382,8 +382,8 @@ Thank you.</p>
 <span class="r-in"><span><span class="co"># It assumes that 'future.batchtools' has been installed in the</span></span></span>
 <span class="r-in"><span><span class="co"># container already with 'R_LIBS_USER' on host;</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co">#   R_LIBS_USER="~/R/rocker-%p-library/%v-CBI-gcc13" \</span></span></span>
-<span class="r-in"><span><span class="co">#     apptainer exec ~/lxc/rocker_r-base.sif docker://rocker/r-base R --quiet</span></span></span>
+<span class="r-in"><span><span class="co">#   R_LIBS_USER="~/R/rocker-%p-library/%v" \</span></span></span>
+<span class="r-in"><span><span class="co">#     apptainer exec ~/lxc/rocker_r-base.sif R --quiet</span></span></span>
 <span class="r-in"><span><span class="co">#   &gt; chooseCRANmirror(ind = 1)</span></span></span>
 <span class="r-in"><span><span class="co">#   &gt; install.packages("future.batchtools")</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
@@ -392,7 +392,7 @@ Thank you.</p>
 <span class="r-in"><span>  asis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--nodes=1"</span>, <span class="st">"--ntasks=4"</span>, <span class="st">"--partition=freecycle"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  modules <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"r"</span>, <span class="st">"jags"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  details <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  envs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>R_LIBS_USER<span class="op">=</span><span class="st">"~/R/rocker-%p-library/%v-CBI-gcc13"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  envs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>R_LIBS_USER<span class="op">=</span><span class="st">"~/R/rocker-%p-library/%v"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"apptainer"</span>, <span class="st">"exec"</span>, <span class="st">"~/lxc/rocker_r-base.sif"</span>, <span class="st">"Rscript"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
