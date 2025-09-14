@@ -284,11 +284,36 @@ plan(future.batchtools::batchtools_slurm, resources = list(
 ))
 
 f <- future({
+  readRenviron("/etc/os-release")
   data.frame(
     hostname = Sys.info()[["nodename"]],
           os = Sys.info()[["sysname"]],
-       cores = unname(parallelly::availableCores()),
-     modules = Sys.getenv("LOADEDMODULES")
+      distro = Sys.getenv("PRETTY_NAME"),
+       cores = unname(parallelly::availableCores())
+  )
+})
+info <- value(f)
+print(info)
+
+# As above, but run R within the Rocker 'r-base' Linux container.
+# It assumes that 'future.batchtools' has been installed in the
+# container already to the below 'R_LIBS_USER' library path.
+plan(future.batchtools::batchtools_slurm, resources = list(
+  time = "00:10:00", mem = "400M",
+  asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
+  modules = c("r", "jags"),
+  details = TRUE,
+  envs = c(R_LIBS_USER="~/R/rocker-\%p-library/\%v-CBI-gcc13"),
+  rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "*")
+))
+
+f <- future({
+  readRenviron("/etc/os-release")
+  data.frame(
+    hostname = Sys.info()[["nodename"]],
+          os = Sys.info()[["sysname"]],
+      distro = Sys.getenv("PRETTY_NAME"),
+       cores = unname(parallelly::availableCores())
   )
 })
 info <- value(f)
