@@ -390,7 +390,7 @@ Thank you.</p>
 <span class="r-in"><span>  time <span class="op">=</span> <span class="st">"00:10:00"</span>, mem <span class="op">=</span> <span class="st">"400M"</span>,</span></span>
 <span class="r-in"><span>  asis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--nodes=1"</span>, <span class="st">"--ntasks=4"</span>, <span class="st">"--partition=freecycle"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  details <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  envs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>R_LIBS_USER<span class="op">=</span><span class="st">"~/R/rocker-%p-library/%v"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  envs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>R_LIBS_USER <span class="op">=</span> <span class="st">"~/R/rocker-%p-library/%v"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"apptainer"</span>, <span class="st">"exec"</span>, <span class="st">"~/lxc/rocker_r-base.sif"</span>, <span class="st">"Rscript"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
