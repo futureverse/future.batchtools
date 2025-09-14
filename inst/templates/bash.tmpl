@@ -31,9 +31,8 @@ exec > <%= log.file %> 2>&1
   rscript <- resources[["rscript"]]
   if (is.null(rscript)) {
     rscript <- "Rscript"
-  } else {
-    if (length(rscript) == 0 || !nzchar(rscript)[1]) stop("Argument 'resources' specifies an empty 'rscript' field")
-    rscript[rscript == "*"] <- "Rscript"
+  } else if (length(rscript) == 0 || !nzchar(rscript)[1]) {
+    stop("Argument 'resources' specifies an empty 'rscript' field")
   }
   resources[["rscript"]] <- NULL
 

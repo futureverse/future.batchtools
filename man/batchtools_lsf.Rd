@@ -118,9 +118,8 @@ and comprise:
   rscript <- resources[["rscript"]]
   if (is.null(rscript)) \{
     rscript <- "Rscript"
-  \} else \{
-    if (length(rscript) == 0 || !nzchar(rscript)[1]) stop("Argument 'resources' specifies an empty 'rscript' field")
-    rscript[rscript == "*"] <- "Rscript"
+  \} else if (length(rscript) == 0 || !nzchar(rscript)[1]) \{
+    stop("Argument 'resources' specifies an empty 'rscript' field")
   \}
   resources[["rscript"]] <- NULL
   rscript_args <- resources[["rscript_args"]]

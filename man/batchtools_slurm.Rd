@@ -117,9 +117,8 @@ and comprise:
   rscript <- resources[["rscript"]]
   if (is.null(rscript)) \{
     rscript <- "Rscript"
-  \} else \{
-    if (length(rscript) == 0 || !nzchar(rscript)[1]) stop("Argument 'resources' specifies an empty 'rscript' field")
-    rscript[rscript == "*"] <- "Rscript"
+  \} else if (length(rscript) == 0 || !nzchar(rscript)[1]) \{
+    stop("Argument 'resources' specifies an empty 'rscript' field")
   \}
   resources[["rscript"]] <- NULL
   rscript_args <- resources[["rscript_args"]]
@@ -304,7 +303,7 @@ plan(future.batchtools::batchtools_slurm, resources = list(
   modules = c("r", "jags"),
   details = TRUE,
   envs = c(R_LIBS_USER="~/R/rocker-\%p-library/\%v-CBI-gcc13"),
-  rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "*")
+  rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "Rscript")
 ))
 
 f <- future({

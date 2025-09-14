@@ -118,7 +118,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'   modules = c("r", "jags"),
 #'   details = TRUE,
 #'   envs = c(R_LIBS_USER="~/R/rocker-%p-library/%v-CBI-gcc13"),
-#'   rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "*")
+#'   rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "Rscript")
 #' ))
 #'
 #' f <- future({
