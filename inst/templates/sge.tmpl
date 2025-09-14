@@ -38,6 +38,13 @@
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
 
+  ## Environment variables to be set
+  envs <- resources[["envs"]]
+  if (length(envs) > 0) {
+    stopifnot(is.character(envs), !is.null(names(envs)))
+  }
+  resources[["envs"]] <- NULL
+
   ## Custom "Rscript" command and Rscript arguments
   rscript <- resources[["rscript"]]
   if (is.null(rscript)) {
@@ -49,13 +56,6 @@
   rscript_args <- resources[["rscript_args"]]
   resources[["rscript_args"]] <- NULL
   rscript_call <- paste(c(rscript, rscript_args), collapse = " ")
-
-  ## Environment variables to be set
-  envs <- resources[["envs"]]
-  if (length(envs) > 0) {
-    stopifnot(is.character(envs), !is.null(names(envs)))
-  }
-  resources[["envs"]] <- NULL
     
   ## As-is resource specifications
   job_declarations <- resources[["asis"]]
@@ -94,20 +94,20 @@ fi
   writeLines(startup)
 } %>
 
-<% if (length(envs) > 0) {
-  writeLines(c(
-    sprintf("echo 'Setting environment variables: [n=%d]'", length(envs)),
-    sprintf("echo ' - %s=%s'", names(envs), shQuote(envs)),
-    sprintf("export %s=%s", names(envs), shQuote(envs))
-  ))
-} %>
-
 <% if (length(modules) > 0) {
   writeLines(c(
     "echo 'Load environment modules:'",
     sprintf("echo '- modules: %s'", paste(modules, collapse = ", ")),
     sprintf("module load %s", paste(modules, collapse = " ")),
     "module list"
+  ))
+} %>
+
+<% if (length(envs) > 0) {
+  writeLines(c(
+    sprintf("echo 'Setting environment variables: [n=%d]'", length(envs)),
+    sprintf("echo ' - %s=%s'", names(envs), shQuote(envs)),
+    sprintf("export %s=%s", names(envs), shQuote(envs))
   ))
 } %>
 

@@ -34,18 +34,18 @@ job-script template as variable \code{resources}. This is based on how
 \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} works, with the exception for specially
 reserved names defined by the \pkg{future.batchtools} package;
 \itemize{
-\item \code{resources[["modules"]]} is character vector of Linux environment
-modules to be loaded.
-\item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
-vectors of shell code to be injected to the job script as-is.
 \item \code{resources[["details"]]}, if TRUE, results in the job script outputting
 job details and job summaries at the beginning and at the end.
+\item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
+vectors of shell code to be injected to the job script as-is.
+\item \code{resources[["modules"]]} is character vector of Linux environment
+modules to be loaded.
+\item \code{resources[["envs"]]}, is an optional names character vector specifying
+environment variables to be set.
 \item \code{resources[["rscript"]]} is an optional character vector specifying
 how the 'Rscript' is launched. The \code{resources[["rscript_args"]]} field
 is an optional character vector specifying the 'Rscript' command-line
 arguments.
-\item \code{resources[["envs"]]}, is an optional names character vector specifying
-environment variables to be set.
 \item \code{resources[["asis"]]} is a character vector that are passed as-is to
 the job script and are injected as job resource declarations.
 \item All remaining \code{resources} named elements are injected as named resource
@@ -112,6 +112,13 @@ and comprise:
   ## Environment modules specifications
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
+  
+  ## Environment variables to be set
+  envs <- resources[["envs"]]
+  if (length(envs) > 0) \{
+    stopifnot(is.character(envs), !is.null(names(envs)))
+  \}
+  resources[["envs"]] <- NULL
      
   ## Custom "Rscript" command and Rscript arguments
   rscript <- resources[["rscript"]]
@@ -124,13 +131,6 @@ and comprise:
   rscript_args <- resources[["rscript_args"]]
   resources[["rscript_args"]] <- NULL
   rscript_call <- paste(c(rscript, rscript_args), collapse = " ")
-  
-  ## Environment variables to be set
-  envs <- resources[["envs"]]
-  if (length(envs) > 0) \{
-    stopifnot(is.character(envs), !is.null(names(envs)))
-  \}
-  resources[["envs"]] <- NULL
     
   ## As-is resource specifications
   job_declarations <- resources[["asis"]]
@@ -169,20 +169,20 @@ fi
   writeLines(startup)
 \} \%>
 
-<\% if (length(envs) > 0) \{
-  writeLines(c(
-    sprintf("echo 'Setting environment variables: [n=\%d]'", length(envs)),
-    sprintf("echo ' - \%s=\%s'", names(envs), shQuote(envs)),
-    sprintf("export \%s=\%s", names(envs), shQuote(envs))
-  ))
-\} \%>
-
 <\% if (length(modules) > 0) \{
   writeLines(c(
     "echo 'Load environment modules:'",
     sprintf("echo '- modules: \%s'", paste(modules, collapse = ", ")),
     sprintf("module load \%s", paste(modules, collapse = " ")),
     "module list"
+  ))
+\} \%>
+
+<\% if (length(envs) > 0) \{
+  writeLines(c(
+    sprintf("echo 'Setting environment variables: [n=\%d]'", length(envs)),
+    sprintf("echo ' - \%s=\%s'", names(envs), shQuote(envs)),
+    sprintf("export \%s=\%s", names(envs), shQuote(envs))
   ))
 \} \%>
 

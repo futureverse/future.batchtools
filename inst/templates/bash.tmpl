@@ -26,6 +26,13 @@ exec > <%= log.file %> 2>&1
   ## Environment modules specifications
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
+  
+  ## Environment variables to be set
+  envs <- resources[["envs"]]
+  if (length(envs) > 0) {
+    stopifnot(is.character(envs), !is.null(names(envs)))
+  }
+  resources[["envs"]] <- NULL
 
   ## Custom "Rscript" command and Rscript arguments
   rscript <- resources[["rscript"]]
@@ -57,6 +64,14 @@ exec > <%= log.file %> 2>&1
     sprintf('echo "- modules: %s"', paste(modules, collapse = ", ")),
     sprintf("module load %s", paste(modules, collapse = " ")),
     "module list"
+  ))
+} %>
+
+<% if (length(envs) > 0) {
+  writeLines(c(
+    sprintf("echo 'Setting environment variables: [n=%d]'", length(envs)),
+    sprintf("echo ' - %s=%s'", names(envs), shQuote(envs)),
+    sprintf("export %s=%s", names(envs), shQuote(envs))
   ))
 } %>
 
