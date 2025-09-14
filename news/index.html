@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0-9018</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0-9020</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,8 +78,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li><p>Add <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>, which patches <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSlurm.html" class="external-link">batchtools::makeClusterFunctionsSlurm()</a></code>. Firstly, it patches the <code>listJobsQueued()</code> cluster function such that it falls back to querying Slurm’s account database (<code>sacct</code>), if the future was <em>not</em> found in the Slurm job queue (<code>squeue</code>), which might be the case when Slurm provisions a job that was just submitted to the scheduler. Secondly, it patched the <code>submitJob()</code> cluster function such that the system call to <code>sbatch</code> captures stderr separately from stdout, which prevents auxillary INFO messages from <code>sbatch</code> to corrupt the output to be parsed.</p></li>
-<li><p>The built-in job script templates assert that <code>Rscript</code> is found, and if not, they give an informative error message suggesting to declare environment modules, via the <code>resources</code> argument, that should be loaded by the job script.</p></li>
+<ul><li><p>Add support for controlling the ‘Rscript’ call in the built-in job script templates. This can be done via fields ‘rscript’ and ‘rscript_args’ of the ‘resources’ argument.</p></li>
+<li><p>The built-in job script templates assert that the <code>Rscript</code> launcher is found, and if not, they give an informative error message suggesting to declare environment modules, via the <code>resources</code> argument, that should be loaded by the job script.</p></li>
+<li><p>Add <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>, which patches <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSlurm.html" class="external-link">batchtools::makeClusterFunctionsSlurm()</a></code>. Firstly, it patches the <code>listJobsQueued()</code> cluster function such that it falls back to querying Slurm’s account database (<code>sacct</code>), if the future was <em>not</em> found in the Slurm job queue (<code>squeue</code>), which might be the case when Slurm provisions a job that was just submitted to the scheduler. Secondly, it patched the <code>submitJob()</code> cluster function such that the system call to <code>sbatch</code> captures stderr separately from stdout, which prevents auxillary INFO messages from <code>sbatch</code> to corrupt the output to be parsed.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
