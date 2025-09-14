@@ -113,11 +113,11 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' #   mkdir -p ~/lxc
 #' #   apptainer build ~/lxc/rocker_r-base.sif docker://rocker/r-base
 #' #
-#' # It assumes that 'future.batchtools' has been installed in the
-#' # container already with 'R_LIBS_USER' on host;
+#' # Example assumes that 'future.batchtools' has already been installed in
+#' # the container to the 'R_LIBS_USER' package folder living on the host;
 #' #
-#' #   R_LIBS_USER="~/R/rocker-%p-library/%v" \
-#' #     apptainer exec ~/lxc/rocker_r-base.sif R --quiet
+#' #   R_LIBS_USER="~/R/rocker-%p-library/%v" ~/lxc/rocker_r-base.sif
+#' #   ...
 #' #   > chooseCRANmirror(ind = 1)
 #' #   > install.packages("future.batchtools")
 #' #
@@ -125,7 +125,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'   time = "00:10:00", mem = "400M",
 #'   asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
 #'   details = TRUE,
-#'   envs = c(R_LIBS_USER="~/R/rocker-%p-library/%v"),
+#'   envs = c(R_LIBS_USER = "~/R/rocker-%p-library/%v"),
 #'   rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "Rscript")
 #' ))
 #'
