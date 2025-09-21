@@ -1,3 +1,4 @@
+AlmaLinux
 BAM
 BatchJobs
 Batchtools
@@ -20,6 +21,7 @@ BatchtoolsUniprocessFuture
 BeeGFS
 Bengtsson
 CMD
+ClusterFunctions
 FutureBackend
 FutureError
 Futureverse
@@ -29,15 +31,19 @@ HPC
 LOADEDMODULES
 LSF
 LTS
+Lustre
 MiB
 NFS
 ORCID
 OpenLava
+Passwordless
 Pre
 RJ
 Rscript
 SGE
+SSHFS
 Slurm
+Slurm's
 Sys
 Univa
 VignetteAuthor
@@ -69,6 +75,7 @@ hostname
 https
 io
 lapply
+linux
 listenv
 logfile
 loggedOutput
@@ -97,6 +104,8 @@ sge
 slurm
 sprintf
 ss
+stderr
+subfolder
 sysname
 templated
 th

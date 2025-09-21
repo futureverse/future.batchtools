@@ -31,14 +31,20 @@ job-script template as variable \code{resources}. This is based on how
 \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} works, with the exception for specially
 reserved names defined by the \pkg{future.batchtools} package;
 \itemize{
-\item \code{resources[["asis"]]} is a character vector that are passed as-is to
-the job script and are injected as job resource declarations.
-\item \code{resources[["modules"]]} is character vector of Linux environment
-modules to be loaded.
-\item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
-vectors of shell code to be injected to the job script as-is.
 \item \code{resources[["details"]]}, if TRUE, results in the job script outputting
 job details and job summaries at the beginning and at the end.
+\item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
+vectors of shell code to be injected to the job script as-is.
+\item \code{resources[["modules"]]} is character vector of Linux environment
+modules to be loaded.
+\item \code{resources[["envs"]]}, is an optional names character vector specifying
+environment variables to be set.
+\item \code{resources[["rscript"]]} is an optional character vector specifying
+how the 'Rscript' is launched. The \code{resources[["rscript_args"]]} field
+is an optional character vector specifying the 'Rscript' command-line
+arguments.
+\item \code{resources[["asis"]]} is a character vector that are passed as-is to
+the job script and are injected as job resource declarations.
 \item All remaining \code{resources} named elements are injected as named resource
 specification for the scheduler.
 }}
@@ -90,11 +96,6 @@ trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exi
 exec > <\%= log.file \%> 2>&1
 
 <\%
-  ## Maximum runtime?
-  runtime <- resources[["timeout"]]
-  resources[["timeout"]] <- NULL
-  timeout <- if (is.null(runtime)) "" else sprintf("timeout \%s", runtime)
-    
   ## Shell "startup" code to evaluate
   startup <- resources[["startup"]]
   resources[["startup"]] <- NULL
@@ -106,6 +107,32 @@ exec > <\%= log.file \%> 2>&1
   ## Environment modules specifications
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
+  
+  ## Environment variables to be set
+  envs <- resources[["envs"]]
+  if (length(envs) > 0) \{
+    stopifnot(is.character(envs), !is.null(names(envs)))
+  \}
+  resources[["envs"]] <- NULL
+
+  ## Custom "Rscript" command and Rscript arguments
+  rscript <- resources[["rscript"]]
+  if (is.null(rscript)) \{
+    rscript <- "Rscript"
+  \} else if (length(rscript) == 0 || !nzchar(rscript)[1]) \{
+    stop("Argument 'resources' specifies an empty 'rscript' field")
+  \}
+  resources[["rscript"]] <- NULL
+
+  ## Maximum runtime?
+  timeout <- resources[["timeout"]]
+  resources[["timeout"]] <- NULL
+  if (length(timeout) > 0) \{
+      rscript <- c("timeout", timeout, rscript)
+  \}
+  rscript_args <- resources[["rscript_args"]]
+  resources[["rscript_args"]] <- NULL 
+  rscript_call <- paste(c(rscript, rscript_args), collapse = " ")  
 \%>
 
 <\% if (length(startup) > 0) \{
@@ -121,23 +148,37 @@ exec > <\%= log.file \%> 2>&1
   ))
 \} \%>
 
+<\% if (length(envs) > 0) \{
+  writeLines(c(
+    sprintf("echo 'Setting environment variables: [n=\%d]'", length(envs)),
+    sprintf("echo ' - \%s=\%s'", names(envs), shQuote(envs)),
+    sprintf("export \%s=\%s", names(envs), shQuote(envs))
+  ))
+\} \%>
+
 echo "Session information:"
 echo "- timestamp: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 echo "- hostname: $(hostname)"
-echo "- Rscript path: $(which Rscript)"
-echo "- Rscript version: $(Rscript --version)"
-echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo "- Rscript: <\%= paste(rscript, collapse = " ") \%>"
+echo "- Rscript args: <\%= paste(rscript_args, collapse = " ") \%>"
+echo "- Rscript call: <\%= rscript_call \%>"
+if ! command -v <\%= rscript[1] \%> &> /dev/null; then
+    >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <\%= rscript[1] \%>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_slurm, resources = list(modules = c(\\"r\\")))'. The search PATH for '\%<= rscript[1] \%>' was $\{PATH\}"
+    exit 1
+fi
+echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
+echo "- Rscript library paths: $(<\%= rscript_call \%> -e "cat(shQuote(.libPaths()), sep = ' ')")"
 echo
 
 # Launch R and evaluate the batchtools R job
-echo "Rscript -e 'batchtools::doJobCollection()' ..."
+echo "Calling 'batchtools::doJobCollection()' ..."
 echo "- job name: '<\%= job.name \%>'"
 echo "- job log file: '<\%= log.file \%>'"
 echo "- job uri: '<\%= uri \%>'"
-<\%= timeout \%> Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")'
+<\%= rscript_call \%> -e 'batchtools::doJobCollection("<\%= uri \%>")'
 res=$?
 echo " - exit code: $\{res\}"
-echo "Rscript -e 'batchtools::doJobCollection()' ... done"
+echo "Calling 'batchtools::doJobCollection()' ... done"
 echo
 
 <\% if (length(shutdown) > 0) \{
@@ -151,7 +192,7 @@ exit "$\{res\}"
 }\if{html}{\out{</div>}}
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 library(future)
 
 # Limit runtime to 30 seconds per future

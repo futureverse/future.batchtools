@@ -71,7 +71,7 @@ BatchtoolsTemplateFutureBackend <- function(type, scheduler.latency = 1.0, fs.la
     lsf      = makeClusterFunctionsLSF,
     openlava = makeClusterFunctionsOpenLava,
     sge      = makeClusterFunctionsSGE,
-    slurm    = makeClusterFunctionsSlurm,
+    slurm    = makeClusterFunctionsSlurm2,
     torque   = makeClusterFunctionsTORQUE,
                makeClusterFunctions 
   )

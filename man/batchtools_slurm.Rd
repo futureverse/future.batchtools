@@ -34,14 +34,20 @@ job-script template as variable \code{resources}. This is based on how
 \code{\link[batchtools:submitJobs]{batchtools::submitJobs()}} works, with the exception for specially
 reserved names defined by the \pkg{future.batchtools} package;
 \itemize{
-\item \code{resources[["asis"]]} is a character vector that are passed as-is to
-the job script and are injected as job resource declarations.
-\item \code{resources[["modules"]]} is character vector of Linux environment
-modules to be loaded.
-\item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
-vectors of shell code to be injected to the job script as-is.
 \item \code{resources[["details"]]}, if TRUE, results in the job script outputting
 job details and job summaries at the beginning and at the end.
+\item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
+vectors of shell code to be injected to the job script as-is.
+\item \code{resources[["modules"]]} is character vector of Linux environment
+modules to be loaded.
+\item \code{resources[["envs"]]}, is an optional names character vector specifying
+environment variables to be set.
+\item \code{resources[["rscript"]]} is an optional character vector specifying
+how the 'Rscript' is launched. The \code{resources[["rscript_args"]]} field
+is an optional character vector specifying the 'Rscript' command-line
+arguments.
+\item \code{resources[["asis"]]} is a character vector that are passed as-is to
+the job script and are injected as job resource declarations.
 \item All remaining \code{resources} named elements are injected as named resource
 specification for the scheduler.
 }}
@@ -65,10 +71,10 @@ A batchtools slurm backend resolves futures in parallel via a Slurm job schedule
 }
 \details{
 Batchtools slurm futures use \pkg{batchtools} cluster functions
-created by \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}, which are used
+created by \code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}, which are used
 to interact with the Slurm job scheduler. This requires that Slurm
-commands \code{sbatch}, \code{squeue}, and \code{scancel} are available on the current
-machine.
+commands \code{sbatch}, \code{squeue}, \code{sacct}, and \code{scancel} are available on
+the current machine.
 
 The default template script \code{templates/slurm.tmpl} can be found in:
 
@@ -89,9 +95,9 @@ and comprise:
 ## Direct streams to logfile
 #SBATCH --output=<\%= log.file \%>
 
-## Resources needed:
+## Resources needed
 <\%
-  ## Shell "details" code to evaluate
+  ## Should scheduler "details" be seen?
   details <- isTRUE(resources[["details"]])
   resources[["details"]] <- NULL
 
@@ -106,15 +112,34 @@ and comprise:
   ## Environment modules specifications
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
+  
+  ## Environment variables to be set
+  envs <- resources[["envs"]]
+  if (length(envs) > 0) \{
+    stopifnot(is.character(envs), !is.null(names(envs)))
+  \}
+  resources[["envs"]] <- NULL
      
+  ## Custom "Rscript" command and Rscript arguments
+  rscript <- resources[["rscript"]]
+  if (is.null(rscript)) \{
+    rscript <- "Rscript"
+  \} else if (length(rscript) == 0 || !nzchar(rscript)[1]) \{
+    stop("Argument 'resources' specifies an empty 'rscript' field")
+  \}
+  resources[["rscript"]] <- NULL
+  rscript_args <- resources[["rscript_args"]]
+  resources[["rscript_args"]] <- NULL
+  rscript_call <- paste(c(rscript, rscript_args), collapse = " ")
+    
   ## As-is resource specifications
   job_declarations <- resources[["asis"]]
   resources[["asis"]] <- NULL
     
-  ## Remaining resources are assumed to be of type '--<key>=<value>'
+  ## Remaining resources are assumed to be of type '<key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
-  opts <- sprintf("--\%s=\%s", names(opts), opts)
-  job_declarations <- sprintf("#SBATCH \%s", c(job_declarations, opts))
+  opts <- sprintf("\%s=\%s", names(opts), opts)
+  job_declarations <- sprintf("#SBATCH \%s", c(job_declarations, sprintf("--\%s", opts)))
   writeLines(job_declarations)
 \%>
 
@@ -153,23 +178,35 @@ fi
   ))
 \} \%>
 
+<\% if (length(envs) > 0) \{
+  writeLines(c(
+    sprintf("echo 'Setting environment variables: [n=\%d]'", length(envs)),
+    sprintf("echo ' - \%s=\%s'", names(envs), shQuote(envs)),
+    sprintf("export \%s=\%s", names(envs), shQuote(envs))
+  ))
+\} \%>
+
 echo "Session information:"
 echo "- timestamp: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 echo "- hostname: $(hostname)"
-echo "- Rscript path: $(which Rscript)"
-echo "- Rscript version: $(Rscript --version)"
-echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo "- Rscript call: <\%= rscript_call \%>"
+if ! command -v <\%= rscript[1] \%> &> /dev/null; then
+    >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <\%= rscript[1] \%>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_slurm, resources = list(modules = c(\\"r\\")))'. The search PATH for '\%<= rscript[1] \%>' was $\{PATH\}"
+    exit 1
+fi
+echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
+echo "- Rscript library paths: $(<\%= rscript_call \%> -e "cat(shQuote(.libPaths()), sep = ' ')")"
 echo
 
 ## Launch R and evaluate the batchtools R job
-echo "Rscript -e 'batchtools::doJobCollection()' ..."
+echo "Calling 'batchtools::doJobCollection()' ..."
 echo "- job name: '<\%= job.name \%>'"
 echo "- job log file: '<\%= log.file \%>'"
 echo "- job uri: '<\%= uri \%>'"
-Rscript -e 'batchtools::doJobCollection("<\%= uri \%>")'
+<\%= rscript_call \%> -e 'batchtools::doJobCollection("<\%= uri \%>")'
 res=$?
 echo " - exit code: $\{res\}"
-echo "Rscript -e 'batchtools::doJobCollection()' ... done"
+echo "Calling 'batchtools::doJobCollection()' ... done"
 echo
 
 <\% if (details) \{ \%>
@@ -189,16 +226,22 @@ echo "End time: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 exit "$\{res\}"
 }\if{html}{\out{</div>}}
 
-This template and the built-in \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}
+This template and the built-in \code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}
 have been verified to work on a few different Slurm HPC clusters;
 \enumerate{
-\item Slurm 21.08.4, Rocky 8 Linux, NFS global filesystem (August 2025)
-\item Slurm 22.05.11, Rocky 8 Linux, NFS global filesystem (August 2025)
-\item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
+\item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (September 2025)
+\item Slurm 22.05.10, Rocky Linux 9, Lustre global filesystem (September 2025)
+\item Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (September 2025)
+\item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (September 2025)
+\item Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)*
 }
+
+(*) Verified with \strong{future.batchtools} 0.20.0, which used
+\code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}, which the new
+\code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}} enhances.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 library(future)
 
 # Limit runtime to 10 minutes and memory to 400 MiB per future,
@@ -214,10 +257,43 @@ plan(future.batchtools::batchtools_slurm, resources = list(
 
 f <- future({
   data.frame(
-    hostname = Sys.info()[["nodename"]],
-          os = Sys.info()[["sysname"]],
-       cores = unname(parallelly::availableCores()),
-     modules = Sys.getenv("LOADEDMODULES")
+     hostname = Sys.info()[["nodename"]],
+           os = Sys.info()[["sysname"]],
+    osVersion = utils::osVersion,
+        cores = unname(parallelly::availableCores())
+  )
+})
+info <- value(f)
+print(info)
+
+# As above, but use R from the Rocker 'r-base' Linux container;
+#
+#   mkdir -p ~/lxc
+#   apptainer build ~/lxc/rocker_r-base.sif docker://rocker/r-base
+#
+# Example assumes that 'future.batchtools' has already been installed in
+# the container to the 'R_LIBS_USER' package folder living on the host;
+#
+#   R_LIBS_USER="~/R/rocker-\%p-library/\%v" ~/lxc/rocker_r-base.sif
+#   ...
+#   > chooseCRANmirror(ind = 1)
+#   > install.packages("future.batchtools")
+#
+plan(future.batchtools::batchtools_slurm, resources = list(
+  time = "00:10:00", mem = "400M",
+  asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
+  details = TRUE,
+  envs = c(R_LIBS_USER = "~/R/rocker-\%p-library/\%v"),
+  rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "Rscript")
+))
+
+f <- future({
+  data.frame(
+     hostname = Sys.info()[["nodename"]],
+           os = Sys.info()[["sysname"]],
+    osVersion = utils::osVersion,
+        cores = unname(parallelly::availableCores()),
+      modules = Sys.getenv("LOADEDMODULES")
   )
 })
 info <- value(f)

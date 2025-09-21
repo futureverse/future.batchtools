@@ -1,12 +1,14 @@
 Package: future.batchtools
-Version: 0.20.0
+Version: 0.21.0
 Depends:
     R (>= 3.2.0),
     parallelly,
     future (>= 1.58.0)
 Imports:
     batchtools (>= 0.9.17),
-    utils
+    utils,
+    checkmate,
+    stringi
 Suggests:
     globals,
     future.apply,
@@ -32,5 +34,5 @@ URL: https://future.batchtools.futureverse.org, https://github.com/futureverse/f
 BugReports: https://github.com/futureverse/future.batchtools/issues
 Language: en-US
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)

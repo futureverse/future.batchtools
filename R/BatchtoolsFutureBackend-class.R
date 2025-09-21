@@ -30,14 +30,27 @@
 #' job-script template as variable `resources`. This is based on how
 #' [batchtools::submitJobs()] works, with the exception for specially
 #' reserved names defined by the \pkg{future.batchtools} package;
-#' * `resources[["asis"]]` is a character vector that are passed as-is to
-#'   the job script and are injected as job resource declarations.
-#' * `resources[["modules"]]` is character vector of Linux environment
-#'   modules to be loaded.
-#' * `resources[["startup"]]` and `resources[["shutdown"]]` are character
-#'   vectors of shell code to be injected to the job script as-is.
+#'
 #' * `resources[["details"]]`, if TRUE, results in the job script outputting
 #'   job details and job summaries at the beginning and at the end.
+#'
+#' * `resources[["startup"]]` and `resources[["shutdown"]]` are character
+#'   vectors of shell code to be injected to the job script as-is.
+#'
+#' * `resources[["modules"]]` is character vector of Linux environment
+#'   modules to be loaded.
+#'
+#' * `resources[["envs"]]`, is an optional names character vector specifying
+#'   environment variables to be set.
+#'
+#' * `resources[["rscript"]]` is an optional character vector specifying
+#'   how the 'Rscript' is launched. The `resources[["rscript_args"]]` field
+#'   is an optional character vector specifying the 'Rscript' command-line
+#'   arguments.
+#'
+#' * `resources[["asis"]]` is a character vector that are passed as-is to
+#'   the job script and are injected as job resource declarations.
+#'
 #' * All remaining `resources` named elements are injected as named resource
 #'   specification for the scheduler.
 #'
@@ -325,7 +338,8 @@ launchFuture.BatchtoolsFutureBackend <- local({
     resources <- backend[["resources"]]
     config[["resources"]] <- resources
     future[["config"]] <- config
-
+    submitted_on <- Sys.time()
+    
     ## WORKAROUND: batchtools::submitJobs() updates the RNG state,
     ## which we must make sure to undo.
     tryCatch({
@@ -343,9 +357,10 @@ launchFuture.BatchtoolsFutureBackend <- local({
       msg <- sprintf("%s\nDETAILS:\nThe batchtools registry path: %s", msg, sQuote(path))
       stop(FutureLaunchError(msg, future = future))
     })
-    
+
     if (debug) mdebugf("Launched future #%d", jobid$job.id)
 
+    future[["submitted_on"]] <- submitted_on
     future[["state"]] <- "running"
   
     ## 6. Reserve worker for future
@@ -535,6 +550,26 @@ status <- function(future, ...) {
 
   jobid <- config$jobid
   if (is.na(jobid)) return("not submitted")
+
+  ## Optionally filter by the scheduler's job ID, if it exists
+  batch_id <- reg[["status"]][["batch.id"]]
+  if (!is.null(batch_id) && inherits(future, "BatchtoolsTemplateFutureBackend")) {
+    if (!is.character(batch_id) || length(batch_id) != 1L || is.na(batch_id) || !nzchar(batch_id) || !grepl("^[[:digit:].]+$", batch_id)) {
+      stop(sprintf("Unknown value of 'batch.id': [class=%s] %s", class(batch_id)[1], paste(sQuote(batch_id), collapse = ", ")))
+    }
+  
+    ## Pass this to cluster functions listJobsQueued() and listJobsRunning()
+    ## via an R option, because we cannot pass as an argument.
+    options(
+      future.batchtools.batch_id = batch_id,
+      future.batchtools.submitted_on = future[["submitted_on"]]
+    )
+    on.exit(options(
+      future.batchtools.batch_id = NULL,
+      future.batchtools.submitted_on = NULL
+    ), add = TRUE)
+  }
+  
   status <- get_status(reg = reg, ids = jobid)
   status <- (unlist(status) == 1L)
   status <- status[status]
@@ -667,7 +702,7 @@ resolved.BatchtoolsFuture <- function(x, ...) {
   ## Assert that the process that created the future is
   ## also the one that evaluates/resolves/queries it.
   assertOwner(x)
-
+  
   ## If not, checks the batchtools registry status
   resolved <- finished(x)
   if (is.na(resolved)) return(FALSE)
@@ -845,25 +880,69 @@ await <- function(future, cleanup = TRUE, ...) {
       ## how we can distinguish the two right now, but I'll assume that
       ## started jobs have a 'submitted' or 'started' status flag too,
       ## whereas jobs that failed to launch won't. /HB 2025-07-15
+      hints <- NULL
+      
+      state <- future[["state"]]
+      info <- sprintf("Future state: %s", sQuote(state))
+      hints <- c(hints, info)
+      info <- sprintf("Batchtools status: %s", commaq(stat))
+      hints <- c(hints, info)
 
-      hint <- tryCatch({
-        output <- loggedOutput(future, timeout = 0.0)
-        hint <- unlist(strsplit(output, split = "\n", fixed = TRUE))
-        hint <- hint[nzchar(hint)]
-        hint <- tail(hint, n = getOption("future.batchtools.expiration.tail", 48L))
-      }, error = function(e) NULL)
-      if (length(hint) > 0) {
-        hint <- c("The last few lines of the logged output:", hint)
-        hint <- paste(hint, collapse = "\n")
-      } else {
-        hint <- "No logged output file exist (at the moment)"
+      ## SPECIAL CASE: Some Slurm users report on 'expired' jobs, although they never started.
+      ## Output more breadcrumbs to be able to narrow in on what causes this. /HB 2025-09-07
+      if (inherits(future, "BatchtoolsSlurmFuture")) {
+        batch_id <- reg[["status"]][["batch.id"]]
+        if (length(batch_id) > 0) {
+          info <- sprintf("Slurm job ID: [n=%d] %s", length(batch_id), commaq(batch_id))
+	  
+          args <- c("--noheader", "--format='job_id=%i,state=%T,submitted_on=%V,time_used=%M'", sprintf("--jobs=%s", paste(batch_id, collapse = ",")))
+          res <- system2("squeue", args = args, stdout = TRUE, stderr = TRUE)
+	  if (length(res) == 0) {
+	    res <- "<empty>"
+	  } else {
+            res <- paste(res, collapse = "; ") ## should only be one, but just in case ...
+	  }
+          info <- c(info, sprintf("Slurm 'squeue' job status: %s", res))
+
+          args <- c("--noheader", "--parsable2", "--allocations", "--format='JobID,State,ExitCode'", sprintf("--jobs=%s", paste(batch_id, collapse = ",")))
+          res <- system2("sacct", args = args, stdout = TRUE, stderr = TRUE)
+	  if (length(res) == 0) {
+	    res <- "<empty>"
+	  } else {
+            res <- paste(res, collapse = "; ") ## should only be one, but just in case ...
+	  }
+          info <- c(info, sprintf("Slurm 'sacct' job status: %s", res))
+	} else {
+          info <- "Slurm job ID: <not found>"
+          info <- c(info, sprintf("Slurm job status: <unknown>"))
+        }
+	hints <- c(hints, info)
       }
 
+      ## TROUBLESHOOTING: Logged output
+      info <- tryCatch({
+        output <- loggedOutput(future, timeout = 0.0)
+        info <- unlist(strsplit(output, split = "\n", fixed = TRUE))
+        info <- info[nzchar(info)]
+        info <- tail(info, n = getOption("future.batchtools.expiration.tail", 48L))
+      }, error = function(e) NULL)
+
+      if (length(info) > 0) {
+        info <- c("The last few lines of the logged output:", info)
+      } else {
+        info <- "No logged output file exist (at the moment)"
+      }
+      hints <- c(hints, info)
+
+      if (length(hints) > 0) {
+        hints <- c("\nPost-mortem details:", hints)
+        hints <- paste(hints, collapse = "\n")
+      }	
       if (any(c("submitted", "started") %in% stat)) {
-        msg <- sprintf("Future (%s) of class %s expired, which indicates that it crashed or was killed. %s", label, class(future)[1], hint)
+        msg <- sprintf("Future (%s) of class %s expired, which indicates that it crashed or was killed.%s", label, class(future)[1], hints)
         result <- FutureInterruptError(msg, future = future)
       } else {
-        msg <- sprintf("Future (%s) of class %s failed to launch. %s", label, class(future)[1], hint)
+        msg <- sprintf("Future (%s) of class %s failed to launch.%s", label, class(future)[1], hints)
         result <- FutureLaunchError(msg, future = future)
       }
     } else if (future[["state"]] %in% c("canceled", "interrupted")) {

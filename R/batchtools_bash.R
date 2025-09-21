@@ -112,16 +112,28 @@ makeClusterFunctionsBash <- function(template = "bash", fs.latency = 0.0, ...) {
     stop_if_not(inherits(reg, "Registry"))
     stop_if_not(inherits(jc, "JobCollection"))
 
-    script <- cfBrewTemplate(reg, text = template_text, jc = jc)
-    output <- system2(bin, args = c(script), stdout = TRUE, stderr = TRUE, wait = TRUE)
     debug <- isTRUE(getOption("future.debug"))
     if (debug) {
-      mdebug_push("makeClusterFunctionsBash() ...")
-      mdebug(paste(c(output, ""), collapse = "\n"))
+      mdebug_push("makeClusterFunctionsBash() -> submitJob() ...")
       on.exit(mdebug_pop())
+    }
+
+    script <- cfBrewTemplate(reg, text = template_text, jc = jc)
+    if (debug) {
+      mdebugf("job script: %s\n", script)
+      bfr <- readLines(script, warn = FALSE)
+      mdebugf("[job script]: %s\n", bfr)
+    }
+    
+    output <- system2(bin, args = c(script), stdout = TRUE, stderr = TRUE, wait = TRUE)
+    if (debug) {
+      mdebug(paste(c(sprintf("[job output]: %s", output), ""), collapse = "\n"))
     }
     
     status <- attr(output, "status")
+    if (debug) {
+      mstr(list(status = status))
+    }
     if (is.null(status)) {
       status <- 0L
       batch.id <- sprintf("bash#%d", Sys.getpid())

@@ -49,9 +49,11 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #'
 #' f <- future({
 #'   data.frame(
-#'     hostname = Sys.info()[["nodename"]],
-#'           os = Sys.info()[["sysname"]],
-#'        cores = unname(parallelly::availableCores())
+#'      hostname = Sys.info()[["nodename"]],
+#'            os = Sys.info()[["sysname"]],
+#'     osVersion = utils::osVersion,
+#'         cores = unname(parallelly::availableCores()),
+#'       modules = Sys.getenv("LOADEDMODULES")
 #'   )
 #' })
 #' info <- value(f)

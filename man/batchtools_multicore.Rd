@@ -42,7 +42,7 @@ An alternative to the batchtools multicore backend is to use
 \code{plan(future::multicore)}.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 library(future)
 plan(future.batchtools::batchtools_multicore, workers = 2)
 

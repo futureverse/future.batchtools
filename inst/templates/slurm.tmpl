@@ -10,9 +10,9 @@
 ## Direct streams to logfile
 #SBATCH --output=<%= log.file %>
 
-## Resources needed:
+## Resources needed
 <%
-  ## Shell "details" code to evaluate
+  ## Should scheduler "details" be seen?
   details <- isTRUE(resources[["details"]])
   resources[["details"]] <- NULL
 
@@ -27,15 +27,34 @@
   ## Environment modules specifications
   modules <- resources[["modules"]]
   resources[["modules"]] <- NULL
+  
+  ## Environment variables to be set
+  envs <- resources[["envs"]]
+  if (length(envs) > 0) {
+    stopifnot(is.character(envs), !is.null(names(envs)))
+  }
+  resources[["envs"]] <- NULL
      
+  ## Custom "Rscript" command and Rscript arguments
+  rscript <- resources[["rscript"]]
+  if (is.null(rscript)) {
+    rscript <- "Rscript"
+  } else if (length(rscript) == 0 || !nzchar(rscript)[1]) {
+    stop("Argument 'resources' specifies an empty 'rscript' field")
+  }
+  resources[["rscript"]] <- NULL
+  rscript_args <- resources[["rscript_args"]]
+  resources[["rscript_args"]] <- NULL
+  rscript_call <- paste(c(rscript, rscript_args), collapse = " ")
+    
   ## As-is resource specifications
   job_declarations <- resources[["asis"]]
   resources[["asis"]] <- NULL
     
-  ## Remaining resources are assumed to be of type '--<key>=<value>'
+  ## Remaining resources are assumed to be of type '<key>=<value>'
   opts <- unlist(resources, use.names = TRUE)
-  opts <- sprintf("--%s=%s", names(opts), opts)
-  job_declarations <- sprintf("#SBATCH %s", c(job_declarations, opts))
+  opts <- sprintf("%s=%s", names(opts), opts)
+  job_declarations <- sprintf("#SBATCH %s", c(job_declarations, sprintf("--%s", opts)))
   writeLines(job_declarations)
 %>
 
@@ -74,23 +93,35 @@ fi
   ))
 } %>
 
+<% if (length(envs) > 0) {
+  writeLines(c(
+    sprintf("echo 'Setting environment variables: [n=%d]'", length(envs)),
+    sprintf("echo ' - %s=%s'", names(envs), shQuote(envs)),
+    sprintf("export %s=%s", names(envs), shQuote(envs))
+  ))
+} %>
+
 echo "Session information:"
 echo "- timestamp: $(date +"%Y-%m-%d %H:%M:%S%z")"
 echo "- hostname: $(hostname)"
-echo "- Rscript path: $(which Rscript)"
-echo "- Rscript version: $(Rscript --version)"
-echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo "- Rscript call: <%= rscript_call %>"
+if ! command -v <%= rscript[1] %> &> /dev/null; then
+    >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <%= rscript[1] %>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_slurm, resources = list(modules = c(\"r\")))'. The search PATH for '%<= rscript[1] %>' was ${PATH}"
+    exit 1
+fi
+echo "- Rscript version: $(<%= paste(rscript, collapse = " ") %> --version)"
+echo "- Rscript library paths: $(<%= rscript_call %> -e "cat(shQuote(.libPaths()), sep = ' ')")"
 echo
 
 ## Launch R and evaluate the batchtools R job
-echo "Rscript -e 'batchtools::doJobCollection()' ..."
+echo "Calling 'batchtools::doJobCollection()' ..."
 echo "- job name: '<%= job.name %>'"
 echo "- job log file: '<%= log.file %>'"
 echo "- job uri: '<%= uri %>'"
-Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
+<%= rscript_call %> -e 'batchtools::doJobCollection("<%= uri %>")'
 res=$?
 echo " - exit code: ${res}"
-echo "Rscript -e 'batchtools::doJobCollection()' ... done"
+echo "Calling 'batchtools::doJobCollection()' ... done"
 echo
 
 <% if (details) { %>

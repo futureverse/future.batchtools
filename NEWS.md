@@ -1,3 +1,53 @@
+# Version 0.21.0 [2025-09-20]
+
+## Significant Changes
+
+ * `batchtools_slurm()` now uses `makeClusterFunctionsSlurm2()`.
+
+## New Features
+
+ * Add support for controlling the 'Rscript' call in the built-in job
+   script templates. This can be done via fields `rscript` and
+   `rscript_args` of the `resources` argument.
+ 
+ * Add support for setting environment variables in the built-in job
+   script templates. This can be done via field `envs` of the
+   `resources` argument.
+ 
+ * The built-in job script templates assert that the `Rscript`
+   launcher is found, and if not, they give an informative error
+   message suggesting to declare environment modules, via the
+   `resources` argument, that should be loaded by the job script.
+
+ * Add `makeClusterFunctionsSlurm2()`, which patches
+   `batchtools::makeClusterFunctionsSlurm()`.  Firstly, it patches the
+   `listJobsQueued()` cluster function such that it falls back to
+   querying Slurm's account database (`sacct`), if the future was
+   _not_ found in the Slurm job queue (`squeue`), which might be the
+   case when Slurm provisions a job that was just submitted to the
+   scheduler.  Secondly, it patched the `submitJob()` cluster function
+   such that the system call to `sbatch` captures stderr separately
+   from stdout, which prevents auxiliary INFO messages from `sbatch`
+   to corrupt the output to be parsed.
+
+## Documentation
+
+ * Add example on how to configure `batchtools_slurm()` to run R
+   within a Linux container.
+
+## Bug Fixes
+
+  `batchtools_slurm()` would produce "Future of class
+  BatchtoolsSlurmFuture expired, which indicates that it crashed or
+  was killed" errors on some Slurm clusters. We believe this happened
+  because a recently submitted future job would not immediately show
+  up on the job queue, which caused **future.batchtools** to
+  incorrectly conclude that the job had already finished, but without
+  producing any results. `batchtools_slurm()` now uses the new
+  `makeClusterFunctionsSlurm2()`, which does a better job inferring
+  whether a job is queued or not.
+
+
 # Version 0.20.0 [2025-08-25]
 
 ## Significant Changes

@@ -18,7 +18,7 @@ select the type of future you wish to use via
 \code{\link[future:plan]{future::plan()}}.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 library(future)
 plan(future.batchtools::batchtools_local)
 demo("mandelbrot", package = "future", ask = FALSE)

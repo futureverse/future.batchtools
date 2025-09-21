@@ -28,10 +28,10 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'
 #' @details
 #' Batchtools slurm futures use \pkg{batchtools} cluster functions
-#' created by [batchtools::makeClusterFunctionsSlurm()], which are used
+#' created by [makeClusterFunctionsSlurm2()], which are used
 #' to interact with the Slurm job scheduler. This requires that Slurm
-#' commands `sbatch`, `squeue`, and `scancel` are available on the current
-#' machine.
+#' commands `sbatch`, `squeue`, `sacct`, and `scancel` are available on
+#' the current machine.
 #'
 #' The default template script `templates/slurm.tmpl` can be found in:
 #'
@@ -43,12 +43,18 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/slurm.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
-#' This template and the built-in [batchtools::makeClusterFunctionsSlurm()]
+#' This template and the built-in [makeClusterFunctionsSlurm2()]
 #' have been verified to work on a few different Slurm HPC clusters;
 #'
-#'  1. Slurm 21.08.4, Rocky 8 Linux, NFS global filesystem (August 2025)
-#'  2. Slurm 22.05.11, Rocky 8 Linux, NFS global filesystem (August 2025)
-#'  3. Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (August 2025)
+#'  1. Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (September 2025)
+#'  2. Slurm 22.05.10, Rocky Linux 9, Lustre global filesystem (September 2025)
+#'  3. Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (September 2025)
+#'  4. Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (September 2025)
+#'  5. Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)*
+#'
+#' (*) Verified with **future.batchtools** 0.20.0, which used
+#'     [batchtools::makeClusterFunctionsSlurm()], which the new
+#'     [makeClusterFunctionsSlurm2()] enhances.
 #'
 #'
 #' @examplesIf interactive()
@@ -67,10 +73,43 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'
 #' f <- future({
 #'   data.frame(
-#'     hostname = Sys.info()[["nodename"]],
-#'           os = Sys.info()[["sysname"]],
-#'        cores = unname(parallelly::availableCores()),
-#'      modules = Sys.getenv("LOADEDMODULES")
+#'      hostname = Sys.info()[["nodename"]],
+#'            os = Sys.info()[["sysname"]],
+#'     osVersion = utils::osVersion,
+#'         cores = unname(parallelly::availableCores())
+#'   )
+#' })
+#' info <- value(f)
+#' print(info)
+#'
+#' # As above, but use R from the Rocker 'r-base' Linux container;
+#' #
+#' #   mkdir -p ~/lxc
+#' #   apptainer build ~/lxc/rocker_r-base.sif docker://rocker/r-base
+#' #
+#' # Example assumes that 'future.batchtools' has already been installed in
+#' # the container to the 'R_LIBS_USER' package folder living on the host;
+#' #
+#' #   R_LIBS_USER="~/R/rocker-%p-library/%v" ~/lxc/rocker_r-base.sif
+#' #   ...
+#' #   > chooseCRANmirror(ind = 1)
+#' #   > install.packages("future.batchtools")
+#' #
+#' plan(future.batchtools::batchtools_slurm, resources = list(
+#'   time = "00:10:00", mem = "400M",
+#'   asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
+#'   details = TRUE,
+#'   envs = c(R_LIBS_USER = "~/R/rocker-%p-library/%v"),
+#'   rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "Rscript")
+#' ))
+#'
+#' f <- future({
+#'   data.frame(
+#'      hostname = Sys.info()[["nodename"]],
+#'            os = Sys.info()[["sysname"]],
+#'     osVersion = utils::osVersion,
+#'         cores = unname(parallelly::availableCores()),
+#'       modules = Sys.getenv("LOADEDMODULES")
 #'   )
 #' })
 #' info <- value(f)
