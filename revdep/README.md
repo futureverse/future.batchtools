@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                                               |
 |ctype    |en_US.UTF-8                                               |
 |tz       |America/Los_Angeles                                       |
-|date     |2025-08-21                                                |
+|date     |2025-09-20                                                |
 |pandoc   |3.6.3 @ /software/c4/cbi/software/pandoc-3.6.3/bin/pandoc |
 |quarto   |NA                                                        |
 
@@ -18,7 +18,7 @@
 
 |package           |old    |new         |Δ  |
 |:-----------------|:------|:-----------|:--|
-|future.batchtools |0.12.2 |0.12.2-9979 |*  |
+|future.batchtools |0.20.0 |0.20.0-9026 |*  |
 |backports         |1.5.0  |1.5.0       |   |
 |base64url         |1.4    |1.4         |   |
 |batchtools        |0.9.18 |0.9.18      |   |
@@ -57,6 +57,6 @@
 |FAMoS       |0.3.1   |      |        |     |
 |futureverse |0.1.0   |      |        |     |
 |nncc        |2.0.0   |      |        |     |
-|SimDesign   |2.20.0  |      |        |     |
-|targets     |1.11.3  |      |        |     |
+|SimDesign   |2.21    |      |        |     |
+|targets     |1.11.4  |      |        |     |
 
