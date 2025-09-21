@@ -90,7 +90,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' # Example assumes that 'future.batchtools' has already been installed in
 #' # the container to the 'R_LIBS_USER' package folder living on the host;
 #' #
-#' #   R_LIBS_USER="~/R/rocker-%p-library/%v" ~/lxc/rocker_r-base.sif
+#' #   R_LIBS_USER=~/R/rocker-%p-library/%v ~/lxc/rocker_r-base.sif
 #' #   ...
 #' #   > chooseCRANmirror(ind = 1)
 #' #   > install.packages("future.batchtools")
