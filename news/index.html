@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0-9026</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,25 +70,25 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.21.0" id="version-0210">Version 0.21.0<a class="anchor" aria-label="anchor" href="#version-0210"></a></h2>
 <div class="section level3">
-<h3 id="significant-changes-development-version">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-development-version"></a></h3>
+<h3 id="significant-changes-0-21-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-0-21-0"></a></h3>
 <ul><li>
 <code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> now uses <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-0-21-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-21-0"></a></h3>
 <ul><li><p>Add support for controlling the ‘Rscript’ call in the built-in job script templates. This can be done via fields <code>rscript</code> and <code>rscript_args</code> of the <code>resources</code> argument.</p></li>
 <li><p>Add support for setting environment variables in the built-in job script templates. This can be done via field <code>envs</code> of the <code>resources</code> argument.</p></li>
 <li><p>The built-in job script templates assert that the <code>Rscript</code> launcher is found, and if not, they give an informative error message suggesting to declare environment modules, via the <code>resources</code> argument, that should be loaded by the job script.</p></li>
-<li><p>Add <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>, which patches <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSlurm.html" class="external-link">batchtools::makeClusterFunctionsSlurm()</a></code>. Firstly, it patches the <code>listJobsQueued()</code> cluster function such that it falls back to querying Slurm’s account database (<code>sacct</code>), if the future was <em>not</em> found in the Slurm job queue (<code>squeue</code>), which might be the case when Slurm provisions a job that was just submitted to the scheduler. Secondly, it patched the <code>submitJob()</code> cluster function such that the system call to <code>sbatch</code> captures stderr separately from stdout, which prevents auxillary INFO messages from <code>sbatch</code> to corrupt the output to be parsed.</p></li>
+<li><p>Add <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>, which patches <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsSlurm.html" class="external-link">batchtools::makeClusterFunctionsSlurm()</a></code>. Firstly, it patches the <code>listJobsQueued()</code> cluster function such that it falls back to querying Slurm’s account database (<code>sacct</code>), if the future was <em>not</em> found in the Slurm job queue (<code>squeue</code>), which might be the case when Slurm provisions a job that was just submitted to the scheduler. Secondly, it patched the <code>submitJob()</code> cluster function such that the system call to <code>sbatch</code> captures stderr separately from stdout, which prevents auxiliary INFO messages from <code>sbatch</code> to corrupt the output to be parsed.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<h3 id="documentation-0-21-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-21-0"></a></h3>
 <ul><li>Add example on how to configure <code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> to run R within a Linux container.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-0-21-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-21-0"></a></h3>
 <p><code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> would produce “Future of class BatchtoolsSlurmFuture expired, which indicates that it crashed or was killed” errors on some Slurm clusters. We believe this happened because a recently submitted future job would not immediately show up on the job queue, which caused <strong>future.batchtools</strong> to incorrectly conclude that the job had already finished, but without producing any results. <code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> now uses the new <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>, which does a better job inferring whether a job is queued or not.</p>
 </div>
 </div>
