@@ -1,4 +1,4 @@
-# Version (development version)
+# Version 0.21.0 [2025-09-20]
 
 ## Significant Changes
 
@@ -27,7 +27,7 @@
    case when Slurm provisions a job that was just submitted to the
    scheduler.  Secondly, it patched the `submitJob()` cluster function
    such that the system call to `sbatch` captures stderr separately
-   from stdout, which prevents auxillary INFO messages from `sbatch`
+   from stdout, which prevents auxiliary INFO messages from `sbatch`
    to corrupt the output to be parsed.
 
 ## Documentation
