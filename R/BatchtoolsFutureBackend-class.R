@@ -928,7 +928,8 @@ await <- function(future, cleanup = TRUE, ...) {
       }, error = function(e) NULL)
 
       if (length(info) > 0) {
-        info <- c("The last few lines of the logged output:", info)
+        info <- c("The last lines of the logged output:", info)
+        info <- c(info, "---")
       } else {
         info <- "No logged output file exist (at the moment)"
       }
