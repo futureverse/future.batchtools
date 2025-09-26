@@ -199,6 +199,9 @@ if ! command -v <\%= rscript[1] \%> &> /dev/null; then
     exit 1
 fi
 echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
+echo "- R_LIBS_USER=$\{R_LIBS_USER:-<n/a>\}"
+echo "- R_LIBS_SITE=$\{R_LIBS_SITE:-<n/a>\}"
+echo "- R_LIBS=$\{R_LIBS:-<n/a>\}"
 echo "- Rscript library paths: $(<\%= rscript_call \%> -e "cat(shQuote(.libPaths()), sep = ' ')")"
 echo
 
