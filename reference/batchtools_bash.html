@@ -17,7 +17,7 @@ Please see the source code, for details."><!-- Global site tag (gtag.js) - Googl
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0-9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0-9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -248,28 +248,31 @@ installed on the current machine and the <code>timeout</code> command is availab
 <span id="cb1-86"><a href="#cb1-86" tabindex="-1"></a>    <span class="bu">exit</span> 1</span>
 <span id="cb1-87"><a href="#cb1-87" tabindex="-1"></a><span class="cf">fi</span></span>
 <span id="cb1-88"><a href="#cb1-88" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript version: </span><span class="va">$(</span><span class="op">&lt;</span>%= <span class="fu">paste</span><span class="er">(</span><span class="ex">rscript,</span> collapse = <span class="st">" "</span><span class="kw">)</span> <span class="ex">%</span><span class="op">&gt;</span> --version<span class="va">)</span><span class="st">"</span></span>
-<span id="cb1-89"><a href="#cb1-89" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript library paths: </span><span class="va">$(</span><span class="op">&lt;</span>%= <span class="ex">rscript_call</span> %<span class="op">&gt;</span> -e <span class="st">"cat(shQuote(.libPaths()), sep = ' ')"</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb1-90"><a href="#cb1-90" tabindex="-1"></a><span class="bu">echo</span></span>
-<span id="cb1-91"><a href="#cb1-91" tabindex="-1"></a></span>
-<span id="cb1-92"><a href="#cb1-92" tabindex="-1"></a><span class="co"># Launch R and evaluate the batchtools R job</span></span>
-<span id="cb1-93"><a href="#cb1-93" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Calling 'batchtools::doJobCollection()' ..."</span></span>
-<span id="cb1-94"><a href="#cb1-94" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job name: '&lt;%= job.name %&gt;'"</span></span>
-<span id="cb1-95"><a href="#cb1-95" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job log file: '&lt;%= log.file %&gt;'"</span></span>
-<span id="cb1-96"><a href="#cb1-96" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job uri: '&lt;%= uri %&gt;'"</span></span>
-<span id="cb1-97"><a href="#cb1-97" tabindex="-1"></a><span class="op">&lt;</span>%= <span class="ex">rscript_call</span> %<span class="op">&gt;</span> -e <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span>
-<span id="cb1-98"><a href="#cb1-98" tabindex="-1"></a><span class="va">res</span><span class="op">=</span><span class="va">$?</span></span>
-<span id="cb1-99"><a href="#cb1-99" tabindex="-1"></a><span class="bu">echo</span> <span class="st">" - exit code: </span><span class="va">${res}</span><span class="st">"</span></span>
-<span id="cb1-100"><a href="#cb1-100" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Calling 'batchtools::doJobCollection()' ... done"</span></span>
-<span id="cb1-101"><a href="#cb1-101" tabindex="-1"></a><span class="bu">echo</span></span>
-<span id="cb1-102"><a href="#cb1-102" tabindex="-1"></a></span>
-<span id="cb1-103"><a href="#cb1-103" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">shutdown</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb1-104"><a href="#cb1-104" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">shutdown</span><span class="kw">)</span></span>
-<span id="cb1-105"><a href="#cb1-105" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb1-106"><a href="#cb1-106" tabindex="-1"></a></span>
-<span id="cb1-107"><a href="#cb1-107" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"End time: </span><span class="va">$(</span><span class="fu">date</span> +<span class="st">"%Y-%m-%d %H:%M:%S%z"</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb1-108"><a href="#cb1-108" tabindex="-1"></a></span>
-<span id="cb1-109"><a href="#cb1-109" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
-<span id="cb1-110"><a href="#cb1-110" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
+<span id="cb1-89"><a href="#cb1-89" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- R_LIBS_USER=</span><span class="va">${R_LIBS_USER</span><span class="op">:-</span>&lt;not set&gt;<span class="va">}</span><span class="st">"</span></span>
+<span id="cb1-90"><a href="#cb1-90" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- R_LIBS_SITE=</span><span class="va">${R_LIBS_SITE</span><span class="op">:-</span>&lt;not set&gt;<span class="va">}</span><span class="st">"</span></span>
+<span id="cb1-91"><a href="#cb1-91" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- R_LIBS=</span><span class="va">${R_LIBS</span><span class="op">:-</span>&lt;not set&gt;<span class="va">}</span><span class="st">"</span></span>
+<span id="cb1-92"><a href="#cb1-92" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- Rscript library paths: </span><span class="va">$(</span><span class="op">&lt;</span>%= <span class="ex">rscript_call</span> %<span class="op">&gt;</span> -e <span class="st">"cat(shQuote(.libPaths()), sep = ' ')"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-93"><a href="#cb1-93" tabindex="-1"></a><span class="bu">echo</span></span>
+<span id="cb1-94"><a href="#cb1-94" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" tabindex="-1"></a><span class="co"># Launch R and evaluate the batchtools R job</span></span>
+<span id="cb1-96"><a href="#cb1-96" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Calling 'batchtools::doJobCollection()' ..."</span></span>
+<span id="cb1-97"><a href="#cb1-97" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job name: '&lt;%= job.name %&gt;'"</span></span>
+<span id="cb1-98"><a href="#cb1-98" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job log file: '&lt;%= log.file %&gt;'"</span></span>
+<span id="cb1-99"><a href="#cb1-99" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"- job uri: '&lt;%= uri %&gt;'"</span></span>
+<span id="cb1-100"><a href="#cb1-100" tabindex="-1"></a><span class="op">&lt;</span>%= <span class="ex">rscript_call</span> %<span class="op">&gt;</span> -e <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span>
+<span id="cb1-101"><a href="#cb1-101" tabindex="-1"></a><span class="va">res</span><span class="op">=</span><span class="va">$?</span></span>
+<span id="cb1-102"><a href="#cb1-102" tabindex="-1"></a><span class="bu">echo</span> <span class="st">" - exit code: </span><span class="va">${res}</span><span class="st">"</span></span>
+<span id="cb1-103"><a href="#cb1-103" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Calling 'batchtools::doJobCollection()' ... done"</span></span>
+<span id="cb1-104"><a href="#cb1-104" tabindex="-1"></a><span class="bu">echo</span></span>
+<span id="cb1-105"><a href="#cb1-105" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">shutdown</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb1-107"><a href="#cb1-107" tabindex="-1"></a>  <span class="ex">writeLines</span><span class="er">(</span><span class="ex">shutdown</span><span class="kw">)</span></span>
+<span id="cb1-108"><a href="#cb1-108" tabindex="-1"></a><span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb1-109"><a href="#cb1-109" tabindex="-1"></a></span>
+<span id="cb1-110"><a href="#cb1-110" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"End time: </span><span class="va">$(</span><span class="fu">date</span> +<span class="st">"%Y-%m-%d %H:%M:%S%z"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-111"><a href="#cb1-111" tabindex="-1"></a></span>
+<span id="cb1-112"><a href="#cb1-112" tabindex="-1"></a><span class="co">## Relay the exit code from Rscript</span></span>
+<span id="cb1-113"><a href="#cb1-113" tabindex="-1"></a><span class="bu">exit</span> <span class="st">"</span><span class="va">${res}</span><span class="st">"</span></span></code></pre><p></p></div>
     </div>
 
     <div class="section level2">
