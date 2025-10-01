@@ -33,6 +33,12 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/torque.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
+#' This template and the built-in [batchtools::makeClusterFunctionsTORQUE()]
+#' have been verified to work on the following PBS/TORQUE HPC cluster;
+#'
+#'  1. PBSPro 2024.1.2, Rocky 8 Linux, Lustre global filesystem (September 2025)
+#'
+#'
 #' @examplesIf interactive()
 #' library(future)
 #'

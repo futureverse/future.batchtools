@@ -232,6 +232,12 @@ echo "End time: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 ## Relay the exit code from Rscript
 exit "$\{res\}"
 }\if{html}{\out{</div>}}
+
+This template and the built-in \code{\link[batchtools:makeClusterFunctionsTORQUE]{batchtools::makeClusterFunctionsTORQUE()}}
+have been verified to work on the following PBS/TORQUE HPC cluster;
+\enumerate{
+\item PBSPro 2024.1.2, Rocky 8 Linux, Lustre global filesystem (September 2025)
+}
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
