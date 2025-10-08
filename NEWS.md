@@ -1,6 +1,8 @@
 # Version (development version)
 
- * ...
+## Significant Changes
+
+ * Package no longer attaches **parallelly** - it only imports it.
  
 
 # Version 0.21.0 [2025-09-20]

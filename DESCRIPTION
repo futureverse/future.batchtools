@@ -1,10 +1,10 @@
 Package: future.batchtools
-Version: 0.21.0-9003
+Version: 0.21.0-9004
 Depends:
     R (>= 3.2.0),
-    parallelly,
     future (>= 1.58.0)
 Imports:
+    parallelly,
     batchtools (>= 0.9.17),
     utils,
     checkmate,
