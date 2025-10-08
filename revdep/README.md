@@ -1,24 +1,24 @@
 # Platform
 
-|field    |value                                                     |
-|:--------|:---------------------------------------------------------|
-|version  |R version 4.5.0 (2025-04-11)                              |
-|os       |Rocky Linux 8.10 (Green Obsidian)                         |
-|system   |x86_64, linux-gnu                                         |
-|ui       |X11                                                       |
-|language |en                                                        |
-|collate  |en_US.UTF-8                                               |
-|ctype    |en_US.UTF-8                                               |
-|tz       |America/Los_Angeles                                       |
-|date     |2025-09-20                                                |
-|pandoc   |3.6.3 @ /software/c4/cbi/software/pandoc-3.6.3/bin/pandoc |
-|quarto   |NA                                                        |
+|field    |value                                                          |
+|:--------|:--------------------------------------------------------------|
+|version  |R version 4.5.1 (2025-06-13)                                   |
+|os       |Ubuntu 24.04.3 LTS                                             |
+|system   |x86_64, linux-gnu                                              |
+|ui       |X11                                                            |
+|language |en                                                             |
+|collate  |en_US.UTF-8                                                    |
+|ctype    |en_US.UTF-8                                                    |
+|tz       |America/Los_Angeles                                            |
+|date     |2025-10-07                                                     |
+|pandoc   |3.8 @ /home/hb/shared/software/CBI/pandoc-3.8/bin/pandoc       |
+|quarto   |1.7.34 @ /home/hb/shared/software/CBI/quarto-1.7.34/bin/quarto |
 
 # Dependencies
 
 |package           |old    |new         |Δ  |
 |:-----------------|:------|:-----------|:--|
-|future.batchtools |0.20.0 |0.20.0-9026 |*  |
+|future.batchtools |0.21.0 |0.21.0-9004 |*  |
 |backports         |1.5.0  |1.5.0       |   |
 |base64url         |1.4    |1.4         |   |
 |batchtools        |0.9.18 |0.9.18      |   |
