@@ -361,7 +361,9 @@ launchFuture.BatchtoolsFutureBackend <- local({
     if (debug) mdebugf("Launched future #%d", jobid$job.id)
 
     future[["submitted_on"]] <- submitted_on
-    future[["state"]] <- "running"
+
+    ## Until future (> 1.67.0) is on CRAN
+    future[["state"]] <- if (futureSupportsStateSubmitted()) "submitted" else "running"
   
     ## 6. Reserve worker for future
     registerFuture(future)
@@ -595,7 +597,15 @@ status <- function(future, ...) {
 finished <- function(future, ...) {
   status <- status(future)
   if (is_na(status)) return(NA)
-  any(c("finished", "error", "expired") %in% status)
+  if (any(c("finished", "error", "expired") %in% status)) {
+    return(TRUE)
+  }
+  
+  if (future[["state"]] == "submitted" && "started" %in% status) {
+    future[["state"]] <- "running"
+  }
+  
+  FALSE
 }
 
 
