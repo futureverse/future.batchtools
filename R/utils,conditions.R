@@ -30,7 +30,3 @@ warnf <- function(fmt, ..., call. = TRUE, immediate. = FALSE, domain = NULL) {  
     warning(cond)
   }
 }
-
-msgf <- function(fmt, ..., appendLF = FALSE, domain = NULL) {  #nolint
-  message(sprintf(fmt, ...), appendLF = appendLF, domain = domain)
-}

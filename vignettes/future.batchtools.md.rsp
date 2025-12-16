@@ -69,7 +69,7 @@ users of your package to leverage the compute power of
 high-performance computing (HPC) clusters via a simple switch in
 settings - without having to change any code at all.
 
-For instance, the below two two future R expression will be processed
+For instance, the below two future R expressions will be processed
 by parallel R workers that launched on different compute nodes by the
 specified job scheduler:
 
