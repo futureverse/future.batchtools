@@ -1,0 +1,309 @@
+# A batchtools SGE backend resolves futures in parallel via a Sun/Son of/Oracle/Univa/Altair Grid Engine job scheduler
+
+A batchtools SGE backend resolves futures in parallel via a Sun/Son
+of/Oracle/Univa/Altair Grid Engine job scheduler
+
+## Usage
+
+``` r
+batchtools_sge(
+  ...,
+  template = "sge",
+  scheduler.latency = 1,
+  fs.latency = 65,
+  resources = list(),
+  delete = getOption("future.batchtools.delete", "on-success"),
+  workers = getOption("future.batchtools.workers", default = 100L)
+)
+```
+
+## Arguments
+
+- template:
+
+  (optional) Name of job-script template to be searched for by
+  [`batchtools::findTemplateFile()`](https://batchtools.mlr-org.com/reference/findTemplateFile.html).
+  If not found, it defaults to the `templates/sge.tmpl` part of this
+  package (see below).
+
+- scheduler.latency:
+
+  \[`numeric(1)`\]  
+  Time to sleep after important interactions with the scheduler to
+  ensure a sane state. Currently only triggered after calling
+  [`submitJobs`](https://batchtools.mlr-org.com/reference/submitJobs.html).
+
+- fs.latency:
+
+  \[`numeric(1)`\]  
+  Expected maximum latency of the file system, in seconds. Set to a
+  positive number for network file systems like NFS which enables more
+  robust (but also more expensive) mechanisms to access files and
+  directories. Usually safe to set to `0` to disable the heuristic, e.g.
+  if you are working on a local file system.
+
+- resources:
+
+  (optional) A named list passed to the batchtools job-script template
+  as variable `resources`. This is based on how
+  [`batchtools::submitJobs()`](https://batchtools.mlr-org.com/reference/submitJobs.html)
+  works, with the exception for specially reserved names defined by the
+  future.batchtools package;
+
+  - `resources[["details"]]`, if TRUE, results in the job script
+    outputting job details and job summaries at the beginning and at the
+    end.
+
+  - `resources[["startup"]]` and `resources[["shutdown"]]` are character
+    vectors of shell code to be injected to the job script as-is.
+
+  - `resources[["modules"]]` is character vector of Linux environment
+    modules to be loaded.
+
+  - `resources[["envs"]]`, is an optional names character vector
+    specifying environment variables to be set.
+
+  - `resources[["rscript"]]` is an optional character vector specifying
+    how the 'Rscript' is launched. The `resources[["rscript_args"]]`
+    field is an optional character vector specifying the 'Rscript'
+    command-line arguments.
+
+  - `resources[["asis"]]` is a character vector that are passed as-is to
+    the job script and are injected as job resource declarations.
+
+  - All remaining `resources` named elements are injected as named
+    resource specification for the scheduler.
+
+- delete:
+
+  Controls if and when the batchtools job registry folder is deleted. If
+  `"on-success"` (default), it is deleted if the future was resolved
+  successfully *and* the expression did not produce an error. If
+  `"never"`, then it is never deleted. If `"always"`, then it is always
+  deleted.
+
+- workers:
+
+  The maximum number of workers the batchtools backend may use at any
+  time, which for HPC schedulers corresponds to the maximum number of
+  queued jobs. The default is
+  `getOption("`[`future.batchtools.workers`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)`", 100)`.
+
+- ...:
+
+  Not used.
+
+## Details
+
+Batchtools SGE futures use batchtools cluster functions created by
+[`batchtools::makeClusterFunctionsSGE()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsSGE.html),
+which are used to interact with the SGE job scheduler. This requires
+that SGE commands `qsub`, `qstat`, and `qdel` are available on the
+current machine.
+
+The default template script `templates/sge.tmpl` can be found in:
+
+    system.file("templates", "sge.tmpl", package = "future.batchtools")
+
+and comprise:
+
+    #!/bin/bash
+    ######################################################################
+    # A batchtools launch script template for SGE
+    #
+    # Author: Henrik Bengtsson
+    ######################################################################
+    ## Shell
+    #$ -S /bin/bash
+
+    ## Job name
+    #$ -N <%= job.name %>
+
+    ## Direct streams to logfile
+    #$ -o <%= log.file %>
+
+    ## Merge standard error and output
+    #$ -j y
+
+    ## Tell the queue system to use the current directory
+    ## as the working directory
+    #$ -cwd
+
+    ## Resources needed
+    <%
+      ## Should scheduler "details" be seen?
+      details <- isTRUE(resources[["details"]])
+      resources[["details"]] <- NULL
+
+      ## Shell "startup" code to evaluate
+      startup <- resources[["startup"]]
+      resources[["startup"]] <- NULL
+
+      ## Shell "shutdown" code to evaluate
+      shutdown <- resources[["shutdown"]]
+      resources[["shutdown"]] <- NULL
+
+      ## Environment modules specifications
+      modules <- resources[["modules"]]
+      resources[["modules"]] <- NULL
+
+      ## Environment variables to be set
+      envs <- resources[["envs"]]
+      if (length(envs) > 0) {
+        stopifnot(is.character(envs), !is.null(names(envs)))
+      }
+      resources[["envs"]] <- NULL
+
+      ## Custom "Rscript" command and Rscript arguments
+      rscript <- resources[["rscript"]]
+      if (is.null(rscript)) {
+        rscript <- "Rscript"
+      } else if (length(rscript) == 0 || !nzchar(rscript)[1]) {
+        stop("Argument 'resources' specifies an empty 'rscript' field")
+      }
+      resources[["rscript"]] <- NULL
+      rscript_args <- resources[["rscript_args"]]
+      resources[["rscript_args"]] <- NULL
+      rscript_call <- paste(c(rscript, rscript_args), collapse = " ")
+
+      ## As-is resource specifications
+      job_declarations <- resources[["asis"]]
+      resources[["asis"]] <- NULL
+
+      ## Remaining resources are assumed to be of type '<key>=<value>'
+      opts <- unlist(resources, use.names = TRUE)
+      opts <- sprintf("%s=%s", names(opts), opts)
+      job_declarations <- sprintf("#$ %s", c(job_declarations, sprintf("-l %s", opts)))
+      writeLines(job_declarations)
+    %>
+
+    ## Bash settings
+    set -e          # exit on error
+    set -u          # error on unset variables
+    set -o pipefail # fail a pipeline if any command fails
+    trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exit 1' ERR
+
+    <% if (length(job_declarations) > 0) {
+      writeLines(c(
+        "echo 'Job submission declarations:'",
+        sprintf("echo '%s'", job_declarations),
+        "echo"
+      ))
+    } %>
+
+    <% if (details) { %>
+    if command -v qstat > /dev/null; then
+      echo "Job information:"
+      qstat -j "${JOB_ID}"
+      echo
+    fi
+    <% } %>
+
+    <% if (length(startup) > 0) {
+      writeLines(startup)
+    } %>
+
+    <% if (length(modules) > 0) {
+      writeLines(c(
+        "echo 'Load environment modules:'",
+        sprintf("echo '- modules: %s'", paste(modules, collapse = ", ")),
+        sprintf("module load %s", paste(modules, collapse = " ")),
+        "module list"
+      ))
+    } %>
+
+    <% if (length(envs) > 0) {
+      writeLines(c(
+        sprintf("echo 'Setting environment variables: [n=%d]'", length(envs)),
+        sprintf("echo ' - %s=%s'", names(envs), shQuote(envs)),
+        sprintf("export %s=%s", names(envs), shQuote(envs))
+      ))
+    } %>
+
+    echo "Session information:"
+    echo "- timestamp: $(date +"%Y-%m-%d %H:%M:%S%z")"
+    echo "- hostname: $(hostname)"
+    echo "- Rscript call: <%= rscript_call %>"
+    if ! command -v <%= rscript[1] %> &> /dev/null; then
+        >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <%= rscript[1] %>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_slurm, resources = list(modules = c(\"r\")))'. The search PATH for '%<= rscript[1] %>' was ${PATH}"
+        exit 1
+    fi
+    echo "- Rscript version: $(<%= paste(rscript, collapse = " ") %> --version)"
+    echo "- R_LIBS_USER=${R_LIBS_USER:-<not set>}"
+    echo "- R_LIBS_SITE=${R_LIBS_SITE:-<not set>}"
+    echo "- R_LIBS=${R_LIBS:-<not set>}"
+    echo "- Rscript library paths: $(<%= rscript_call %> -e "cat(shQuote(.libPaths()), sep = ' ')")"
+    echo
+
+
+    ## Launch R and evaluate the batchtools R job
+    echo "Calling 'batchtools::doJobCollection()' ..."
+    echo "- job name: '<%= job.name %>'"
+    echo "- job log file: '<%= log.file %>'"
+    echo "- job uri: '<%= uri %>'"
+    <%= rscript_call %> -e 'batchtools::doJobCollection("<%= uri %>")'
+    res=$?
+    echo " - exit code: ${res}"
+    echo "Calling 'batchtools::doJobCollection()' ... done"
+    echo
+
+    <% if (details) { %>
+    if command -v qstat > /dev/null; then
+      echo "Job summary:"
+      qstat -j "${JOB_ID}"
+    fi
+    <% } %>
+
+    <% if (length(shutdown) > 0) {
+      writeLines(shutdown)
+    } %>
+
+    echo "End time: $(date +"%Y-%m-%d %H:%M:%S%z")"
+
+    ## Relay the exit code from Rscript
+    exit "${res}"
+
+This template and the built-in
+[`batchtools::makeClusterFunctionsSGE()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsSGE.html)
+have been verified to work on a few different Grid Engine HPC clusters;
+
+1.  SGE 8.1.9 (Son of Grid Engine), Rocky 8 Linux, BeeGFS global
+    filesystem (August 2025)
+
+2.  AGE 2024.1.0 (8.9.0), Rocky 9 Linux, NSF global filesystem (August
+    2025)
+
+## References
+
+- <https://en.wikipedia.org/wiki/Oracle_Grid_Engine>
+
+## Examples
+
+``` r
+if (FALSE) { # interactive()
+library(future)
+
+# Limit runtime to 10 minutes and memory to 400 MiB per future,
+# request a parallel environment with four slots on a single host.
+# Submit to the 'freecycle' queue. Load environment modules 'r' and
+# 'jags'. Report on job details at startup and at the end of the job.
+plan(future.batchtools::batchtools_sge, resources = list(
+  h_rt = "00:10:00", mem_free = "100M",  ## memory is per process
+  asis = c("-pe smp 4", "-q freecycle.q"),
+  modules = c("r", "jags"),
+  details = TRUE
+))
+
+f <- future({
+  data.frame(
+     hostname = Sys.info()[["nodename"]],
+           os = Sys.info()[["sysname"]],
+    osVersion = utils::osVersion,
+        cores = unname(parallelly::availableCores()),
+      modules = Sys.getenv("LOADEDMODULES")
+  )
+})
+info <- value(f)
+print(info)
+}
+```
