@@ -2,7 +2,7 @@
 % Please edit documentation in R/batchtools_slurm.R
 \name{batchtools_slurm}
 \alias{batchtools_slurm}
-\title{A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler}
+\title{A batchtools Slurm backend resolves futures in parallel via a Slurm job scheduler}
 \usage{
 batchtools_slurm(
   ...,
@@ -67,10 +67,10 @@ of queued jobs. The default is
 \item{\ldots}{Not used.}
 }
 \description{
-A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler
+A batchtools Slurm backend resolves futures in parallel via a Slurm job scheduler
 }
 \details{
-Batchtools slurm futures use \pkg{batchtools} cluster functions
+Batchtools Slurm futures use \pkg{batchtools} cluster functions
 created by \code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}, which are used
 to interact with the Slurm job scheduler. This requires that Slurm
 commands \code{sbatch}, \code{squeue}, \code{sacct}, and \code{scancel} are available on
@@ -81,7 +81,7 @@ The default template script \code{templates/slurm.tmpl} can be found in:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{system.file("templates", "slurm.tmpl", package = "future.batchtools")
 }\if{html}{\out{</div>}}
 
-and comprise:
+and comprises:
 
 \if{html}{\out{<div class="sourceCode bash">}}\preformatted{#!/bin/bash
 ######################################################################

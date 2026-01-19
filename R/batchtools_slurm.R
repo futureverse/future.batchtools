@@ -16,7 +16,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 }
 
 
-#' A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler
+#' A batchtools Slurm backend resolves futures in parallel via a Slurm job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
 #'
@@ -27,7 +27,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' @param \ldots Not used.
 #'
 #' @details
-#' Batchtools slurm futures use \pkg{batchtools} cluster functions
+#' Batchtools Slurm futures use \pkg{batchtools} cluster functions
 #' created by [makeClusterFunctionsSlurm2()], which are used
 #' to interact with the Slurm job scheduler. This requires that Slurm
 #' commands `sbatch`, `squeue`, `sacct`, and `scancel` are available on
@@ -39,7 +39,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' system.file("templates", "slurm.tmpl", package = "future.batchtools")
 #' ```
 #'
-#' and comprise:
+#' and comprises:
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/slurm.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'

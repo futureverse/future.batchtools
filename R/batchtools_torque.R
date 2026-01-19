@@ -29,7 +29,7 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #' system.file("templates", "torque.tmpl", package = "future.batchtools")
 #' ```
 #'
-#' and comprise:
+#' and comprises:
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/torque.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'

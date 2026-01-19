@@ -38,7 +38,7 @@ print.BatchtoolsSGEFutureBackend <- function(x, ...) {
 #' system.file("templates", "sge.tmpl", package = "future.batchtools")
 #' ```
 #'
-#' and comprise:
+#' and comprises:
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/sge.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'

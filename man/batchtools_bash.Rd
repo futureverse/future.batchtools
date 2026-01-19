@@ -3,7 +3,7 @@
 \name{batchtools_bash}
 \alias{batchtools_bash}
 \alias{makeClusterFunctionsBash}
-\title{A batchtools bash backend that resolves futures sequentially via a Bash template script}
+\title{A batchtools Bash backend that resolves futures sequentially via a Bash template script}
 \usage{
 batchtools_bash(
   ...,
@@ -68,7 +68,7 @@ custom \pkg{future.batchtools} backend that uses a templated job script.
 Please see the source code, for details.
 }
 \details{
-Batchtools bash futures use \pkg{batchtools} cluster functions
+Batchtools Bash futures use \pkg{batchtools} cluster functions
 created by \code{\link[=makeClusterFunctionsBash]{makeClusterFunctionsBash()}} and requires that \code{bash} is
 installed on the current machine and the \code{timeout} command is available.
 
@@ -77,7 +77,7 @@ The default template script \code{templates/bash.tmpl} can be found in:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{system.file("templates", "bash.tmpl", package = "future.batchtools")
 }\if{html}{\out{</div>}}
 
-and comprise:
+and comprises:
 
 \if{html}{\out{<div class="sourceCode bash">}}\preformatted{#!/bin/bash
 ######################################################################

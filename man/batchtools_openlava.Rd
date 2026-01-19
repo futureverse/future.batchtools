@@ -2,7 +2,7 @@
 % Please edit documentation in R/batchtools_openlava.R
 \name{batchtools_openlava}
 \alias{batchtools_openlava}
-\title{A batchtools openlava backend resolves futures in parallel via a OpenLava job scheduler}
+\title{A batchtools OpenLava backend resolves futures in parallel via a OpenLava job scheduler}
 \usage{
 batchtools_openlava(
   ...,
@@ -67,7 +67,7 @@ of queued jobs. The default is
 \item{\ldots}{Not used.}
 }
 \description{
-A batchtools openlava backend resolves futures in parallel via a OpenLava job scheduler
+A batchtools OpenLava backend resolves futures in parallel via a OpenLava job scheduler
 }
 \details{
 Batchtools OpenLava futures use \pkg{batchtools} cluster functions
@@ -81,7 +81,7 @@ The default template script \code{templates/openlava.tmpl} can be found in:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{system.file("templates", "openlava.tmpl", package = "future.batchtools")
 }\if{html}{\out{</div>}}
 
-and comprise:
+and comprises:
 
 \if{html}{\out{<div class="sourceCode bash">}}\preformatted{#!/bin/bash
 ######################################################################
