@@ -108,7 +108,7 @@ CRAN release: 2025-08-25
     code resource specifications via character vectors
     `resources[["startup"]]` and `resources[["shutdown"]]`. When
     specified, corresponding lines are injected in the generated job
-    script and the beginning and end, respectively.
+    script at the beginning and end, respectively.
 
   - All built-in template job scripts support a “details” resource
     specification via logical scalar `resources[["details"]]`. If TRUE,
@@ -143,18 +143,18 @@ CRAN release: 2025-08-25
   **batchtools** would wait for the file up to `fs.latency` seconds
   (default 65 seconds) to give job schedulers and any global file system
   time to write output to file. Now **future.batchtools** will no longer
-  wait for such files and only read their content if they exists when
+  wait for such files and only read their content if they exist when
   checked.
 
 ### Deprecated and Defunct
 
 - R option `future.delete` is deprecated. Please use new R option
-  `future.batchtools.delete` instead. For backward compatible reasons,
-  if R option `future.delete` sets option `future.batchtools.delete`
-  when the packages is loaded and the latter is not already set. If
-  `future.delete` is FALSE, then `future.batchtools.delete` is set to
-  `"never"`. If `future.delete` is TRUE, then `future.batchtools.delete`
-  is set to `"on-success"`.
+  `future.batchtools.delete` instead. For backward compatibility
+  reasons, R option `future.delete` sets option
+  `future.batchtools.delete` when the package is loaded, if the latter
+  is not already set. If `future.delete` is FALSE, then
+  `future.batchtools.delete` is set to `"never"`. If `future.delete` is
+  TRUE, then `future.batchtools.delete` is set to `"on-success"`.
 
 ## Version 0.12.2
 
@@ -164,7 +164,7 @@ CRAN release: 2025-06-06
 
 - Attempts to cancel batchtools futures via
   [`cancel()`](https://future.futureverse.org/reference/cancel.html)
-  would result in “Interruption of futures require a backend
+  would result in “Interruption of futures requires a backend
   implementing the FutureBackend API”. Until this package implements the
   new FutureBackend API of future (\>= 1.40.0), any calls to
   [`cancel()`](https://future.futureverse.org/reference/cancel.html)
@@ -188,8 +188,8 @@ CRAN release: 2023-02-24
 - Improved performance of batchtools futures by avoiding re-checking the
   **batchtools** status if the **batchtools** job has already been
   observed to be resolved. Checking the **batchtools** status is fairly
-  expense, especially since each status check queries a set of files on
-  the file system.
+  expensive, especially since each status check queries a set of files
+  on the file system.
 
 - Improved performance of batchtools futures by making the removal of
   the **batchtools** registry about 10-15 times faster.
@@ -209,7 +209,7 @@ CRAN release: 2022-12-14
 - `R_FUTURE_BATCHTOOLS_*` environment variables are now only read when
   the **future.batchtools** package is loaded, where they set the
   corresponding `future.batchtools*` option. This is in line with how
-  all packages in the Futureverse works.
+  all packages in the Futureverse work.
 
 - Add
   [`nbrOfFreeWorkers()`](https://future.futureverse.org/reference/nbrOfWorkers.html)
@@ -228,11 +228,11 @@ CRAN release: 2022-12-14
 
 - [`print()`](https://rdrr.io/r/base/print.html) for BatchtoolsFuture
   now reports on the batchtools configuration file (an R script) and the
-  the batchtools job template file (a shell script) with info on
-  location, file size, and number of lines, if they exist.
+  batchtools job template file (a shell script) with info on location,
+  file size, and number of lines, if they exist.
 
 - [`run()`](https://future.futureverse.org/reference/run.html) for
-  BatchtoolsFuture now produce an informative BatchtoolsFutureError in
+  BatchtoolsFuture now produces an informative BatchtoolsFutureError in
   case
   [`batchtools::submitJobs()`](https://batchtools.mlr-org.com/reference/submitJobs.html)
   fails, for instance, due to invalid job-scheduler resource
@@ -289,7 +289,7 @@ CRAN release: 2021-01-04
 
 ### Significant Changes
 
-- Lazy batchtools futures only creates the internal **batchtools**
+- Lazy batchtools futures only create the internal **batchtools**
   registry when the future is launched.
 
 - Removed S3 generic functions `await()`, `finished()`, and `status()`,
@@ -487,9 +487,9 @@ CRAN release: 2017-09-11
 - The period between each poll of the scheduler to check whether a
   future (job) is finished or not now increases geometrically as a
   function of number of polls. This lowers the load on the scheduler for
-  long running jobs.
+  long-running jobs.
 
-- The error message for expired batchtools futures now include the last
+- The error message for expired batchtools futures now includes the last
   few lines of the logged output, which sometimes includes clues on why
   the future expired. For instance, if a TORQUE/PBS job use more than
   the allocated amount of memory it might be terminated by the scheduler

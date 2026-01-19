@@ -4,7 +4,7 @@
 
 - [`batchtools_bash()`](https://future.batchtools.futureverse.org/reference/batchtools_bash.md)
   [`makeClusterFunctionsBash()`](https://future.batchtools.futureverse.org/reference/batchtools_bash.md)
-  : A batchtools bash backend that resolves futures sequentially via a
+  : A batchtools Bash backend that resolves futures sequentially via a
   Bash template script
 - [`batchtools_interactive()`](https://future.batchtools.futureverse.org/reference/batchtools_interactive.md)
   : A batchtools backend that resolves futures sequentially in the
@@ -19,13 +19,13 @@
   : A batchtools backend that resolves futures in parallel via forked
   background R processes
 - [`batchtools_openlava()`](https://future.batchtools.futureverse.org/reference/batchtools_openlava.md)
-  : A batchtools openlava backend resolves futures in parallel via a
+  : A batchtools OpenLava backend resolves futures in parallel via a
   OpenLava job scheduler
 - [`batchtools_sge()`](https://future.batchtools.futureverse.org/reference/batchtools_sge.md)
   : A batchtools SGE backend resolves futures in parallel via a Sun/Son
   of/Oracle/Univa/Altair Grid Engine job scheduler
 - [`batchtools_slurm()`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)
-  : A batchtools slurm backend resolves futures in parallel via a Slurm
+  : A batchtools Slurm backend resolves futures in parallel via a Slurm
   job scheduler
 - [`batchtools_torque()`](https://future.batchtools.futureverse.org/reference/batchtools_torque.md)
   : A batchtools TORQUE backend resolves futures in parallel via a

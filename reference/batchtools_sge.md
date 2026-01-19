@@ -105,7 +105,7 @@ The default template script `templates/sge.tmpl` can be found in:
 
     system.file("templates", "sge.tmpl", package = "future.batchtools")
 
-and comprise:
+and comprises:
 
     #!/bin/bash
     ######################################################################

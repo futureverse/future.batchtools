@@ -1,11 +1,11 @@
 # A batchtools future is a future whose value will be resolved via batchtools
 
-A batchtools local future is an synchronous uniprocess future that will
+A batchtools local future is a synchronous uniprocess future that will
 be evaluated in a background R session. A batchtools interactive future
-is an synchronous uniprocess future that will be evaluated in the
-current R session (and variables will be assigned to the calling
-environment rather than to a local one). Both types of futures will
-block until the futures are resolved.
+is a synchronous uniprocess future that will be evaluated in the current
+R session (and variables will be assigned to the calling environment
+rather than to a local one). Both types of futures will block until the
+futures are resolved.
 
 A batchtools SSH future is an asynchronous multiprocess future that will
 be evaluated in a background R session.  
@@ -152,7 +152,7 @@ An object of class `BatchtoolsMulticoreFuture`.
 
 ## Details
 
-batchtools local futures rely on the batchtools backend set up by
+Batchtools local futures rely on the batchtools backend set up by
 [`batchtools::makeClusterFunctionsInteractive(external = TRUE)`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html)
 and batchtools interactive futures on the one set up by
 [`batchtools::makeClusterFunctionsInteractive()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html).
@@ -166,7 +166,7 @@ of the future package with a single local background session, i.e.
 An alternative to batchtools interactive futures is to use
 `plan(sequential, split = TRUE)` futures of the future package.
 
-batchtools SSH futures rely on the batchtools backend set up by
+Batchtools SSH futures rely on the batchtools backend set up by
 [`batchtools::makeClusterFunctionsSSH()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsSSH.html).
 The batchtools SSH backend only works on operating systems supporting
 the `ssh` and `ps` command-line tool, e.g. Linux and macOS.
@@ -208,10 +208,10 @@ print(plan())
 #> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)
 #> BatchtoolsCustomFutureBackend:
 #> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend
-#> UUID: b266a63f4ea02e4fe87efbd9366491eb
+#> UUID: 348554800ab87534af903c42d089e770
 #> Number of workers: 1
 #> Number of free workers: 1
-#> Available cores: 2
+#> Available cores: 8
 #> Automatic garbage collection: FALSE
 #> Early signaling: FALSE
 #> Interrupts are enabled: TRUE
@@ -223,12 +223,12 @@ print(plan())
 #> batchtools configuration file: <NA>
 #> batchtools cluster functions: ‘Interactive’
 #> batchtools cluster functions template: <NA>
-#> Cache directory: ‘/tmp/hb/RtmpKt1iyL/future.batchtools/docs/reference/.future/20251216_113835-Abu9bH’ (0 folders)
+#> Cache directory: ‘/tmp/hb/RtmpXRx8Pk/future.batchtools/docs/reference/.future/20260119_110921-BMPG5W’ (0 folders)
 #> batchtools resources:
 #>  list()
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 641804
+#> Main process ID: 2757581
 
 f <- future({
   data.frame(
@@ -241,8 +241,8 @@ f <- future({
 })
 info <- value(f)
 print(info)
-#>     hostname    os cores    pid
-#> 1 hb-x1-2025 Linux     2 642064
-#>                                                                                                                                                                                                                                                                                           modules
-#> 1 CBI:r/4.5.2:bat/0.26.0:fzf/0.67.0:glow/2.1.1:rstudio-server/2025.05.1-513:rstudio-server-controller/0.20.0:shellcheck/0.11.0:shellcheck-repl/0.5.0:restic/0.18.1:rclone/1.72.0:git-flow/1.12.3:git-extras/7.4.0:github-cli/2.83.1:port4me/0.7.1:pandoc/3.8.2.1:quarto/1.8.26:bash-startup/0.5.0
+#>     hostname    os cores     pid
+#> 1 hb-x1-2023 Linux     8 2757765
+#>                                                                                                   modules
+#> 1 CBI:bash-startup/0.5.0:restic/0.18.1:r/4.5.2:quarto/1.8.26:bat/0.26.1:git-flow/1.12.3:shellcheck/0.11.0
 ```

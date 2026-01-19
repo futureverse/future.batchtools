@@ -106,7 +106,7 @@ The default template script `templates/lsf.tmpl` can be found in:
 
     system.file("templates", "lsf.tmpl", package = "future.batchtools")
 
-and comprise:
+and comprises:
 
     #!/bin/bash
     ######################################################################

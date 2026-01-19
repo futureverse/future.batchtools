@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0-9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0-9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,8 +113,8 @@ Bengtsson</h4>
 <div class="section level2">
 <h2 id="tldr">TL;DR<a class="anchor" aria-label="anchor" href="#tldr"></a>
 </h2>
-<p>Here is an example on how to evaluate R expressions on a Slurm
-high-performance compute (HPC) cluster from within R.</p>
+<p>Here is an example of how to evaluate R expressions on a Slurm
+high-performance computing (HPC) cluster from within R.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
 <span></span>
@@ -161,9 +161,9 @@ More specifically, <strong>future.batchtools</strong> will allow you or
 users of your package to leverage the compute power of high-performance
 computing (HPC) clusters via a simple switch in settings - without
 having to change any code at all.</p>
-<p>For instance, the below two future R expressions will be processed by
-parallel R workers that launched on different compute nodes by the
-specified job scheduler:</p>
+<p>For instance, the following two future R expressions will be
+processed by parallel R workers launched on different compute nodes by
+the specified job scheduler:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="../reference/batchtools_slurm.html">batchtools_slurm</a></span><span class="op">)</span></span>
@@ -196,7 +196,7 @@ demo as:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html" class="external-link">demo</a></span><span class="op">(</span><span class="st">"mandelbrot"</span>, package <span class="op">=</span> <span class="st">"future"</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="available-batchtools-backend">Available batchtools backend<a class="anchor" aria-label="anchor" href="#available-batchtools-backend"></a>
+<h2 id="available-batchtools-backends">Available batchtools backends<a class="anchor" aria-label="anchor" href="#available-batchtools-backends"></a>
 </h2>
 <p>The <strong>future.batchtools</strong> package implements a generic
 future wrapper for all batchtools backends. Below are the most common

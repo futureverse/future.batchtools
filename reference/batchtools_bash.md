@@ -1,4 +1,4 @@
-# A batchtools bash backend that resolves futures sequentially via a Bash template script
+# A batchtools Bash backend that resolves futures sequentially via a Bash template script
 
 The `batchtools_bash` backend was added to illustrate how to write a
 custom future.batchtools backend that uses a templated job script.
@@ -88,7 +88,7 @@ object.
 
 ## Details
 
-Batchtools bash futures use batchtools cluster functions created by
+Batchtools Bash futures use batchtools cluster functions created by
 `makeClusterFunctionsBash()` and requires that `bash` is installed on
 the current machine and the `timeout` command is available.
 
@@ -96,7 +96,7 @@ The default template script `templates/bash.tmpl` can be found in:
 
     system.file("templates", "bash.tmpl", package = "future.batchtools")
 
-and comprise:
+and comprises:
 
     #!/bin/bash
     ######################################################################

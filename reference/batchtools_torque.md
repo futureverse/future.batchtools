@@ -106,7 +106,7 @@ The default template script `templates/torque.tmpl` can be found in:
 
     system.file("templates", "torque.tmpl", package = "future.batchtools")
 
-and comprise:
+and comprises:
 
     #!/bin/bash
     ######################################################################

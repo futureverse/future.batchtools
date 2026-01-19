@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0-9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0-9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,7 +135,7 @@
 </h2>
 <p>The <strong><a href="https://cran.r-project.org/package=future" class="external-link">future</a></strong> package provides a generic API for using futures in R. A future is a simple yet powerful mechanism to evaluate an R expression and retrieve its value at some point in time. Futures can be resolved in many different ways depending on which strategy is used. There are various types of synchronous and asynchronous futures to choose from in the <strong><a href="https://cran.r-project.org/package=future" class="external-link">future</a></strong> package.</p>
 <p>This package, <strong><a href="https://cran.r-project.org/package=future.batchtools" class="external-link">future.batchtools</a></strong>, provides a type of futures that utilizes the <strong><a href="https://cran.r-project.org/package=batchtools" class="external-link">batchtools</a></strong> package. This means that <em>any</em> type of backend that the <strong>batchtools</strong> package supports can be used as a future. More specifically, <strong>future.batchtools</strong> will allow you or users of your package to leverage the compute power of high-performance computing (HPC) clusters via a simple switch in settings - without having to change any code at all.</p>
-<p>For instance, the below two two future R expression will be processed by parallel R workers that launched on different compute nodes by the specified job scheduler:</p>
+<p>For instance, the below two future R expressions will be processed by parallel R workers that launched on different compute nodes by the specified job scheduler:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="reference/batchtools_slurm.html">batchtools_slurm</a></span><span class="op">)</span></span>
@@ -168,48 +168,48 @@
 <col width="54%">
 <col width="27%">
 </colgroup>
-<thead><tr>
+<thead><tr class="header">
 <th align="left">Backend</th>
 <th align="left">Description</th>
 <th align="left">Alternative in future package</th>
 </tr></thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td align="left"><code>batchtools_lsf</code></td>
 <td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Platform_LSF" class="external-link">Load Sharing Facility (LSF)</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr>
+<tr class="even">
 <td align="left"><code>batchtools_openlava</code></td>
 <td align="left">Futures are evaluated via an <a href="https://en.wikipedia.org/wiki/OpenLava" class="external-link">OpenLava</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr>
+<tr class="odd">
 <td align="left"><code>batchtools_sge</code></td>
 <td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Oracle_Grid_Engine" class="external-link">Sun/Son of/Oracle/Univa/Altair Grid Engine (SGE)</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr>
+<tr class="even">
 <td align="left"><code>batchtools_slurm</code></td>
 <td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager" class="external-link">Slurm</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr>
+<tr class="odd">
 <td align="left"><code>batchtools_torque</code></td>
 <td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/TORQUE" class="external-link">TORQUE</a> / PBS job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr>
+<tr class="even">
 <td align="left"><code>batchtools_custom</code></td>
 <td align="left">Futures are evaluated via a custom batchtools configuration R script or via a set of cluster functions</td>
 <td align="left">N/A</td>
 </tr>
-<tr>
+<tr class="odd">
 <td align="left"><code>batchtools_multicore</code></td>
 <td align="left">parallel evaluation by forking the current R process</td>
 <td align="left"><code>plan(multicore)</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td align="left"><code>batchtools_local</code></td>
 <td align="left">sequential evaluation in a separate R process (on current machine)</td>
 <td align="left"><code>plan(cluster, workers = I(1))</code></td>

@@ -1,6 +1,6 @@
-# A batchtools openlava backend resolves futures in parallel via a OpenLava job scheduler
+# A batchtools OpenLava backend resolves futures in parallel via a OpenLava job scheduler
 
-A batchtools openlava backend resolves futures in parallel via a
+A batchtools OpenLava backend resolves futures in parallel via a
 OpenLava job scheduler
 
 ## Usage
@@ -105,7 +105,7 @@ The default template script `templates/openlava.tmpl` can be found in:
 
     system.file("templates", "openlava.tmpl", package = "future.batchtools")
 
-and comprise:
+and comprises:
 
     #!/bin/bash
     ######################################################################

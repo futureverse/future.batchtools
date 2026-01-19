@@ -1,6 +1,6 @@
-# A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler
+# A batchtools Slurm backend resolves futures in parallel via a Slurm job scheduler
 
-A batchtools slurm backend resolves futures in parallel via a Slurm job
+A batchtools Slurm backend resolves futures in parallel via a Slurm job
 scheduler
 
 ## Usage
@@ -95,7 +95,7 @@ batchtools_slurm(
 
 ## Details
 
-Batchtools slurm futures use batchtools cluster functions created by
+Batchtools Slurm futures use batchtools cluster functions created by
 [`makeClusterFunctionsSlurm2()`](https://future.batchtools.futureverse.org/reference/makeClusterFunctionsSlurm2.md),
 which are used to interact with the Slurm job scheduler. This requires
 that Slurm commands `sbatch`, `squeue`, `sacct`, and `scancel` are
@@ -105,7 +105,7 @@ The default template script `templates/slurm.tmpl` can be found in:
 
     system.file("templates", "slurm.tmpl", package = "future.batchtools")
 
-and comprise:
+and comprises:
 
     #!/bin/bash
     ######################################################################
