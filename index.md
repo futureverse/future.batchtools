@@ -2,8 +2,8 @@
 
 ## TL;DR
 
-Here is an example on how to evaluate R expressions on a Slurm
-high-performance compute (HPC) cluster from within R.
+Here is an example of how to evaluate R expressions on a Slurm
+high-performance computing (HPC) cluster from within R.
 
 ``` r
 library(future)
@@ -54,8 +54,8 @@ leverage the compute power of high-performance computing (HPC) clusters
 via a simple switch in settings - without having to change any code at
 all.
 
-For instance, the below two future R expressions will be processed by
-parallel R workers that launched on different compute nodes by the
+For instance, the following two future R expressions will be processed
+by parallel R workers launched on different compute nodes by the
 specified job scheduler:
 
 ``` r
@@ -92,7 +92,7 @@ plan(future.batchtools::batchtools_local)
 demo("mandelbrot", package = "future", ask = FALSE)
 ```
 
-## Available batchtools backend
+## Available batchtools backends
 
 The **future.batchtools** package implements a generic future wrapper
 for all batchtools backends. Below are the most common types of
