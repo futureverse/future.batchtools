@@ -55,7 +55,7 @@ library(future)
 plan(future.batchtools::batchtools_interactive)
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 276558
+#> Main process ID: 477785
 
 f <- future({
   data.frame(
@@ -69,7 +69,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>     hostname    os cores    pid
-#> 1 hb-x1-2023 Linux     8 276558
-#>                                                                                                   modules
-#> 1 CBI:bash-startup/0.5.0:restic/0.18.1:r/4.5.2:quarto/1.8.26:bat/0.26.1:git-flow/1.12.3:shellcheck/0.11.0
+#> 1 hb-x1-2023 Linux     8 477785
+#>                                                                                                                    modules
+#> 1 CBI:bash-startup/0.5.0:restic/0.18.1:r/4.5.2:quarto/1.8.27:bat/0.26.1:git-flow/1.12.3:git-extras/7.4.0:shellcheck/0.11.0
 ```

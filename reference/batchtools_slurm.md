@@ -270,6 +270,8 @@ have been verified to work on a few different Slurm HPC clusters;
 5.  Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September
     2025)\*
 
+6.  Slurm 24.11.5, Rocky Linux 9, VAST global filesystem (February 2026)
+
 (\*) Verified with **future.batchtools** 0.20.0, which used
 [`batchtools::makeClusterFunctionsSlurm()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsSlurm.html),
 which the new
