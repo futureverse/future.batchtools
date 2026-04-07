@@ -18,7 +18,7 @@ batchtools_interactive(
 
 - fs.latency:
 
-  \[`numeric(1)`\]  
+  \[`numeric(1)`\]\
   Expected maximum latency of the file system, in seconds. Set to a
   positive number for network file systems like NFS which enables more
   robust (but also more expensive) mechanisms to access files and
@@ -55,7 +55,7 @@ library(future)
 plan(future.batchtools::batchtools_interactive)
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 480943
+#> Main process ID: 285143
 
 f <- future({
   data.frame(
@@ -69,7 +69,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>     hostname    os cores    pid
-#> 1 hb-x1-2023 Linux     8 480943
-#>                                                                                                                    modules
-#> 1 CBI:bash-startup/0.5.0:restic/0.18.1:r/4.5.2:quarto/1.8.27:bat/0.26.1:git-flow/1.12.3:git-extras/7.4.0:shellcheck/0.11.0
+#> 1 hb-x1-2023 Linux     8 285143
+#>                                                                                                                                                                                                        modules
+#> 1 CBI:cmake/4.3.1:r/4.5.3:pandoc/3.9:quarto/1.9.36:imagemagick/7.1.2-18:bat/0.26.1:fzf/0.70.0:glow/2.1.1:github-cli/2.89.0:git-flow/1.12.3:git-extras/7.4.0:shellcheck/0.11.0:bash-startup/0.5.0:restic/0.18.1
 ```

@@ -28,7 +28,7 @@ makeClusterFunctionsSlurm2(
 
 - template:
 
-  \[`character(1)`\]  
+  \[`character(1)`\]\
   Either a path to a brew template file (with extension “tmpl”), or a
   short descriptive name enabling the following heuristic for the file
   lookup:
@@ -49,12 +49,12 @@ makeClusterFunctionsSlurm2(
 
 - array.jobs:
 
-  \[`logical(1)`\]  
+  \[`logical(1)`\]\
   If array jobs are disabled on the computing site, set to `FALSE`.
 
 - nodename:
 
-  \[`character(1)`\]  
+  \[`character(1)`\]\
   Nodename of the master host. All commands are send via SSH to this
   host. Only works iff
 
@@ -70,14 +70,14 @@ makeClusterFunctionsSlurm2(
 
 - scheduler.latency:
 
-  \[`numeric(1)`\]  
+  \[`numeric(1)`\]\
   Time to sleep after important interactions with the scheduler to
   ensure a sane state. Currently only triggered after calling
   [`submitJobs`](https://batchtools.mlr-org.com/reference/submitJobs.html).
 
 - fs.latency:
 
-  \[`numeric(1)`\]  
+  \[`numeric(1)`\]\
   Expected maximum latency of the file system, in seconds. Set to a
   positive number for network file systems like NFS which enables more
   robust (but also more expensive) mechanisms to access files and

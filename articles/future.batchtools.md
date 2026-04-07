@@ -6,6 +6,7 @@ Here is an example of how to evaluate R expressions on a Slurm
 high-performance computing (HPC) cluster from within R.
 
 ``` r
+
 library(future)
 
 # Limit runtime to 10 minutes and memory to 400 MiB per future,
@@ -59,6 +60,7 @@ by parallel R workers launched on different compute nodes by the
 specified job scheduler:
 
 ``` r
+
 library(future)
 plan(future.batchtools::batchtools_slurm)
 
@@ -87,6 +89,7 @@ used. *The user has full control of how futures are evaluated*. For
 instance, to use local batchtools futures, run the demo as:
 
 ``` r
+
 library(future)
 plan(future.batchtools::batchtools_local)
 demo("mandelbrot", package = "future", ask = FALSE)
@@ -99,13 +102,13 @@ for all batchtools backends. Below are the most common types of
 batchtools backends. For other types of parallel and distributed
 backends, please see <https://www.futureverse.org/backends.html>.
 
-| Backend                | Description                                                                                                                                    | Alternative in future package   |
-|:-----------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------|
-| `batchtools_lsf`       | Futures are evaluated via a [Load Sharing Facility (LSF)](https://en.wikipedia.org/wiki/Platform_LSF) job scheduler                            | N/A                             |
-| `batchtools_openlava`  | Futures are evaluated via an [OpenLava](https://en.wikipedia.org/wiki/OpenLava) job scheduler                                                  | N/A                             |
-| `batchtools_sge`       | Futures are evaluated via a [Sun/Son of/Oracle/Univa/Altair Grid Engine (SGE)](https://en.wikipedia.org/wiki/Oracle_Grid_Engine) job scheduler | N/A                             |
-| `batchtools_slurm`     | Futures are evaluated via a [Slurm](https://en.wikipedia.org/wiki/Slurm_Workload_Manager) job scheduler                                        | N/A                             |
-| `batchtools_torque`    | Futures are evaluated via a [TORQUE](https://en.wikipedia.org/wiki/TORQUE) / PBS job scheduler                                                 | N/A                             |
-| `batchtools_custom`    | Futures are evaluated via a custom batchtools configuration R script or via a set of cluster functions                                         | N/A                             |
-| `batchtools_multicore` | parallel evaluation by forking the current R process                                                                                           | `plan(multicore)`               |
-| `batchtools_local`     | sequential evaluation in a separate R process (on current machine)                                                                             | `plan(cluster, workers = I(1))` |
+| Backend | Description | Alternative in future package |
+|:---|:---|:---|
+| `batchtools_lsf` | Futures are evaluated via a [Load Sharing Facility (LSF)](https://en.wikipedia.org/wiki/Platform_LSF) job scheduler | N/A |
+| `batchtools_openlava` | Futures are evaluated via an [OpenLava](https://en.wikipedia.org/wiki/OpenLava) job scheduler | N/A |
+| `batchtools_sge` | Futures are evaluated via a [Sun/Son of/Oracle/Univa/Altair Grid Engine (SGE)](https://en.wikipedia.org/wiki/Oracle_Grid_Engine) job scheduler | N/A |
+| `batchtools_slurm` | Futures are evaluated via a [Slurm](https://en.wikipedia.org/wiki/Slurm_Workload_Manager) job scheduler | N/A |
+| `batchtools_torque` | Futures are evaluated via a [TORQUE](https://en.wikipedia.org/wiki/TORQUE) / PBS job scheduler | N/A |
+| `batchtools_custom` | Futures are evaluated via a custom batchtools configuration R script or via a set of cluster functions | N/A |
+| `batchtools_multicore` | parallel evaluation by forking the current R process | `plan(multicore)` |
+| `batchtools_local` | sequential evaluation in a separate R process (on current machine) | `plan(cluster, workers = I(1))` |

@@ -26,7 +26,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/future.batchtools.html">A Future for batchtools</a></li>
   </ul></li>
-<li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="active nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://www.futureverse.org/"><span class="fa fas fa-home"></span></a></li>
@@ -44,6 +44,7 @@
     <li><a class="external-link dropdown-item" href="https://globals.futureverse.org">globals</a></li>
     <li><a class="external-link dropdown-item" href="https://listenv.futureverse.org">listenv</a></li>
     <li><a class="external-link dropdown-item" href="https://parallelly.futureverse.org">parallelly</a></li>
+    <li><a class="external-link dropdown-item" href="https://progressify.futureverse.org">progressify</a></li>
     <li><a class="external-link dropdown-item" href="https://progressr.futureverse.org">progressr</a></li>
     <li><a class="external-link dropdown-item" href="https://future.p2p.futureverse.org">future.p2p (experimental)</a></li>
     <li><a class="external-link dropdown-item" href="https://future.tools.futureverse.org">future.tools (experimental)</a></li>
@@ -117,7 +118,7 @@
 <ul><li><p>Tidy up built-in template job scripts for Bash, SGE, Slurm and Torque/PBS.</p></li>
 <li><p>Add built-in template job scripts for LSF and OpenLava.</p></li>
 <li><p>All built-in template job scripts support “as-is” resource specifications via character vector <code>resources[["asis"]]</code>.</p></li>
-<li><p>All built-in template job scripts support “environment module” resource specifications via character vector <code>resources[["modules"]]</code>. When specified, corresponding <code>module   load &lt;name&gt;</code> entries are injected to the generated job script.</p></li>
+<li><p>All built-in template job scripts support “environment module” resource specifications via character vector <code>resources[["modules"]]</code>. When specified, corresponding <code>module load &lt;name&gt;</code> entries are injected to the generated job script.</p></li>
 <li><p>All built-in template job scripts support “startup” and “shutdown” code resource specifications via character vectors <code>resources[["startup"]]</code> and <code>resources[["shutdown"]]</code>. When specified, corresponding lines are injected in the generated job script at the beginning and end, respectively.</p></li>
 <li><p>All built-in template job scripts support a “details” resource specification via logical scalar <code>resources[["details"]]</code>. If TRUE, scheduler job details are outputted to the log files at the beginning and job summaries at the end.</p></li>
 <li><p>All built-in template job scripts, which are written in Bash, error and exit early, by setting more strict Bash options. This should help with any troubleshooting, especially when getting started.</p></li>
@@ -191,8 +192,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-11-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-11-0"></a></h3>
-<ul><li><p>Using <code>plan(future.batchtools::batchtools_nnn, finalize = FALSE)</code> would give a warning on <code>Detected 1 unknown future arguments:    'finalize'</code>.</p></li>
-<li><p>Template files in <code>system.file(package = "future.batchtools",    "templates")</code> were not found.</p></li>
+<ul><li><p>Using <code>plan(future.batchtools::batchtools_nnn, finalize = FALSE)</code> would give a warning on <code>Detected 1 unknown future arguments: 'finalize'</code>.</p></li>
+<li><p>Template files in <code>system.file(package = "future.batchtools", "templates")</code> were not found.</p></li>
 <li><p><code><a href="https://future.futureverse.org/reference/run.html" class="external-link">run()</a></code>, <code><a href="https://future.futureverse.org/reference/resolved.html" class="external-link">resolved()</a></code>, and <code><a href="https://future.futureverse.org/reference/result.html" class="external-link">result()</a></code> for <code>BatchtoolsFuture</code> would update the RNG state.</p></li>
 </ul></div>
 </div>
@@ -225,9 +226,9 @@
 <div class="section level3">
 <h3 id="new-features-0-9-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-9-0"></a></h3>
 <ul><li><p>It is now possible to configure the default number of workers on the job queue of an HPC scheduler via either R option <code>future.batchtools.workers</code> or environment variable <code>R_FUTURE_BATCHTOOLS_WORKERS</code>.</p></li>
-<li><p>It is now possible to configure the <strong>batchtools</strong> registries that are used by batchtools futures via new argument <code>registry</code> to <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan()</a></code>. This argument should be a named list of parameters recognized by the <strong>batchtools</strong> package, e.g. <code>plan(future.batchtools::batchtools_sge, registry =    list(...))</code>. For notable example, see below news entries.</p></li>
-<li><p>The default working directory for batchtools futures is the current working directory of R <em>when</em> the batchtools future is created. This corresponds to specifying <code>plan(future.batchtools::batchtools_nnn, registry = list(work.dir =    NULL)</code>. Sometimes it is useful to use a explicit working directory that is guaranteed to be available on all workers on a shared file system, e.g. <code>plan(future.batchtools::batchtools_nnn, registry =    list(work.dir = "~"))</code>.</p></li>
-<li><p>It is possible to control if and how <strong>batchtools</strong> should use file compression for exported globals and results by specifying <strong>batchtools</strong> registry parameter <code>compress</code>. For example, to turn off file compression, use <code>plan(future.batchtools::batchtools_nnn,    registry = list(compress = FALSE))</code>.</p></li>
+<li><p>It is now possible to configure the <strong>batchtools</strong> registries that are used by batchtools futures via new argument <code>registry</code> to <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan()</a></code>. This argument should be a named list of parameters recognized by the <strong>batchtools</strong> package, e.g. <code>plan(future.batchtools::batchtools_sge, registry = list(...))</code>. For notable example, see below news entries.</p></li>
+<li><p>The default working directory for batchtools futures is the current working directory of R <em>when</em> the batchtools future is created. This corresponds to specifying <code>plan(future.batchtools::batchtools_nnn, registry = list(work.dir = NULL)</code>. Sometimes it is useful to use a explicit working directory that is guaranteed to be available on all workers on a shared file system, e.g. <code>plan(future.batchtools::batchtools_nnn, registry = list(work.dir = "~"))</code>.</p></li>
+<li><p>It is possible to control if and how <strong>batchtools</strong> should use file compression for exported globals and results by specifying <strong>batchtools</strong> registry parameter <code>compress</code>. For example, to turn off file compression, use <code>plan(future.batchtools::batchtools_nnn, registry = list(compress = FALSE))</code>.</p></li>
 <li><p>The default location of the <code>.future</code> folder can be controlled by R option <code>future.cache.path</code> or environment variable <code>R_FUTURE_CACHE_PATH</code>.</p></li>
 <li><p><code><a href="../reference/BatchtoolsMulticoreFutureBackend.html">batchtools_custom()</a></code> and BatchtoolsFuture gained argument <code>conf.file</code>. Using <code>plan(future.batchtools::batchtools_custom)</code> will now use any <strong>batchtools</strong> configuration file (an R script) found on the <code><a href="https://batchtools.mlr-org.com/reference/findConfFile.html" class="external-link">batchtools::findConfFile()</a></code> search path.</p></li>
 </ul></div>
@@ -287,14 +288,14 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-7-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-7-1"></a></h3>
-<ul><li>A bug was introduced in <strong>future.batchtools</strong> 0.7.0 that could result in <code>Error in readLog(id, reg = reg) : Log file for job with id 1    not available"</code> when using one of the batchtools backends. It occurred when the value was queried. It was observed using <code>batchtools_torque</code> but not when using <code>batchtools_local</code>. This bug was missed because the 0.7.0 release was not tested on an TORQUE/PBS HPC scheduler as it should have.</li>
+<ul><li>A bug was introduced in <strong>future.batchtools</strong> 0.7.0 that could result in <code>Error in readLog(id, reg = reg) : Log file for job with id 1 not available"</code> when using one of the batchtools backends. It occurred when the value was queried. It was observed using <code>batchtools_torque</code> but not when using <code>batchtools_local</code>. This bug was missed because the 0.7.0 release was not tested on an TORQUE/PBS HPC scheduler as it should have.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.0" id="version-070">Version 0.7.0<a class="anchor" aria-label="anchor" href="#version-070"></a></h2><p class="text-muted">CRAN release: 2018-05-04</p>
 <div class="section level3">
 <h3 id="new-features-0-7-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-7-0"></a></h3>
-<ul><li>Argument <code>workers</code> of future strategies may now also be a function, which is called without argument when the future strategy is set up and used as-is. For instance, <code>plan(future.callr::callr, workers =    halfCores)</code> where <code>halfCores &lt;- function() { max(1,    round(availableCores() / 2)) }</code> will use half of the number of available cores. This is useful when using nested future strategies with remote machines.</li>
+<ul><li>Argument <code>workers</code> of future strategies may now also be a function, which is called without argument when the future strategy is set up and used as-is. For instance, <code>plan(future.callr::callr, workers = halfCores)</code> where <code>halfCores &lt;- function() { max(1, round(availableCores() / 2)) }</code> will use half of the number of available cores. This is useful when using nested future strategies with remote machines.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="code-refactoring-0-7-0">Code Refactoring<a class="anchor" aria-label="anchor" href="#code-refactoring-0-7-0"></a></h3>
@@ -305,10 +306,10 @@
 <h2 class="pkg-version" data-toc-text="0.6.0" id="version-060">Version 0.6.0<a class="anchor" aria-label="anchor" href="#version-060"></a></h2><p class="text-muted">CRAN release: 2017-09-11</p>
 <div class="section level3">
 <h3 id="new-features-0-6-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-6-0"></a></h3>
-<ul><li><p>If the built-in attempts of <strong>batchtools</strong> for finding a default template file fails, then <code>system("templates", package =    "future.batchtools")</code> is searched for template files as well. Currently, there exists a <code>torque.tmpl</code> file.</p></li>
+<ul><li><p>If the built-in attempts of <strong>batchtools</strong> for finding a default template file fails, then <code>system("templates", package = "future.batchtools")</code> is searched for template files as well. Currently, there exists a <code>torque.tmpl</code> file.</p></li>
 <li><p>A job’s name in the scheduler is now set as the future’s label (requires <strong>batchtools</strong> 0.9.4 or newer). If no label is specified, the default job name is controlled by <strong>batchtools</strong>.</p></li>
 <li><p>The period between each poll of the scheduler to check whether a future (job) is finished or not now increases geometrically as a function of number of polls. This lowers the load on the scheduler for long-running jobs.</p></li>
-<li><p>The error message for expired batchtools futures now includes the last few lines of the logged output, which sometimes includes clues on why the future expired. For instance, if a TORQUE/PBS job use more than the allocated amount of memory it might be terminated by the scheduler leaving the message <code>PBS: job killed: vmem 1234000    exceeded limit 1048576</code> in the output.</p></li>
+<li><p>The error message for expired batchtools futures now includes the last few lines of the logged output, which sometimes includes clues on why the future expired. For instance, if a TORQUE/PBS job use more than the allocated amount of memory it might be terminated by the scheduler leaving the message <code>PBS: job killed: vmem 1234000 exceeded limit 1048576</code> in the output.</p></li>
 <li><p><code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> for BatchtoolsFuture returns the object invisibly.</p></li>
 </ul></div>
 <div class="section level3">
@@ -331,7 +332,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-4-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-0"></a></h3>
-<ul><li>Under <code>plan(future.batchtools::batchtools_nnn)</code>, when being created futures would produce an error on <code>all(is.finite(workers)) is not    TRUE</code> due to an outdated sanity check.</li>
+<ul><li>Under <code>plan(future.batchtools::batchtools_nnn)</code>, when being created futures would produce an error on <code>all(is.finite(workers)) is not TRUE</code> due to an outdated sanity check.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="software-quality-0-4-0">Software Quality<a class="anchor" aria-label="anchor" href="#software-quality-0-4-0"></a></h3>

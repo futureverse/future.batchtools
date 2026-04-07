@@ -28,14 +28,14 @@ BatchtoolsTemplateFutureBackend(
 
 - scheduler.latency:
 
-  \[`numeric(1)`\]  
+  \[`numeric(1)`\]\
   Time to sleep after important interactions with the scheduler to
   ensure a sane state. Currently only triggered after calling
   [`submitJobs`](https://batchtools.mlr-org.com/reference/submitJobs.html).
 
 - fs.latency:
 
-  \[`numeric(1)`\]  
+  \[`numeric(1)`\]\
   Expected maximum latency of the file system, in seconds. Set to a
   positive number for network file systems like NFS which enables more
   robust (but also more expensive) mechanisms to access files and

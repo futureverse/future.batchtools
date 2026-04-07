@@ -1,8 +1,8 @@
 # Batchtools multicore futures
 
 A batchtools multicore future is an asynchronous multiprocess future
-that will be evaluated in a background R session.  
-  
+that will be evaluated in a background R session.\
+\
 *We highly recommend using
 [future::multisession](https://future.futureverse.org/reference/multisession.html)
 (sic!) futures of the future package instead of multicore batchtools
@@ -28,7 +28,7 @@ BatchtoolsMulticoreFutureBackend(
 
 - fs.latency:
 
-  \[`numeric(1)`\]  
+  \[`numeric(1)`\]\
   Expected maximum latency of the file system, in seconds. Set to a
   positive number for network file systems like NFS which enables more
   robust (but also more expensive) mechanisms to access files and

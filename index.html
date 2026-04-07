@@ -50,7 +50,7 @@
 <li><a class="dropdown-item" href="articles/future.batchtools.html">A Future for batchtools</a></li>
   </ul>
 </li>
-<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">News</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -72,6 +72,7 @@
     <li><a class="external-link dropdown-item" href="https://globals.futureverse.org">globals</a></li>
     <li><a class="external-link dropdown-item" href="https://listenv.futureverse.org">listenv</a></li>
     <li><a class="external-link dropdown-item" href="https://parallelly.futureverse.org">parallelly</a></li>
+    <li><a class="external-link dropdown-item" href="https://progressify.futureverse.org">progressify</a></li>
     <li><a class="external-link dropdown-item" href="https://progressr.futureverse.org">progressr</a></li>
     <li><a class="external-link dropdown-item" href="https://future.p2p.futureverse.org">future.p2p (experimental)</a></li>
     <li><a class="external-link dropdown-item" href="https://future.tools.futureverse.org">future.tools (experimental)</a></li>
@@ -168,48 +169,48 @@
 <col width="54%">
 <col width="27%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="left">Backend</th>
 <th align="left">Description</th>
 <th align="left">Alternative in future package</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="left"><code>batchtools_lsf</code></td>
 <td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Platform_LSF" class="external-link">Load Sharing Facility (LSF)</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left"><code>batchtools_openlava</code></td>
 <td align="left">Futures are evaluated via an <a href="https://en.wikipedia.org/wiki/OpenLava" class="external-link">OpenLava</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left"><code>batchtools_sge</code></td>
 <td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Oracle_Grid_Engine" class="external-link">Sun/Son of/Oracle/Univa/Altair Grid Engine (SGE)</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left"><code>batchtools_slurm</code></td>
 <td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/Slurm_Workload_Manager" class="external-link">Slurm</a> job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left"><code>batchtools_torque</code></td>
 <td align="left">Futures are evaluated via a <a href="https://en.wikipedia.org/wiki/TORQUE" class="external-link">TORQUE</a> / PBS job scheduler</td>
 <td align="left">N/A</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left"><code>batchtools_custom</code></td>
 <td align="left">Futures are evaluated via a custom batchtools configuration R script or via a set of cluster functions</td>
 <td align="left">N/A</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left"><code>batchtools_multicore</code></td>
 <td align="left">parallel evaluation by forking the current R process</td>
 <td align="left"><code>plan(multicore)</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left"><code>batchtools_local</code></td>
 <td align="left">sequential evaluation in a separate R process (on current machine)</td>
 <td align="left"><code>plan(cluster, workers = I(1))</code></td>

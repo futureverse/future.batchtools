@@ -8,8 +8,8 @@ rather than to a local one). Both types of futures will block until the
 futures are resolved.
 
 A batchtools SSH future is an asynchronous multiprocess future that will
-be evaluated in a background R session.  
-  
+be evaluated in a background R session.\
+\
 *We highly recommend using
 [future::multisession](https://future.futureverse.org/reference/multisession.html)
 (sic!) futures of the future package instead of SSH batchtools futures.*
@@ -127,7 +127,7 @@ BatchtoolsSSHFutureBackend(workers = availableWorkers(), fs.latency = 65, ...)
 
 - fs.latency:
 
-  \[`numeric(1)`\]  
+  \[`numeric(1)`\]\
   Expected maximum latency of the file system, in seconds. Set to a
   positive number for network file systems like NFS which enables more
   robust (but also more expensive) mechanisms to access files and
@@ -208,7 +208,7 @@ print(plan())
 #> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)
 #> BatchtoolsCustomFutureBackend:
 #> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend
-#> UUID: 141e30e7818e3484505bcd708e71b937
+#> UUID: 5e8f6eb9d8c1368a178c216547ffc460
 #> Number of workers: 1
 #> Number of free workers: 1
 #> Available cores: 8
@@ -223,12 +223,12 @@ print(plan())
 #> batchtools configuration file: <NA>
 #> batchtools cluster functions: ‘Interactive’
 #> batchtools cluster functions template: <NA>
-#> Cache directory: ‘/tmp/hb/RtmpZeCbGe/future.batchtools/docs/reference/.future/20260210_135323-TgbUIu’ (0 folders)
+#> Cache directory: ‘/tmp/hb/RtmpudlmVL/future.batchtools/docs/reference/.future/20260407_085537-Y3LsQk’ (0 folders)
 #> batchtools resources:
 #>  list()
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 480943
+#> Main process ID: 285143
 
 f <- future({
   data.frame(
@@ -242,7 +242,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>     hostname    os cores    pid
-#> 1 hb-x1-2023 Linux     8 481126
-#>                                                                                                                    modules
-#> 1 CBI:bash-startup/0.5.0:restic/0.18.1:r/4.5.2:quarto/1.8.27:bat/0.26.1:git-flow/1.12.3:git-extras/7.4.0:shellcheck/0.11.0
+#> 1 hb-x1-2023 Linux     8 285301
+#>                                                                                                                                                                                                        modules
+#> 1 CBI:cmake/4.3.1:r/4.5.3:pandoc/3.9:quarto/1.9.36:imagemagick/7.1.2-18:bat/0.26.1:fzf/0.70.0:glow/2.1.1:github-cli/2.89.0:git-flow/1.12.3:git-extras/7.4.0:shellcheck/0.11.0:bash-startup/0.5.0:restic/0.18.1
 ```
