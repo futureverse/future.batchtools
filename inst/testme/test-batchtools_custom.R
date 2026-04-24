@@ -80,7 +80,7 @@ f <- future({
 })
 v <- value(f, signal = FALSE)
 print(v)
-stopifnot(inherits(v, "simpleError"))
+stopifnot(inherits(v, "error"))
 
 res <- try({ v <- value(f) }, silent = TRUE)
 print(res)

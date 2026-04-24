@@ -57,7 +57,7 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
     } else {
       res <- tryCatch({ value(f) }, error = identity)
       print(res)
-      stopifnot(inherits(res, "simpleError"))
+      stopifnot(inherits(res, "error"))
     }
 
 
@@ -73,7 +73,7 @@ for (cores in 1:min(2L, availableCores("multicore"))) {
       stopifnot(all(v == 1:2))
     } else {
       v <- lapply(x, FUN = function(f) tryCatch(value(f), error = identity))
-      stopifnot(all(sapply(v, FUN = inherits, "simpleError")))
+      stopifnot(all(sapply(v, FUN = inherits, "error")))
     }
   } # for (globals ...)
 
@@ -109,7 +109,7 @@ f <- future({
 })
 v <- value(f, signal = FALSE)
 print(v)
-stopifnot(inherits(v, "simpleError"))
+stopifnot(inherits(v, "error"))
 
 res <- try(value(f), silent = TRUE)
 print(res)
