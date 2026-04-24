@@ -38,8 +38,11 @@
 #' * R_TESTME_PACKAGE
 #' * R_TESTME_NAME
 #' * R_TESTME_PATH
-#' * R_TESTME_FILTER_NAME
-#' * R_TESTME_FILTER_TAGS
+#' * R_TESTME_FILTER_NAME:
+#"    An R expression to be evaluated as TRUE
+#' * R_TESTME_FILTER_TAGS:
+#'    An R expression to be evaluated as TRUE, e.g.
+#'    R_TESTME_FILTER_TAGS='"pkg-furrr" %in% tags'
 #' * R_TESTME_COVERAGE
 #' * R_TESTME_DEBUG
 main <- function() {
@@ -213,8 +216,8 @@ main <- function() {
     
     keep <- tryCatch(eval(expr, envir = testme), error = identity)
     if (inherits(keep, "error")) {
-      stop("Evaluation of R_TESTME_FILTER_NAME=%s produced an error: %s",
-           sQuote(code), conditionMessage(keep))
+      stop(sprintf("Evaluation of R_TESTME_FILTER_NAME=%s produced an error: %s",
+           sQuote(code), conditionMessage(keep)))
     }
     if (!isTRUE(keep)) testme[["status"]] <- "skipped"
   }
@@ -227,8 +230,8 @@ main <- function() {
     }
     keep <- tryCatch(eval(expr, envir = testme), error = identity)
     if (inherits(keep, "error")) {
-      stop("Evaluation of R_TESTME_FILTER_TAGS=%s produced an error: %s",
-           sQuote(code), conditionMessage(keep))
+      stop(sprintf("Evaluation of R_TESTME_FILTER_TAGS=%s produced an error: %s",
+           sQuote(code), conditionMessage(keep)))
     }
     if (!isTRUE(keep)) testme[["status"]] <- "skipped"
   }
