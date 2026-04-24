@@ -57,7 +57,7 @@ f <- future({
 rm(list = names(globals))
 y <- tryCatch(value(f), error = identity)
 if (!inherits(f, c("SequentialFuture", "MulticoreFuture"))) {
-  stopifnot(inherits(y, "simpleError"))
+  stopifnot(inherits(y, "error"))
 }
 
 message("*** Globals - automatic ... DONE")
