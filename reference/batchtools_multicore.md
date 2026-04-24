@@ -42,6 +42,10 @@ batchtools_multicore(
 
   Not used.
 
+## Value
+
+Nothing.
+
 ## Details
 
 Batchtools multicore futures use batchtools cluster functions created by

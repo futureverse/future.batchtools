@@ -19,7 +19,7 @@
   : A batchtools backend that resolves futures in parallel via forked
   background R processes
 - [`batchtools_openlava()`](https://future.batchtools.futureverse.org/reference/batchtools_openlava.md)
-  : A batchtools OpenLava backend resolves futures in parallel via a
+  : A batchtools OpenLava backend resolves futures in parallel via an
   OpenLava job scheduler
 - [`batchtools_sge()`](https://future.batchtools.futureverse.org/reference/batchtools_sge.md)
   : A batchtools SGE backend resolves futures in parallel via a Sun/Son

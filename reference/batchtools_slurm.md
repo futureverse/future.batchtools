@@ -93,6 +93,10 @@ batchtools_slurm(
 
   Not used.
 
+## Value
+
+Nothing.
+
 ## Details
 
 Batchtools Slurm futures use batchtools cluster functions created by

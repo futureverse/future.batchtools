@@ -1,13 +1,13 @@
 # ClusterFunctions for Slurm Systems (patched)
 
-This functions enhances
+This function enhances
 [`batchtools::makeClusterFunctionsSlurm()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsSlurm.html)
 with a few patches. Firstly, it patches the `listJobsQueued()` cluster
 function such that it falls back to querying Slurm's account database
 (`sacct`), if the future was *not* found in the Slurm job queue
 (`squeue`), which might be the case when Slurm provisions a job that was
-just submitted to the scheduler. Secondly, it patched the `submitJob()`
-cluster function such that the system call to `sbatch` does to capture
+just submitted to the scheduler. Secondly, it patches the `submitJob()`
+cluster function such that the system call to `sbatch` does not capture
 stderr together with stdout, but rather separately such that any extra
 INFO messages from `sbatch` do not corrupt the output intended to come
 from stdout only.

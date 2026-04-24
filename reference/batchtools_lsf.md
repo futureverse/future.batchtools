@@ -93,6 +93,10 @@ batchtools_lsf(
 
   Not used.
 
+## Value
+
+Nothing.
+
 ## Details
 
 Batchtools Load Sharing Facility (LSF) futures use batchtools cluster

@@ -82,6 +82,8 @@ makeClusterFunctionsBash(template = "bash", fs.latency = 0, ...)
 
 ## Value
 
+Nothing.
+
 `makeClusterFunctionsBash()` returns a
 [ClusterFunctions](https://batchtools.mlr-org.com/reference/makeClusterFunctions.html)
 object.

@@ -1,6 +1,6 @@
-# FutureError class for errors related to BatchtoolsFuture:s
+# FutureError class for errors related to BatchtoolsFutures
 
-FutureError class for errors related to BatchtoolsFuture:s
+FutureError class for errors related to BatchtoolsFutures
 
 ## Usage
 

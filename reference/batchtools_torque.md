@@ -93,6 +93,10 @@ batchtools_torque(
 
   Not used.
 
+## Value
+
+Nothing.
+
 ## Details
 
 Batchtools TORQUE/PBS futures use batchtools cluster functions created

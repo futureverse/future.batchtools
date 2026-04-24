@@ -93,6 +93,10 @@ batchtools_sge(
 
   Not used.
 
+## Value
+
+Nothing.
+
 ## Details
 
 Batchtools SGE futures use batchtools cluster functions created by

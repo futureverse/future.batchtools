@@ -37,6 +37,10 @@ batchtools_local(
 
   Not used.
 
+## Value
+
+Nothing.
+
 ## Details
 
 Batchtools local futures use batchtools cluster functions created by
@@ -53,7 +57,7 @@ library(future)
 plan(future.batchtools::batchtools_local)
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 285143
+#> Main process ID: 926806
 
 f <- future({
   data.frame(
@@ -67,7 +71,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>     hostname    os cores    pid
-#> 1 hb-x1-2023 Linux     8 285415
-#>                                                                                                                                                                                                        modules
-#> 1 CBI:cmake/4.3.1:r/4.5.3:pandoc/3.9:quarto/1.9.36:imagemagick/7.1.2-18:bat/0.26.1:fzf/0.70.0:glow/2.1.1:github-cli/2.89.0:git-flow/1.12.3:git-extras/7.4.0:shellcheck/0.11.0:bash-startup/0.5.0:restic/0.18.1
+#> 1 hb-x1-2023 Linux     8 927012
+#>                                                                                                                                                                                                                                            modules
+#> 1 CBI:cmake/4.3.1:r/4.6.0:pandoc/3.9:quarto/1.9.37:imagemagick/7.1.2-19:bat/0.26.1:fzf/0.71.0:glow/2.1.1:github-cli/2.89.0:git-flow/1.12.3:git-extras/7.4.0:shellcheck/0.11.0:markdownlint-cli/0.46.0:bash-startup/0.5.0:restic/0.18.1:deno/2.7.12
 ```

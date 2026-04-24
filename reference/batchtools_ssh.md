@@ -43,6 +43,10 @@ batchtools_ssh(
   `"never"`, then it is never deleted. If `"always"`, then it is always
   deleted.
 
+## Value
+
+Nothing.
+
 ## Details
 
 The `batchtools_ssh` backend uses the batchtools backend set up by

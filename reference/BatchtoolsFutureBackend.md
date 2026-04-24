@@ -208,7 +208,7 @@ print(plan())
 #> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)
 #> BatchtoolsCustomFutureBackend:
 #> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend
-#> UUID: 5e8f6eb9d8c1368a178c216547ffc460
+#> UUID: 8ff0484048c21bc7dc8d900a405d50aa
 #> Number of workers: 1
 #> Number of free workers: 1
 #> Available cores: 8
@@ -223,12 +223,12 @@ print(plan())
 #> batchtools configuration file: <NA>
 #> batchtools cluster functions: ‘Interactive’
 #> batchtools cluster functions template: <NA>
-#> Cache directory: ‘/tmp/hb/RtmpudlmVL/future.batchtools/docs/reference/.future/20260407_085537-Y3LsQk’ (0 folders)
+#> Cache directory: ‘/tmp/hb/RtmpjKcNNO/future.batchtools/docs/reference/.future/20260424_160745-X8igIS’ (0 folders)
 #> batchtools resources:
 #>  list()
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 285143
+#> Main process ID: 926806
 
 f <- future({
   data.frame(
@@ -242,7 +242,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>     hostname    os cores    pid
-#> 1 hb-x1-2023 Linux     8 285301
-#>                                                                                                                                                                                                        modules
-#> 1 CBI:cmake/4.3.1:r/4.5.3:pandoc/3.9:quarto/1.9.36:imagemagick/7.1.2-18:bat/0.26.1:fzf/0.70.0:glow/2.1.1:github-cli/2.89.0:git-flow/1.12.3:git-extras/7.4.0:shellcheck/0.11.0:bash-startup/0.5.0:restic/0.18.1
+#> 1 hb-x1-2023 Linux     8 926927
+#>                                                                                                                                                                                                                                            modules
+#> 1 CBI:cmake/4.3.1:r/4.6.0:pandoc/3.9:quarto/1.9.37:imagemagick/7.1.2-19:bat/0.26.1:fzf/0.71.0:glow/2.1.1:github-cli/2.89.0:git-flow/1.12.3:git-extras/7.4.0:shellcheck/0.11.0:markdownlint-cli/0.46.0:bash-startup/0.5.0:restic/0.18.1:deno/2.7.12
 ```
