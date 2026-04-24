@@ -110,9 +110,9 @@ An object of class \code{BatchtoolsUniprocessFuture}.
 An object of class \code{BatchtoolsMulticoreFuture}.
 }
 \description{
-A batchtools local future is an synchronous uniprocess future that
+A batchtools local future is a synchronous uniprocess future that
 will be evaluated in a background R session.
-A batchtools interactive future is an synchronous uniprocess future
+A batchtools interactive future is a synchronous uniprocess future
 that will be evaluated in the current R session (and variables will
 be assigned to the calling environment rather than to a local one).
 Both types of futures will block until the futures are resolved.
@@ -125,7 +125,7 @@ future that will be evaluated in a background R session.\cr
 SSH batchtools futures.}
 }
 \details{
-batchtools local futures rely on the batchtools backend set up by
+Batchtools local futures rely on the batchtools backend set up by
 \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive(external = TRUE)}}
 and batchtools interactive futures on the one set up by
 \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive()}}.
@@ -139,7 +139,7 @@ package with a single local background session, i.e.
 An alternative to batchtools interactive futures is to use
 \code{plan(sequential, split = TRUE)} futures of the \pkg{future} package.
 
-batchtools SSH futures rely on the batchtools backend set
+Batchtools SSH futures rely on the batchtools backend set
 up by \code{\link[batchtools:makeClusterFunctionsSSH]{batchtools::makeClusterFunctionsSSH()}}.
 The batchtools SSH backend only works on operating systems
 supporting the \code{ssh} and \code{ps} command-line tool, e.g. Linux and macOS.

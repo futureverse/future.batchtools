@@ -1,4 +1,4 @@
-#' FutureError class for errors related to BatchtoolsFuture:s
+#' FutureError class for errors related to BatchtoolsFutures
 #'
 #' @param \ldots Arguments passed to [FutureError][future::FutureError].
 #'

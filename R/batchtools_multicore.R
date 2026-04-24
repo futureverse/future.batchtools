@@ -1,4 +1,4 @@
-#' batchtools multicore futures
+#' Batchtools multicore futures
 #'
 #' A batchtools multicore future is an asynchronous multiprocess
 #' future that will be evaluated in a background R session.\cr
@@ -19,7 +19,7 @@
 #' @return An object of class `BatchtoolsMulticoreFuture`.
 #'
 #' @details
-#' batchtools multicore futures rely on the batchtools backend set
+#' Batchtools multicore futures rely on the batchtools backend set
 #' up by [batchtools::makeClusterFunctionsMulticore()].
 #' The batchtools multicore backend only works on operating systems
 #' supporting the `ps` command-line tool, e.g. Linux and macOS.
@@ -75,6 +75,8 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 #' @inheritParams BatchtoolsMulticoreFutureBackend
 #'
 #' @param \ldots Not used.
+#'
+#' @return Nothing.
 #'
 #' @details
 #' Batchtools multicore futures use \pkg{batchtools} cluster functions

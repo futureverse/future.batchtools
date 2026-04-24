@@ -26,7 +26,7 @@ BatchtoolsBashFutureBackend <- function(..., template = "bash", fs.latency = 0.0
 }
 
 
-#' A batchtools bash backend that resolves futures sequentially via a Bash template script
+#' A batchtools Bash backend that resolves futures sequentially via a Bash template script
 #'
 #' The `batchtools_bash` backend was added to illustrate how to write a
 #' custom \pkg{future.batchtools} backend that uses a templated job script.
@@ -40,8 +40,10 @@ BatchtoolsBashFutureBackend <- function(..., template = "bash", fs.latency = 0.0
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
-#' Batchtools bash futures use \pkg{batchtools} cluster functions
+#' Batchtools Bash futures use \pkg{batchtools} cluster functions
 #' created by [makeClusterFunctionsBash()] and requires that `bash` is
 #' installed on the current machine and the `timeout` command is available.
 #'
@@ -51,7 +53,7 @@ BatchtoolsBashFutureBackend <- function(..., template = "bash", fs.latency = 0.0
 #' system.file("templates", "bash.tmpl", package = "future.batchtools")
 #' ```
 #'
-#' and comprise:
+#' and comprises:
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/bash.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'

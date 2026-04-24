@@ -1,8 +1,8 @@
-#' batchtools local and interactive futures
+#' Batchtools local and interactive futures
 #'
-#' A batchtools local future is an synchronous uniprocess future that
+#' A batchtools local future is a synchronous uniprocess future that
 #' will be evaluated in a background R session.
-#' A batchtools interactive future is an synchronous uniprocess future
+#' A batchtools interactive future is a synchronous uniprocess future
 #' that will be evaluated in the current R session (and variables will
 #' be assigned to the calling environment rather than to a local one).
 #' Both types of futures will block until the futures are resolved.
@@ -15,7 +15,7 @@
 #' @return An object of class `BatchtoolsUniprocessFuture`.
 #'
 #' @details
-#' batchtools local futures rely on the batchtools backend set up by
+#' Batchtools local futures rely on the batchtools backend set up by
 #' \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive(external = TRUE)}}
 #' and batchtools interactive futures on the one set up by
 #' [batchtools::makeClusterFunctionsInteractive()].
@@ -64,6 +64,8 @@ BatchtoolsLocalFutureBackend <- function(fs.latency = 0.0, ...) {
 #' @inheritParams BatchtoolsLocalFutureBackend
 #'
 #' @param \ldots Not used.
+#'
+#' @return Nothing.
 #'
 #' @details
 #' Batchtools local futures use \pkg{batchtools} cluster functions

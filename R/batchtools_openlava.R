@@ -7,7 +7,7 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 }
 
 
-#' A batchtools openlava backend resolves futures in parallel via a OpenLava job scheduler
+#' A batchtools OpenLava backend resolves futures in parallel via an OpenLava job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
 #'
@@ -16,6 +16,8 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #' the `templates/openlava.tmpl` part of this package (see below).
 #'
 #' @param \ldots Not used.
+#'
+#' @return Nothing.
 #'
 #' @details
 #' Batchtools OpenLava futures use \pkg{batchtools} cluster functions
@@ -30,7 +32,7 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #' system.file("templates", "openlava.tmpl", package = "future.batchtools")
 #' ```
 #'
-#' and comprise:
+#' and comprises:
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/openlava.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/batchtools_openlava.R
 \name{batchtools_openlava}
 \alias{batchtools_openlava}
-\title{A batchtools openlava backend resolves futures in parallel via a OpenLava job scheduler}
+\title{A batchtools OpenLava backend resolves futures in parallel via an OpenLava job scheduler}
 \usage{
 batchtools_openlava(
   ...,
@@ -66,8 +66,11 @@ of queued jobs. The default is
 
 \item{\ldots}{Not used.}
 }
+\value{
+Nothing.
+}
 \description{
-A batchtools openlava backend resolves futures in parallel via a OpenLava job scheduler
+A batchtools OpenLava backend resolves futures in parallel via an OpenLava job scheduler
 }
 \details{
 Batchtools OpenLava futures use \pkg{batchtools} cluster functions
@@ -81,7 +84,7 @@ The default template script \code{templates/openlava.tmpl} can be found in:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{system.file("templates", "openlava.tmpl", package = "future.batchtools")
 }\if{html}{\out{</div>}}
 
-and comprise:
+and comprises:
 
 \if{html}{\out{<div class="sourceCode bash">}}\preformatted{#!/bin/bash
 ######################################################################
@@ -196,6 +199,9 @@ if ! command -v <\%= rscript[1] \%> &> /dev/null; then
     exit 1
 fi
 echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
+echo "- R_LIBS_USER=$\{R_LIBS_USER:-<not set>\}"
+echo "- R_LIBS_SITE=$\{R_LIBS_SITE:-<not set>\}"
+echo "- R_LIBS=$\{R_LIBS:-<not set>\}"
 echo "- Rscript library paths: $(<\%= rscript_call \%> -e "cat(shQuote(.libPaths()), sep = ' ')")"
 echo
 

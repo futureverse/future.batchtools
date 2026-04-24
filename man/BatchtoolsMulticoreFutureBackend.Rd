@@ -3,7 +3,7 @@
 \name{BatchtoolsMulticoreFutureBackend}
 \alias{BatchtoolsMulticoreFutureBackend}
 \alias{batchtools_custom}
-\title{batchtools multicore futures}
+\title{Batchtools multicore futures}
 \usage{
 BatchtoolsMulticoreFutureBackend(
   workers = availableCores(constraints = "multicore"),
@@ -44,7 +44,7 @@ future that will be evaluated in a background R session.\cr
 multicore batchtools futures.}
 }
 \details{
-batchtools multicore futures rely on the batchtools backend set
+Batchtools multicore futures rely on the batchtools backend set
 up by \code{\link[batchtools:makeClusterFunctionsMulticore]{batchtools::makeClusterFunctionsMulticore()}}.
 The batchtools multicore backend only works on operating systems
 supporting the \code{ps} command-line tool, e.g. Linux and macOS.

@@ -66,6 +66,9 @@ of queued jobs. The default is
 
 \item{\ldots}{Not used.}
 }
+\value{
+Nothing.
+}
 \description{
 A batchtools SGE backend resolves futures in parallel via a Sun/Son of/Oracle/Univa/Altair Grid Engine job scheduler
 }
@@ -81,7 +84,7 @@ The default template script \code{templates/sge.tmpl} can be found in:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{system.file("templates", "sge.tmpl", package = "future.batchtools")
 }\if{html}{\out{</div>}}
 
-and comprise:
+and comprises:
 
 \if{html}{\out{<div class="sourceCode bash">}}\preformatted{#!/bin/bash
 ######################################################################
@@ -205,6 +208,9 @@ if ! command -v <\%= rscript[1] \%> &> /dev/null; then
     exit 1
 fi
 echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
+echo "- R_LIBS_USER=$\{R_LIBS_USER:-<not set>\}"
+echo "- R_LIBS_SITE=$\{R_LIBS_SITE:-<not set>\}"
+echo "- R_LIBS=$\{R_LIBS:-<not set>\}"
 echo "- Rscript library paths: $(<\%= rscript_call \%> -e "cat(shQuote(.libPaths()), sep = ' ')")"
 echo
 

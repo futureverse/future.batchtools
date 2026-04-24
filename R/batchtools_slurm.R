@@ -16,7 +16,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 }
 
 
-#' A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler
+#' A batchtools Slurm backend resolves futures in parallel via a Slurm job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
 #'
@@ -26,8 +26,10 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
-#' Batchtools slurm futures use \pkg{batchtools} cluster functions
+#' Batchtools Slurm futures use \pkg{batchtools} cluster functions
 #' created by [makeClusterFunctionsSlurm2()], which are used
 #' to interact with the Slurm job scheduler. This requires that Slurm
 #' commands `sbatch`, `squeue`, `sacct`, and `scancel` are available on
@@ -39,7 +41,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' system.file("templates", "slurm.tmpl", package = "future.batchtools")
 #' ```
 #'
-#' and comprise:
+#' and comprises:
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/slurm.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'
@@ -51,6 +53,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'  3. Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (September 2025)
 #'  4. Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (September 2025)
 #'  5. Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)*
+#'  6. Slurm 24.11.5, Rocky Linux 9, VAST global filesystem (February 2026)
 #'
 #' (*) Verified with **future.batchtools** 0.20.0, which used
 #'     [batchtools::makeClusterFunctionsSlurm()], which the new
@@ -90,7 +93,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' # Example assumes that 'future.batchtools' has already been installed in
 #' # the container to the 'R_LIBS_USER' package folder living on the host;
 #' #
-#' #   R_LIBS_USER="~/R/rocker-%p-library/%v" ~/lxc/rocker_r-base.sif
+#' #   R_LIBS_USER=~/R/rocker-%p-library/%v ~/lxc/rocker_r-base.sif
 #' #   ...
 #' #   > chooseCRANmirror(ind = 1)
 #' #   > install.packages("future.batchtools")

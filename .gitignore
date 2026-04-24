@@ -23,3 +23,4 @@ revdep/checks/*
 revdep/library/*
 docs/
 .Rdump
+.osgrep

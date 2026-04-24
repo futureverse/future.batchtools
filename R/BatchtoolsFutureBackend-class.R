@@ -361,7 +361,9 @@ launchFuture.BatchtoolsFutureBackend <- local({
     if (debug) mdebugf("Launched future #%d", jobid$job.id)
 
     future[["submitted_on"]] <- submitted_on
-    future[["state"]] <- "running"
+
+    ## Until future (> 1.67.0) is on CRAN
+    future[["state"]] <- if (futureSupportsStateSubmitted()) "submitted" else "running"
   
     ## 6. Reserve worker for future
     registerFuture(future)
@@ -595,7 +597,14 @@ status <- function(future, ...) {
 finished <- function(future, ...) {
   status <- status(future)
   if (is_na(status)) return(NA)
-  any(c("finished", "error", "expired") %in% status)
+  if (any(c("finished", "error", "expired") %in% status)) {
+    future[["state"]] <- "finished"
+    return(TRUE)
+  } else if (future[["state"]] == "submitted" && "started" %in% status) {
+    future[["state"]] <- "running"
+  }
+  
+  FALSE
 }
 
 
@@ -928,7 +937,8 @@ await <- function(future, cleanup = TRUE, ...) {
       }, error = function(e) NULL)
 
       if (length(info) > 0) {
-        info <- c("The last few lines of the logged output:", info)
+        info <- c("The last lines of the logged output:", info)
+        info <- c(info, "---")
       } else {
         info <- "No logged output file exist (at the moment)"
       }

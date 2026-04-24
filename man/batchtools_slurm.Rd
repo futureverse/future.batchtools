@@ -2,7 +2,7 @@
 % Please edit documentation in R/batchtools_slurm.R
 \name{batchtools_slurm}
 \alias{batchtools_slurm}
-\title{A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler}
+\title{A batchtools Slurm backend resolves futures in parallel via a Slurm job scheduler}
 \usage{
 batchtools_slurm(
   ...,
@@ -66,11 +66,14 @@ of queued jobs. The default is
 
 \item{\ldots}{Not used.}
 }
+\value{
+Nothing.
+}
 \description{
-A batchtools slurm backend resolves futures in parallel via a Slurm job scheduler
+A batchtools Slurm backend resolves futures in parallel via a Slurm job scheduler
 }
 \details{
-Batchtools slurm futures use \pkg{batchtools} cluster functions
+Batchtools Slurm futures use \pkg{batchtools} cluster functions
 created by \code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}, which are used
 to interact with the Slurm job scheduler. This requires that Slurm
 commands \code{sbatch}, \code{squeue}, \code{sacct}, and \code{scancel} are available on
@@ -81,7 +84,7 @@ The default template script \code{templates/slurm.tmpl} can be found in:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{system.file("templates", "slurm.tmpl", package = "future.batchtools")
 }\if{html}{\out{</div>}}
 
-and comprise:
+and comprises:
 
 \if{html}{\out{<div class="sourceCode bash">}}\preformatted{#!/bin/bash
 ######################################################################
@@ -195,6 +198,9 @@ if ! command -v <\%= rscript[1] \%> &> /dev/null; then
     exit 1
 fi
 echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
+echo "- R_LIBS_USER=$\{R_LIBS_USER:-<not set>\}"
+echo "- R_LIBS_SITE=$\{R_LIBS_SITE:-<not set>\}"
+echo "- R_LIBS=$\{R_LIBS:-<not set>\}"
 echo "- Rscript library paths: $(<\%= rscript_call \%> -e "cat(shQuote(.libPaths()), sep = ' ')")"
 echo
 
@@ -234,6 +240,7 @@ have been verified to work on a few different Slurm HPC clusters;
 \item Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (September 2025)
 \item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (September 2025)
 \item Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)*
+\item Slurm 24.11.5, Rocky Linux 9, VAST global filesystem (February 2026)
 }
 
 (*) Verified with \strong{future.batchtools} 0.20.0, which used
@@ -274,7 +281,7 @@ print(info)
 # Example assumes that 'future.batchtools' has already been installed in
 # the container to the 'R_LIBS_USER' package folder living on the host;
 #
-#   R_LIBS_USER="~/R/rocker-\%p-library/\%v" ~/lxc/rocker_r-base.sif
+#   R_LIBS_USER=~/R/rocker-\%p-library/\%v ~/lxc/rocker_r-base.sif
 #   ...
 #   > chooseCRANmirror(ind = 1)
 #   > install.packages("future.batchtools")

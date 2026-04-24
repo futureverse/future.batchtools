@@ -1,10 +1,10 @@
 Package: future.batchtools
-Version: 0.21.0
+Version: 0.22.0
 Depends:
     R (>= 3.2.0),
-    parallelly,
     future (>= 1.58.0)
 Imports:
+    parallelly,
     batchtools (>= 0.9.17),
     utils,
     checkmate,
@@ -27,7 +27,7 @@ Description: Implementation of the Future API <doi:10.32614/RJ-2021-048> on top 
     in parallel out of the box, not only on your local machine or ad-hoc
     cluster of machines, but also via high-performance compute ('HPC') job
     schedulers such as 'LSF', 'OpenLava', 'Slurm', 'SGE', and 'TORQUE' / 'PBS',
-    e.g. 'y <- future.apply::future_lapply(files, FUN = process)'.
+    e.g. 'y <- lapply(files, FUN = process) |> futurize::futurize()'.
 License: LGPL (>= 2.1)
 LazyLoad: TRUE
 URL: https://future.batchtools.futureverse.org, https://github.com/futureverse/future.batchtools

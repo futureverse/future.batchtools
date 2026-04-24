@@ -2,7 +2,7 @@
 % Please edit documentation in R/BatchtoolsFutureError.R
 \name{BatchtoolsFutureError}
 \alias{BatchtoolsFutureError}
-\title{FutureError class for errors related to BatchtoolsFuture:s}
+\title{FutureError class for errors related to BatchtoolsFutures}
 \usage{
 BatchtoolsFutureError(...)
 }
@@ -10,6 +10,6 @@ BatchtoolsFutureError(...)
 \item{\ldots}{Arguments passed to \link[future:FutureCondition]{FutureError}.}
 }
 \description{
-FutureError class for errors related to BatchtoolsFuture:s
+FutureError class for errors related to BatchtoolsFutures
 }
 \keyword{internal}

@@ -8,8 +8,8 @@
 
 ## TL;DR
 
-Here is an example on how evaluate R expression on a Slurm
-high-performance compute (HPC) cluster.
+Here is an example of how to evaluate R expressions on a Slurm
+high-performance computing (HPC) cluster from within R.
 
 ```r
 library(future)
@@ -17,11 +17,11 @@ library(future)
 # Limit runtime to 10 minutes and memory to 400 MiB per future,
 # request a parallel environment with four slots on a single host.
 # On this system, R is available via environment module 'r'. By
-# specifying 'r/4.5.1', 'module load r/4.5.1' will be added to
+# specifying 'r/4.5', 'module load r/4.5' will be added to
 # the submitted job script.
 plan(future.batchtools::batchtools_slurm, resources = list(
   time = "00:10:00", mem = "400M", nodes = 1, ntasks = 4,
-  modules = c("r/4.5.1")
+  modules = c("r/4.5")
 ))
 
 # Give it a spin
@@ -36,7 +36,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>   hostname    os cores  modules
-#> 1      n12 Linux     4  r/4.5.1
+#> 1      n12 Linux     4  r/4.5.2
 ```
 
 ## Introduction
@@ -56,9 +56,9 @@ users of your package to leverage the compute power of
 high-performance computing (HPC) clusters via a simple switch in
 settings - without having to change any code at all.
 
-For instance, if **batchtools** is properly configured, the below two
-expressions for two futures will be processed on two different compute
-nodes:
+For instance, the following two future R expressions will be processed
+by parallel R workers launched on different compute nodes by the
+specified job scheduler:
 
 ```r
 library(future)
@@ -95,7 +95,7 @@ demo("mandelbrot", package = "future", ask = FALSE)
 ```
 
 
-## Available batchtools backend
+## Available batchtools backends
 
 The **future.batchtools** package implements a generic future wrapper
 for all batchtools backends.  Below are the most common types of

@@ -1,3 +1,10 @@
+# Version 0.22.0 [2026-04-24]
+
+## Significant Changes
+
+ * Package no longer attaches **parallelly** - it only imports it.
+ 
+
 # Version 0.21.0 [2025-09-20]
 
 ## Significant Changes
@@ -25,7 +32,7 @@
    querying Slurm's account database (`sacct`), if the future was
    _not_ found in the Slurm job queue (`squeue`), which might be the
    case when Slurm provisions a job that was just submitted to the
-   scheduler.  Secondly, it patched the `submitJob()` cluster function
+   scheduler.  Secondly, it patches the `submitJob()` cluster function
    such that the system call to `sbatch` captures stderr separately
    from stdout, which prevents auxiliary INFO messages from `sbatch`
    to corrupt the output to be parsed.
@@ -88,7 +95,7 @@
      "shutdown" code resource specifications via character vectors
      `resources[["startup"]]` and `resources[["shutdown"]]`. When
      specified, corresponding lines are injected in the generated job
-     script and the beginning and end, respectively.
+     script at the beginning and end, respectively.
 
    - All built-in template job scripts support a "details" resource
      specification via logical scalar `resources[["details"]]`. If
@@ -124,14 +131,14 @@
    `fs.latency` seconds (default 65 seconds) to give job schedulers
    and any global file system time to write output to file. Now
    **future.batchtools** will no longer wait for such files and only
-   read their content if they exists when checked.
+   read their content if they exist when checked.
 
 ## Deprecated and Defunct
 
  * R option `future.delete` is deprecated. Please use new R option
-   `future.batchtools.delete` instead. For backward compatible
-   reasons, if R option `future.delete` sets option
-   `future.batchtools.delete` when the packages is loaded and the
+   `future.batchtools.delete` instead. For backward compatibility
+   reasons, R option `future.delete` sets option
+   `future.batchtools.delete` when the package is loaded, if the
    latter is not already set. If `future.delete` is FALSE, then
    `future.batchtools.delete` is set to `"never"`.  If `future.delete`
    is TRUE, then `future.batchtools.delete` is set to `"on-success"`.
@@ -142,7 +149,7 @@
 ## Bug Fixes
 
  * Attempts to cancel batchtools futures via `cancel()` would result
-   in "Interruption of futures require a backend implementing the
+   in "Interruption of futures requires a backend implementing the
    FutureBackend API". Until this package implements the new
    FutureBackend API of future (>= 1.40.0), any calls to `cancel()`
    will be silently ignored.
@@ -163,7 +170,7 @@
  * Improved performance of batchtools futures by avoiding re-checking
    the **batchtools** status if the **batchtools** job has already
    been observed to be resolved.  Checking the **batchtools** status
-   is fairly expense, especially since each status check queries a set
+   is fairly expensive, especially since each status check queries a set
    of files on the file system.
 
  * Improved performance of batchtools futures by making the removal of
@@ -182,7 +189,7 @@
  * `R_FUTURE_BATCHTOOLS_*` environment variables are now only read
    when the **future.batchtools** package is loaded, where they set
    the corresponding `future.batchtools*` option.  This is in line
-   with how all packages in the Futureverse works.
+   with how all packages in the Futureverse work.
    
  * Add `nbrOfFreeWorkers()` for batchtools futures.
    
@@ -198,11 +205,11 @@
    `batchtools_multicore` worker.
  
  * `print()` for BatchtoolsFuture now reports on the batchtools
-   configuration file (an R script) and the the batchtools job template
+   configuration file (an R script) and the batchtools job template
    file (a shell script) with info on location, file size, and number
    of lines, if they exist.
 
- * `run()` for BatchtoolsFuture now produce an informative
+ * `run()` for BatchtoolsFuture now produces an informative
    BatchtoolsFutureError in case `batchtools::submitJobs()` fails, for
    instance, due to invalid job-scheduler resource specifications.
  
@@ -254,7 +261,7 @@
 
 ## Significant Changes
 
- * Lazy batchtools futures only creates the internal **batchtools**
+ * Lazy batchtools futures only create the internal **batchtools**
    registry when the future is launched.
 
  * Removed S3 generic functions `await()`, `finished()`, and
@@ -448,9 +455,9 @@
  * The period between each poll of the scheduler to check whether a
    future (job) is finished or not now increases geometrically as a
    function of number of polls.  This lowers the load on the scheduler
-   for long running jobs.
+   for long-running jobs.
 
- * The error message for expired batchtools futures now include the
+ * The error message for expired batchtools futures now includes the
    last few lines of the logged output, which sometimes includes clues
    on why the future expired.  For instance, if a TORQUE/PBS job use
    more than the allocated amount of memory it might be terminated by

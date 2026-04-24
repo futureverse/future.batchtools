@@ -1,4 +1,4 @@
-#' batchtools SSH futures
+#' Batchtools SSH futures
 #'
 #' A batchtools SSH future is an asynchronous multiprocess
 #' future that will be evaluated in a background R session.\cr
@@ -13,7 +13,7 @@
 #' @return An object of class `BatchtoolsMulticoreFuture`.
 #'
 #' @details
-#' batchtools SSH futures rely on the batchtools backend set
+#' Batchtools SSH futures rely on the batchtools backend set
 #' up by [batchtools::makeClusterFunctionsSSH()].
 #' The batchtools SSH backend only works on operating systems
 #' supporting the `ssh` and `ps` command-line tool, e.g. Linux and macOS.
@@ -74,6 +74,8 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), fs.latency 
 #' A batchtools backend that resolves futures in parallel via background R sessions over SSH
 #'
 #' @inheritParams BatchtoolsSSHFutureBackend
+#'
+#' @return Nothing.
 #'
 #' @details
 #' The `batchtools_ssh` backend uses the batchtools backend set

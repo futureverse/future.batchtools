@@ -66,6 +66,9 @@ of queued jobs. The default is
 
 \item{\ldots}{Not used.}
 }
+\value{
+Nothing.
+}
 \description{
 A batchtools TORQUE backend resolves futures in parallel via a TORQUE/PBS job scheduler
 }
@@ -81,7 +84,7 @@ The default template script \code{templates/torque.tmpl} can be found in:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{system.file("templates", "torque.tmpl", package = "future.batchtools")
 }\if{html}{\out{</div>}}
 
-and comprise:
+and comprises:
 
 \if{html}{\out{<div class="sourceCode bash">}}\preformatted{#!/bin/bash
 ######################################################################
@@ -199,6 +202,9 @@ if ! command -v <\%= rscript[1] \%> &> /dev/null; then
     exit 1
 fi
 echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
+echo "- R_LIBS_USER=$\{R_LIBS_USER:-<n/a>\}"
+echo "- R_LIBS_SITE=$\{R_LIBS_SITE:-<n/a>\}"
+echo "- R_LIBS=$\{R_LIBS:-<n/a>\}"
 echo "- Rscript library paths: $(<\%= rscript_call \%> -e "cat(shQuote(.libPaths()), sep = ' ')")"
 echo
 
@@ -229,6 +235,12 @@ echo "End time: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 ## Relay the exit code from Rscript
 exit "$\{res\}"
 }\if{html}{\out{</div>}}
+
+This template and the built-in \code{\link[batchtools:makeClusterFunctionsTORQUE]{batchtools::makeClusterFunctionsTORQUE()}}
+have been verified to work on the following PBS/TORQUE HPC cluster;
+\enumerate{
+\item PBSPro 2024.1.2, Rocky 8 Linux, Lustre global filesystem (September 2025)
+}
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}

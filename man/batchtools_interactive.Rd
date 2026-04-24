@@ -26,6 +26,9 @@ If \code{"always"}, then it is always deleted.}
 
 \item{\ldots}{Not used.}
 }
+\value{
+Nothing.
+}
 \description{
 The batchtools interactive backend is useful for verifying parts of your
 \pkg{batchtools} setup locally, while still being able to do interactive

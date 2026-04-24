@@ -198,3 +198,13 @@ assert_no_positional_args_but_first <- function(call = sys.call(sys.parent())) {
     stopf("Function %s() requires that all arguments beyond the first one are passed by name and not by position: %s", as.character(call[[1L]]), deparse(call, width.cutoff = 100L))
   }
 }
+
+
+#' @importFrom utils packageVersion
+futureSupportsStateSubmitted <- local({
+  .value <- NA
+  function() {
+    if (is.na(.value)) .value <<- (packageVersion("future") > "1.67.0")
+    .value
+  }
+})

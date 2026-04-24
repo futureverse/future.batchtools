@@ -17,6 +17,8 @@ BatchtoolsLsfFutureBackend <- function(...) {
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
 #' Batchtools Load Sharing Facility (LSF) futures use \pkg{batchtools}
 #' cluster functions created by [batchtools::makeClusterFunctionsLSF()],
@@ -30,7 +32,7 @@ BatchtoolsLsfFutureBackend <- function(...) {
 #' system.file("templates", "lsf.tmpl", package = "future.batchtools")
 #' ```
 #'
-#' and comprise:
+#' and comprises:
 #'
 #' `r paste(c("\x60\x60\x60bash", readLines("inst/templates/lsf.tmpl"), "\x60\x60\x60"), collapse = "\n")`
 #'

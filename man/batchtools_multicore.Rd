@@ -30,6 +30,9 @@ If \code{"always"}, then it is always deleted.}
 
 \item{\ldots}{Not used.}
 }
+\value{
+Nothing.
+}
 \description{
 A batchtools backend that resolves futures in parallel via forked background R processes
 }
