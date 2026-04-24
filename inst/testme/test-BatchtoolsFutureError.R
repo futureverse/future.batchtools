@@ -2,6 +2,11 @@ library(future)
 
 message("*** BatchtoolsFutureError() ...")
 
+# 1. BatchtoolsFutureError class
+err <- future.batchtools::BatchtoolsFutureError("test error")
+stopifnot(inherits(err, "BatchtoolsFutureError"))
+stopifnot(inherits(err, "FutureError"))
+
 for (delete in c("never", "always")) {
   mprintf("*** batchtools future error w/ delete = %s ...\n", delete)
 
