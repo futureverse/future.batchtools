@@ -114,19 +114,19 @@ stopifnot(future.batchtools:::commaq(1:3) == "'1', '2', '3'")
 tmp_file <- tempfile()
 writeLines("test", tmp_file)
 info <- future.batchtools:::file_info(tmp_file)
-stopifnot(grepl("bytes", info))
-stopifnot(grepl("lines", info))
+stopifnot(grepl("bytes", info, fixed = TRUE))
+stopifnot(grepl("lines", info, fixed = TRUE))
 unlink(tmp_file)
 
 info_na <- future.batchtools:::file_info(NA)
 stopifnot(info_na == "<NA>")
 
 info_non <- future.batchtools:::file_info("non-existing")
-stopifnot(grepl("non-existing", info_non))
+stopifnot(grepl("non-existing", info_non, fixed = TRUE))
 
 tmp_dir <- tempdir()
 info_dir <- future.batchtools:::dir_info(tmp_dir)
-stopifnot(grepl(tmp_dir, info_dir))
+stopifnot(grepl(tmp_dir, info_dir, fixed = TRUE))
 
 # capture_output
 out <- future.batchtools:::capture_output(cat("hello\nworld"))
