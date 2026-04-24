@@ -66,6 +66,9 @@ of queued jobs. The default is
 
 \item{\ldots}{Not used.}
 }
+\value{
+Nothing.
+}
 \description{
 A batchtools LSF backend resolves futures in parallel via a Load Sharing Facility (LSF) job scheduler
 }

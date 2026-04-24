@@ -25,6 +25,8 @@ print.BatchtoolsSGEFutureBackend <- function(x, ...) {
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
 #' Batchtools SGE futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsSGE()], which are used

@@ -75,6 +75,8 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), fs.latency 
 #'
 #' @inheritParams BatchtoolsSSHFutureBackend
 #'
+#' @return Nothing.
+#'
 #' @details
 #' The `batchtools_ssh` backend uses the batchtools backend set
 #' up by [batchtools::makeClusterFunctionsSSH()], which requires

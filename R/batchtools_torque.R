@@ -16,6 +16,8 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
 #' Batchtools TORQUE/PBS futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsTORQUE()], which are used

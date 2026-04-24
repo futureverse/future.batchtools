@@ -17,6 +17,8 @@ BatchtoolsLsfFutureBackend <- function(...) {
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
 #' Batchtools Load Sharing Facility (LSF) futures use \pkg{batchtools}
 #' cluster functions created by [batchtools::makeClusterFunctionsLSF()],

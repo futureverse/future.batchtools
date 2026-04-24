@@ -59,6 +59,8 @@ If \code{"always"}, then it is always deleted.}
 \item{\ldots}{Not used.}
 }
 \value{
+Nothing.
+
 \code{makeClusterFunctionsBash()} returns a
 \link[batchtools:makeClusterFunctions]{ClusterFunctions} object.
 }

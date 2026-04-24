@@ -76,6 +76,8 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
 #' Batchtools multicore futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsMulticore()] with

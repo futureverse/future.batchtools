@@ -40,6 +40,8 @@ BatchtoolsBashFutureBackend <- function(..., template = "bash", fs.latency = 0.0
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
 #' Batchtools Bash futures use \pkg{batchtools} cluster functions
 #' created by [makeClusterFunctionsBash()] and requires that `bash` is

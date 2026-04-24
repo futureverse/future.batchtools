@@ -26,6 +26,8 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
 #' Batchtools Slurm futures use \pkg{batchtools} cluster functions
 #' created by [makeClusterFunctionsSlurm2()], which are used

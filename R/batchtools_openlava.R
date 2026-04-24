@@ -17,6 +17,8 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
 #' Batchtools OpenLava futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsOpenLava()], which are used

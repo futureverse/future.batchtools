@@ -66,6 +66,9 @@ of queued jobs. The default is
 
 \item{\ldots}{Not used.}
 }
+\value{
+Nothing.
+}
 \description{
 A batchtools Slurm backend resolves futures in parallel via a Slurm job scheduler
 }

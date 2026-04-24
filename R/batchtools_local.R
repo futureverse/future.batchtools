@@ -65,6 +65,8 @@ BatchtoolsLocalFutureBackend <- function(fs.latency = 0.0, ...) {
 #'
 #' @param \ldots Not used.
 #'
+#' @return Nothing.
+#'
 #' @details
 #' Batchtools local futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsInteractive()] with

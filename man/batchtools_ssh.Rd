@@ -32,6 +32,9 @@ successfully \emph{and} the expression did not produce an error.
 If \code{"never"}, then it is never deleted.
 If \code{"always"}, then it is always deleted.}
 }
+\value{
+Nothing.
+}
 \description{
 A batchtools backend that resolves futures in parallel via background R sessions over SSH
 }
