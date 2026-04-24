@@ -34,8 +34,8 @@
 #'     \pkg{batchtools} registry folders are stored.
 #'     This folder needs to be accessible from all hosts ("workers").
 #'     Specifically, it must _not_ be a folder that is only local to the
-#'     machine such as `file.path(tempdir(), ".future"` if an job scheduler
-#'     on a HPC environment is used.
+#'     machine such as `file.path(tempdir(), ".future"` if a job scheduler
+#'     on an HPC environment is used.
 #'     (Default: `.future` in the current working directory)}
 #'
 #'   \item{\option{future.batchtools.delete}:}{(character string)

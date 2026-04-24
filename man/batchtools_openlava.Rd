@@ -2,7 +2,7 @@
 % Please edit documentation in R/batchtools_openlava.R
 \name{batchtools_openlava}
 \alias{batchtools_openlava}
-\title{A batchtools OpenLava backend resolves futures in parallel via a OpenLava job scheduler}
+\title{A batchtools OpenLava backend resolves futures in parallel via an OpenLava job scheduler}
 \usage{
 batchtools_openlava(
   ...,
@@ -70,7 +70,7 @@ of queued jobs. The default is
 Nothing.
 }
 \description{
-A batchtools OpenLava backend resolves futures in parallel via a OpenLava job scheduler
+A batchtools OpenLava backend resolves futures in parallel via an OpenLava job scheduler
 }
 \details{
 Batchtools OpenLava futures use \pkg{batchtools} cluster functions

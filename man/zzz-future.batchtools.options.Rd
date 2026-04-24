@@ -49,8 +49,8 @@ An absolute or relative path specifying the root folder in which
 \pkg{batchtools} registry folders are stored.
 This folder needs to be accessible from all hosts ("workers").
 Specifically, it must \emph{not} be a folder that is only local to the
-machine such as \verb{file.path(tempdir(), ".future"} if an job scheduler
-on a HPC environment is used.
+machine such as \verb{file.path(tempdir(), ".future"} if a job scheduler
+on an HPC environment is used.
 (Default: \code{.future} in the current working directory)}
 
 \item{\option{future.batchtools.delete}:}{(character string)
