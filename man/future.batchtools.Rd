@@ -36,4 +36,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Henrik Bengtsson \email{henrikb@braju.com} (\href{https://orcid.org/0000-0002-7579-5165}{ORCID}) [copyright holder]
 
+Authors:
+\itemize{
+  \item Henrik Bengtsson \email{henrikb@braju.com} (\href{https://orcid.org/0000-0002-7579-5165}{ORCID}) [copyright holder]
+}
+
 }

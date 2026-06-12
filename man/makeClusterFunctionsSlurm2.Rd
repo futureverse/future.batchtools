@@ -45,7 +45,7 @@ access files and directories.
 Usually safe to set to \code{0} to disable the heuristic, e.g. if you are working on a local file system.}
 }
 \value{
-A \link[batchtools:makeClusterFunctions]{batchtools::ClusterFunctions} object.
+A \link[batchtools:ClusterFunctions]{batchtools::ClusterFunctions} object.
 }
 \description{
 This function enhances \code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}} with

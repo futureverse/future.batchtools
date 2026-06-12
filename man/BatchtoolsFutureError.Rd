@@ -7,7 +7,7 @@
 BatchtoolsFutureError(...)
 }
 \arguments{
-\item{\ldots}{Arguments passed to \link[future:FutureCondition]{FutureError}.}
+\item{\ldots}{Arguments passed to \link[future:FutureError]{FutureError}.}
 }
 \description{
 FutureError class for errors related to BatchtoolsFutures

@@ -101,7 +101,7 @@ Usually safe to set to \code{0} to disable the heuristic, e.g. if you are workin
 \item{\ldots}{Additional arguments passed to \code{\link[=BatchtoolsFutureBackend]{BatchtoolsFutureBackend()}}.}
 }
 \value{
-A \link[future:FutureBackend-class]{future::FutureBackend} object of class BatchtoolsFutureBackend
+A \link[future:FutureBackend]{future::FutureBackend} object of class BatchtoolsFutureBackend
 
 An object of class \code{BatchtoolsFuture}.
 

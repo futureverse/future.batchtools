@@ -61,19 +61,18 @@
 #' # Set an R option:
 #' options(future.cache.path = "/cluster-wide/folder/.future")
 #'
-#' @aliases
-#' future.batchtools.options
+#' @aliases future.batchtools.options
 #'
-#' future.batchtools.delete
-#' future.batchtools.expiration.tail
-#' future.batchtools.output
-#' future.batchtools.workers
+#' @aliases future.batchtools.delete
+#' @aliases future.batchtools.expiration.tail
+#' @aliases future.batchtools.output
+#' @aliases future.batchtools.workers
 #'
-#' R_FUTURE_CACHE_PATH
-#' R_FUTURE_BATCHTOOLS_DELETE
-#' R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL
-#' R_FUTURE_BATCHTOOLS_OUTPUT
-#' R_FUTURE_BATCHTOOLS_WORKERS
+#' @aliases R_FUTURE_CACHE_PATH
+#' @aliases R_FUTURE_BATCHTOOLS_DELETE
+#' @aliases R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL
+#' @aliases R_FUTURE_BATCHTOOLS_OUTPUT
+#' @aliases R_FUTURE_BATCHTOOLS_WORKERS
 #'
 #' @name zzz-future.batchtools.options
 NULL
