@@ -246,7 +246,7 @@ exit "$\{res\}"
 This template and the built-in \code{\link[batchtools:makeClusterFunctionsSGE]{batchtools::makeClusterFunctionsSGE()}}
 have been verified to work on a few different Grid Engine HPC clusters;
 \enumerate{
-\item SGE 8.1.9 (Son of Grid Engine), Rocky 8 Linux, BeeGFS global filesystem (August 2025)
+\item SGE 8.1.9 (Son of Grid Engine), Rocky 8 Linux, BeeGFS global filesystem, UCSF Wynton HPC environment (June 2026)
 \item AGE 2024.1.0 (8.9.0), Rocky 9 Linux, NSF global filesystem (August 2025)
 }
 }

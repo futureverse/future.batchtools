@@ -235,17 +235,17 @@ exit "$\{res\}"
 This template and the built-in \code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}
 have been verified to work on a few different Slurm HPC clusters;
 \enumerate{
-\item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (September 2025)
+\item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem, UCSF C4 HPC environment (June 2026)
 \item Slurm 22.05.10, Rocky Linux 9, Lustre global filesystem (September 2025)
 \item Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (September 2025)
-\item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (September 2025)
+\item Slurm 23.11.4, Ubuntu 24.04 LTS, NFS global filesystem, UC Berkeley SCF HPC environment (June 2026)
 \item Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)*
-\item Slurm 24.11.5, Rocky Linux 9, VAST global filesystem (February 2026)
+\item Slurm 24.11.5, Rocky Linux 9, VAST global filesystem, UCSF CoreHPC environment (June 2026)
 }
 
 (*) Verified with \strong{future.batchtools} 0.20.0, which used
-\code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}, which the new
-\code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}} enhances.
+\code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}} since superseeded by
+\code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
