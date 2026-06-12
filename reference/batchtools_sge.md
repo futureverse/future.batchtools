@@ -272,7 +272,7 @@ This template and the built-in
 have been verified to work on a few different Grid Engine HPC clusters;
 
 1.  SGE 8.1.9 (Son of Grid Engine), Rocky 8 Linux, BeeGFS global
-    filesystem (August 2025)
+    filesystem, UCSF Wynton HPC environment (June 2026)
 
 2.  AGE 2024.1.0 (8.9.0), Rocky 9 Linux, NSF global filesystem (August
     2025)
