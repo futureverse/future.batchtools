@@ -32,6 +32,15 @@ Authors:
 - Henrik Bengtsson <henrikb@braju.com>
   ([ORCID](https://orcid.org/0000-0002-7579-5165)) \[copyright holder\]
 
+Other contributors:
+
+- Michel Lang ([ORCID](https://orcid.org/0000-0001-9754-0393)) (Code
+  adapted from the 'batchtools' package) \[contributor, copyright
+  holder\]
+
+- Bernd Bischl (Code adapted from the 'batchtools' package)
+  \[contributor, copyright holder\]
+
 ## Examples
 
 ``` r

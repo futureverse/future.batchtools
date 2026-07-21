@@ -5,6 +5,13 @@
 - **Henrik Bengtsson**. Author, maintainer, copyright holder.
   [](https://orcid.org/0000-0002-7579-5165)
 
+- **Michel Lang**. Contributor, copyright holder.
+  [](https://orcid.org/0000-0001-9754-0393)\
+  Code adapted from the 'batchtools' package
+
+- **Bernd Bischl**. Contributor, copyright holder.\
+  Code adapted from the 'batchtools' package
+
 ## Citation
 
 Source:
