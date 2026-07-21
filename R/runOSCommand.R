@@ -1,3 +1,4 @@
+## SPDX-License-Identifier: LGPL-3.0-or-later
 ## This function is adapted from the 'batchtools' package
 ## (https://cran.r-project.org/package=batchtools)
 ## which is licensed under the LGPL (>= 3)

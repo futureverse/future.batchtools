@@ -1,5 +1,5 @@
 Package: future.batchtools
-Version: 0.22.0-9004
+Version: 0.22.0-9101
 Depends:
     R (>= 3.2.0),
     future (>= 1.58.0)
@@ -21,14 +21,22 @@ Title: A Future API for Parallel and Distributed Processing using 'batchtools'
 Authors@R: c(person("Henrik", "Bengtsson",
                     role = c("aut", "cre", "cph"),
                     email = "henrikb@braju.com",
-                    comment = c(ORCID = "0000-0002-7579-5165")))
+                    comment = c(ORCID = "0000-0002-7579-5165")),
+             person("Michel", "Lang",
+                    role = c("ctb", "cph"),
+                    comment = c("Code adapted from the 'batchtools' package",
+                                ORCID = "0000-0001-9754-0393")),
+             person("Bernd", "Bischl",
+                    role = c("ctb", "cph"),
+                    comment = "Code adapted from the 'batchtools' package"))
 Description: Implementation of the Future API <doi:10.32614/RJ-2021-048> on top of the 'batchtools' package.
     This allows you to process futures, as defined by the 'future' package,
     in parallel out of the box, not only on your local machine or ad-hoc
     cluster of machines, but also via high-performance compute ('HPC') job
     schedulers such as 'LSF', 'OpenLava', 'Slurm', 'SGE', and 'TORQUE' / 'PBS',
     e.g. 'y <- lapply(files, FUN = process) |> futurize::futurize()'.
-License: LGPL (>= 2.1)
+License: LGPL (>= 3)
+Copyright: file inst/COPYRIGHTS
 LazyLoad: TRUE
 URL: https://future.batchtools.futureverse.org, https://github.com/futureverse/future.batchtools
 BugReports: https://github.com/futureverse/future.batchtools/issues

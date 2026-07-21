@@ -41,4 +41,10 @@ Authors:
   \item Henrik Bengtsson \email{henrikb@braju.com} (\href{https://orcid.org/0000-0002-7579-5165}{ORCID}) [copyright holder]
 }
 
+Other contributors:
+\itemize{
+  \item Michel Lang (\href{https://orcid.org/0000-0001-9754-0393}{ORCID}) (Code adapted from the 'batchtools' package) [contributor, copyright holder]
+  \item Bernd Bischl (Code adapted from the 'batchtools' package) [contributor, copyright holder]
+}
+
 }

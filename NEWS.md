@@ -1,7 +1,11 @@
 # Version (development version)
 
- * ...
+## Significant Changes
 
+ * Update the license to LGPL (>= 3) and clarify that the majority of
+   the source code, with the exception of two files, are dual licensed
+   under Apache License (>= 2).
+   
 
 # Version 0.22.0 [2026-04-24]
 
