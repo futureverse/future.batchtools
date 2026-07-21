@@ -1,3 +1,6 @@
+## This function is adapted from the 'batchtools' package
+## (https://cran.r-project.org/package=batchtools)
+## which is licensed under the LGPL (>= 3)
 #' @importFrom checkmate assertCharacter assertString %??%
 #' @importFrom stringi stri_replace_all_fixed stri_flatten
 runOSCommand = function(sys.cmd, sys.args = character(0L), stdin = "", stdout = TRUE, stderr = TRUE, nodename = "localhost") {
