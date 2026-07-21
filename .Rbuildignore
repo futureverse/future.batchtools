@@ -3,7 +3,7 @@
 ^incl/
 ^pkgdown/
 ^revdep/
-^LICENSE$
+^LICENSE
 ^INSTALL[.]md$
 ^OVERVIEW[.]md$
 ^README[.]md$
