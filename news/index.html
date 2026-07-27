@@ -104,8 +104,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-21-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-21-0"></a></h3>
-<p><code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> would produce “Future of class BatchtoolsSlurmFuture expired, which indicates that it crashed or was killed” errors on some Slurm clusters. We believe this happened because a recently submitted future job would not immediately show up on the job queue, which caused <strong>future.batchtools</strong> to incorrectly conclude that the job had already finished, but without producing any results. <code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> now uses the new <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>, which does a better job inferring whether a job is queued or not.</p>
-</div>
+<ul><li>
+<code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> would produce “Future of class BatchtoolsSlurmFuture expired, which indicates that it crashed or was killed” errors on some Slurm clusters. We believe this happened because a recently submitted future job would not immediately show up on the job queue, which caused <strong>future.batchtools</strong> to incorrectly conclude that the job had already finished, but without producing any results. <code><a href="../reference/batchtools_slurm.html">batchtools_slurm()</a></code> now uses the new <code><a href="../reference/makeClusterFunctionsSlurm2.html">makeClusterFunctionsSlurm2()</a></code>, which does a better job inferring whether a job is queued or not.</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.20.0" id="version-0200">Version 0.20.0<a class="anchor" aria-label="anchor" href="#version-0200"></a></h2><p class="text-muted">CRAN release: 2025-08-25</p>

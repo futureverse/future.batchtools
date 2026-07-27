@@ -1,0 +1,21 @@
+# NA
+
+The future.batchtools package as a whole is distributed under the terms
+of the GNU Lesser General Public License (LGPL), version 3 or later.
+
+The majority of the code in this package, authored by Henrik Bengtsson,
+is in addition also made available under the Apache License, version
+2.0.
+
+Specific portions of this package were adapted from the ‘batchtools’
+package (<https://cran.r-project.org/package=batchtools>), which is
+licensed under the LGPL (\>= 3). Specifically, the following files are
+adapted from ‘batchtools’ and remain under the LGPL (\>= 3):
+
+- R/makeClusterFutureSlurm2.R
+- R/runOSCommand.R
+
+See inst/COPYRIGHTS for details, and
+<https://www.gnu.org/licenses/lgpl-3.0.html> and
+<https://www.apache.org/licenses/LICENSE-2.0> for the full license
+texts.
