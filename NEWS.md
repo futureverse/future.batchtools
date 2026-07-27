@@ -53,15 +53,15 @@
 
 ## Bug Fixes
 
-  `batchtools_slurm()` would produce "Future of class
-  BatchtoolsSlurmFuture expired, which indicates that it crashed or
-  was killed" errors on some Slurm clusters. We believe this happened
-  because a recently submitted future job would not immediately show
-  up on the job queue, which caused **future.batchtools** to
-  incorrectly conclude that the job had already finished, but without
-  producing any results. `batchtools_slurm()` now uses the new
-  `makeClusterFunctionsSlurm2()`, which does a better job inferring
-  whether a job is queued or not.
+ * `batchtools_slurm()` would produce "Future of class
+   BatchtoolsSlurmFuture expired, which indicates that it crashed or
+   was killed" errors on some Slurm clusters. We believe this happened
+   because a recently submitted future job would not immediately show
+   up on the job queue, which caused **future.batchtools** to
+   incorrectly conclude that the job had already finished, but without
+   producing any results. `batchtools_slurm()` now uses the new
+   `makeClusterFunctionsSlurm2()`, which does a better job inferring
+   whether a job is queued or not.
 
 
 # Version 0.20.0 [2025-08-25]
