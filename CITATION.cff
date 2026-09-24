@@ -1,0 +1,48 @@
+# ------------------------------------------------
+# CITATION.cff file created with {cffr} R package
+# See also: https://docs.ropensci.org/cffr/
+# ------------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "future.batchtools" in publications use:'
+type: software
+license: LGPL-3.0-or-later
+title: 'future.batchtools: A Future API for Parallel and Distributed Processing using
+  ''batchtools'''
+doi: 10.32614/CRAN.package.future.batchtools
+abstract: Implementation of the Future API <https://doi.org/10.32614/RJ-2021-048>
+  on top of the 'batchtools' package. This allows you to process futures, as defined
+  by the 'future' package, in parallel out of the box, not only on your local machine
+  or ad-hoc cluster of machines, but also via high-performance compute ('HPC') job
+  schedulers such as 'LSF', 'OpenLava', 'Slurm', 'SGE', and 'TORQUE' / 'PBS', e.g.
+  'y <- lapply(files, FUN = process) |> futurize::futurize()'.
+authors:
+- family-names: Bengtsson
+  given-names: Henrik
+  email: henrikb@braju.com
+  orcid: https://orcid.org/0000-0002-7579-5165
+preferred-citation:
+  type: article
+  title: A Unifying Framework for Parallel and Distributed Processing in R using Futures
+  authors:
+  - family-names: Bengtsson
+    given-names: Henrik
+    email: henrikb@braju.com
+    orcid: https://orcid.org/0000-0002-7579-5165
+  year: '2021'
+  journal: The R Journal
+  doi: 10.32614/RJ-2021-048
+  url: https://doi.org/10.32614/RJ-2021-048
+  volume: '13'
+  issue: '2'
+  start: '208'
+  end: '227'
+repository: https://CRAN.R-project.org/package=future.batchtools
+repository-code: https://github.com/futureverse/future.batchtools
+url: https://future.batchtools.futureverse.org
+contact:
+- family-names: Bengtsson
+  given-names: Henrik
+  email: henrikb@braju.com
+  orcid: https://orcid.org/0000-0002-7579-5165
+

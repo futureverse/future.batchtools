@@ -16,3 +16,4 @@ Rplots[.]pdf$
 ^.*[.]tar[.]gz$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^CITATION\.cff$
