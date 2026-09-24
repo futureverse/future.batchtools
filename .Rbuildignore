@@ -7,8 +7,6 @@
 ^INSTALL[.]md$
 ^OVERVIEW[.]md$
 ^README[.]md$
-^CONDUCT[.]md$
-^CONTRIBUTING[.]md$
 Rplots[.]pdf$
 ^cran-comments[.].*$
 ^vignettes/.*[.](pdf|PDF)$
