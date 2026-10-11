@@ -384,7 +384,7 @@ CRAN release: 2020-04-14
   option `future.cache.path` or environment variable
   `R_FUTURE_CACHE_PATH`.
 
-- [`batchtools_custom()`](https://future.batchtools.futureverse.org/reference/BatchtoolsMulticoreFutureBackend.md)
+- [`batchtools_custom()`](https://future.batchtools.futureverse.org/reference/BatchtoolsFutureBackend.md)
   and BatchtoolsFuture gained argument `conf.file`. Using
   `plan(future.batchtools::batchtools_custom)` will now use any
   **batchtools** configuration file (an R script) found on the
@@ -549,7 +549,7 @@ CRAN release: 2017-06-03
 ### New Features
 
 - Added
-  [`batchtools_custom()`](https://future.batchtools.futureverse.org/reference/BatchtoolsMulticoreFutureBackend.md)
+  [`batchtools_custom()`](https://future.batchtools.futureverse.org/reference/BatchtoolsFutureBackend.md)
   for specifying batchtools futures using any type of batchtools cluster
   functions.
 
