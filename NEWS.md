@@ -14,6 +14,9 @@
  * Argument 'delete' for BatchtoolsFutureBackend() used the wrong R
    option as the default.
    
+ * The deletion of batchtools futures silently did not produce an
+   error if it failed to remove the registry folder.
+   
 
 # Version 0.22.0 [2026-04-24]
 

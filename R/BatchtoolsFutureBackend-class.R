@@ -1136,9 +1136,9 @@ delete.BatchtoolsFuture <- function(future,
     if (onFailure %in% c("warning", "error")) {
       msg <- sprintf("Failed to remove batchtools registry: %s", sQuote(path))
       if (debug) mdebugf("delete(): %s", msg)
-      if (onMissing == "warning") {
+      if (onFailure == "warning") {
         warning(msg)
-      } else if (onMissing == "error") {
+      } else if (onFailure == "error") {
         stop(BatchtoolsFutureError(msg, future = future))
       }
     }
