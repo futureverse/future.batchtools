@@ -5,6 +5,11 @@
  * Update the license to LGPL (>= 3) and clarify that the majority of
    the source code, with the exception of two files, are dual licensed
    under Apache License (>= 2).
+
+## Bug Fixes
+
+ * Argument 'delete' for BatchtoolsFutureBackend() used the wrong R
+   option as the default.
    
 
 # Version 0.22.0 [2026-04-24]

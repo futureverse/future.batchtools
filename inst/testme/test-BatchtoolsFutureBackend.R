@@ -101,4 +101,14 @@ if (!is_os("windows")) {
   }
 }
 
+# 8. Argument 'delete' defaults
+cf <- batchtools::makeClusterFunctionsInteractive(external = TRUE)
+b <- future.batchtools::BatchtoolsFutureBackend(cluster.functions = cf)
+stopifnot(identical(b$delete, "on-success"))
+
+oopts <- options(future.batchtools.delete = "never")
+b <- future.batchtools::BatchtoolsFutureBackend(cluster.functions = cf)
+stopifnot(identical(b$delete, "never"))
+options(oopts)
+
 message("*** BatchtoolsFutureBackend() ... DONE")

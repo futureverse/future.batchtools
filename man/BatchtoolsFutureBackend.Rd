@@ -21,7 +21,7 @@ BatchtoolsFutureBackend(
   registry = list(),
   conf.file = findConfFile(),
   interrupts = TRUE,
-  delete = getOption("future.batchtools.debug", "on-success"),
+  delete = getOption("future.batchtools.delete", "on-success"),
   ...
 )
 
