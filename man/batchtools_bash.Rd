@@ -128,7 +128,9 @@ exec > <\%= log.file \%> 2>&1
 
   ## Maximum runtime?
   timeout <- resources[["timeout"]]
+  if (is.null(timeout)) timeout <- resources[["runtime"]]
   resources[["timeout"]] <- NULL
+  resources[["runtime"]] <- NULL
   if (length(timeout) > 0) \{
       rscript <- c("timeout", timeout, rscript)
   \}

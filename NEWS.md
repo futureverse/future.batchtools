@@ -11,13 +11,15 @@
   * For `batchtools_slurm`, the `sacct` fallback to query job statuses
     when not showing up in `squeue` never happened due to a thinko.
 
+ * `batchtools_multicore()` ignored argument 'delete'.
+   
+ * `batchtools_bash()` ignored 'resources' field 'runtime'.
+   
  * Argument 'delete' for BatchtoolsFutureBackend() used the wrong R
    option as the default.
    
  * The deletion of batchtools futures silently did not produce an
    error if it failed to remove the registry folder.
-   
- * `batchtools_multicore()` ignored argument 'delete'.
    
  * Waiting for an available worker with a timeout greater than 60
    seconds could take much longer than that.
