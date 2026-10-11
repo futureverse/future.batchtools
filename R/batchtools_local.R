@@ -72,7 +72,7 @@ BatchtoolsLocalFutureBackend <- function(fs.latency = 0.0, ...) {
 #' created by [batchtools::makeClusterFunctionsInteractive()] with
 #' `external = TRUE`.
 #'
-#' An alternative to the batchtools interactive backend is to use
+#' An alternative to the batchtools local backend is to use
 #' `plan(future::cluster, workers = I(1))`.
 #'
 #' @examples
