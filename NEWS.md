@@ -17,6 +17,8 @@
  * The deletion of batchtools futures silently did not produce an
    error if it failed to remove the registry folder.
    
+ * `batchtools_multicore()` ignored argument 'delete'.
+   
 
 # Version 0.22.0 [2026-04-24]
 
