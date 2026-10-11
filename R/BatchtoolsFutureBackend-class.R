@@ -555,8 +555,8 @@ status <- function(future, ...) {
 
   ## Optionally filter by the scheduler's job ID, if it exists
   batch_id <- reg[["status"]][["batch.id"]]
-  if (!is.null(batch_id) && inherits(future, "BatchtoolsTemplateFutureBackend")) {
-    if (!is.character(batch_id) || length(batch_id) != 1L || is.na(batch_id) || !nzchar(batch_id) || !grepl("^[[:digit:].]+$", batch_id)) {
+  if (!is.null(batch_id) && !is.na(batch_id) && inherits(future, "BatchtoolsTemplateFuture") && !inherits(future, "BatchtoolsBashFuture")) {
+    if (!is.character(batch_id) || length(batch_id) != 1L || !nzchar(batch_id) || !grepl("^[[:digit:].]+$", batch_id)) {
       stop(sprintf("Unknown value of 'batch.id': [class=%s] %s", class(batch_id)[1], paste(sQuote(batch_id), collapse = ", ")))
     }
   

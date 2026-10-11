@@ -8,6 +8,9 @@
 
 ## Bug Fixes
 
+  * For `batchtools_slurm`, the `sacct` fallback to query job statuses
+    when not showing up in `squeue` never happened due to a thinko.
+
  * Argument 'delete' for BatchtoolsFutureBackend() used the wrong R
    option as the default.
    
