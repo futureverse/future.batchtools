@@ -19,6 +19,9 @@
    
  * `batchtools_multicore()` ignored argument 'delete'.
    
+ * Waiting for an available worker with a timeout greater than 60
+   seconds could take much longer than that.
+   
 
 # Version 0.22.0 [2026-04-24]
 
