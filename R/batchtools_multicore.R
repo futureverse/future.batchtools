@@ -26,7 +26,6 @@
 #'
 #' @keywords internal
 #'
-#' @aliases batchtools_custom
 #' @importFrom batchtools makeClusterFunctionsMulticore
 #' @importFrom parallelly availableCores supportsMulticore
 #' @importFrom tools pskill

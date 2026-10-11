@@ -2,7 +2,6 @@
 % Please edit documentation in R/batchtools_multicore.R
 \name{BatchtoolsMulticoreFutureBackend}
 \alias{BatchtoolsMulticoreFutureBackend}
-\alias{batchtools_custom}
 \title{Batchtools multicore futures}
 \usage{
 BatchtoolsMulticoreFutureBackend(

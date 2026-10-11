@@ -35,6 +35,7 @@
 #' @rdname BatchtoolsFutureBackend
 #' @keywords internal
 #'
+#' @aliases batchtools_custom
 #' @export
 #' @importFrom batchtools findConfFile
 BatchtoolsCustomFutureBackend <- function(...) {

@@ -7,6 +7,7 @@
 \alias{BatchtoolsUniprocessFutureBackend}
 \alias{BatchtoolsMultiprocessFutureBackend}
 \alias{BatchtoolsCustomFutureBackend}
+\alias{batchtools_custom}
 \alias{BatchtoolsInteractiveFutureBackend}
 \alias{BatchtoolsLocalFutureBackend}
 \alias{BatchtoolsBashFutureBackend}
@@ -106,8 +107,6 @@ A \link[future:FutureBackend]{future::FutureBackend} object of class BatchtoolsF
 An object of class \code{BatchtoolsFuture}.
 
 An object of class \code{BatchtoolsUniprocessFuture}.
-
-An object of class \code{BatchtoolsMulticoreFuture}.
 }
 \description{
 A batchtools local future is a synchronous uniprocess future that

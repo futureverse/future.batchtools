@@ -10,8 +10,6 @@
 #' @inheritParams BatchtoolsFutureBackend
 #' @inheritParams batchtools::makeClusterFunctions
 #'
-#' @return An object of class `BatchtoolsMulticoreFuture`.
-#'
 #' @details
 #' Batchtools SSH futures rely on the batchtools backend set
 #' up by [batchtools::makeClusterFunctionsSSH()].
@@ -86,8 +84,6 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), fs.latency 
 #' [cluster][future::cluster] futures of the \pkg{future}
 #' package with a single local background session, i.e.
 #' `plan(cluster, workers = c("localhost"))`.
-#'
-#' @inheritParams BatchtoolsSSHFutureBackend
 #'
 #' @keywords internal
 #' @export
