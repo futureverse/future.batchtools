@@ -5,34 +5,32 @@
 Here is an example of how to evaluate R expressions on a Slurm
 high-performance computing (HPC) cluster from within R.
 
-``` r
-
-library(future)
-
-# Limit runtime to 10 minutes and memory to 400 MiB per future,
-# request a parallel environment with four slots on a single host.
-# On this system, R is available via environment module 'r'. By
-# specifying 'r/4.5', 'module load r/4.5' will be added to
-# the submitted job script.
-plan(future.batchtools::batchtools_slurm, resources = list(
-  time = "00:10:00", mem = "400M", nodes = 1, ntasks = 4,
-  modules = c("r/4.5")
-))
-
-# Give it a spin
-f <- future({
-  data.frame(
-    hostname = Sys.info()[["nodename"]],
-          os = Sys.info()[["sysname"]],
-       cores = unname(parallelly::availableCores()),
-     modules = Sys.getenv("LOADEDMODULES")
-  )
-})
-info <- value(f)
-print(info)
-#>   hostname    os cores  modules
-#> 1      n12 Linux     4  r/4.5.2
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`future`](https://future.futureverse.org)`)`\
+\
+`# Limit runtime to 10 minutes and memory to 400 MiB per future,`\
+`# request a parallel environment with four slots on a single host.`\
+`# On this system, R is available via environment module 'r'. By`\
+`# specifying 'r/4.5', 'module load r/4.5' will be added to`\
+`# the submitted job script.`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`, resources ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(`\
+`  time ``=`` ``"00:10:00"``, mem ``=`` ``"400M"``, nodes ``=`` ``1``, ntasks ``=`` ``4``,`\
+`  modules ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"r/4.5"``)`\
+`)``)`\
+\
+`# Give it a spin`\
+`f`` ``<-`` `[`future`](https://future.futureverse.org/reference/future.html)`(``{`\
+`  `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`\
+`    hostname ``=`` `[`Sys.info`](https://rdrr.io/r/base/Sys.info.html)`(``)``[[``"nodename"``]``]``,`\
+`          os ``=`` `[`Sys.info`](https://rdrr.io/r/base/Sys.info.html)`(``)``[[``"sysname"``]``]``,`\
+`       cores ``=`` `[`unname`](https://rdrr.io/r/base/unname.html)`(``parallelly``::`[`availableCores`](https://parallelly.futureverse.org/reference/availableCores.html)`(``)``)``,`\
+`     modules ``=`` `[`Sys.getenv`](https://rdrr.io/r/base/Sys.getenv.html)`(``"LOADEDMODULES"``)`\
+`  ``)`\
+`}``)`\
+`info`` ``<-`` `[`value`](https://future.futureverse.org/reference/value.html)`(``f``)`\
+[`print`](https://rdrr.io/r/base/print.html)`(``info``)`\
+`#>   hostname    os cores  modules`\
+`#> 1      n12 Linux     4  r/4.5.2`
 
 ## Introduction
 
@@ -59,18 +57,16 @@ For instance, the following two future R expressions will be processed
 by parallel R workers launched on different compute nodes by the
 specified job scheduler:
 
-``` r
-
-library(future)
-plan(future.batchtools::batchtools_slurm)
-
-f_x <- future({ Sys.sleep(5); 3.14 })
-f_y <- future({ Sys.sleep(5); 2.71 })
-x <- value(f_x)
-y <- value(f_y)
-x + y
-#> [1] 5.85
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`future`](https://future.futureverse.org)`)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`)`\
+\
+`f_x`` ``<-`` `[`future`](https://future.futureverse.org/reference/future.html)`(``{`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``5``)``; ``3.14`` ``}``)`\
+`f_y`` ``<-`` `[`future`](https://future.futureverse.org/reference/future.html)`(``{`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``5``)``; ``2.71`` ``}``)`\
+`x`` ``<-`` `[`value`](https://future.futureverse.org/reference/value.html)`(``f_x``)`\
+`y`` ``<-`` `[`value`](https://future.futureverse.org/reference/value.html)`(``f_y``)`\
+`x`` ``+`` ``y`\
+`#> [1] 5.85`
 
 This is just a toy example to illustrate what futures look like and how
 to work with them.
@@ -88,12 +84,10 @@ planes. The demo does not assume anything about what type of futures are
 used. *The user has full control of how futures are evaluated*. For
 instance, to use local batchtools futures, run the demo as:
 
-``` r
-
-library(future)
-plan(future.batchtools::batchtools_local)
-demo("mandelbrot", package = "future", ask = FALSE)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`future`](https://future.futureverse.org)`)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_local`](https://future.batchtools.futureverse.org/reference/batchtools_local.md)`)`\
+[`demo`](https://rdrr.io/r/utils/demo.html)`(``"mandelbrot"``, package ``=`` ``"future"``, ask ``=`` ``FALSE``)`
 
 ## Available batchtools backends
 
@@ -119,20 +113,16 @@ R package future.batchtools is available on
 [CRAN](https://cran.r-project.org/package=future.batchtools) and can be
 installed in R as:
 
-``` r
-
-install.packages("future.batchtools")
-```
+\
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"future.batchtools"``)`
 
 ### Pre-release version
 
 To install the pre-release version that is available in Git branch
 `develop` on GitHub, use:
 
-``` r
-
-remotes::install_github("futureverse/future.batchtools", ref="develop")
-```
+\
+`remotes``::`[`install_github`](https://remotes.r-lib.org/reference/install_github.html)`(``"futureverse/future.batchtools"``, ref``=``"develop"``)`
 
 This will install the package from source.
 

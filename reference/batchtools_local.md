@@ -47,7 +47,7 @@ Batchtools local futures use batchtools cluster functions created by
 [`batchtools::makeClusterFunctionsInteractive()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html)
 with `external = TRUE`.
 
-An alternative to the batchtools interactive backend is to use
+An alternative to the batchtools local backend is to use
 `plan(future::cluster, workers = I(1))`.
 
 ## Examples
@@ -57,7 +57,7 @@ library(future)
 plan(future.batchtools::batchtools_local)
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 3717448
+#> Main process ID: 1809944
 
 f <- future({
   data.frame(
@@ -71,7 +71,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>     hostname    os cores     pid
-#> 1 hb-x1-2023 Linux     8 3717643
-#>                                                                                                                                                                                                                                                                                                               modules
-#> 1 CBI:cmake/4.3.3:r/4.6.1:pandoc/3.9:quarto/1.10.18:port4me/0.7.1:bat/0.26.1:fzf/0.74.4:glow/2.1.2:github-cli/2.101.0:git-flow/1.12.3:git-extras/7.5.0:shellcheck/0.11.0:node/26.0.0:markdownlint-cli/0.49.1:gitleaks/8.30.1:rclone/1.74.4:osgrep/0.5.16:opencode/1.15.12:bash-startup/0.5.0:restic/0.19.1:deno/2.9.7
+#> 1 hb-x1-2023 Linux     8 1810278
+#>                                                                                                                                                                                                                                                                                                                                                             modules
+#> 1 CBI:cmake/4.3.3:r/4.6.1:pandoc/3.12:quarto/1.10.18:port4me/0.7.1:bat/0.26.1:fzf/0.74.4:glow/2.1.2:github-cli/2.102.0:git-flow/1.12.3:git-extras/7.5.0:difftastic/0.69.0:shellcheck/0.11.0:node/26.0.0:markdownlint-cli/0.49.1:gitleaks/8.30.1:rclone/1.74.4:himalaya/2.2.1:rust/1.97.1:osgrep/0.5.16:opencode/1.15.12:bash-startup/0.5.0:restic/0.19.1:deno/2.9.7
 ```

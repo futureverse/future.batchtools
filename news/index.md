@@ -8,6 +8,26 @@
   the source code, with the exception of two files, are dual licensed
   under Apache License (\>= 2).
 
+### Bug Fixes
+
+- For `batchtools_slurm`, the `sacct` fallback to query job statuses
+  when not showing up in `squeue` never happened due to a thinko.
+
+- [`batchtools_multicore()`](https://future.batchtools.futureverse.org/reference/batchtools_multicore.md)
+  ignored argument ‘delete’.
+
+- [`batchtools_bash()`](https://future.batchtools.futureverse.org/reference/batchtools_bash.md)
+  ignored ‘resources’ field ‘runtime’.
+
+- Argument ‘delete’ for BatchtoolsFutureBackend() used the wrong R
+  option as the default.
+
+- The deletion of batchtools futures silently did not produce an error
+  if it failed to remove the registry folder.
+
+- Waiting for an available worker with a timeout greater than 60 seconds
+  could take much longer than that.
+
 ## Version 0.22.0
 
 CRAN release: 2026-04-24

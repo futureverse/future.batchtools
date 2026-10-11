@@ -221,7 +221,7 @@ and comprises:
     echo "- hostname: $(hostname)"
     echo "- Rscript call: <%= rscript_call %>"
     if ! command -v <%= rscript[1] %> &> /dev/null; then
-        >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <%= rscript[1] %>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_slurm, resources = list(modules = c(\"r\")))'. The search PATH for '%<= rscript[1] %>' was ${PATH}"
+        >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <%= rscript[1] %>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_lsf, resources = list(modules = c(\"r\")))'. The search PATH for '<%= rscript[1] %>' was ${PATH}"
         exit 1
     fi
     echo "- Rscript version: $(<%= paste(rscript, collapse = " ") %> --version)"

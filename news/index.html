@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.0-9101</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.0-9110</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,6 +76,15 @@
 <div class="section level3">
 <h3 id="significant-changes-development-version">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-development-version"></a></h3>
 <ul><li>Update the license to LGPL (&gt;= 3) and clarify that the majority of the source code, with the exception of two files, are dual licensed under Apache License (&gt;= 2).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li><p>For <code>batchtools_slurm</code>, the <code>sacct</code> fallback to query job statuses when not showing up in <code>squeue</code> never happened due to a thinko.</p></li>
+<li><p><code><a href="../reference/batchtools_multicore.html">batchtools_multicore()</a></code> ignored argument ‘delete’.</p></li>
+<li><p><code><a href="../reference/batchtools_bash.html">batchtools_bash()</a></code> ignored ‘resources’ field ‘runtime’.</p></li>
+<li><p>Argument ‘delete’ for BatchtoolsFutureBackend() used the wrong R option as the default.</p></li>
+<li><p>The deletion of batchtools futures silently did not produce an error if it failed to remove the registry folder.</p></li>
+<li><p>Waiting for an available worker with a timeout greater than 60 seconds could take much longer than that.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
