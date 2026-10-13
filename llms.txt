@@ -14,7 +14,8 @@ high-performance computing (HPC) cluster from within R.
 `# specifying 'r/4.5', 'module load r/4.5' will be added to`\
 `# the submitted job script.`\
 `plan``(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`, resources ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(`\
-`  time ``=`` ``"00:10:00"``, mem ``=`` ``"400M"``, nodes ``=`` ``1``, ntasks ``=`` ``4``,`\
+`  time ``=`` ``"00:10:00"``, mem ``=`` ``"400M"``, `\
+`  nodes ``=`` ``1``, ntasks ``=`` ``4``, ``"cpus-per-task"`` ``=`` ``1``,`\
 `  modules ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"r/4.5"``)`\
 `)``)`\
 \
