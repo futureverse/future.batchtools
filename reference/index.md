@@ -30,11 +30,15 @@
 - [`batchtools_torque()`](https://future.batchtools.futureverse.org/reference/batchtools_torque.md)
   : A batchtools TORQUE backend resolves futures in parallel via a
   TORQUE/PBS job scheduler
+- [`find_template_file()`](https://future.batchtools.futureverse.org/reference/find_template_file.md)
+  : Locate a batchtools job-script template file
 - [`future.batchtools`](https://future.batchtools.futureverse.org/reference/future.batchtools.md)
   [`future.batchtools-package`](https://future.batchtools.futureverse.org/reference/future.batchtools.md)
   : future.batchtools: A Future for batchtools
 - [`makeClusterFunctionsSlurm2()`](https://future.batchtools.futureverse.org/reference/makeClusterFunctionsSlurm2.md)
   : ClusterFunctions for Slurm Systems (patched)
+- [`render_template()`](https://future.batchtools.futureverse.org/reference/render_template.md)
+  : Render a batchtools job script without submitting it
 - [`zzz-future.batchtools.options`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`future.batchtools.options`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`future.batchtools.delete`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)

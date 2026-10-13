@@ -1,8 +1,9 @@
 # Options used for batchtools futures
 
 Below are the R options and environment variables that are used by the
-future.batchtools package. See future::future.options for additional
-ones that apply to futures in general.\
+future.batchtools package. See
+[future::future.options](https://future.futureverse.org/reference/zzz-future.options.html)
+for additional ones that apply to futures in general.\
 \
 *WARNING: Note that the names and the default values of these options
 may change in future versions of the package. Please use with care until

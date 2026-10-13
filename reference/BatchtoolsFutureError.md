@@ -12,4 +12,5 @@ BatchtoolsFutureError(...)
 
 - ...:
 
-  Arguments passed to FutureError.
+  Arguments passed to
+  [FutureError](https://future.futureverse.org/reference/FutureCondition.html).

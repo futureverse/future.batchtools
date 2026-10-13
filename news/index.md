@@ -8,6 +8,16 @@
   the source code, with the exception of two files, are dual licensed
   under Apache License (\>= 2).
 
+### New Features
+
+- Added
+  [`find_template_file()`](https://future.batchtools.futureverse.org/reference/find_template_file.md)
+  and
+  [`render_template()`](https://future.batchtools.futureverse.org/reference/render_template.md)
+  for locating and previewing a batchtools job-script template, e.g. to
+  inspect exactly how `resources` expand into scheduler directives
+  without submitting a real job.
+
 ### Bug Fixes
 
 - For `batchtools_slurm`, the `sacct` fallback to query job statuses
@@ -112,8 +122,9 @@ CRAN release: 2025-08-25
 - Canceling batchtools futures will now interrupt them by default, if
   the backend supports it.
 
-- Calling `plan()` on `batchtools_sge` and `batchtools_slurm` reports on
-  the version of the scheduler.
+- Calling [`plan()`](https://future.futureverse.org/reference/plan.html)
+  on `batchtools_sge` and `batchtools_slurm` reports on the version of
+  the scheduler.
 
 - Printing a batchtools future will show logged output.
 
@@ -164,14 +175,16 @@ CRAN release: 2025-08-25
 
 ### Bug Fixes
 
-- Calling `value()` on a terminated batchtools job could take a very
-  long time before it returned with an error. This was because it read
-  logged output to be part of the error message. When there was no
-  output file, **batchtools** would wait for the file up to `fs.latency`
-  seconds (default 65 seconds) to give job schedulers and any global
-  file system time to write output to file. Now **future.batchtools**
-  will no longer wait for such files and only read their content if they
-  exist when checked.
+- Calling
+  [`value()`](https://future.futureverse.org/reference/value.html) on a
+  terminated batchtools job could take a very long time before it
+  returned with an error. This was because it read logged output to be
+  part of the error message. When there was no output file,
+  **batchtools** would wait for the file up to `fs.latency` seconds
+  (default 65 seconds) to give job schedulers and any global file system
+  time to write output to file. Now **future.batchtools** will no longer
+  wait for such files and only read their content if they exist when
+  checked.
 
 ### Deprecated and Defunct
 
@@ -189,11 +202,13 @@ CRAN release: 2025-06-06
 
 ### Bug Fixes
 
-- Attempts to cancel batchtools futures via `cancel()` would result in
-  “Interruption of futures requires a backend implementing the
-  FutureBackend API”. Until this package implements the new
-  FutureBackend API of future (\>= 1.40.0), any calls to `cancel()` will
-  be silently ignored.
+- Attempts to cancel batchtools futures via
+  [`cancel()`](https://future.futureverse.org/reference/cancel.html)
+  would result in “Interruption of futures requires a backend
+  implementing the FutureBackend API”. Until this package implements the
+  new FutureBackend API of future (\>= 1.40.0), any calls to
+  [`cancel()`](https://future.futureverse.org/reference/cancel.html)
+  will be silently ignored.
 
 ## Version 0.12.1
 
@@ -221,8 +236,9 @@ CRAN release: 2023-02-24
 
 ### Bug Fixes
 
-- `run()` for `BatchtoolsFuture` would update the RNG state, if the
-  future would attach packages.
+- [`run()`](https://future.futureverse.org/reference/run.html) for
+  `BatchtoolsFuture` would update the RNG state, if the future would
+  attach packages.
 
 ## Version 0.11.0
 
@@ -235,7 +251,9 @@ CRAN release: 2022-12-14
   corresponding `future.batchtools*` option. This is in line with how
   all packages in the Futureverse work.
 
-- Add `nbrOfFreeWorkers()` for batchtools futures.
+- Add
+  [`nbrOfFreeWorkers()`](https://future.futureverse.org/reference/nbrOfWorkers.html)
+  for batchtools futures.
 
 ### New Features
 
@@ -253,8 +271,9 @@ CRAN release: 2022-12-14
   batchtools job template file (a shell script) with info on location,
   file size, and number of lines, if they exist.
 
-- `run()` for BatchtoolsFuture now produces an informative
-  BatchtoolsFutureError in case
+- [`run()`](https://future.futureverse.org/reference/run.html) for
+  BatchtoolsFuture now produces an informative BatchtoolsFutureError in
+  case
   [`batchtools::submitJobs()`](https://batchtools.mlr-org.com/reference/submitJobs.html)
   fails, for instance, due to invalid job-scheduler resource
   specifications.
@@ -277,16 +296,17 @@ CRAN release: 2022-12-14
 
 ### Miscellaneous
 
-- `result()` for HPC batchtools backends would use a timeout of
-  `fs.latency` seconds (as set for the cluster functions) when trying to
-  collect the logged output. However, since it has already collected the
-  results, the log file should be available already and there would be
-  no need to have to wait for the log file to appear. Because of this,
-  we temporarily set `fs.latency = 1.0` (second) timeout for trying to
-  find the log file. This makes a big difference in case the template
-  used a `--output=<path>` location other than
-  `--output=<%= log.file %>`. In such cases, the log file would not be
-  found, requiring a full timeout to complete.
+- [`result()`](https://future.futureverse.org/reference/result.html) for
+  HPC batchtools backends would use a timeout of `fs.latency` seconds
+  (as set for the cluster functions) when trying to collect the logged
+  output. However, since it has already collected the results, the log
+  file should be available already and there would be no need to have to
+  wait for the log file to appear. Because of this, we temporarily set
+  `fs.latency = 1.0` (second) timeout for trying to find the log file.
+  This makes a big difference in case the template used a
+  `--output=<path>` location other than `--output=<%= log.file %>`. In
+  such cases, the log file would not be found, requiring a full timeout
+  to complete.
 
 ### Bug Fixes
 
@@ -298,8 +318,10 @@ CRAN release: 2022-12-14
   `system.file(package = "future.batchtools", "templates")` were not
   found.
 
-- `run()`, `resolved()`, and `result()` for `BatchtoolsFuture` would
-  update the RNG state.
+- [`run()`](https://future.futureverse.org/reference/run.html),
+  [`resolved()`](https://future.futureverse.org/reference/resolved.html),
+  and [`result()`](https://future.futureverse.org/reference/result.html)
+  for `BatchtoolsFuture` would update the RNG state.
 
 ## Version 0.10.0
 
@@ -321,8 +343,9 @@ CRAN release: 2021-01-04
 
 ### Bug Fixes
 
-- If `run()` was called twice for a BatchtoolsFuture, it would not
-  produce a FutureError but only a regular non-classed error.
+- If [`run()`](https://future.futureverse.org/reference/run.html) was
+  called twice for a BatchtoolsFuture, it would not produce a
+  FutureError but only a regular non-classed error.
 
 ### Deprecated and Defunct
 
@@ -346,8 +369,9 @@ CRAN release: 2020-04-14
   `R_FUTURE_BATCHTOOLS_WORKERS`.
 
 - It is now possible to configure the **batchtools** registries that are
-  used by batchtools futures via new argument `registry` to `plan()`.
-  This argument should be a named list of parameters recognized by the
+  used by batchtools futures via new argument `registry` to
+  [`plan()`](https://future.futureverse.org/reference/plan.html). This
+  argument should be a named list of parameters recognized by the
   **batchtools** package,
   e.g. `plan(future.batchtools::batchtools_sge, registry = list(...))`.
   For notable example, see below news entries.
@@ -443,7 +467,8 @@ CRAN release: 2019-01-04
 
 ### Bug Fixes
 
-- `resolve()` on a lazy batchtools future would stall and never return.
+- [`resolve()`](https://future.futureverse.org/reference/resolve.html)
+  on a lazy batchtools future would stall and never return.
 
 ## Version 0.7.1
 
@@ -541,9 +566,9 @@ CRAN release: 2017-06-03
 - `batchtools_template(pathname = NULL, type = <type>)` now relies on
   the **batchtools** package for locating the `<type>` template file.
 
-- `nbrOfWorkers()` for batchtools futures now defaults to +Inf unless
-  the evaluator’s `workers` or `cluster.functions` specify something
-  else.
+- [`nbrOfWorkers()`](https://future.futureverse.org/reference/nbrOfWorkers.html)
+  for batchtools futures now defaults to +Inf unless the evaluator’s
+  `workers` or `cluster.functions` specify something else.
 
 - Renamed argument `pathname` to `template` for `batchtools_<tmpl>()`
   functions.

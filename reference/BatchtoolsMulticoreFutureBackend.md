@@ -3,8 +3,10 @@
 A batchtools multicore future is an asynchronous multiprocess future
 that will be evaluated in a background R session.\
 \
-*We highly recommend using future::multisession (sic!) futures of the
-future package instead of multicore batchtools futures.*
+*We highly recommend using
+[future::multisession](https://future.futureverse.org/reference/multisession.html)
+(sic!) futures of the future package instead of multicore batchtools
+futures.*
 
 ## Usage
 

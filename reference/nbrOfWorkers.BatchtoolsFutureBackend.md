@@ -16,7 +16,9 @@ nbrOfWorkers(evaluator)
 - evaluator:
 
   A future evaluator function. If NULL (default), the current evaluator
-  as returned by `future::plan()` is used.
+  as returned by
+  [`future::plan()`](https://future.futureverse.org/reference/plan.html)
+  is used.
 
 ## Value
 

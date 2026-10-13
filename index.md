@@ -13,14 +13,14 @@ high-performance computing (HPC) cluster from within R.
 `# On this system, R is available via environment module 'r'. By`\
 `# specifying 'r/4.5', 'module load r/4.5' will be added to`\
 `# the submitted job script.`\
-`plan``(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`, resources ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`, resources ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(`\
 `  time ``=`` ``"00:10:00"``, mem ``=`` ``"400M"``, `\
 `  nodes ``=`` ``1``, ntasks ``=`` ``4``, ``"cpus-per-task"`` ``=`` ``1``,`\
 `  modules ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"r/4.5"``)`\
 `)``)`\
 \
 `# Give it a spin`\
-`f`` ``<-`` ``future``(``{`\
+`f`` ``<-`` `[`future`](https://future.futureverse.org/reference/future.html)`(``{`\
 `  `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`\
 `    hostname ``=`` `[`Sys.info`](https://rdrr.io/r/base/Sys.info.html)`(``)``[[``"nodename"``]``]``,`\
 `          os ``=`` `[`Sys.info`](https://rdrr.io/r/base/Sys.info.html)`(``)``[[``"sysname"``]``]``,`\
@@ -28,7 +28,7 @@ high-performance computing (HPC) cluster from within R.
 `     modules ``=`` `[`Sys.getenv`](https://rdrr.io/r/base/Sys.getenv.html)`(``"LOADEDMODULES"``)`\
 `  ``)`\
 `}``)`\
-`info`` ``<-`` ``value``(``f``)`\
+`info`` ``<-`` `[`value`](https://future.futureverse.org/reference/value.html)`(``f``)`\
 [`print`](https://rdrr.io/r/base/print.html)`(``info``)`\
 `#>   hostname    os cores  modules`\
 `#> 1      n12 Linux     4  r/4.5.2`
@@ -60,12 +60,12 @@ specified job scheduler:
 
 \
 [`library`](https://rdrr.io/r/base/library.html)`(`[`future`](https://future.futureverse.org)`)`\
-`plan``(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`)`\
 \
-`f_x`` ``<-`` ``future``(``{`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``5``)``; ``3.14`` ``}``)`\
-`f_y`` ``<-`` ``future``(``{`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``5``)``; ``2.71`` ``}``)`\
-`x`` ``<-`` ``value``(``f_x``)`\
-`y`` ``<-`` ``value``(``f_y``)`\
+`f_x`` ``<-`` `[`future`](https://future.futureverse.org/reference/future.html)`(``{`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``5``)``; ``3.14`` ``}``)`\
+`f_y`` ``<-`` `[`future`](https://future.futureverse.org/reference/future.html)`(``{`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``5``)``; ``2.71`` ``}``)`\
+`x`` ``<-`` `[`value`](https://future.futureverse.org/reference/value.html)`(``f_x``)`\
+`y`` ``<-`` `[`value`](https://future.futureverse.org/reference/value.html)`(``f_y``)`\
 `x`` ``+`` ``y`\
 `#> [1] 5.85`
 
@@ -87,7 +87,7 @@ instance, to use local batchtools futures, run the demo as:
 
 \
 [`library`](https://rdrr.io/r/base/library.html)`(`[`future`](https://future.futureverse.org)`)`\
-`plan``(``future.batchtools``::`[`batchtools_local`](https://future.batchtools.futureverse.org/reference/batchtools_local.md)`)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_local`](https://future.batchtools.futureverse.org/reference/batchtools_local.md)`)`\
 [`demo`](https://rdrr.io/r/utils/demo.html)`(``"mandelbrot"``, package ``=`` ``"future"``, ask ``=`` ``FALSE``)`
 
 ## Available batchtools backends

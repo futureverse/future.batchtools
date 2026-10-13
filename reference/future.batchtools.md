@@ -8,7 +8,8 @@ API is defined by the future package.
 ## Details
 
 To use batchtools futures, load future.batchtools, and select the type
-of future you wish to use via `future::plan()`.
+of future you wish to use via
+[`future::plan()`](https://future.futureverse.org/reference/plan.html).
 
 ## See also
 
