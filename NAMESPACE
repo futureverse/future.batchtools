@@ -56,10 +56,12 @@ export(batchtools_sge)
 export(batchtools_slurm)
 export(batchtools_ssh)
 export(batchtools_torque)
+export(find_template_file)
 export(loggedError)
 export(loggedOutput)
 export(makeClusterFunctionsBash)
 export(makeClusterFunctionsSlurm2)
+export(render_template)
 importFrom(batchtools,
   Worker,
   assertRegistry,
@@ -84,6 +86,7 @@ importFrom(batchtools,
   makeClusterFunctionsSSH,
   makeClusterFunctionsSlurm,
   makeClusterFunctionsTORQUE,
+  makeJobCollection,
   makeRegistry,
   makeSubmitJobResult,
   removeRegistry,

@@ -6,6 +6,13 @@
    the source code, with the exception of two files, are dual licensed
    under Apache License (>= 2).
 
+## New Features
+
+ * Added `find_template_file()` and `render_template()` for locating
+   and previewing a batchtools job-script template, e.g. to inspect
+   exactly how `resources` expand into scheduler directives without
+   submitting a real job.
+
 ## Bug Fixes
 
   * For `batchtools_slurm`, the `sacct` fallback to query job statuses
