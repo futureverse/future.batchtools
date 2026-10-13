@@ -10,9 +10,8 @@ futures are resolved.
 A batchtools SSH future is an asynchronous multiprocess future that will
 be evaluated in a background R session.\
 \
-*We highly recommend using
-[future::multisession](https://future.futureverse.org/reference/multisession.html)
-(sic!) futures of the future package instead of SSH batchtools futures.*
+*We highly recommend using future::multisession (sic!) futures of the
+future package instead of SSH batchtools futures.*
 
 ## Usage
 
@@ -140,9 +139,7 @@ BatchtoolsSSHFutureBackend(workers = availableWorkers(), fs.latency = 65, ...)
 
 ## Value
 
-A
-[future::FutureBackend](https://future.futureverse.org/reference/FutureBackend-class.html)
-object of class BatchtoolsFutureBackend
+A future::FutureBackend object of class BatchtoolsFutureBackend
 
 An object of class `BatchtoolsFuture`.
 
@@ -156,9 +153,8 @@ and batchtools interactive futures on the one set up by
 [`batchtools::makeClusterFunctionsInteractive()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html).
 These are supported by all operating systems.
 
-An alternative to batchtools local futures is to use
-[cluster](https://future.futureverse.org/reference/cluster.html) futures
-of the future package with a single local background session, i.e.
+An alternative to batchtools local futures is to use cluster futures of
+the future package with a single local background session, i.e.
 `plan(cluster, workers = "localhost")`.
 
 An alternative to batchtools interactive futures is to use
@@ -206,7 +202,7 @@ print(plan())
 #> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)
 #> BatchtoolsCustomFutureBackend:
 #> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend
-#> UUID: 914985b35e7662e15506b7a2ba86b53d
+#> UUID: de401ddd2935007aca2b7fe9056fc4ff
 #> Number of workers: 1
 #> Number of free workers: 1
 #> Available cores: 8
@@ -221,12 +217,12 @@ print(plan())
 #> batchtools configuration file: <NA>
 #> batchtools cluster functions: ‘Interactive’
 #> batchtools cluster functions template: <NA>
-#> Cache directory: ‘/tmp/hb/RtmpHCGS6T/future.batchtools/docs/reference/.future/20261011_130011-zZGCiP’ (0 folders)
+#> Cache directory: ‘/tmp/hb/Rtmpv4JPwH/future.batchtools/docs/reference/.future/20261012_191745-4HB9GR’ (0 folders)
 #> batchtools resources:
 #>  list()
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 1814922
+#> Main process ID: 2455717
 
 f <- future({
   data.frame(
@@ -240,7 +236,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>     hostname    os cores     pid
-#> 1 hb-x1-2023 Linux     8 1815521
+#> 1 hb-x1-2023 Linux     8 2455919
 #>                                                                                                                                                                                                                                                                                                                                                             modules
 #> 1 CBI:cmake/4.3.3:r/4.6.1:pandoc/3.12:quarto/1.10.18:port4me/0.7.1:bat/0.26.1:fzf/0.74.4:glow/2.1.2:github-cli/2.102.0:git-flow/1.12.3:git-extras/7.5.0:difftastic/0.69.0:shellcheck/0.11.0:node/26.0.0:markdownlint-cli/0.49.1:gitleaks/8.30.1:rclone/1.74.4:himalaya/2.2.1:rust/1.97.1:osgrep/0.5.16:opencode/1.15.12:bash-startup/0.5.0:restic/0.19.1:deno/2.9.7
 ```

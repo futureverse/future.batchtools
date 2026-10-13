@@ -54,7 +54,6 @@ The `batchtools_ssh` backend uses the batchtools backend set up by
 which requires system commands `ssh` and `ps` as available on Linux and
 macOS.
 
-An alternative to `batchtools_ssh` is to use
-[cluster](https://future.futureverse.org/reference/cluster.html) futures
-of the future package with a single local background session, i.e.
+An alternative to `batchtools_ssh` is to use cluster futures of the
+future package with a single local background session, i.e.
 `plan(cluster, workers = c("localhost"))`.
