@@ -69,7 +69,8 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' # 'jags'. Report on job details at startup and at the end of the job.
 #' plan(future.batchtools::batchtools_slurm, resources = list(
 #'   time = "00:10:00", mem = "400M",
-#'   asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
+#'   nodes = 1, ntasks = 4, "cpus-per-task" = 1,
+#'   partition = "freecycle",
 #'   modules = c("r", "jags"),
 #'   details = TRUE
 #' ))
@@ -100,7 +101,8 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' #
 #' plan(future.batchtools::batchtools_slurm, resources = list(
 #'   time = "00:10:00", mem = "400M",
-#'   asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
+#'   nodes = 1, ntasks = 4, "cpus-per-task" = 1,
+#'   partition = "freecycle",
 #'   details = TRUE,
 #'   envs = c(R_LIBS_USER = "~/R/rocker-%p-library/%v"),
 #'   rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "Rscript")
