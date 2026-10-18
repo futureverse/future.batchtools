@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+export R_LIBS_SITE=$(Rscript -e 'cat(revdepcheck.extras::callr_site_library())')
+
 ## Missing or outdated LaTeX packages
 false && R --quiet --no-save <<EOF
     tinytex::install_tinytex(force = TRUE)
