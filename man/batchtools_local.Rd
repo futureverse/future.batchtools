@@ -39,7 +39,7 @@ Batchtools local futures use \pkg{batchtools} cluster functions
 created by \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive()}} with
 \code{external = TRUE}.
 
-An alternative to the batchtools interactive backend is to use
+An alternative to the batchtools local backend is to use
 \code{plan(future::cluster, workers = I(1))}.
 }
 \examples{

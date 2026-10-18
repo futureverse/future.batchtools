@@ -56,68 +56,83 @@ export(batchtools_sge)
 export(batchtools_slurm)
 export(batchtools_ssh)
 export(batchtools_torque)
+export(find_template_file)
 export(loggedError)
 export(loggedOutput)
 export(makeClusterFunctionsBash)
 export(makeClusterFunctionsSlurm2)
-importFrom(batchtools,Worker)
-importFrom(batchtools,assertRegistry)
-importFrom(batchtools,batchExport)
-importFrom(batchtools,batchMap)
-importFrom(batchtools,cfBrewTemplate)
-importFrom(batchtools,cfReadBrewTemplate)
-importFrom(batchtools,clearRegistry)
-importFrom(batchtools,findConfFile)
-importFrom(batchtools,findTemplateFile)
-importFrom(batchtools,getErrorMessages)
-importFrom(batchtools,getLog)
-importFrom(batchtools,getStatus)
-importFrom(batchtools,killJobs)
-importFrom(batchtools,loadResult)
-importFrom(batchtools,makeClusterFunctions)
-importFrom(batchtools,makeClusterFunctionsInteractive)
-importFrom(batchtools,makeClusterFunctionsLSF)
-importFrom(batchtools,makeClusterFunctionsMulticore)
-importFrom(batchtools,makeClusterFunctionsOpenLava)
-importFrom(batchtools,makeClusterFunctionsSGE)
-importFrom(batchtools,makeClusterFunctionsSSH)
-importFrom(batchtools,makeClusterFunctionsSlurm)
-importFrom(batchtools,makeClusterFunctionsTORQUE)
-importFrom(batchtools,makeRegistry)
-importFrom(batchtools,makeSubmitJobResult)
-importFrom(batchtools,removeRegistry)
-importFrom(batchtools,saveRegistry)
-importFrom(batchtools,setJobNames)
-importFrom(batchtools,submitJobs)
-importFrom(batchtools,waitForJobs)
-importFrom(checkmate,"%??%")
-importFrom(checkmate,assertCharacter)
-importFrom(checkmate,assertString)
-importFrom(future,FutureBackend)
-importFrom(future,FutureError)
-importFrom(future,FutureInterruptError)
-importFrom(future,FutureLaunchError)
-importFrom(future,FutureWarning)
-importFrom(future,cancel)
-importFrom(future,interruptFuture)
-importFrom(future,launchFuture)
-importFrom(future,nbrOfFreeWorkers)
-importFrom(future,nbrOfWorkers)
-importFrom(future,plan)
-importFrom(future,resolved)
-importFrom(future,result)
-importFrom(future,run)
-importFrom(future,stopWorkers)
-importFrom(future,tweak)
-importFrom(parallelly,availableCores)
-importFrom(parallelly,availableWorkers)
-importFrom(parallelly,supportsMulticore)
-importFrom(stringi,stri_flatten)
-importFrom(stringi,stri_replace_all_fixed)
+export(render_template)
+importFrom(batchtools,
+  Worker,
+  assertRegistry,
+  batchExport,
+  batchMap,
+  cfBrewTemplate,
+  cfReadBrewTemplate,
+  clearRegistry,
+  findConfFile,
+  findTemplateFile,
+  getErrorMessages,
+  getLog,
+  getStatus,
+  killJobs,
+  loadResult,
+  makeClusterFunctions,
+  makeClusterFunctionsInteractive,
+  makeClusterFunctionsLSF,
+  makeClusterFunctionsMulticore,
+  makeClusterFunctionsOpenLava,
+  makeClusterFunctionsSGE,
+  makeClusterFunctionsSSH,
+  makeClusterFunctionsSlurm,
+  makeClusterFunctionsTORQUE,
+  makeJobCollection,
+  makeRegistry,
+  makeSubmitJobResult,
+  removeRegistry,
+  saveRegistry,
+  setJobNames,
+  submitJobs,
+  waitForJobs
+)
+importFrom(checkmate,
+  "%??%",
+  assertCharacter,
+  assertString
+)
+importFrom(future,
+  FutureBackend,
+  FutureError,
+  FutureInterruptError,
+  FutureLaunchError,
+  FutureWarning,
+  cancel,
+  interruptFuture,
+  launchFuture,
+  nbrOfFreeWorkers,
+  nbrOfWorkers,
+  plan,
+  resolved,
+  result,
+  run,
+  stopWorkers,
+  tweak
+)
+importFrom(parallelly,
+  availableCores,
+  availableWorkers,
+  supportsMulticore
+)
+importFrom(stringi,
+  stri_flatten,
+  stri_replace_all_fixed
+)
 importFrom(tools,pskill)
-importFrom(utils,capture.output)
-importFrom(utils,file_test)
-importFrom(utils,packageVersion)
-importFrom(utils,sessionInfo)
-importFrom(utils,str)
-importFrom(utils,tail)
+importFrom(utils,
+  capture.output,
+  file_test,
+  packageVersion,
+  sessionInfo,
+  str,
+  tail
+)

@@ -194,7 +194,7 @@ echo "- timestamp: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 echo "- hostname: $(hostname)"
 echo "- Rscript call: <\%= rscript_call \%>"
 if ! command -v <\%= rscript[1] \%> &> /dev/null; then
-    >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <\%= rscript[1] \%>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_slurm, resources = list(modules = c(\\"r\\")))'. The search PATH for '\%<= rscript[1] \%>' was $\{PATH\}"
+    >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <\%= rscript[1] \%>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_slurm, resources = list(modules = c(\\"r\\")))'. The search PATH for '<\%= rscript[1] \%>' was $\{PATH\}"
     exit 1
 fi
 echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
@@ -235,17 +235,17 @@ exit "$\{res\}"
 This template and the built-in \code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}
 have been verified to work on a few different Slurm HPC clusters;
 \enumerate{
-\item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem (September 2025)
+\item Slurm 21.08.4, Rocky Linux 8, NFS global filesystem, UCSF C4 HPC environment (June 2026)
 \item Slurm 22.05.10, Rocky Linux 9, Lustre global filesystem (September 2025)
 \item Slurm 22.05.11, Rocky Linux 8, NFS global filesystem (September 2025)
-\item Slurm 23.02.6, Ubuntu 24.04 LTS, NFS global filesystem (September 2025)
+\item Slurm 23.11.4, Ubuntu 24.04 LTS, NFS global filesystem, UC Berkeley SCF HPC environment (June 2026)
 \item Slurm 24.11.3, AlmaLinux 9, Lustre global filesystem (September 2025)*
-\item Slurm 24.11.5, Rocky Linux 9, VAST global filesystem (February 2026)
+\item Slurm 24.11.5, Rocky Linux 9, VAST global filesystem, UCSF CoreHPC environment (June 2026)
 }
 
 (*) Verified with \strong{future.batchtools} 0.20.0, which used
-\code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}}, which the new
-\code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}} enhances.
+\code{\link[batchtools:makeClusterFunctionsSlurm]{batchtools::makeClusterFunctionsSlurm()}} since superseeded by
+\code{\link[=makeClusterFunctionsSlurm2]{makeClusterFunctionsSlurm2()}}.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
@@ -257,7 +257,8 @@ library(future)
 # 'jags'. Report on job details at startup and at the end of the job.
 plan(future.batchtools::batchtools_slurm, resources = list(
   time = "00:10:00", mem = "400M",
-  asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
+  nodes = 1, ntasks = 4, "cpus-per-task" = 1,
+  partition = "freecycle",
   modules = c("r", "jags"),
   details = TRUE
 ))
@@ -288,7 +289,8 @@ print(info)
 #
 plan(future.batchtools::batchtools_slurm, resources = list(
   time = "00:10:00", mem = "400M",
-  asis = c("--nodes=1", "--ntasks=4", "--partition=freecycle"),
+  nodes = 1, ntasks = 4, "cpus-per-task" = 1,
+  partition = "freecycle",
   details = TRUE,
   envs = c(R_LIBS_USER = "~/R/rocker-\%p-library/\%v"),
   rscript = c("apptainer", "exec", "~/lxc/rocker_r-base.sif", "Rscript")

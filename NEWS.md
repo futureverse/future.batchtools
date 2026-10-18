@@ -1,3 +1,37 @@
+# Version 0.30.0 [2026-10-18]
+
+## Significant Changes
+
+ * Update the license to LGPL (>= 3) and clarify that the majority of
+   the source code, with the exception of two files, are dual licensed
+   under Apache License (>= 2).
+
+## New Features
+
+ * Added `find_template_file()` and `render_template()` for locating
+   and previewing a batchtools job-script template, e.g. to inspect
+   exactly how `resources` expand into scheduler directives without
+   submitting a real job.
+
+## Bug Fixes
+
+  * For `batchtools_slurm`, the `sacct` fallback to query job statuses
+    when not showing up in `squeue` never happened due to a thinko.
+
+ * `batchtools_multicore()` ignored argument 'delete'.
+   
+ * `batchtools_bash()` ignored 'resources' field 'runtime'.
+   
+ * Argument 'delete' for BatchtoolsFutureBackend() used the wrong R
+   option as the default.
+   
+ * The deletion of batchtools futures silently did not produce an
+   error if it failed to remove the registry folder.
+   
+ * Waiting for an available worker with a timeout greater than 60
+   seconds could take much longer than that.
+   
+
 # Version 0.22.0 [2026-04-24]
 
 ## Significant Changes
@@ -44,15 +78,15 @@
 
 ## Bug Fixes
 
-  `batchtools_slurm()` would produce "Future of class
-  BatchtoolsSlurmFuture expired, which indicates that it crashed or
-  was killed" errors on some Slurm clusters. We believe this happened
-  because a recently submitted future job would not immediately show
-  up on the job queue, which caused **future.batchtools** to
-  incorrectly conclude that the job had already finished, but without
-  producing any results. `batchtools_slurm()` now uses the new
-  `makeClusterFunctionsSlurm2()`, which does a better job inferring
-  whether a job is queued or not.
+ * `batchtools_slurm()` would produce "Future of class
+   BatchtoolsSlurmFuture expired, which indicates that it crashed or
+   was killed" errors on some Slurm clusters. We believe this happened
+   because a recently submitted future job would not immediately show
+   up on the job queue, which caused **future.batchtools** to
+   incorrectly conclude that the job had already finished, but without
+   producing any results. `batchtools_slurm()` now uses the new
+   `makeClusterFunctionsSlurm2()`, which does a better job inferring
+   whether a job is queued or not.
 
 
 # Version 0.20.0 [2025-08-25]

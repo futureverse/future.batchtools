@@ -106,7 +106,7 @@ waitForWorker.BatchtoolsFuture <- function(future,
     await()
 
     iter <- iter + 1L
-    dt <- difftime(Sys.time(), t0)
+    dt <- difftime(Sys.time(), t0, units = "secs")
   }
 
   if (!finished) {

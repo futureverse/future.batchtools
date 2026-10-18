@@ -37,7 +37,7 @@ debugging.
 \details{
 Batchtools interactive futures use \pkg{batchtools} cluster functions
 created by \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive()}} with
-\code{external = TRUE}.
+\code{external = FALSE}.
 
 An alternative to the batchtools interactive backend is to use
 \code{plan(future::sequential)}, which is a faster way process futures

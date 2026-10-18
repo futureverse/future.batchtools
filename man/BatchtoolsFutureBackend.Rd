@@ -7,6 +7,7 @@
 \alias{BatchtoolsUniprocessFutureBackend}
 \alias{BatchtoolsMultiprocessFutureBackend}
 \alias{BatchtoolsCustomFutureBackend}
+\alias{batchtools_custom}
 \alias{BatchtoolsInteractiveFutureBackend}
 \alias{BatchtoolsLocalFutureBackend}
 \alias{BatchtoolsBashFutureBackend}
@@ -21,7 +22,7 @@ BatchtoolsFutureBackend(
   registry = list(),
   conf.file = findConfFile(),
   interrupts = TRUE,
-  delete = getOption("future.batchtools.debug", "on-success"),
+  delete = getOption("future.batchtools.delete", "on-success"),
   ...
 )
 
@@ -101,13 +102,11 @@ Usually safe to set to \code{0} to disable the heuristic, e.g. if you are workin
 \item{\ldots}{Additional arguments passed to \code{\link[=BatchtoolsFutureBackend]{BatchtoolsFutureBackend()}}.}
 }
 \value{
-A \link[future:FutureBackend-class]{future::FutureBackend} object of class BatchtoolsFutureBackend
+A \link[future:FutureBackend]{future::FutureBackend} object of class BatchtoolsFutureBackend
 
 An object of class \code{BatchtoolsFuture}.
 
 An object of class \code{BatchtoolsUniprocessFuture}.
-
-An object of class \code{BatchtoolsMulticoreFuture}.
 }
 \description{
 A batchtools local future is a synchronous uniprocess future that

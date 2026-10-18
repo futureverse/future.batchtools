@@ -204,7 +204,7 @@ echo "- timestamp: $(date +"\%Y-\%m-\%d \%H:\%M:\%S\%z")"
 echo "- hostname: $(hostname)"
 echo "- Rscript call: <\%= rscript_call \%>"
 if ! command -v <\%= rscript[1] \%> &> /dev/null; then
-    >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <\%= rscript[1] \%>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_slurm, resources = list(modules = c(\\"r\\")))'. The search PATH for '\%<= rscript[1] \%>' was $\{PATH\}"
+    >&2 echo "ERROR: Argument 'resources' specifies a non-existing 'Rscript' launch command: <\%= rscript[1] \%>. Maybe you need to specify which environment modules to load in the 'resources' argument, e.g. 'plan(future.batchtools::batchtools_sge, resources = list(modules = c(\\"r\\")))'. The search PATH for '<\%= rscript[1] \%>' was $\{PATH\}"
     exit 1
 fi
 echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
@@ -246,7 +246,7 @@ exit "$\{res\}"
 This template and the built-in \code{\link[batchtools:makeClusterFunctionsSGE]{batchtools::makeClusterFunctionsSGE()}}
 have been verified to work on a few different Grid Engine HPC clusters;
 \enumerate{
-\item SGE 8.1.9 (Son of Grid Engine), Rocky 8 Linux, BeeGFS global filesystem (August 2025)
+\item SGE 8.1.9 (Son of Grid Engine), Rocky 8 Linux, BeeGFS global filesystem, UCSF Wynton HPC environment (June 2026)
 \item AGE 2024.1.0 (8.9.0), Rocky 9 Linux, NSF global filesystem (August 2025)
 }
 }

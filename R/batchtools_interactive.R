@@ -37,7 +37,7 @@ BatchtoolsInteractiveFutureBackend <- function(fs.latency = 0.0, ...) {
 #' @details
 #' Batchtools interactive futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsInteractive()] with
-#' `external = TRUE`.
+#' `external = FALSE`.
 #'
 #' An alternative to the batchtools interactive backend is to use
 #' `plan(future::sequential)`, which is a faster way process futures

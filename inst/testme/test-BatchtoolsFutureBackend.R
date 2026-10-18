@@ -85,7 +85,7 @@ stopifnot(inherits(b, "BatchtoolsTorqueFutureBackend"))
 n <- future::nbrOfWorkers(b)
 stopifnot(n >= 1)
 
-# 6. makeClusterFunctionsSlurm2
+# 6. makeClusterFunctionsSlurm2()
 cf <- future.batchtools::makeClusterFunctionsSlurm2()
 stopifnot(inherits(cf, "ClusterFunctions"))
 stopifnot(cf$name == "Slurm")
@@ -100,5 +100,45 @@ if (!is_os("windows")) {
     stopifnot(cf$name == "Bash")
   }
 }
+
+# 8. Argument 'delete' defaults
+cf <- batchtools::makeClusterFunctionsInteractive(external = TRUE)
+b <- future.batchtools::BatchtoolsFutureBackend(cluster.functions = cf)
+stopifnot(identical(b$delete, "on-success"))
+
+oopts <- options(future.batchtools.delete = "never")
+b <- future.batchtools::BatchtoolsFutureBackend(cluster.functions = cf)
+stopifnot(identical(b$delete, "never"))
+options(oopts)
+
+# 9. status(): job ID options passed
+observed_batch_id <- NULL
+observed_submitted_on <- NULL
+cf <- batchtools::makeClusterFunctions("Mock",
+  submitJob = function(reg, jc) batchtools::makeSubmitJobResult(0L, "1"),
+  listJobsQueued = function(reg) {
+    observed_batch_id <<- getOption("future.batchtools.batch_id")
+    observed_submitted_on <<- getOption("future.batchtools.submitted_on")
+    character(0)
+  }
+)
+reg <- batchtools::makeRegistry(file.dir = tempfile(), make.default = FALSE)
+reg[["cluster.functions"]] <- cf
+batchtools::batchMap(function(x) x, 1, reg = reg)
+reg[["status"]][["batch.id"]] <- "99999"
+reg[["status"]][["submitted"]] <- as.numeric(Sys.time())
+batchtools::saveRegistry(reg)
+
+t0 <- Sys.time()
+f <- structure(new.env(parent = emptyenv()), class = c("BatchtoolsSlurmFuture", "BatchtoolsTemplateFuture", "BatchtoolsFuture", "Future"))
+f[["config"]] <- list(reg = reg, jobid = 1L)
+f[["submitted_on"]] <- t0
+f[["state"]] <- "submitted"
+
+res <- future.batchtools:::status(f)
+stopifnot(identical(observed_batch_id, "99999"))
+stopifnot(identical(observed_submitted_on, t0))
+stopifnot(is.null(getOption("future.batchtools.batch_id")))
+stopifnot(is.null(getOption("future.batchtools.submitted_on")))
 
 message("*** BatchtoolsFutureBackend() ... DONE")

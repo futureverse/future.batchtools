@@ -26,7 +26,6 @@
 #'
 #' @keywords internal
 #'
-#' @aliases batchtools_custom
 #' @importFrom batchtools makeClusterFunctionsMulticore
 #' @importFrom parallelly availableCores supportsMulticore
 #' @importFrom tools pskill
@@ -45,7 +44,7 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 
   ## Fall back to batchtools_local if multicore processing is not supported
   if ((workers == 1L && !inherits(workers, "AsIs")) || !supportsMulticore(warn = TRUE)) {
-    return(BatchtoolsLocalFutureBackend(..., fs.latency = fs.latency))
+    return(BatchtoolsLocalFutureBackend(..., fs.latency = fs.latency, delete = delete))
   }
 
   oopts <- options(mc.cores = workers)
@@ -61,6 +60,7 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
   core <- BatchtoolsMultiprocessFutureBackend(
     workers = workers,
     cluster.functions = cluster.functions,
+    delete = delete,
     ...
   )
   

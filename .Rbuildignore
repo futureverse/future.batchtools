@@ -3,11 +3,10 @@
 ^incl/
 ^pkgdown/
 ^revdep/
+^LICENSE
 ^INSTALL[.]md$
 ^OVERVIEW[.]md$
 ^README[.]md$
-^CONDUCT[.]md$
-^CONTRIBUTING[.]md$
 Rplots[.]pdf$
 ^cran-comments[.].*$
 ^vignettes/.*[.](pdf|PDF)$
@@ -17,3 +16,4 @@ Rplots[.]pdf$
 ^.*[.]tar[.]gz$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^CITATION\.cff$

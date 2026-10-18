@@ -1,3 +1,8 @@
+## SPDX-License-Identifier: LGPL-3.0-or-later
+## Code in this file is adapted from the 'batchtools' package
+## (https://cran.r-project.org/package=batchtools)
+## which is licensed under the LGPL (>= 3)
+
 # Patch Slurm cluster functions listJobsQueued() and listJobsRunning()
 # to use `sacct` instead of `squeue`
 #' @importFrom batchtools assertRegistry
