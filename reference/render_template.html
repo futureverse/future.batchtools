@@ -21,7 +21,7 @@ resources are expanded into scheduler directives."><!-- Global site tag (gtag.js
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.0-9115</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -129,9 +129,9 @@ If <code>NULL</code> (default), the currently set future plan is used.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Author: Henrik Bengtsson</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ######################################################################</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Job name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --job-name=jobe4f7b8dc943516fe939a7b081af66207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --job-name=job26ce8780cacfc8e3ea7113de34d96a36</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Direct streams to logfile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --output=/tmp/hb/RtmpVLTKp1/future.batchtools_template_128e39c40259d/logs/jobe4f7b8dc943516fe939a7b081af66207.log</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --output=/tmp/hb/Rtmp8FO2N9/future.batchtools_template_3b462693d4e2d/logs/job26ce8780cacfc8e3ea7113de34d96a36.log</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Resources needed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --time=00:05:00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --mem=200M</span>
@@ -166,10 +166,10 @@ If <code>NULL</code> (default), the currently set future plan is used.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> echo</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Launch R and evaluate the batchtools R job</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> echo "Calling 'batchtools::doJobCollection()' ..."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job name: 'jobe4f7b8dc943516fe939a7b081af66207'"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job log file: '/tmp/hb/RtmpVLTKp1/future.batchtools_template_128e39c40259d/logs/jobe4f7b8dc943516fe939a7b081af66207.log'"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job uri: '/tmp/hb/RtmpVLTKp1/future.batchtools_template_128e39c40259d/jobs/jobe4f7b8dc943516fe939a7b081af66207.rds'"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rscript -e 'batchtools::doJobCollection("/tmp/hb/RtmpVLTKp1/future.batchtools_template_128e39c40259d/jobs/jobe4f7b8dc943516fe939a7b081af66207.rds")'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job name: 'job26ce8780cacfc8e3ea7113de34d96a36'"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job log file: '/tmp/hb/Rtmp8FO2N9/future.batchtools_template_3b462693d4e2d/logs/job26ce8780cacfc8e3ea7113de34d96a36.log'"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job uri: '/tmp/hb/Rtmp8FO2N9/future.batchtools_template_3b462693d4e2d/jobs/job26ce8780cacfc8e3ea7113de34d96a36.rds'"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rscript -e 'batchtools::doJobCollection("/tmp/hb/Rtmp8FO2N9/future.batchtools_template_3b462693d4e2d/jobs/job26ce8780cacfc8e3ea7113de34d96a36.rds")'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> res=$?</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> echo " - exit code: ${res}"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> echo "Calling 'batchtools::doJobCollection()' ... done"</span>

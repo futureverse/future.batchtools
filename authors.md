@@ -9,7 +9,8 @@
   [](https://orcid.org/0000-0001-9754-0393)\
   Code adapted from the 'batchtools' package
 
-- **Bernd Bischl**. Contributor, copyright holder.\
+- **Bernd Bischl**. Contributor, copyright holder.
+  [](https://orcid.org/0000-0001-6002-6980)\
   Code adapted from the 'batchtools' package
 
 ## Citation
