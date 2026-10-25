@@ -201,6 +201,10 @@ launchFuture.BatchtoolsFutureBackend <- local({
     ## also the one that evaluates/resolves/queries it.
     assertOwner(future)
 
+    ## Relay immediate conditions from already launched futures, because
+    ## setting up and submitting a future may take a long time
+    relayImmediateConditionsOfLaunched(backend)
+
     ## Temporarily disable batchtools output?
     ## (i.e. messages and progress bars)
     batchtools_output <- getOption("future.batchtools.output", debug)
@@ -369,6 +373,9 @@ launchFuture.BatchtoolsFutureBackend <- local({
   
     ## 6. Reserve worker for future
     registerFuture(future)
+
+    ## Relay immediate conditions that arrived while submitting
+    relayImmediateConditionsOfLaunched(backend)
 
     ## 7. Trigger early signalling
     if (inherits(future, "BatchtoolsUniprocessFuture")) {
@@ -776,6 +783,17 @@ relayImmediateConditions <- function(future, signal = TRUE) {
     future[[".signaledConditions"]] <- c(future[[".signaledConditions"]], conditions)
   }
   invisible(conditions)
+}
+
+
+## Relays the immediateConditions of all launched, unresolved futures of
+## the backend, without collecting their values
+relayImmediateConditionsOfLaunched <- function(backend) {
+  futures <- FutureRegistry(backend[["reg"]], action = "list", earlySignal = FALSE)
+  for (future in futures) {
+    if (is.null(future[["result"]])) relayImmediateConditions(future, signal = TRUE)
+  }
+  invisible()
 }
 
 
