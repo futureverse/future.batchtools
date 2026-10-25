@@ -135,6 +135,7 @@ class(batchtools_slurm) <- c(
 attr(batchtools_slurm, "tweakable") <- c(
   "workers",
   "finalize",
+  "registry",
   ## Arguments to batchtools::makeClusterFunctionsSlurm()
   "array.jobs", "nodename", "scheduler.latency", "fs.latency"
 )

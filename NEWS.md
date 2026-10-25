@@ -19,6 +19,10 @@
    does not allow colons, would fail with an error from the scheduler.
    The label is now turned into a valid job name at submission.
 
+ * `tweak(batchtools_<hpc>, registry = ...)` for the LSF, OpenLava,
+   SGE, Slurm, and Torque backends ignored argument `registry` with a
+   warning on "unknown future arguments".
+
 
 # Version 0.30.0 [2026-10-18]
 
