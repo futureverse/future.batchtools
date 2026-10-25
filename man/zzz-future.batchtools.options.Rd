@@ -7,12 +7,14 @@
 \alias{future.batchtools.expiration.tail}
 \alias{future.batchtools.output}
 \alias{future.batchtools.relay.immediate}
+\alias{future.batchtools.script.validate}
 \alias{future.batchtools.workers}
 \alias{R_FUTURE_CACHE_PATH}
 \alias{R_FUTURE_BATCHTOOLS_DELETE}
 \alias{R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL}
 \alias{R_FUTURE_BATCHTOOLS_OUTPUT}
 \alias{R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE}
+\alias{R_FUTURE_BATCHTOOLS_SCRIPT_VALIDATE}
 \alias{R_FUTURE_BATCHTOOLS_WORKERS}
 \title{Options used for batchtools futures}
 \description{
@@ -66,6 +68,14 @@ treated as any other condition, that is, they are relayed at the end,
 when the value of the future is collected.
 Disabling this can be useful if a future signals so many immediate
 conditions that the file system gets overloaded.
+(Default: \code{TRUE})}
+
+\item{\option{future.batchtools.script.validate}:}{(logical)
+If TRUE, each generated job script that has a Bash or POSIX-shell
+shebang is checked for syntax errors using \code{bash -n} before it is
+submitted, which gives an immediate error instead of a failed job
+on the compute node. Set to FALSE to disable, e.g. if a false
+positive is reported.
 (Default: \code{TRUE})}
 
 \item{\option{future.batchtools.delete}:}{(character string)

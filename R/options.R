@@ -51,6 +51,14 @@
 #'     conditions that the file system gets overloaded.
 #'     (Default: `TRUE`)}
 #'
+#'   \item{\option{future.batchtools.script.validate}:}{(logical)
+#'     If TRUE, each generated job script that has a Bash or POSIX-shell
+#'     shebang is checked for syntax errors using `bash -n` before it is
+#'     submitted, which gives an immediate error instead of a failed job
+#'     on the compute node. Set to FALSE to disable, e.g. if a false
+#'     positive is reported.
+#'     (Default: `TRUE`)}
+#'
 #'   \item{\option{future.batchtools.delete}:}{(character string)
 #'     Controls whether or not the future's \pkg{batchtools} registry folder
 #'     is deleted after the future result has been collected.
@@ -80,6 +88,7 @@
 #' @aliases future.batchtools.expiration.tail
 #' @aliases future.batchtools.output
 #' @aliases future.batchtools.relay.immediate
+#' @aliases future.batchtools.script.validate
 #' @aliases future.batchtools.workers
 #'
 #' @aliases R_FUTURE_CACHE_PATH
@@ -87,6 +96,7 @@
 #' @aliases R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL
 #' @aliases R_FUTURE_BATCHTOOLS_OUTPUT
 #' @aliases R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE
+#' @aliases R_FUTURE_BATCHTOOLS_SCRIPT_VALIDATE
 #' @aliases R_FUTURE_BATCHTOOLS_WORKERS
 #'
 #' @name zzz-future.batchtools.options
@@ -190,6 +200,7 @@ update_package_options <- function(debug = FALSE) {
   update_package_option("future.batchtools.expiration.tail", mode = "integer", debug = debug)
   update_package_option("future.batchtools.output", mode = "logical", debug = debug)
   update_package_option("future.batchtools.relay.immediate", mode = "logical", default = TRUE, debug = debug)
+  update_package_option("future.batchtools.script.validate", mode = "logical", default = TRUE, debug = debug)
   update_package_option("future.batchtools.workers", mode = "numeric", debug = debug)
   update_package_option("future.batchtools.status.cache", mode = "logical", default = TRUE, debug = debug)
 }

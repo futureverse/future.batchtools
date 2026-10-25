@@ -34,7 +34,9 @@ temp_registry <- local({
     })
 
     if (!is.null(cluster.functions)) {    ### FIXME
-      reg$cluster.functions <- cluster.functions
+      reg$cluster.functions <- patch_cluster_functions_validate(cluster.functions)
+    } else {
+      reg$cluster.functions <- patch_cluster_functions_validate(reg$cluster.functions)
     }
 
     ## Post-tweak the batchtools registry?
