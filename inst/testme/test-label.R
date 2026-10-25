@@ -7,9 +7,10 @@ message("*** Futures with labels that are not valid job names ...")
 plan(future.batchtools::batchtools_local)
 
 ## Job schedulers have restrictions on the job names, e.g. SGE does not
-## allow colons, and whitespace and shell meta characters are problematic.
-## The job name is only used by the scheduler, so the label of the future
-## itself must stay as-is.
+## allow colons.  The job name is also written to the job script, so a
+## double quote, a command substitution, or a backtick would break the script
+## or execute a command, respectively.  The job name is only used by the
+## scheduler, so the label of the future itself must stay as-is.
 labels <- c(
   "fz:2",
   "a b",
@@ -20,6 +21,9 @@ labels <- c(
   "q?",
   "it's",
   "$HOME",
+  "a\"b",
+  "x$(echo hi)y",
+  "a`echo hi`b",
   "a;b|c&d",
   "2fast",
   "-dash",
