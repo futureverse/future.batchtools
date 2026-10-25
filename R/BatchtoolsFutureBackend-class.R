@@ -730,11 +730,26 @@ getFutureBackendConfigs.BatchtoolsFuture <- function(future, ..., debug = isTRUE
   conditionClasses <- future[["conditions"]]
   if (is.null(conditionClasses)) return(list())
 
+  ## A batchtools interactive future is evaluated in the current R session,
+  ## so immediate conditions are relayed as soon as they are signaled, without
+  ## involving the file system
+  if (inherits(future, "BatchtoolsInteractiveFuture")) return(list())
+
   immediateConditionClasses <- attr(conditionClasses, "immediateConditionClasses", exact = TRUE)
   if (length(immediateConditionClasses) == 0L && !is.null(immediateConditionClasses)) return(list())
 
+  ## Relay immediate conditions as soon as possible, via files? If not,
+  ## they are treated as any other condition, that is, they are relayed
+  ## when the value of the future is collected
+  if (!isTRUE(getOption("future.batchtools.relay.immediate", TRUE))) {
+    return(list(capture = list(immediateConditionClasses = character(0L))))
+  }
+
   path <- immediateConditionsPathOfFuture(future)
   if (is.null(path)) return(list())
+
+  ## Record that the worker saves immediate conditions as files
+  future[[".relayImmediate"]] <- TRUE
 
   capture <- list(
     immediateConditionHandlers = list(
@@ -752,6 +767,8 @@ getFutureBackendConfigs.BatchtoolsFuture <- function(future, ..., debug = isTRUE
 ## far, optionally signals them, and records them as having been collected
 #' @importFrom utils file_test
 relayImmediateConditions <- function(future, signal = TRUE) {
+  ## Does the worker save immediate conditions as files?
+  if (!isTRUE(future[[".relayImmediate"]])) return(invisible(list()))
   path <- immediateConditionsPathOfFuture(future)
   if (is.null(path)) return(invisible(list()))
   conditions <- readImmediateConditions(path = path, signal = signal)
