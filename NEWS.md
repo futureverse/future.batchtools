@@ -8,6 +8,10 @@
    file system, specifically with the batchtools registry folder
    shared by the main R process and each worker.
 
+ * Add R option `future.batchtools.relay.immediate`, and environment
+   variable `R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE`, to disable that
+   immediate conditions are relayed as soon as possible.
+
 ## Bug Fixes
 
  * Launching a batchtools future with a label that is not valid as a

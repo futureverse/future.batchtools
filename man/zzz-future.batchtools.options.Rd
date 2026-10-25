@@ -6,11 +6,13 @@
 \alias{future.batchtools.delete}
 \alias{future.batchtools.expiration.tail}
 \alias{future.batchtools.output}
+\alias{future.batchtools.relay.immediate}
 \alias{future.batchtools.workers}
 \alias{R_FUTURE_CACHE_PATH}
 \alias{R_FUTURE_BATCHTOOLS_DELETE}
 \alias{R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL}
 \alias{R_FUTURE_BATCHTOOLS_OUTPUT}
+\alias{R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE}
 \alias{R_FUTURE_BATCHTOOLS_WORKERS}
 \title{Options used for batchtools futures}
 \description{
@@ -52,6 +54,19 @@ Specifically, it must \emph{not} be a folder that is only local to the
 machine such as \verb{file.path(tempdir(), ".future"} if a job scheduler
 on an HPC environment is used.
 (Default: \code{.future} in the current working directory)}
+
+\item{\option{future.batchtools.relay.immediate}:}{(logical)
+If TRUE, conditions of class \code{immediateCondition} are relayed as
+soon as possible. To do this, the worker saves each of them as a
+small file in the \pkg{batchtools} registry folder of the future,
+and the main \R process reads these files when it polls the future,
+e.g. using \code{\link[future:resolved]{future::resolved()}}.
+If FALSE, no such files are written, and immediate conditions are
+treated as any other condition, that is, they are relayed at the end,
+when the value of the future is collected.
+Disabling this can be useful if a future signals so many immediate
+conditions that the file system gets overloaded.
+(Default: \code{TRUE})}
 
 \item{\option{future.batchtools.delete}:}{(character string)
 Controls whether or not the future's \pkg{batchtools} registry folder

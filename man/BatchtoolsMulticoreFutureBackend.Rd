@@ -13,7 +13,13 @@ BatchtoolsMulticoreFutureBackend(
 }
 \arguments{
 \item{workers}{The number of multicore processes to be
-available for concurrent batchtools multicore futures.}
+available for concurrent batchtools multicore futures.
+If a single worker is requested, which is the default when only one
+CPU core is available, the batchtools local backend is used instead.
+It is synchronous, that is, the main R process blocks while a job is
+running.  To use an asynchronous batchtools multicore backend also
+with a single worker, protect the number of workers using \code{\link[base:I]{base::I()}},
+e.g. \code{workers = I(1)}.}
 
 \item{fs.latency}{[\code{numeric(1)}]\cr
 Expected maximum latency of the file system, in seconds.

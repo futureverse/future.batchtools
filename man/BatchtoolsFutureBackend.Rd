@@ -130,6 +130,17 @@ and batchtools interactive futures on the one set up by
 \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive()}}.
 These are supported by all operating systems.
 
+Batchtools local and interactive futures are synchronous, that is, the
+main R process blocks while a job is running.  Since a batchtools local
+job is evaluated in a separate R session, nothing can be relayed from it
+until it is done.  For example, immediate conditions, such as progress
+updates signaled by the \pkg{progressr} package, are relayed first when
+the job has finished.  To get them as soon as possible, use an
+asynchronous backend, e.g. \code{\link[=batchtools_multicore]{batchtools_multicore()}} with two or more
+workers, or a job scheduler.  A batchtools interactive job is evaluated
+in the current R session, so immediate conditions are relayed as soon as
+they are signaled, just as for sequential futures.
+
 An alternative to batchtools local futures is to use
 \link[future:cluster]{cluster} futures of the \pkg{future}
 package with a single local background session, i.e.

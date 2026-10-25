@@ -39,6 +39,14 @@ Batchtools local futures use \pkg{batchtools} cluster functions
 created by \code{\link[batchtools:makeClusterFunctionsInteractive]{batchtools::makeClusterFunctionsInteractive()}} with
 \code{external = TRUE}.
 
+The batchtools local backend is synchronous, that is, the main R process
+blocks while a job is running.  This means that nothing can be relayed from
+a job until it is done.  For example, immediate conditions, such as
+progress updates signaled by the \pkg{progressr} package, are relayed
+first when the job has finished.  To get them as soon as possible, use an
+asynchronous backend, e.g. \code{\link[=batchtools_multicore]{batchtools_multicore()}} with two or more
+workers, or a job scheduler.
+
 An alternative to the batchtools local backend is to use
 \code{plan(future::cluster, workers = I(1))}.
 }

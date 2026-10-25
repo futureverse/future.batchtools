@@ -38,6 +38,19 @@
 #'     on an HPC environment is used.
 #'     (Default: `.future` in the current working directory)}
 #'
+#'   \item{\option{future.batchtools.relay.immediate}:}{(logical)
+#'     If TRUE, conditions of class `immediateCondition` are relayed as
+#'     soon as possible. To do this, the worker saves each of them as a
+#'     small file in the \pkg{batchtools} registry folder of the future,
+#'     and the main \R process reads these files when it polls the future,
+#'     e.g. using [future::resolved()].
+#'     If FALSE, no such files are written, and immediate conditions are
+#'     treated as any other condition, that is, they are relayed at the end,
+#'     when the value of the future is collected.
+#'     Disabling this can be useful if a future signals so many immediate
+#'     conditions that the file system gets overloaded.
+#'     (Default: `TRUE`)}
+#'
 #'   \item{\option{future.batchtools.delete}:}{(character string)
 #'     Controls whether or not the future's \pkg{batchtools} registry folder
 #'     is deleted after the future result has been collected.
@@ -66,12 +79,14 @@
 #' @aliases future.batchtools.delete
 #' @aliases future.batchtools.expiration.tail
 #' @aliases future.batchtools.output
+#' @aliases future.batchtools.relay.immediate
 #' @aliases future.batchtools.workers
 #'
 #' @aliases R_FUTURE_CACHE_PATH
 #' @aliases R_FUTURE_BATCHTOOLS_DELETE
 #' @aliases R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL
 #' @aliases R_FUTURE_BATCHTOOLS_OUTPUT
+#' @aliases R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE
 #' @aliases R_FUTURE_BATCHTOOLS_WORKERS
 #'
 #' @name zzz-future.batchtools.options
@@ -174,6 +189,7 @@ update_package_options <- function(debug = FALSE) {
 
   update_package_option("future.batchtools.expiration.tail", mode = "integer", debug = debug)
   update_package_option("future.batchtools.output", mode = "logical", debug = debug)
+  update_package_option("future.batchtools.relay.immediate", mode = "logical", default = TRUE, debug = debug)
   update_package_option("future.batchtools.workers", mode = "numeric", debug = debug)
   update_package_option("future.batchtools.status.cache", mode = "logical", default = TRUE, debug = debug)
 }

@@ -13,7 +13,13 @@ batchtools_multicore(
 }
 \arguments{
 \item{workers}{The number of multicore processes to be
-available for concurrent batchtools multicore futures.}
+available for concurrent batchtools multicore futures.
+If a single worker is requested, which is the default when only one
+CPU core is available, the batchtools local backend is used instead.
+It is synchronous, that is, the main R process blocks while a job is
+running.  To use an asynchronous batchtools multicore backend also
+with a single worker, protect the number of workers using \code{\link[base:I]{base::I()}},
+e.g. \code{workers = I(1)}.}
 
 \item{fs.latency}{[\code{numeric(1)}]\cr
 Expected maximum latency of the file system, in seconds.
@@ -40,6 +46,12 @@ A batchtools backend that resolves futures in parallel via forked background R p
 Batchtools multicore futures use \pkg{batchtools} cluster functions
 created by \code{\link[batchtools:makeClusterFunctionsMulticore]{batchtools::makeClusterFunctionsMulticore()}} with
 \code{ncpus = workers}.
+
+Since batchtools multicore futures are asynchronous, conditions, such as
+progress updates signaled by the \pkg{progressr} package, are relayed
+while the jobs are running.  Note, however, that a single worker, unless
+protected using \code{\link[base:I]{base::I()}}, falls back to the synchronous batchtools local
+backend, in which case they are relayed first when a job has finished.
 
 An alternative to the batchtools multicore backend is to use
 \code{plan(future::multicore)}.
