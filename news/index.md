@@ -14,6 +14,13 @@
   variable `R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE`, to disable that
   immediate conditions are relayed as soon as possible.
 
+- Job scripts generated from Bash templates are now validated with
+  `bash -n` before they are submitted, so that a syntax error, e.g. in
+  user-supplied `resources` fields such as `startup`, produces an
+  immediate error instead of a failed job on the compute node.
+  Validation can be disabled by setting R option
+  `future.batchtools.script.validate` to FALSE.
+
 ### Bug Fixes
 
 - Launching a batchtools future with a label that is not valid as a job

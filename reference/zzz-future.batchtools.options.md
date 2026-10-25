@@ -53,6 +53,14 @@ further notice.*
   useful if a future signals so many immediate conditions that the file
   system gets overloaded. (Default: `TRUE`)
 
+- future.batchtools.script.validate::
+
+  (logical) If TRUE, each generated job script that has a Bash or
+  POSIX-shell shebang is checked for syntax errors using `bash -n`
+  before it is submitted, which gives an immediate error instead of a
+  failed job on the compute node. Set to FALSE to disable, e.g. if a
+  false positive is reported. (Default: `TRUE`)
+
 - future.batchtools.delete::
 
   (character string) Controls whether or not the future's batchtools

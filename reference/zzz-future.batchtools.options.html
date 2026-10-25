@@ -27,7 +27,7 @@ until further notice."><!-- Global site tag (gtag.js) - Google Analytics --><scr
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -146,6 +146,16 @@ treated as any other condition, that is, they are relayed at the end,
 when the value of the future is collected.
 Disabling this can be useful if a future signals so many immediate
 conditions that the file system gets overloaded.
+(Default: <code>TRUE</code>)</p></dd>
+
+
+<dt><span class="option">future.batchtools.script.validate</span>:</dt>
+<dd><p>(logical)
+If TRUE, each generated job script that has a Bash or POSIX-shell
+shebang is checked for syntax errors using <code>bash -n</code> before it is
+submitted, which gives an immediate error instead of a failed job
+on the compute node. Set to FALSE to disable, e.g. if a false
+positive is reported.
 (Default: <code>TRUE</code>)</p></dd>
 
 

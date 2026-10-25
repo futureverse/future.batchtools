@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,6 +77,7 @@
 <h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li><p>Progress updates by the <strong>progressr</strong> package, and <code>immediateCondition</code> conditions in general, are now relayed as soon as possible for all batchtools backend. They are relayed via the file system, specifically with the batchtools registry folder shared by the main R process and each worker.</p></li>
 <li><p>Add R option <code>future.batchtools.relay.immediate</code>, and environment variable <code>R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE</code>, to disable that immediate conditions are relayed as soon as possible.</p></li>
+<li><p>Job scripts generated from Bash templates are now validated with <code>bash -n</code> before they are submitted, so that a syntax error, e.g. in user-supplied <code>resources</code> fields such as <code>startup</code>, produces an immediate error instead of a failed job on the compute node. Validation can be disabled by setting R option <code>future.batchtools.script.validate</code> to FALSE.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
