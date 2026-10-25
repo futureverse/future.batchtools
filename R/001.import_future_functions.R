@@ -1,6 +1,9 @@
 ## To be imported from 'future', if available
 assertOwner <- NULL
 readImmediateConditions <- NULL
+immediateConditionsPath <- NULL
+fileImmediateConditionHandler <- NULL
+getFutureBackendConfigs <- NULL
 signalEarly <- NULL
 FutureRegistry <- NULL
 sQuoteLabel <- NULL
@@ -13,6 +16,10 @@ getFutureData <- NULL
 import_future_functions <- function() {
   assertOwner <<- import_future("assertOwner")
   readImmediateConditions <<- import_future("readImmediateConditions")
+  immediateConditionsPath <<- import_future("immediateConditionsPath")
+  fileImmediateConditionHandler <<- import_future("fileImmediateConditionHandler")
+  getFutureBackendConfigs <<- import_future("getFutureBackendConfigs")
+  registerS3method("getFutureBackendConfigs", "BatchtoolsFuture", getFutureBackendConfigs.BatchtoolsFuture)
   signalEarly <<- import_future("signalEarly")
   FutureRegistry <<- import_future("FutureRegistry")
   with_stealth_rng <<- import_future("with_stealth_rng")

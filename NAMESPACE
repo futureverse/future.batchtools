@@ -2,6 +2,7 @@
 
 S3method(add_finalizer,BatchtoolsFuture)
 S3method(delete,BatchtoolsFuture)
+S3method(getFutureBackendConfigs,BatchtoolsFuture)
 S3method(interruptFuture,BatchtoolsFutureBackend)
 S3method(launchFuture,BatchtoolsFutureBackend)
 S3method(loggedError,BatchtoolsFuture)

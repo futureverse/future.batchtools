@@ -1,6 +1,12 @@
 # Version (development version)
 
- * ...
+## New Features
+
+ * Progress updates by the **progressr** package, and
+   `immediateCondition` conditions in general, are now relayed as soon
+   as possible for all batchtools backend. They are relayed via the
+   file system, specifically with the batchtools registry folder
+   shared by the main R process and each worker.
 
 
 # Version 0.30.0 [2026-10-18]
