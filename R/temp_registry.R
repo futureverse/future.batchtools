@@ -145,3 +145,25 @@ as_valid_registry_id <- function(name) {
 
   name
 }
+
+
+## The name of a job must be accepted by all job schedulers.  For example,
+## SGE does not allow colons, whitespace, slashes, '@', '*', and '?'.  Since
+## the name is also used in the job scripts, e.g. echoed in shell, we only
+## allow letters, digits, underscores, dashes, and periods, and the first
+## character must be a letter.  Any other character is replaced by an
+## underscore.
+as_valid_job_name <- function(name) {
+  pattern <- "^[A-Za-z][A-Za-z0-9._-]*$"
+  ## Nothing to do?
+  if (grepl(pattern, name)) return(name)
+
+  name <- gsub("[^A-Za-z0-9._-]", "_", name)
+
+  ## First character must be a letter
+  if (!grepl("^[A-Za-z]", name)) name <- paste0("z", name)
+
+  stop_if_not(grepl(pattern, name))
+
+  name
+}

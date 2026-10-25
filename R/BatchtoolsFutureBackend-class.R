@@ -298,7 +298,9 @@ launchFuture.BatchtoolsFutureBackend <- local({
         mdebug_push("batchtools::setJobNames() ...")
         on.exit(mdebug_pop())
       }
-      setJobNames(ids = jobid, names = label, reg = reg)
+      ## The label is the name of the job on the job queue, which is
+      ## restricted by the job schedulers, e.g. SGE does not allow colons
+      setJobNames(ids = jobid, names = as_valid_job_name(label), reg = reg)
     })
     
     if (debug) mdebugf("Created %s future #%d", class(future)[1], jobid$job.id)

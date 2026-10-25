@@ -8,6 +8,13 @@
    file system, specifically with the batchtools registry folder
    shared by the main R process and each worker.
 
+## Bug Fixes
+
+ * Launching a batchtools future with a label that is not valid as a
+   job name for the job scheduler, e.g. `label = "fz:2"` with SGE, which
+   does not allow colons, would fail with an error from the scheduler.
+   The label is now turned into a valid job name at submission.
+
 
 # Version 0.30.0 [2026-10-18]
 
