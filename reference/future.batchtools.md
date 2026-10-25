@@ -38,8 +38,9 @@ Other contributors:
   adapted from the 'batchtools' package) \[contributor, copyright
   holder\]
 
-- Bernd Bischl (Code adapted from the 'batchtools' package)
-  \[contributor, copyright holder\]
+- Bernd Bischl ([ORCID](https://orcid.org/0000-0001-6002-6980)) (Code
+  adapted from the 'batchtools' package) \[contributor, copyright
+  holder\]
 
 ## Examples
 
