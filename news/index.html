@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,13 @@
 <h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
 <div class="section level3">
 <h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>Progress updates by the <strong>progressr</strong> package, and <code>immediateCondition</code> conditions in general, are now relayed as soon as possible for all batchtools backend. They are relayed via the file system, specifically with the batchtools registry folder shared by the main R process and each worker.</li>
+<ul><li><p>Progress updates by the <strong>progressr</strong> package, and <code>immediateCondition</code> conditions in general, are now relayed as soon as possible for all batchtools backend. They are relayed via the file system, specifically with the batchtools registry folder shared by the main R process and each worker.</p></li>
+<li><p>Add R option <code>future.batchtools.relay.immediate</code>, and environment variable <code>R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE</code>, to disable that immediate conditions are relayed as soon as possible.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li><p>Launching a batchtools future with a label that is not valid as a job name for the job scheduler, e.g. <code>label = "fz:2"</code> with SGE, which does not allow colons, would fail with an error from the scheduler. The label is now turned into a valid job name at submission.</p></li>
+<li><p><code>tweak(batchtools_&lt;hpc&gt;, registry = ...)</code> for the LSF, OpenLava, SGE, Slurm, and Torque backends ignored argument <code>registry</code> with a warning on “unknown future arguments”.</p></li>
 </ul></div>
 </div>
     <div class="section level2">

@@ -156,6 +156,18 @@ and batchtools interactive futures on the one set up by
 [`batchtools::makeClusterFunctionsInteractive()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html).
 These are supported by all operating systems.
 
+Batchtools local and interactive futures are synchronous, that is, the
+main R process blocks while a job is running. Since a batchtools local
+job is evaluated in a separate R session, nothing can be relayed from it
+until it is done. For example, immediate conditions, such as progress
+updates signaled by the progressr package, are relayed first when the
+job has finished. To get them as soon as possible, use an asynchronous
+backend, e.g.
+[`batchtools_multicore()`](https://future.batchtools.futureverse.org/reference/batchtools_multicore.md)
+with two or more workers, or a job scheduler. A batchtools interactive
+job is evaluated in the current R session, so immediate conditions are
+relayed as soon as they are signaled, just as for sequential futures.
+
 An alternative to batchtools local futures is to use
 [cluster](https://future.futureverse.org/reference/cluster.html) futures
 of the future package with a single local background session, i.e.
@@ -206,7 +218,7 @@ print(plan())
 #> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)
 #> BatchtoolsCustomFutureBackend:
 #> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend
-#> UUID: e11fe74b69e2e8fe7090f5d13f3e585f
+#> UUID: d0dd7402075e7848d2d0591b44441e63
 #> Number of workers: 1
 #> Number of free workers: 1
 #> Available cores: 8
@@ -221,12 +233,12 @@ print(plan())
 #> batchtools configuration file: <NA>
 #> batchtools cluster functions: ‘Interactive’
 #> batchtools cluster functions template: <NA>
-#> Cache directory: ‘/tmp/hb/Rtmp3XvPz0/future.batchtools/docs/reference/.future/20261025_093017-gqyf5x’ (0 folders)
+#> Cache directory: ‘/tmp/hb/RtmpARl0PM/future.batchtools/docs/reference/.future/20261025_121541-fWEvld’ (0 folders)
 #> batchtools resources:
 #>  list()
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 2089192
+#> Main process ID: 2216965
 
 f <- future({
   data.frame(
@@ -240,7 +252,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>     hostname    os cores     pid
-#> 1 hb-x1-2023 Linux     8 2089372
+#> 1 hb-x1-2023 Linux     8 2217185
 #>                                                                                                                                                                                                                                                                                                                                                                                       modules
 #> 1 CBI:cmake/4.3.3:r/4.6.1:pandoc/3.12:quarto/1.10.18:port4me/0.7.1:bat/0.26.1:fzf/0.74.4:glow/2.1.2:github-cli/2.102.0:tea/0.16.0:git-flow/1.12.3:git-extras/7.5.0:difftastic/0.69.0:ripgrep/15.2.0:shellcheck/0.11.0:node/26.0.0:markdownlint-cli/0.49.1:gitleaks/8.30.1:rclone/1.74.4:himalaya/2.2.1:rust/1.97.1:osgrep/0.5.16:opencode/1.15.12:bash-startup/0.5.0:restic/0.19.1:deno/2.9.7
 ```

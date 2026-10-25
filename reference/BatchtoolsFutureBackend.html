@@ -35,7 +35,7 @@ SSH batchtools futures."><!-- Global site tag (gtag.js) - Google Analytics --><s
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -231,6 +231,16 @@ Usually safe to set to <code>0</code> to disable the heuristic, e.g. if you are 
 and batchtools interactive futures on the one set up by
 <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html" class="external-link">batchtools::makeClusterFunctionsInteractive()</a></code>.
 These are supported by all operating systems.</p>
+<p>Batchtools local and interactive futures are synchronous, that is, the
+main R process blocks while a job is running.  Since a batchtools local
+job is evaluated in a separate R session, nothing can be relayed from it
+until it is done.  For example, immediate conditions, such as progress
+updates signaled by the <span class="pkg">progressr</span> package, are relayed first when
+the job has finished.  To get them as soon as possible, use an
+asynchronous backend, e.g. <code><a href="batchtools_multicore.html">batchtools_multicore()</a></code> with two or more
+workers, or a job scheduler.  A batchtools interactive job is evaluated
+in the current R session, so immediate conditions are relayed as soon as
+they are signaled, just as for sequential futures.</p>
 <p>An alternative to batchtools local futures is to use
 <a href="https://future.futureverse.org/reference/cluster.html" class="external-link">cluster</a> futures of the <span class="pkg">future</span>
 package with a single local background session, i.e.
@@ -279,7 +289,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> BatchtoolsCustomFutureBackend:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: e11fe74b69e2e8fe7090f5d13f3e585f</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: d0dd7402075e7848d2d0591b44441e63</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of free workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available cores: 8</span>
@@ -294,12 +304,12 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools configuration file: &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions: ‘Interactive’</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions template: &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/Rtmp3XvPz0/future.batchtools/docs/reference/.future/20261025_093017-gqyf5x’ (0 folders)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/RtmpARl0PM/future.batchtools/docs/reference/.future/20261025_121541-fWEvld’ (0 folders)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools resources:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  list()</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Main process ID: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 2089192</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 2216965</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
@@ -313,7 +323,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-in"><span><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">info</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     hostname    os cores     pid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hb-x1-2023 Linux     8 2089372</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hb-x1-2023 Linux     8 2217185</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                       modules</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 CBI:cmake/4.3.3:r/4.6.1:pandoc/3.12:quarto/1.10.18:port4me/0.7.1:bat/0.26.1:fzf/0.74.4:glow/2.1.2:github-cli/2.102.0:tea/0.16.0:git-flow/1.12.3:git-extras/7.5.0:difftastic/0.69.0:ripgrep/15.2.0:shellcheck/0.11.0:node/26.0.0:markdownlint-cli/0.49.1:gitleaks/8.30.1:rclone/1.74.4:himalaya/2.2.1:rust/1.97.1:osgrep/0.5.16:opencode/1.15.12:bash-startup/0.5.0:restic/0.19.1:deno/2.9.7</span>
 <span class="r-in"><span></span></span>

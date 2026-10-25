@@ -44,10 +44,12 @@
   [`future.batchtools.delete`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`future.batchtools.expiration.tail`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`future.batchtools.output`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
+  [`future.batchtools.relay.immediate`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`future.batchtools.workers`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`R_FUTURE_CACHE_PATH`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`R_FUTURE_BATCHTOOLS_DELETE`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`R_FUTURE_BATCHTOOLS_OUTPUT`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
+  [`R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   [`R_FUTURE_BATCHTOOLS_WORKERS`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   : Options used for batchtools futures

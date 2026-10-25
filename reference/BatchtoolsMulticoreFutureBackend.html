@@ -23,7 +23,7 @@ multicore batchtools futures."><!-- Global site tag (gtag.js) - Google Analytics
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,7 +105,13 @@ multicore batchtools futures.</em></p>
 
 <dl><dt id="arg-workers">workers<a class="anchor" aria-label="anchor" href="#arg-workers"></a></dt>
 <dd><p>The number of multicore processes to be
-available for concurrent batchtools multicore futures.</p></dd>
+available for concurrent batchtools multicore futures.
+If a single worker is requested, which is the default when only one
+CPU core is available, the batchtools local backend is used instead.
+It is synchronous, that is, the main R process blocks while a job is
+running.  To use an asynchronous batchtools multicore backend also
+with a single worker, protect the number of workers using <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">base::I()</a></code>,
+e.g. <code>workers = I(1)</code>.</p></dd>
 
 
 <dt id="arg-fs-latency">fs.latency<a class="anchor" aria-label="anchor" href="#arg-fs-latency"></a></dt>

@@ -47,6 +47,15 @@ Batchtools local futures use batchtools cluster functions created by
 [`batchtools::makeClusterFunctionsInteractive()`](https://batchtools.mlr-org.com/reference/makeClusterFunctionsInteractive.html)
 with `external = TRUE`.
 
+The batchtools local backend is synchronous, that is, the main R process
+blocks while a job is running. This means that nothing can be relayed
+from a job until it is done. For example, immediate conditions, such as
+progress updates signaled by the progressr package, are relayed first
+when the job has finished. To get them as soon as possible, use an
+asynchronous backend, e.g.
+[`batchtools_multicore()`](https://future.batchtools.futureverse.org/reference/batchtools_multicore.md)
+with two or more workers, or a job scheduler.
+
 An alternative to the batchtools local backend is to use
 `plan(future::cluster, workers = I(1))`.
 
@@ -57,7 +66,7 @@ library(future)
 plan(future.batchtools::batchtools_local)
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 2089192
+#> Main process ID: 2216965
 
 f <- future({
   data.frame(
@@ -71,7 +80,7 @@ f <- future({
 info <- value(f)
 print(info)
 #>     hostname    os cores     pid
-#> 1 hb-x1-2023 Linux     8 2089495
+#> 1 hb-x1-2023 Linux     8 2217341
 #>                                                                                                                                                                                                                                                                                                                                                                                       modules
 #> 1 CBI:cmake/4.3.3:r/4.6.1:pandoc/3.12:quarto/1.10.18:port4me/0.7.1:bat/0.26.1:fzf/0.74.4:glow/2.1.2:github-cli/2.102.0:tea/0.16.0:git-flow/1.12.3:git-extras/7.5.0:difftastic/0.69.0:ripgrep/15.2.0:shellcheck/0.11.0:node/26.0.0:markdownlint-cli/0.49.1:gitleaks/8.30.1:rclone/1.74.4:himalaya/2.2.1:rust/1.97.1:osgrep/0.5.16:opencode/1.15.12:bash-startup/0.5.0:restic/0.19.1:deno/2.9.7
 ```

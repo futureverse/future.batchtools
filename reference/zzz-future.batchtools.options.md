@@ -39,6 +39,20 @@ further notice.*
   environment is used. (Default: `.future` in the current working
   directory)
 
+- future.batchtools.relay.immediate::
+
+  (logical) If TRUE, conditions of class `immediateCondition` are
+  relayed as soon as possible. To do this, the worker saves each of them
+  as a small file in the batchtools registry folder of the future, and
+  the main R process reads these files when it polls the future, e.g.
+  using
+  [`future::resolved()`](https://future.futureverse.org/reference/resolved.html).
+  If FALSE, no such files are written, and immediate conditions are
+  treated as any other condition, that is, they are relayed at the end,
+  when the value of the future is collected. Disabling this can be
+  useful if a future signals so many immediate conditions that the file
+  system gets overloaded. (Default: `TRUE`)
+
 - future.batchtools.delete::
 
   (character string) Controls whether or not the future's batchtools

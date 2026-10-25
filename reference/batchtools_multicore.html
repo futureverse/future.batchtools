@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,7 +92,13 @@
 
 <dl><dt id="arg-workers">workers<a class="anchor" aria-label="anchor" href="#arg-workers"></a></dt>
 <dd><p>The number of multicore processes to be
-available for concurrent batchtools multicore futures.</p></dd>
+available for concurrent batchtools multicore futures.
+If a single worker is requested, which is the default when only one
+CPU core is available, the batchtools local backend is used instead.
+It is synchronous, that is, the main R process blocks while a job is
+running.  To use an asynchronous batchtools multicore backend also
+with a single worker, protect the number of workers using <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">base::I()</a></code>,
+e.g. <code>workers = I(1)</code>.</p></dd>
 
 
 <dt id="arg-fs-latency">fs.latency<a class="anchor" aria-label="anchor" href="#arg-fs-latency"></a></dt>
@@ -125,6 +131,11 @@ If <code>"always"</code>, then it is always deleted.</p></dd>
     <p>Batchtools multicore futures use <span class="pkg">batchtools</span> cluster functions
 created by <code><a href="https://batchtools.mlr-org.com/reference/makeClusterFunctionsMulticore.html" class="external-link">batchtools::makeClusterFunctionsMulticore()</a></code> with
 <code>ncpus = workers</code>.</p>
+<p>Since batchtools multicore futures are asynchronous, conditions, such as
+progress updates signaled by the <span class="pkg">progressr</span> package, are relayed
+while the jobs are running.  Note, however, that a single worker, unless
+protected using <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">base::I()</a></code>, falls back to the synchronous batchtools local
+backend, in which case they are relayed first when a job has finished.</p>
 <p>An alternative to the batchtools multicore backend is to use
 <code>plan(future::multicore)</code>.</p>
     </div>

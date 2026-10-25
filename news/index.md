@@ -10,6 +10,21 @@
   system, specifically with the batchtools registry folder shared by the
   main R process and each worker.
 
+- Add R option `future.batchtools.relay.immediate`, and environment
+  variable `R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE`, to disable that
+  immediate conditions are relayed as soon as possible.
+
+### Bug Fixes
+
+- Launching a batchtools future with a label that is not valid as a job
+  name for the job scheduler, e.g. `label = "fz:2"` with SGE, which does
+  not allow colons, would fail with an error from the scheduler. The
+  label is now turned into a valid job name at submission.
+
+- `tweak(batchtools_<hpc>, registry = ...)` for the LSF, OpenLava, SGE,
+  Slurm, and Torque backends ignored argument `registry` with a warning
+  on “unknown future arguments”.
+
 ## Version 0.30.0
 
 CRAN release: 2026-10-18

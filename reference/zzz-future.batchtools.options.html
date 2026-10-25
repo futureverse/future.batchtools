@@ -27,7 +27,7 @@ until further notice."><!-- Global site tag (gtag.js) - Google Analytics --><scr
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,6 +132,21 @@ Specifically, it must <em>not</em> be a folder that is only local to the
 machine such as <code>file.path(tempdir(), ".future"</code> if a job scheduler
 on an HPC environment is used.
 (Default: <code>.future</code> in the current working directory)</p></dd>
+
+
+<dt><span class="option">future.batchtools.relay.immediate</span>:</dt>
+<dd><p>(logical)
+If TRUE, conditions of class <code>immediateCondition</code> are relayed as
+soon as possible. To do this, the worker saves each of them as a
+small file in the <span class="pkg">batchtools</span> registry folder of the future,
+and the main <span style="R">R</span> process reads these files when it polls the future,
+e.g. using <code><a href="https://future.futureverse.org/reference/resolved.html" class="external-link">future::resolved()</a></code>.
+If FALSE, no such files are written, and immediate conditions are
+treated as any other condition, that is, they are relayed at the end,
+when the value of the future is collected.
+Disabling this can be useful if a future signals so many immediate
+conditions that the file system gets overloaded.
+(Default: <code>TRUE</code>)</p></dd>
 
 
 <dt><span class="option">future.batchtools.delete</span>:</dt>
