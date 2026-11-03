@@ -21,6 +21,10 @@
 
 ## Bug Fixes
 
+ * Launching a batchtools future with `workers = Inf` failed with error
+   "'is.finite(workers)' is not TRUE". An infinite number of workers
+   is now supported, as `nbrOfWorkers()` already reported.
+
  * Launching a batchtools future with a label that is not valid as a
    job name for the job scheduler, e.g. `label = "fz:2"` with SGE, which
    does not allow colons, would fail with an error from the scheduler.

@@ -62,7 +62,9 @@ waitForWorker.BatchtoolsFuture <- function(future,
   }
 
   if (is.numeric(workers)) {
-    stop_if_not(length(workers) == 1, !is.na(workers), is.finite(workers), workers >= 1L)
+    stop_if_not(length(workers) == 1, !is.na(workers), workers >= 1L)
+    ## An infinite number of workers is always available
+    if (is.infinite(workers)) return(invisible(NULL))
   } else if (is.character(workers)) {
     workers <- length(workers)
   } else {
