@@ -515,6 +515,15 @@ print.BatchtoolsFuture <- function(x, ...) {
 }
 
 
+## A scheduler job ID is a number, optionally followed by a dot and a host
+## name, e.g. '1234' (Slurm, SGE, LSF) and '1234.pbs-server' (Torque). Since
+## the ID may end up on a shell command line, anything else is rejected.
+is_valid_batch_id <- function(batch_id) {
+  is.character(batch_id) && length(batch_id) == 1L && !is.na(batch_id) &&
+    grepl("^[[:digit:]]+([.][-[:alnum:].]+)?$", batch_id)
+}
+
+
 #' @importFrom batchtools getStatus
 status <- function(future, ...) {
   debug <- isTRUE(getOption("future.debug"))
@@ -565,7 +574,7 @@ status <- function(future, ...) {
   ## Optionally filter by the scheduler's job ID, if it exists
   batch_id <- reg[["status"]][["batch.id"]]
   if (!is.null(batch_id) && !is.na(batch_id) && inherits(future, "BatchtoolsTemplateFuture") && !inherits(future, "BatchtoolsBashFuture")) {
-    if (!is.character(batch_id) || length(batch_id) != 1L || !nzchar(batch_id) || !grepl("^[[:digit:].]+$", batch_id)) {
+    if (!is_valid_batch_id(batch_id)) {
       stop(sprintf("Unknown value of 'batch.id': [class=%s] %s", class(batch_id)[1], paste(sQuote(batch_id), collapse = ", ")))
     }
   

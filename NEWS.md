@@ -21,6 +21,10 @@
 
 ## Bug Fixes
 
+ * Polling a batchtools future on a scheduler that reports job IDs with
+   a host name suffix, e.g. Torque's `1234.pbs-server`, failed with error
+   "Unknown value of 'batch.id'". Such job IDs are now accepted.
+
  * Launching a batchtools future with `workers = Inf` failed with error
    "'is.finite(workers)' is not TRUE". An infinite number of workers
    is now supported, as `nbrOfWorkers()` already reported.
