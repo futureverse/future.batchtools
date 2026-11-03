@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li><p>Launching a batchtools future with a label that is not valid as a job name for the job scheduler, e.g. <code>label = "fz:2"</code> with SGE, which does not allow colons, would fail with an error from the scheduler. The label is now turned into a valid job name at submission.</p></li>
+<ul><li><p>Polling a batchtools future on a scheduler that reports job IDs with a host name suffix, e.g. Torque’s <code>1234.pbs-server</code>, failed with error “Unknown value of ‘batch.id’”. Such job IDs are now accepted.</p></li>
+<li><p>Launching a batchtools future with <code>workers = Inf</code> failed with error “‘is.finite(workers)’ is not TRUE”. An infinite number of workers is now supported, as <code><a href="https://future.futureverse.org/reference/nbrOfWorkers.html" class="external-link">nbrOfWorkers()</a></code> already reported.</p></li>
+<li><p>Launching a batchtools future with a label that is not valid as a job name for the job scheduler, e.g. <code>label = "fz:2"</code> with SGE, which does not allow colons, would fail with an error from the scheduler. The label is now turned into a valid job name at submission.</p></li>
 <li><p><code>tweak(batchtools_&lt;hpc&gt;, registry = ...)</code> for the LSF, OpenLava, SGE, Slurm, and Torque backends ignored argument <code>registry</code> with a warning on “unknown future arguments”.</p></li>
 </ul></div>
 </div>
