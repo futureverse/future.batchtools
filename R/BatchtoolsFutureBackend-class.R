@@ -1230,7 +1230,7 @@ delete.BatchtoolsFuture <- function(future,
 
   ## Control batchtools info output
   oopts <- options(batchtools.verbose = debug)
-  on.exit(options(oopts))
+  on.exit(options(oopts), add = TRUE)
 
   ## Try to delete registry
   ## WORKAROUND: batchtools::clearRegistry() and
