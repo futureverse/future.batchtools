@@ -48,7 +48,7 @@ if [[ ${#pkgs_cores[@]} -gt 0 ]]; then
 fi
 
 ## Requires sequential processing due to clashes, e.g. port and cache 
-pkgs_seq=()
+pkgs_seq=(SimDesign)
 if [[ ${#pkgs_seq[@]} -gt 0 ]]; then
     revdep/run.R --rm "${pkgs_seq[@]}"
 fi
