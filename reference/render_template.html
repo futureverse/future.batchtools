@@ -129,9 +129,9 @@ If <code>NULL</code> (default), the currently set future plan is used.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Author: Henrik Bengtsson</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ######################################################################</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Job name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --job-name=job73069470a567dcaf4d18c82b56198676</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --job-name=job489b646b47faf0091ec57b5b208fb28d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Direct streams to logfile</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --output=/tmp/hb/RtmpCTITJT/future.batchtools_template_1c5a1e8efb568/logs/job73069470a567dcaf4d18c82b56198676.log</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --output=/tmp/hb/RtmpTsM4jN/future.batchtools_template_1caa6f3eadfb7c/logs/job489b646b47faf0091ec57b5b208fb28d.log</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Resources needed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --time=00:05:00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #SBATCH --mem=200M</span>
@@ -166,10 +166,10 @@ If <code>NULL</code> (default), the currently set future plan is used.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> echo</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ## Launch R and evaluate the batchtools R job</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> echo "Calling 'batchtools::doJobCollection()' ..."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job name: 'job73069470a567dcaf4d18c82b56198676'"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job log file: '/tmp/hb/RtmpCTITJT/future.batchtools_template_1c5a1e8efb568/logs/job73069470a567dcaf4d18c82b56198676.log'"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job uri: '/tmp/hb/RtmpCTITJT/future.batchtools_template_1c5a1e8efb568/jobs/job73069470a567dcaf4d18c82b56198676.rds'"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rscript -e 'batchtools::doJobCollection("/tmp/hb/RtmpCTITJT/future.batchtools_template_1c5a1e8efb568/jobs/job73069470a567dcaf4d18c82b56198676.rds")'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job name: 'job489b646b47faf0091ec57b5b208fb28d'"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job log file: '/tmp/hb/RtmpTsM4jN/future.batchtools_template_1caa6f3eadfb7c/logs/job489b646b47faf0091ec57b5b208fb28d.log'"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> echo "- job uri: '/tmp/hb/RtmpTsM4jN/future.batchtools_template_1caa6f3eadfb7c/jobs/job489b646b47faf0091ec57b5b208fb28d.rds'"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rscript -e 'batchtools::doJobCollection("/tmp/hb/RtmpTsM4jN/future.batchtools_template_1caa6f3eadfb7c/jobs/job489b646b47faf0091ec57b5b208fb28d.rds")'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> res=$?</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> echo " - exit code: ${res}"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> echo "Calling 'batchtools::doJobCollection()' ... done"</span>
