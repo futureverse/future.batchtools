@@ -1,8 +1,8 @@
 Package: future.batchtools
-Version: 0.30.0
+Version: 0.31.0
 Depends:
     R (>= 3.2.0),
-    future (>= 1.58.0)
+    future (>= 1.80.0)
 Imports:
     parallelly,
     batchtools (>= 0.9.17),
@@ -14,6 +14,7 @@ Suggests:
     future.apply,
     listenv,
     markdown,
+    snow,
     R.rsp
 VignetteBuilder:
     R.rsp
@@ -44,4 +45,4 @@ BugReports: https://github.com/futureverse/future.batchtools/issues
 Language: en-US
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1

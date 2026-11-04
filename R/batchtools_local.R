@@ -21,6 +21,17 @@
 #' [batchtools::makeClusterFunctionsInteractive()].
 #' These are supported by all operating systems.
 #'
+#' Batchtools local and interactive futures are synchronous, that is, the
+#' main R process blocks while a job is running.  Since a batchtools local
+#' job is evaluated in a separate R session, nothing can be relayed from it
+#' until it is done.  For example, immediate conditions, such as progress
+#' updates signaled by the \pkg{progressr} package, are relayed first when
+#' the job has finished.  To get them as soon as possible, use an
+#' asynchronous backend, e.g. [batchtools_multicore()] with two or more
+#' workers, or a job scheduler.  A batchtools interactive job is evaluated
+#' in the current R session, so immediate conditions are relayed as soon as
+#' they are signaled, just as for sequential futures.
+#'
 #' An alternative to batchtools local futures is to use
 #' [cluster][future::cluster] futures of the \pkg{future}
 #' package with a single local background session, i.e.
@@ -71,6 +82,14 @@ BatchtoolsLocalFutureBackend <- function(fs.latency = 0.0, ...) {
 #' Batchtools local futures use \pkg{batchtools} cluster functions
 #' created by [batchtools::makeClusterFunctionsInteractive()] with
 #' `external = TRUE`.
+#'
+#' The batchtools local backend is synchronous, that is, the main R process
+#' blocks while a job is running.  This means that nothing can be relayed from
+#' a job until it is done.  For example, immediate conditions, such as
+#' progress updates signaled by the \pkg{progressr} package, are relayed
+#' first when the job has finished.  To get them as soon as possible, use an
+#' asynchronous backend, e.g. [batchtools_multicore()] with two or more
+#' workers, or a job scheduler.
 #'
 #' An alternative to the batchtools local backend is to use
 #' `plan(future::cluster, workers = I(1))`.

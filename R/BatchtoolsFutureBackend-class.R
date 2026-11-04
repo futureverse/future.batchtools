@@ -201,6 +201,10 @@ launchFuture.BatchtoolsFutureBackend <- local({
     ## also the one that evaluates/resolves/queries it.
     assertOwner(future)
 
+    ## Relay immediate conditions from already launched futures, because
+    ## setting up and submitting a future may take a long time
+    relayImmediateConditionsOfLaunched(backend)
+
     ## Temporarily disable batchtools output?
     ## (i.e. messages and progress bars)
     batchtools_output <- getOption("future.batchtools.output", debug)
@@ -298,7 +302,9 @@ launchFuture.BatchtoolsFutureBackend <- local({
         mdebug_push("batchtools::setJobNames() ...")
         on.exit(mdebug_pop())
       }
-      setJobNames(ids = jobid, names = label, reg = reg)
+      ## The label is the name of the job on the job queue, which is
+      ## restricted by the job schedulers, e.g. SGE does not allow colons
+      setJobNames(ids = jobid, names = as_valid_job_name(label), reg = reg)
     })
     
     if (debug) mdebugf("Created %s future #%d", class(future)[1], jobid$job.id)
@@ -368,6 +374,9 @@ launchFuture.BatchtoolsFutureBackend <- local({
     ## 6. Reserve worker for future
     registerFuture(future)
 
+    ## Relay immediate conditions that arrived while submitting
+    relayImmediateConditionsOfLaunched(backend)
+
     ## 7. Trigger early signalling
     if (inherits(future, "BatchtoolsUniprocessFuture")) {
       resolved(future)
@@ -410,6 +419,13 @@ interruptFuture.BatchtoolsFutureBackend <- function(backend, future, ...) {
   }
 
   jobid <- config[["jobid"]]$job.id
+  
+  ## Not submitted?
+  if (length(jobid) == 0L) {
+    if (debug) mdebug("Cannot interrupt, because the job was never submitted")
+    return(future)
+  }
+  
   if (debug) mdebugf("Job ID: %s", jobid)
 
   res <- local({
@@ -506,6 +522,15 @@ print.BatchtoolsFuture <- function(x, ...) {
 }
 
 
+## A scheduler job ID is a number, optionally followed by a dot and a host
+## name, e.g. '1234' (Slurm, SGE, LSF) and '1234.pbs-server' (Torque). Since
+## the ID may end up on a shell command line, anything else is rejected.
+is_valid_batch_id <- function(batch_id) {
+  is.character(batch_id) && length(batch_id) == 1L && !is.na(batch_id) &&
+    grepl("^[[:digit:]]+([.][-[:alnum:].]+)?$", batch_id)
+}
+
+
 #' @importFrom batchtools getStatus
 status <- function(future, ...) {
   debug <- isTRUE(getOption("future.debug"))
@@ -550,13 +575,15 @@ status <- function(future, ...) {
   ## Closed and deleted?
   if (!file_test("-d", reg$file.dir)) return(NA_character_)
 
+  ## The job ID is not set if the future was interrupted while
+  ## being launched and before batchtools::batchMap() completed
   jobid <- config$jobid
-  if (is.na(jobid)) return("not submitted")
+  if (length(jobid) == 0L || anyNA(jobid)) return("not submitted")
 
   ## Optionally filter by the scheduler's job ID, if it exists
   batch_id <- reg[["status"]][["batch.id"]]
   if (!is.null(batch_id) && !is.na(batch_id) && inherits(future, "BatchtoolsTemplateFuture") && !inherits(future, "BatchtoolsBashFuture")) {
-    if (!is.character(batch_id) || length(batch_id) != 1L || !nzchar(batch_id) || !grepl("^[[:digit:].]+$", batch_id)) {
+    if (!is_valid_batch_id(batch_id)) {
       stop(sprintf("Unknown value of 'batch.id': [class=%s] %s", class(batch_id)[1], paste(sQuote(batch_id), collapse = ", ")))
     }
   
@@ -695,6 +722,100 @@ loggedOutput.BatchtoolsFuture <- function(future, timeout = NULL, ...) {
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Immediate conditions
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+## Creates a fileImmediateConditionHandler() function with a minimal
+## enclosure, which is important in order to minimize the exported payload
+makeFileImmediateConditionHandler <- function(path) {
+  env <- new.env(parent = getNamespace("future"))
+  env[["path"]] <- path
+  handler <- function(cond) fileImmediateConditionHandler(cond, path = path)
+  environment(handler) <- env
+  handler
+}
+
+
+## Immediate conditions are saved in the batchtools registry folder, where
+## the future already lives. It is assumed that this folder is on a file
+## system shared by R main process and the workers.
+#' @importFrom utils file_test
+immediateConditionsPathOfFuture <- function(future) {
+  reg <- future[["config"]][["reg"]]
+  if (is.null(reg)) return(NULL)
+  file.dir <- reg[["file.dir"]]
+  ## Folder already removed? (to not recreate it)
+  if (!file_test("-d", file.dir)) return(NULL)
+  immediateConditionsPath(rootPath = file.dir)
+}
+
+
+#' @exportS3Method getFutureBackendConfigs BatchtoolsFuture
+#' @keywords internal
+getFutureBackendConfigs.BatchtoolsFuture <- function(future, ..., debug = isTRUE(getOption("future.debug"))) {
+  conditionClasses <- future[["conditions"]]
+  if (is.null(conditionClasses)) return(list())
+
+  ## A batchtools interactive future is evaluated in the current R session,
+  ## so immediate conditions are relayed as soon as they are signaled, without
+  ## involving the file system
+  if (inherits(future, "BatchtoolsInteractiveFuture")) return(list())
+
+  immediateConditionClasses <- attr(conditionClasses, "immediateConditionClasses", exact = TRUE)
+  if (length(immediateConditionClasses) == 0L && !is.null(immediateConditionClasses)) return(list())
+
+  ## Relay immediate conditions as soon as possible, via files? If not,
+  ## they are treated as any other condition, that is, they are relayed
+  ## when the value of the future is collected
+  if (!isTRUE(getOption("future.batchtools.relay.immediate", TRUE))) {
+    return(list(capture = list(immediateConditionClasses = character(0L))))
+  }
+
+  path <- immediateConditionsPathOfFuture(future)
+  if (is.null(path)) return(list())
+
+  ## Record that the worker saves immediate conditions as files
+  future[[".relayImmediate"]] <- TRUE
+
+  capture <- list(
+    immediateConditionHandlers = list(
+      immediateCondition = makeFileImmediateConditionHandler(path)
+    )
+  )
+
+  list(
+    capture = capture
+  )
+}
+
+
+## Reads the immediateConditions that the worker of the future has saved so
+## far, optionally signals them, and records them as having been collected
+#' @importFrom utils file_test
+relayImmediateConditions <- function(future, signal = TRUE) {
+  ## Does the worker save immediate conditions as files?
+  if (!isTRUE(future[[".relayImmediate"]])) return(invisible(list()))
+  path <- immediateConditionsPathOfFuture(future)
+  if (is.null(path)) return(invisible(list()))
+  conditions <- readImmediateConditions(path = path, signal = signal)
+  if (length(conditions) > 0L) {
+    future[[".signaledConditions"]] <- c(future[[".signaledConditions"]], conditions)
+  }
+  invisible(conditions)
+}
+
+
+## Relays the immediateConditions of all launched, unresolved futures of
+## the backend, without collecting their values
+relayImmediateConditionsOfLaunched <- function(backend) {
+  futures <- FutureRegistry(backend[["reg"]], action = "list", earlySignal = FALSE)
+  for (future in futures) {
+    if (is.null(future[["result"]])) relayImmediateConditions(future, signal = TRUE)
+  }
+  invisible()
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Future API
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #' @importFrom future resolved
@@ -714,6 +835,10 @@ resolved.BatchtoolsFuture <- function(x, ...) {
   
   ## If not, checks the batchtools registry status
   resolved <- finished(x)
+
+  ## Collect and relay immediateCondition if they exists
+  relayImmediateConditions(x, signal = TRUE)
+
   if (is.na(resolved)) return(FALSE)
 
   if (!resolved && x[["state"]] == "canceled") {
@@ -776,6 +901,19 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
     res
   })
   stop_if_not(inherits(result, c("FutureResult", "FutureError")))
+
+  ## Collect immediateCondition if they exists, and record all of them,
+  ## relayed or not, as part of the result, such that they are signaled
+  ## once, by value(), if they have not been relayed already
+  conditions <- relayImmediateConditions(future, signal = FALSE)
+  if (inherits(result, "FutureResult")) {
+    signaled <- future[[".signaledConditions"]]
+    if (length(signaled) > 0L) {
+      result[["conditions"]] <- c(result[["conditions"]], signaled)
+      future[[".signaledConditions"]] <- NULL
+    }
+  }
+
   future[["result"]] <- result
   if (inherits(result, "FutureInterruptError")) {
     future[["state"]] <- "interrupted"
@@ -1110,7 +1248,7 @@ delete.BatchtoolsFuture <- function(future,
 
   ## Control batchtools info output
   oopts <- options(batchtools.verbose = debug)
-  on.exit(options(oopts))
+  on.exit(options(oopts), add = TRUE)
 
   ## Try to delete registry
   ## WORKAROUND: batchtools::clearRegistry() and

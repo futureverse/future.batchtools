@@ -1,3 +1,48 @@
+# Version 0.31.0 [2026-11-03]
+
+## New Features
+
+ * Progress updates by the **progressr** package, and
+   `immediateCondition` conditions in general, are now relayed as soon
+   as possible for all batchtools backend. They are relayed via the
+   file system, specifically with the batchtools registry folder
+   shared by the main R process and each worker.
+
+ * Add R option `future.batchtools.relay.immediate`, and environment
+   variable `R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE`, to disable that
+   immediate conditions are relayed as soon as possible.
+
+ * Job scripts generated from Bash templates are now validated with
+   `bash -n` before they are submitted, so that a syntax error, e.g. in
+   user-supplied `resources` fields such as `startup`, produces an
+   immediate error instead of a failed job on the compute node.
+   Validation can be disabled by setting R option
+   `future.batchtools.script.validate` to FALSE.
+
+## Bug Fixes
+
+ * Interrupting a batchtools future while it was being launched, could
+   result in error `Error in if (is.na(jobid)) return("not submitted"):
+   argument is of length zero`.
+
+ * Polling a batchtools future on a scheduler that reports job IDs with
+   a host name suffix, e.g. Torque's `1234.pbs-server`, failed with error
+   "Unknown value of 'batch.id'". Such job IDs are now accepted.
+
+ * Launching a batchtools future with `workers = Inf` failed with error
+   "'is.finite(workers)' is not TRUE". An infinite number of workers
+   is now supported, as `nbrOfWorkers()` already reported.
+
+ * Launching a batchtools future with a label that is not valid as a
+   job name for the job scheduler, e.g. `label = "fz:2"` with SGE, which
+   does not allow colons, would fail with an error from the scheduler.
+   The label is now turned into a valid job name at submission.
+
+ * `tweak(batchtools_<hpc>, registry = ...)` for the LSF, OpenLava,
+   SGE, Slurm, and Torque backends ignored argument `registry` with a
+   warning on "unknown future arguments".
+
+
 # Version 0.30.0 [2026-10-18]
 
 ## Significant Changes

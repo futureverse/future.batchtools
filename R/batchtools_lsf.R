@@ -77,6 +77,7 @@ class(batchtools_lsf) <- c(
 attr(batchtools_lsf, "tweakable") <- c(
   "workers",
   "finalize",
+  "registry",
   ## Arguments to batchtools::makeClusterFunctionsLSF()
   "scheduler.latency", "fs.latency"
 )

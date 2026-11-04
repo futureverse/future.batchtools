@@ -77,6 +77,7 @@ class(batchtools_openlava) <- c(
 attr(batchtools_openlava, "tweakable") <- c(
   "workers",
   "finalize",
+  "registry",
   ## Arguments to batchtools::makeClusterFunctionsOpenLava()
   "scheduler.latency", "fs.latency"
 )

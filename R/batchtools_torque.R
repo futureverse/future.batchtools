@@ -82,6 +82,7 @@ class(batchtools_torque) <- c(
 attr(batchtools_torque, "tweakable") <- c(
   "workers",
   "finalize",
+  "registry",
   ## Arguments to batchtools::makeClusterFunctionsTORQUE()
   "scheduler.latency", "fs.latency"
 )

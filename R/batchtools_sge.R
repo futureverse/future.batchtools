@@ -92,6 +92,7 @@ class(batchtools_sge) <- c(
 attr(batchtools_sge, "tweakable") <- c(
   "workers",
   "finalize",
+  "registry",
   ## Arguments to batchtools::makeClusterFunctionsSGE()
   "nodename", "scheduler.latency", "fs.latency"
 )

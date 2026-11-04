@@ -18,8 +18,15 @@ if (!utils::file_test("-d", tmpdir)) {
 }
 
 ## Force the .future/ folders to be in this folder
+## (The environment variable is only read when the package is loaded, so
+## the R option must be set as well)
 Sys.setenv("R_FUTURE_CACHE_PATH" = file.path(tmpdir, ".future"))
+options(future.cache.path = file.path(tmpdir, ".future"))
 
 ## Make batchtools_<hpc> backends use this as their working directory
 registry <- list(work.dir = tmpdir)
-batchtools_sge <- future::tweak(future.batchtools::batchtools_sge, registry = registry)
+batchtools_lsf      <- future::tweak(future.batchtools::batchtools_lsf, registry = registry)
+batchtools_openlava <- future::tweak(future.batchtools::batchtools_openlava, registry = registry)
+batchtools_sge      <- future::tweak(future.batchtools::batchtools_sge, registry = registry)
+batchtools_slurm    <- future::tweak(future.batchtools::batchtools_slurm, registry = registry)
+batchtools_torque   <- future::tweak(future.batchtools::batchtools_torque, registry = registry)

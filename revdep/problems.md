@@ -2,68 +2,45 @@
 
 * GitHub: <https://github.com/mlr-org/batchtools>
 * Email: <mailto:michellang@gmail.com>
+* GitHub mirror: <https://github.com/cran/batchtools>
 
 Run `revdepcheck::revdep_details(, "batchtools")` for more info
 
 ## In both
 
-*   checking Rd contents ... NOTE
+*   checking dependencies in R code ... NOTE
      ```
-     Rd files without \value:
-       ‘clearRegistry.Rd’ ‘getDefaultRegistry.Rd’ ‘makeClusterFunctions.Rd’
-       ‘sweepRegistry.Rd’
-     ```
-
-# nncc (2.0.0)
-
-* Email: <mailto:lue7@cdc.gov>
-
-Run `revdepcheck::revdep_details(, "nncc")` for more info
-
-## In both
-
-*   checking Rd contents ... NOTE
-     ```
-     Rd files without \value:
-       ‘calc_strata_or.Rd’ ‘fix_df.Rd’
-     ```
-
-# SimDesign (2.28)
-
-* GitHub: <https://github.com/philchalmers/SimDesign>
-* Email: <mailto:rphilip.chalmers@gmail.com>
-
-Run `revdepcheck::revdep_details(, "SimDesign")` for more info
-
-## In both
-
-*   checking Rd contents ... NOTE
-     ```
-     Rd files without \value:
-       ‘AnalyseIf.Rd’ ‘Attach.Rd’ ‘Bradley1978.Rd’ ‘CC.Rd’ ‘ECR.Rd’ ‘EDR.Rd’
-       ‘GenerateIf.Rd’ ‘PBA.Rd’ ‘RobbinsMonro.Rd’ ‘SFA.Rd’ ‘Serlin2000.Rd’
-       ‘SimAnova.Rd’ ‘SimClean.Rd’ ‘SimErrors.Rd’ ‘SimExtract.Rd’
-       ‘SimFunctions.Rd’ ‘SimShiny.Rd’ ‘SimWarnings.Rd’ ‘colVars.Rd’
-       ‘descript.Rd’ ‘genSeeds.Rd’ ‘getArrayID.Rd’ ‘nc.Rd’ ‘quiet.Rd’
-       ‘rHeadrick.Rd’ ‘rValeMaurelli.Rd’ ‘reSummarise.Rd’ ‘rint.Rd’
-       ‘rmgh.Rd’ ‘runArraySimulation.Rd’ ‘timeFormater.Rd’
+     ...
+     localhost::pid32849.R: Unable to initialize verbs NIC /sys/class/infiniband/mlx5_0 (unit 0:0)
+     localhost::pid32849: PSM3 can't open nic unit: 0 (err=23)
+     localhost::pid32849.R: Unable to create send CQ of size 5080 on mlx5_0: Cannot allocate memory
+     localhost::pid32849.R: Unable to initialize verbs NIC /sys/class/infiniband/mlx5_0 (unit 0:0)
+     --------------------------------------------------------------------------
+     No OpenFabrics connection schemes reported that they were able to be
+     used on a specific port.  As such, the openib BTL (OpenFabrics
+     support) will be disabled for this port.
+     
+       Local host:           dev3
+       Local device:         mlx5_0
+       Local port:           1
+       CPCs attempted:       rdmacm, udcm
+     --------------------------------------------------------------------------
+     localhost::pid32849: PSM3 can't open nic unit: 0 (err=23)
+     localhost::pid32849.R: Unable to create send CQ of size 5080 on mlx5_0: Cannot allocate memory
+     localhost::pid32849.R: Unable to initialize verbs NIC /sys/class/infiniband/mlx5_0 (unit 0:0)
+     --------------------------------------------------------------------------
+     Open MPI failed an OFI Libfabric library call (fi_endpoint).  This is highly
+     unusual; your job may behave unpredictably (and/or abort) after this.
+     
+       Local host: dev3
+       Location: mtl_ofi_component.c:513
+       Error: Invalid argument (22)
+     --------------------------------------------------------------------------
      ```
 
-# targets (1.12.0)
-
-* GitHub: <https://github.com/ropensci/targets>
-* Email: <mailto:will.landau.oss@gmail.com>
-
-Run `revdepcheck::revdep_details(, "targets")` for more info
-
-## In both
-
-*   checking Rd contents ... NOTE
+*   checking for detritus in the temp directory ... NOTE
      ```
-     Rd files without \value:
-       ‘tar_assert.Rd’ ‘tar_backoff.Rd’ ‘tar_cancel.Rd’ ‘tar_condition.Rd’
-       ‘tar_cue.Rd’ ‘tar_delete.Rd’ ‘tar_edit.Rd’ ‘tar_language.Rd’
-       ‘tar_meta_delete.Rd’ ‘tar_meta_download.Rd’ ‘tar_meta_sync.Rd’
-       ‘tar_meta_upload.Rd’ ‘tar_repository_cas.Rd’
+     Found the following files/directories:
+       ‘ompi.dev3.34002’
      ```
 

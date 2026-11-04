@@ -52,7 +52,16 @@ backend <- future.batchtools::BatchtoolsInteractiveFutureBackend(delete = "never
 stopifnot(inherits(backend, "BatchtoolsInteractiveFutureBackend"))
 
 if (parallelly::supportsMulticore()) {
-  backend <- future.batchtools::BatchtoolsMulticoreFutureBackend(delete = "never")
+  backend <- future.batchtools::BatchtoolsMulticoreFutureBackend(workers = 2L, delete = "never")
+  stopifnot(inherits(backend, "BatchtoolsMulticoreFutureBackend"))
+
+  ## A single worker falls back to the (synchronous) batchtools local
+  ## backend, unless the number of workers is protected using I()
+  backend <- future.batchtools::BatchtoolsMulticoreFutureBackend(workers = 1L, delete = "never")
+  stopifnot(inherits(backend, "BatchtoolsLocalFutureBackend"))
+  stopifnot(!inherits(backend, "BatchtoolsMulticoreFutureBackend"))
+  
+  backend <- future.batchtools::BatchtoolsMulticoreFutureBackend(workers = I(1L), delete = "never")
   stopifnot(inherits(backend, "BatchtoolsMulticoreFutureBackend"))
 }
 
