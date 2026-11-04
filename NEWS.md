@@ -1,12 +1,3 @@
-# Version (development version)
-
-## Bug Fixes
-
- * Interrupting a batchtools future while it was being launched, could
-   result in error `Error in if (is.na(jobid)) return("not submitted"):
-   argument is of length zero`.
-
-
 # Version 0.31.0 [2026-11-03]
 
 ## New Features
@@ -29,6 +20,10 @@
    `future.batchtools.script.validate` to FALSE.
 
 ## Bug Fixes
+
+ * Interrupting a batchtools future while it was being launched, could
+   result in error `Error in if (is.na(jobid)) return("not submitted"):
+   argument is of length zero`.
 
  * Polling a batchtools future on a scheduler that reports job IDs with
    a host name suffix, e.g. Torque's `1234.pbs-server`, failed with error
