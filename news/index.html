@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.30.0-9013</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.31.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,13 +72,6 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
-<div class="section level3">
-<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>Interrupting a batchtools future while it was being launched, could result in error <code>Error in if (is.na(jobid)) return("not submitted"): argument is of length zero</code>.</li>
-</ul></div>
-</div>
-    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.31.0" id="version-0310">Version 0.31.0<a class="anchor" aria-label="anchor" href="#version-0310"></a></h2>
 <div class="section level3">
 <h3 id="new-features-0-31-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-31-0"></a></h3>
@@ -88,7 +81,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-31-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-31-0"></a></h3>
-<ul><li><p>Polling a batchtools future on a scheduler that reports job IDs with a host name suffix, e.g. Torque’s <code>1234.pbs-server</code>, failed with error “Unknown value of ‘batch.id’”. Such job IDs are now accepted.</p></li>
+<ul><li><p>Interrupting a batchtools future while it was being launched, could result in error <code>Error in if (is.na(jobid)) return("not submitted"): argument is of length zero</code>.</p></li>
+<li><p>Polling a batchtools future on a scheduler that reports job IDs with a host name suffix, e.g. Torque’s <code>1234.pbs-server</code>, failed with error “Unknown value of ‘batch.id’”. Such job IDs are now accepted.</p></li>
 <li><p>Launching a batchtools future with <code>workers = Inf</code> failed with error “‘is.finite(workers)’ is not TRUE”. An infinite number of workers is now supported, as <code><a href="https://future.futureverse.org/reference/nbrOfWorkers.html" class="external-link">nbrOfWorkers()</a></code> already reported.</p></li>
 <li><p>Launching a batchtools future with a label that is not valid as a job name for the job scheduler, e.g. <code>label = "fz:2"</code> with SGE, which does not allow colons, would fail with an error from the scheduler. The label is now turned into a valid job name at submission.</p></li>
 <li><p><code>tweak(batchtools_&lt;hpc&gt;, registry = ...)</code> for the LSF, OpenLava, SGE, Slurm, and Torque backends ignored argument <code>registry</code> with a warning on “unknown future arguments”.</p></li>
