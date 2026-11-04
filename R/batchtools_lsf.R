@@ -54,7 +54,7 @@ BatchtoolsLsfFutureBackend <- function(...) {
 #'   data.frame(
 #'      hostname = Sys.info()[["nodename"]],
 #'            os = Sys.info()[["sysname"]],
-#'     osVersion = utils::osVersion,
+#'     osVersion = if (is.null(utils::osVersion)) NA else utils::osVersion,
 #'         cores = unname(parallelly::availableCores()),
 #'       modules = Sys.getenv("LOADEDMODULES")
 #'   )
