@@ -368,8 +368,7 @@ launchFuture.BatchtoolsFutureBackend <- local({
 
     future[["submitted_on"]] <- submitted_on
 
-    ## Until future (> 1.67.0) is on CRAN
-    future[["state"]] <- if (futureSupportsStateSubmitted()) "submitted" else "running"
+    future[["state"]] <- "submitted"
   
     ## 6. Reserve worker for future
     registerFuture(future)
