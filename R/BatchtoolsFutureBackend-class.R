@@ -419,6 +419,13 @@ interruptFuture.BatchtoolsFutureBackend <- function(backend, future, ...) {
   }
 
   jobid <- config[["jobid"]]$job.id
+  
+  ## Not submitted?
+  if (length(jobid) == 0L) {
+    if (debug) mdebug("Cannot interrupt, because the job was never submitted")
+    return(future)
+  }
+  
   if (debug) mdebugf("Job ID: %s", jobid)
 
   res <- local({
@@ -568,8 +575,10 @@ status <- function(future, ...) {
   ## Closed and deleted?
   if (!file_test("-d", reg$file.dir)) return(NA_character_)
 
+  ## The job ID is not set if the future was interrupted while
+  ## being launched and before batchtools::batchMap() completed
   jobid <- config$jobid
-  if (is.na(jobid)) return("not submitted")
+  if (length(jobid) == 0L || anyNA(jobid)) return("not submitted")
 
   ## Optionally filter by the scheduler's job ID, if it exists
   batch_id <- reg[["status"]][["batch.id"]]
