@@ -624,7 +624,9 @@ finished <- function(future, ...) {
   status <- status(future)
   if (is_na(status)) return(NA)
   if (any(c("finished", "error", "expired") %in% status)) {
-    future[["state"]] <- "finished"
+    ## Note, the state is set to "finished" by result(), once the result
+    ## has been collected. Until then, the future is still "running"
+    if (future[["state"]] == "submitted") future[["state"]] <- "running"
     return(TRUE)
   } else if (future[["state"]] == "submitted" && "started" %in% status) {
     future[["state"]] <- "running"
