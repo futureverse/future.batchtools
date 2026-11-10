@@ -1,5 +1,5 @@
 Package: future.batchtools
-Version: 0.31.0-9003
+Version: 0.31.0-9004
 Depends:
     R (>= 3.2.0),
     future (>= 1.80.0)
@@ -10,7 +10,6 @@ Imports:
     checkmate,
     stringi
 Suggests:
-    globals,
     future.apply,
     listenv,
     markdown,
