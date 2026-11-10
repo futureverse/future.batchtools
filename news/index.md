@@ -1,6 +1,15 @@
 # Changelog
 
+## Version (development version)
+
+### Bug Fixes
+
+- A batchtools future could get state `"finished"` before its result had
+  been collected.
+
 ## Version 0.31.0
+
+CRAN release: 2026-11-04
 
 ### New Features
 
