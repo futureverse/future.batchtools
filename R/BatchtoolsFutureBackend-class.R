@@ -127,7 +127,7 @@ BatchtoolsFutureBackend <- function(
     ...
   )
   core[["futureClasses"]] <- c("BatchtoolsFuture", core[["futureClasses"]])
-  core <- structure(core, class = c("BatchtoolsFutureBackend", "FutureBackend", class(core)))
+  core <- structure(core, class = c("BatchtoolsFutureBackend", class(core)))
   core
 }
 
