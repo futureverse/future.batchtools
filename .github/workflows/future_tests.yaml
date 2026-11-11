@@ -50,7 +50,7 @@ jobs:
       - name: Install 'future.tests' and any backend R packages
         run: |
           remotes::install_cran("future.tests")
-          remotes::install_github("HenrikBengtsson/future.tests", ref="develop")
+          remotes::install_github("futureverse/future.tests", ref="develop")
         shell: Rscript {0}
 
       - name: Session info
