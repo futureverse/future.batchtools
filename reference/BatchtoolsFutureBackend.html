@@ -35,7 +35,7 @@ SSH batchtools futures."><!-- Global site tag (gtag.js) - Google Analytics --><s
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.31.0-9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.31.0-9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -148,7 +148,9 @@ will resolve to <code>getOption("<a href="zzz-future.batchtools.options.html">fu
 job-script template as variable <code>resources</code>. This is based on how
 <code><a href="https://batchtools.mlr-org.com/reference/submitJobs.html" class="external-link">batchtools::submitJobs()</a></code> works, with the exception for specially
 reserved names defined by the <span class="pkg">future.batchtools</span> package;</p><ul><li><p><code>resources[["details"]]</code>, if TRUE, results in the job script outputting
-job details and job summaries at the beginning and at the end.</p></li>
+job details and job summaries at the beginning and at the end. It
+also reports on the number of packages installed in each R package
+library, which can be slow for large libraries on slow file systems.</p></li>
 <li><p><code>resources[["startup"]]</code> and <code>resources[["shutdown"]]</code> are character
 vectors of shell code to be injected to the job script as-is.</p></li>
 <li><p><code>resources[["modules"]]</code> is character vector of Linux environment
@@ -289,7 +291,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> BatchtoolsCustomFutureBackend:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: 559037889b93583c8a2e7ba1f0f166e1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> UUID: d2300cc96c78dd179f35526117bb5d38</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of free workers: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available cores: 8</span>
@@ -304,12 +306,12 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools configuration file: &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions: ‘Interactive’</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools cluster functions template: &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/Rtmpw4Kwcp/future.batchtools/docs/reference/.future/20261115_115513-TOcyHo’ (0 folders)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cache directory: ‘/tmp/hb/RtmpXqDIjA/future.batchtools/docs/reference/.future/20261115_122218-9chcrH’ (0 folders)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> batchtools resources:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  list()</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Main process ID: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 382961</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Main process ID: 404026</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
@@ -323,7 +325,7 @@ supporting the <code>ssh</code> and <code>ps</code> command-line tool, e.g. Linu
 <span class="r-in"><span><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">info</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     hostname    os cores    pid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hb-x1-2023 Linux     8 383139</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 hb-x1-2023 Linux     8 404201</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                       modules</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 CBI:cmake/4.3.3:r/4.6.2:pandoc/3.12:quarto/1.10.20:port4me/0.7.1:bat/0.26.1:fzf/0.74.4:glow/2.1.2:github-cli/2.102.0:tea/0.16.0:git-flow/1.12.3:git-extras/7.5.0:difftastic/0.69.0:ripgrep/15.2.0:shellcheck/0.11.0:node/26.0.0:markdownlint-cli/0.49.1:gitleaks/8.30.1:rclone/1.74.4:himalaya/2.2.1:rust/1.97.1:osgrep/0.5.16:opencode/1.15.12:bash-startup/0.5.0:restic/0.19.1:deno/2.9.7</span>
 <span class="r-in"><span></span></span>

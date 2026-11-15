@@ -52,7 +52,9 @@ BatchtoolsTemplateFutureBackend(
 
   - `resources[["details"]]`, if TRUE, results in the job script
     outputting job details and job summaries at the beginning and at the
-    end.
+    end. It also reports on the number of packages installed in each R
+    package library, which can be slow for large libraries on slow file
+    systems.
 
   - `resources[["startup"]]` and `resources[["shutdown"]]` are character
     vectors of shell code to be injected to the job script as-is.

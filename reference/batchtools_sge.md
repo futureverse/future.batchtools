@@ -52,7 +52,9 @@ batchtools_sge(
 
   - `resources[["details"]]`, if TRUE, results in the job script
     outputting job details and job summaries at the beginning and at the
-    end.
+    end. It also reports on the number of packages installed in each R
+    package library, which can be slow for large libraries on slow file
+    systems.
 
   - `resources[["startup"]]` and `resources[["shutdown"]]` are character
     vectors of shell code to be injected to the job script as-is.
@@ -241,7 +243,12 @@ and comprises:
     echo "- R_LIBS_USER=${R_LIBS_USER:-<not set>}"
     echo "- R_LIBS_SITE=${R_LIBS_SITE:-<not set>}"
     echo "- R_LIBS=${R_LIBS:-<not set>}"
-    echo "- Rscript library paths: $(<%= rscript_call %> -e "cat(shQuote(.libPaths()), sep = ' ')")"
+    echo "- Rscript library paths:"
+    <% if (details) { %>
+    <%= rscript_call %> -e "for (p in .libPaths()) cat('  - ', shQuote(p), ' [n=', sum(file.exists(file.path(list.dirs(p, recursive = FALSE), 'DESCRIPTION'))), ']\n', sep = '')"
+    <% } else { %>
+    <%= rscript_call %> -e "cat(sprintf('  - %s\n', shQuote(.libPaths())), sep = '')"
+    <% } %>
     echo
 
 

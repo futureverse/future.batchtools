@@ -48,9 +48,9 @@ cat(script)
 #> # Author: Henrik Bengtsson
 #> ######################################################################
 #> ## Job name
-#> #SBATCH --job-name=job11d488e86c0c45eefe9a1b2500d8597b
+#> #SBATCH --job-name=jobe1973b52490c20b91fbf0120ba60cded
 #> ## Direct streams to logfile
-#> #SBATCH --output=/tmp/hb/RtmpTOcyHo/future.batchtools_template_5d7f14eec42db/logs/job11d488e86c0c45eefe9a1b2500d8597b.log
+#> #SBATCH --output=/tmp/hb/Rtmp9chcrH/future.batchtools_template_62a3a388a8240/logs/jobe1973b52490c20b91fbf0120ba60cded.log
 #> ## Resources needed
 #> #SBATCH --time=00:05:00
 #> #SBATCH --mem=200M
@@ -81,14 +81,17 @@ cat(script)
 #> echo "- R_LIBS_USER=${R_LIBS_USER:-<not set>}"
 #> echo "- R_LIBS_SITE=${R_LIBS_SITE:-<not set>}"
 #> echo "- R_LIBS=${R_LIBS:-<not set>}"
-#> echo "- Rscript library paths: $(Rscript -e "cat(shQuote(.libPaths()), sep = ' ')")"
+#> echo "- Rscript library paths:"
+#> 
+#> Rscript -e "cat(sprintf('  - %s\n', shQuote(.libPaths())), sep = '')"
+#> 
 #> echo
 #> ## Launch R and evaluate the batchtools R job
 #> echo "Calling 'batchtools::doJobCollection()' ..."
-#> echo "- job name: 'job11d488e86c0c45eefe9a1b2500d8597b'"
-#> echo "- job log file: '/tmp/hb/RtmpTOcyHo/future.batchtools_template_5d7f14eec42db/logs/job11d488e86c0c45eefe9a1b2500d8597b.log'"
-#> echo "- job uri: '/tmp/hb/RtmpTOcyHo/future.batchtools_template_5d7f14eec42db/jobs/job11d488e86c0c45eefe9a1b2500d8597b.rds'"
-#> Rscript -e 'batchtools::doJobCollection("/tmp/hb/RtmpTOcyHo/future.batchtools_template_5d7f14eec42db/jobs/job11d488e86c0c45eefe9a1b2500d8597b.rds")'
+#> echo "- job name: 'jobe1973b52490c20b91fbf0120ba60cded'"
+#> echo "- job log file: '/tmp/hb/Rtmp9chcrH/future.batchtools_template_62a3a388a8240/logs/jobe1973b52490c20b91fbf0120ba60cded.log'"
+#> echo "- job uri: '/tmp/hb/Rtmp9chcrH/future.batchtools_template_62a3a388a8240/jobs/jobe1973b52490c20b91fbf0120ba60cded.rds'"
+#> Rscript -e 'batchtools::doJobCollection("/tmp/hb/Rtmp9chcrH/future.batchtools_template_62a3a388a8240/jobs/jobe1973b52490c20b91fbf0120ba60cded.rds")'
 #> res=$?
 #> echo " - exit code: ${res}"
 #> echo "Calling 'batchtools::doJobCollection()' ... done"
