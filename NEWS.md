@@ -2,6 +2,15 @@
 
 ## New Features
 
+ * Add `makeClusterFunctionsDocker2()`, which is an alternative to
+   `batchtools::makeClusterFunctionsDocker()`. The latter fails to
+   query running jobs, because it uses a `docker ps` filter that Docker
+   rejects. The new cluster functions also bind-mount the registry
+   folder and the working directory into the container, run the
+   container as the current user, remove containers when they exit,
+   and capture errors that occur before the job starts, e.g. a missing
+   package, in the log file.
+
  * The built-in job templates now report on the number of packages
    installed in each of the R package libraries, e.g.
    `'/opt/R/4.5.1/lib64/R/library' [n=16]`, when resource `details`

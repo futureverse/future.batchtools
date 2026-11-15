@@ -105,6 +105,7 @@ slurm
 sprintf
 ss
 stderr
+subcommand
 subfolder
 sysname
 templated

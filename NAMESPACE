@@ -61,6 +61,7 @@ export(find_template_file)
 export(loggedError)
 export(loggedOutput)
 export(makeClusterFunctionsBash)
+export(makeClusterFunctionsDocker2)
 export(makeClusterFunctionsSlurm2)
 export(render_template)
 importFrom(batchtools,
@@ -69,6 +70,8 @@ importFrom(batchtools,
   batchExport,
   batchMap,
   cfBrewTemplate,
+  cfHandleUnknownSubmitError,
+  cfKillJob,
   cfReadBrewTemplate,
   clearRegistry,
   findConfFile,
@@ -98,7 +101,10 @@ importFrom(batchtools,
 )
 importFrom(checkmate,
   "%??%",
+  asInt,
   assertCharacter,
+  assertClass,
+  assertIntegerish,
   assertString
 )
 importFrom(future,
@@ -125,8 +131,10 @@ importFrom(parallelly,
   supportsMulticore
 )
 importFrom(stringi,
+  stri_detect_regex,
   stri_flatten,
-  stri_replace_all_fixed
+  stri_replace_all_fixed,
+  stri_sub
 )
 importFrom(tools,pskill)
 importFrom(utils,
