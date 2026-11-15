@@ -126,47 +126,52 @@ and comprises:
 
     ## Resources needed
     <%
+      ## Work on a copy of 'resources', because this template is evaluated
+      ## in the environment of the batchtools JobCollection, and modifying
+      ## 'resources' would modify the resources of the job itself
+      job_resources <- resources
+
       ## Should scheduler "details" be seen?
-      details <- isTRUE(resources[["details"]])
-      resources[["details"]] <- NULL
+      details <- isTRUE(job_resources[["details"]])
+      job_resources[["details"]] <- NULL
 
       ## Shell "startup" code to evaluate
-      startup <- resources[["startup"]]
-      resources[["startup"]] <- NULL
+      startup <- job_resources[["startup"]]
+      job_resources[["startup"]] <- NULL
 
       ## Shell "shutdown" code to evaluate
-      shutdown <- resources[["shutdown"]]
-      resources[["shutdown"]] <- NULL
+      shutdown <- job_resources[["shutdown"]]
+      job_resources[["shutdown"]] <- NULL
 
       ## Environment modules specifications
-      modules <- resources[["modules"]]
-      resources[["modules"]] <- NULL
+      modules <- job_resources[["modules"]]
+      job_resources[["modules"]] <- NULL
 
       ## Environment variables to be set
-      envs <- resources[["envs"]]
+      envs <- job_resources[["envs"]]
       if (length(envs) > 0) {
         stopifnot(is.character(envs), !is.null(names(envs)))
       }
-      resources[["envs"]] <- NULL
+      job_resources[["envs"]] <- NULL
 
       ## Custom "Rscript" command and Rscript arguments
-      rscript <- resources[["rscript"]]
+      rscript <- job_resources[["rscript"]]
       if (is.null(rscript)) {
         rscript <- "Rscript"
       } else if (length(rscript) == 0 || !nzchar(rscript)[1]) {
         stop("Argument 'resources' specifies an empty 'rscript' field")
       }
-      resources[["rscript"]] <- NULL
-      rscript_args <- resources[["rscript_args"]]
-      resources[["rscript_args"]] <- NULL
+      job_resources[["rscript"]] <- NULL
+      rscript_args <- job_resources[["rscript_args"]]
+      job_resources[["rscript_args"]] <- NULL
       rscript_call <- paste(c(rscript, rscript_args), collapse = " ")
 
       ## As-is resource specifications
-      job_declarations <- resources[["asis"]]
-      resources[["asis"]] <- NULL
+      job_declarations <- job_resources[["asis"]]
+      job_resources[["asis"]] <- NULL
 
       ## Remaining resources are assumed to be of type '<key>=<value>'
-      opts <- unlist(resources, use.names = TRUE)
+      opts <- unlist(job_resources, use.names = TRUE)
       opts <- sprintf("%s=%s", names(opts), opts)
       job_declarations <- sprintf("#BSUB %s", c(job_declarations, sprintf("-%s", opts)))
       writeLines(job_declarations)

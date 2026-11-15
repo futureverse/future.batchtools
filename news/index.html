@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.31.0-9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.31.0-9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,9 @@
 <h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>A batchtools future could get state <code>"finished"</code> before its result had been collected.</li>
+<ul><li><p>A batchtools future could get state <code>"finished"</code> before its result had been collected.</p></li>
+<li><p>If a job fails to submit, <strong>batchtools</strong> resubmits after a wait. Resubmits would ignore the <code>resources</code> specifications.</p></li>
+<li><p>A <code>batchtools_bash</code> future whose job script failed was resubmitted over and over, e.g. when the built-in template detected an invalid <code>rscript</code> resource. Now it gives a <code>FutureLaunchError</code> with the exit status and the last lines of the job output.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
