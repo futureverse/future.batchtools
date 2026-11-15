@@ -5,6 +5,9 @@
  * A batchtools future could get state `"finished"` before its result
    had been collected.
 
+ * If a job fails to submit, **batchtools** resubmits after a
+   wait. Resubmits would ignore the `resources` specifications.
+
 
 # Version 0.31.0 [2026-11-03]
 

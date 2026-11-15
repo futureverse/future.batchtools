@@ -98,44 +98,49 @@ trap 'echo "ERROR: future.batchtools job script failed on line $LINENO" >&2; exi
 exec > <\%= log.file \%> 2>&1
 
 <\%
+  ## Work on a copy of 'resources', because this template is evaluated
+  ## in the environment of the batchtools JobCollection, and modifying
+  ## 'resources' would modify the resources of the job itself
+  job_resources <- resources
+
   ## Shell "startup" code to evaluate
-  startup <- resources[["startup"]]
-  resources[["startup"]] <- NULL
+  startup <- job_resources[["startup"]]
+  job_resources[["startup"]] <- NULL
 
   ## Shell "shutdown" code to evaluate
-  shutdown <- resources[["shutdown"]]
-  resources[["shutdown"]] <- NULL
+  shutdown <- job_resources[["shutdown"]]
+  job_resources[["shutdown"]] <- NULL
      
   ## Environment modules specifications
-  modules <- resources[["modules"]]
-  resources[["modules"]] <- NULL
+  modules <- job_resources[["modules"]]
+  job_resources[["modules"]] <- NULL
   
   ## Environment variables to be set
-  envs <- resources[["envs"]]
+  envs <- job_resources[["envs"]]
   if (length(envs) > 0) \{
     stopifnot(is.character(envs), !is.null(names(envs)))
   \}
-  resources[["envs"]] <- NULL
+  job_resources[["envs"]] <- NULL
 
   ## Custom "Rscript" command and Rscript arguments
-  rscript <- resources[["rscript"]]
+  rscript <- job_resources[["rscript"]]
   if (is.null(rscript)) \{
     rscript <- "Rscript"
   \} else if (length(rscript) == 0 || !nzchar(rscript)[1]) \{
     stop("Argument 'resources' specifies an empty 'rscript' field")
   \}
-  resources[["rscript"]] <- NULL
+  job_resources[["rscript"]] <- NULL
 
   ## Maximum runtime?
-  timeout <- resources[["timeout"]]
-  if (is.null(timeout)) timeout <- resources[["runtime"]]
-  resources[["timeout"]] <- NULL
-  resources[["runtime"]] <- NULL
+  timeout <- job_resources[["timeout"]]
+  if (is.null(timeout)) timeout <- job_resources[["runtime"]]
+  job_resources[["timeout"]] <- NULL
+  job_resources[["runtime"]] <- NULL
   if (length(timeout) > 0) \{
       rscript <- c("timeout", timeout, rscript)
   \}
-  rscript_args <- resources[["rscript_args"]]
-  resources[["rscript_args"]] <- NULL 
+  rscript_args <- job_resources[["rscript_args"]]
+  job_resources[["rscript_args"]] <- NULL 
   rscript_call <- paste(c(rscript, rscript_args), collapse = " ")  
 \%>
 
