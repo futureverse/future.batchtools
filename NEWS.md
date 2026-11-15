@@ -1,5 +1,13 @@
 # Version (development version)
 
+## New Features
+
+ * The built-in job templates now report on the number of packages
+   installed in each of the R package libraries, e.g.
+   `'/opt/R/4.5.1/lib64/R/library' [n=16]`, when resource `details`
+   is TRUE. Since this can be slow for large package libraries on
+   slow file systems, only the library paths are reported otherwise.
+
 ## Bug Fixes
 
  * A batchtools future could get state `"finished"` before its result

@@ -35,7 +35,9 @@ job-script template as variable \code{resources}. This is based on how
 reserved names defined by the \pkg{future.batchtools} package;
 \itemize{
 \item \code{resources[["details"]]}, if TRUE, results in the job script outputting
-job details and job summaries at the beginning and at the end.
+job details and job summaries at the beginning and at the end. It
+also reports on the number of packages installed in each R package
+library, which can be slow for large libraries on slow file systems.
 \item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
 vectors of shell code to be injected to the job script as-is.
 \item \code{resources[["modules"]]} is character vector of Linux environment
@@ -210,7 +212,12 @@ echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
 echo "- R_LIBS_USER=$\{R_LIBS_USER:-<n/a>\}"
 echo "- R_LIBS_SITE=$\{R_LIBS_SITE:-<n/a>\}"
 echo "- R_LIBS=$\{R_LIBS:-<n/a>\}"
-echo "- Rscript library paths: $(<\%= rscript_call \%> -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo "- Rscript library paths:"
+<\% if (details) \{ \%>
+<\%= rscript_call \%> -e "for (p in .libPaths()) cat('  - ', shQuote(p), ' [n=', sum(file.exists(file.path(list.dirs(p, recursive = FALSE), 'DESCRIPTION'))), ']\\n', sep = '')"
+<\% \} else \{ \%>
+<\%= rscript_call \%> -e "cat(sprintf('  - \%s\\n', shQuote(.libPaths())), sep = '')"
+<\% \} \%>
 echo
 
 ## Launch R and evaluate the batchtools R job
