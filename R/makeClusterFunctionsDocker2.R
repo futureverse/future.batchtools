@@ -54,8 +54,8 @@
 #' registry folder is on a network file system, e.g. when using a
 #' remote Docker daemon, you may have to increase `fs.latency`.
 #'
-#' These cluster functions can be used with \pkg{batchtools} directly,
-#' e.g. by setting
+#' These cluster functions are used by the [batchtools_docker] backend.
+#' They can also be used with \pkg{batchtools} directly, e.g. by setting
 #' `cluster.functions <- future.batchtools::makeClusterFunctionsDocker2(image = "<image>")`
 #' in a \pkg{batchtools} configuration file.
 #'

@@ -112,6 +112,7 @@ backends, please see <https://www.futureverse.org/backends.html>.
 | `batchtools_slurm`       | Futures are evaluated via a [Slurm] job scheduler                        | N/A
 | `batchtools_torque`      | Futures are evaluated via a [TORQUE] / PBS job scheduler                 | N/A
 | `batchtools_custom`      | Futures are evaluated via a custom batchtools configuration R script or via a set of cluster functions  | N/A
+| `batchtools_docker`      | parallel evaluation in [Docker] containers                               | N/A
 | `batchtools_multicore`   | parallel evaluation by forking the current R process                     | `plan(multicore)`
 | `batchtools_local`       | sequential evaluation in a separate R process (on current machine)       | `plan(cluster, workers = I(1))`
 
@@ -126,6 +127,7 @@ backends, please see <https://www.futureverse.org/backends.html>.
 [Sun/Son of/Oracle/Univa/Altair Grid Engine (SGE)]: https://en.wikipedia.org/wiki/Oracle_Grid_Engine
 [Load Sharing Facility (LSF)]: https://en.wikipedia.org/wiki/Platform_LSF
 [OpenLava]: https://en.wikipedia.org/wiki/OpenLava
+[Docker]: https://www.docker.com/
 
 ## Installation
 R package future.batchtools is available on [CRAN](https://cran.r-project.org/package=future.batchtools) and can be installed in R as:

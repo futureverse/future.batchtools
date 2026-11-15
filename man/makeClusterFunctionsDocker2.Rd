@@ -68,8 +68,8 @@ Contrary to \code{\link[batchtools:makeClusterFunctionsDocker]{batchtools::makeC
 registry folder is on a network file system, e.g. when using a
 remote Docker daemon, you may have to increase \code{fs.latency}.
 
-These cluster functions can be used with \pkg{batchtools} directly,
-e.g. by setting
+These cluster functions are used by the \link{batchtools_docker} backend.
+They can also be used with \pkg{batchtools} directly, e.g. by setting
 \code{cluster.functions <- future.batchtools::makeClusterFunctionsDocker2(image = "<image>")}
 in a \pkg{batchtools} configuration file.
 }

@@ -21,6 +21,7 @@ BatchtoolsUniprocessFuture
 BeeGFS
 Bengtsson
 CMD
+CPUs
 ClusterFunctions
 FutureBackend
 FutureError

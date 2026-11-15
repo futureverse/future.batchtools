@@ -67,6 +67,10 @@
 #'     If `"on-success"`, it is deleted if the future resolved successfully,
 #'     whereas if it failed, it is left as-is to help with troubleshooting.
 #'     (Default: `"on-success"`)}
+#'
+#'   \item{\option{future.batchtools.docker.image}:}{(character string)
+#'     The default Docker image used by the [batchtools_docker] backend.
+#'     (Default: `NULL`)}
 #' }
 #'
 #' @section Environment variables that set R options:
@@ -85,6 +89,7 @@
 #' @aliases future.batchtools.options
 #'
 #' @aliases future.batchtools.delete
+#' @aliases future.batchtools.docker.image
 #' @aliases future.batchtools.expiration.tail
 #' @aliases future.batchtools.output
 #' @aliases future.batchtools.relay.immediate
@@ -93,6 +98,7 @@
 #'
 #' @aliases R_FUTURE_CACHE_PATH
 #' @aliases R_FUTURE_BATCHTOOLS_DELETE
+#' @aliases R_FUTURE_BATCHTOOLS_DOCKER_IMAGE
 #' @aliases R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL
 #' @aliases R_FUTURE_BATCHTOOLS_OUTPUT
 #' @aliases R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE
@@ -197,6 +203,7 @@ update_package_options <- function(debug = FALSE) {
     }
   }
 
+  update_package_option("future.batchtools.docker.image", mode = "character", debug = debug)
   update_package_option("future.batchtools.expiration.tail", mode = "integer", debug = debug)
   update_package_option("future.batchtools.output", mode = "logical", debug = debug)
   update_package_option("future.batchtools.relay.immediate", mode = "logical", default = TRUE, debug = debug)

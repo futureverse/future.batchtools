@@ -4,6 +4,7 @@
 \alias{zzz-future.batchtools.options}
 \alias{future.batchtools.options}
 \alias{future.batchtools.delete}
+\alias{future.batchtools.docker.image}
 \alias{future.batchtools.expiration.tail}
 \alias{future.batchtools.output}
 \alias{future.batchtools.relay.immediate}
@@ -11,6 +12,7 @@
 \alias{future.batchtools.workers}
 \alias{R_FUTURE_CACHE_PATH}
 \alias{R_FUTURE_BATCHTOOLS_DELETE}
+\alias{R_FUTURE_BATCHTOOLS_DOCKER_IMAGE}
 \alias{R_FUTURE_BATCHTOOLS_EXPIRATION_TAIL}
 \alias{R_FUTURE_BATCHTOOLS_OUTPUT}
 \alias{R_FUTURE_BATCHTOOLS_RELAY_IMMEDIATE}
@@ -86,6 +88,10 @@ If \code{"never"}, it is never deleted.
 If \code{"on-success"}, it is deleted if the future resolved successfully,
 whereas if it failed, it is left as-is to help with troubleshooting.
 (Default: \code{"on-success"})}
+
+\item{\option{future.batchtools.docker.image}:}{(character string)
+The default Docker image used by the \link{batchtools_docker} backend.
+(Default: \code{NULL})}
 }
 }
 

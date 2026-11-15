@@ -2,6 +2,14 @@
 
 ## New Features
 
+ * Add `batchtools_docker` backend, which resolves futures in parallel
+   via Docker containers, e.g. `plan(batchtools_docker, image =
+   "<image>", workers = 2)`. The registry folder and the working
+   directory are bind-mounted into the containers, which run as the
+   current user. The image must have the **batchtools** and **future**
+   packages installed. It uses the new `makeClusterFunctionsDocker2()`
+   cluster functions.
+
  * Add `makeClusterFunctionsDocker2()`, which is an alternative to
    `batchtools::makeClusterFunctionsDocker()`. The latter fails to
    query running jobs, because it uses a `docker ps` filter that Docker
