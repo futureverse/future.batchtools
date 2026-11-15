@@ -8,6 +8,11 @@
  * If a job fails to submit, **batchtools** resubmits after a
    wait. Resubmits would ignore the `resources` specifications.
 
+ * A `batchtools_bash` future whose job script failed was resubmitted
+   over and over, e.g. when the built-in template detected an invalid
+   `rscript` resource. Now it gives a `FutureLaunchError` with the
+   exit status and the last lines of the job output.
+
 
 # Version 0.31.0 [2026-11-03]
 

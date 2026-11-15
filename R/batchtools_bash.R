@@ -101,7 +101,7 @@ attr(batchtools_bash, "factory") <- BatchtoolsBashFutureBackend
 #' @rdname batchtools_bash
 #'
 #' @importFrom batchtools cfReadBrewTemplate cfBrewTemplate makeClusterFunctions makeSubmitJobResult
-#' @importFrom utils file_test
+#' @importFrom utils file_test tail
 #' @export
 makeClusterFunctionsBash <- function(template = "bash", fs.latency = 0.0, ...) {
   bin <- Sys.which("bash")
@@ -127,11 +127,14 @@ makeClusterFunctionsBash <- function(template = "bash", fs.latency = 0.0, ...) {
       mdebugf("[job script]: %s\n", bfr)
     }
     
-    output <- system2(bin, args = c(script), stdout = TRUE, stderr = TRUE, wait = TRUE)
+    ## A non-zero exit status is handled below
+    output <- suppressWarnings({
+      system2(bin, args = c(script), stdout = TRUE, stderr = TRUE, wait = TRUE)
+    })
     if (debug) {
       mdebug(paste(c(sprintf("[job output]: %s", output), ""), collapse = "\n"))
     }
-    
+
     status <- attr(output, "status")
     if (debug) {
       mstr(list(status = status))
@@ -139,11 +142,36 @@ makeClusterFunctionsBash <- function(template = "bash", fs.latency = 0.0, ...) {
     if (is.null(status)) {
       status <- 0L
       batch.id <- sprintf("bash#%d", Sys.getpid())
+      msg <- NA_character_
     } else {
+      ## The job script is evaluated synchronously, so a non-zero exit
+      ## status means that the job itself failed, which is never a
+      ## temporary error. Since batchtools::submitJobs() retries submit
+      ## statuses 1-99 forever, and loops without sleeping on status 100
+      ## and statuses above 200, map the exit status into the range of
+      ## fatal submit statuses 101-200
+      exit_code <- as.integer(status)
+      if (exit_code <= 100L) {
+        status <- 100L + exit_code
+      } else {
+        status <- min(exit_code, 200L)
+      }
       batch.id <- NA_character_
+
+      ## The built-in Bash template redirects all output to the job log
+      ## file, so include the tail of that too
+      log <- output
+      log_file <- jc[["log.file"]]
+      if (length(log_file) == 1L && file_test("-f", log_file)) {
+        log <- c(log, readLines(log_file, warn = FALSE))
+      }
+      msg <- sprintf("Job script exited with status %d", exit_code)
+      if (length(log) > 0L) {
+        msg <- paste(c(msg, "Last lines of output:", tail(log, n = 20L)), collapse = "\n")
+      }
     }
 
-    makeSubmitJobResult(status = status, batch.id = batch.id)
+    makeSubmitJobResult(status = status, batch.id = batch.id, msg = msg)
   }
 
   cf <- makeClusterFunctions(
