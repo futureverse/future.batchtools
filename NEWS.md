@@ -20,6 +20,8 @@
 
 ## Bug Fixes
 
+ * `listFutures()` did not list the active futures of the backend.
+
  * A batchtools future could get state `"finished"` before its result
    had been collected.
 
