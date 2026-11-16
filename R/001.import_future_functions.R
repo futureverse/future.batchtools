@@ -21,6 +21,11 @@ import_future_functions <- function() {
   .debug <<- import_future(".debug", mode = "environment")
   FutureRegistry <<- import_future("FutureRegistry")
 
+  ## Use future:::waitForWorker(), if available, otherwise our local copy.
+  ## This is done when the package is loaded, so that the one in the
+  ## installed version of 'future' is used
+  waitForWorker <<- import_future("waitForWorker", default = waitForWorker)
+
   ## The generic is a private function in 'future', so the S3method()
   ## entry in NAMESPACE is not enough to register the method
   registerS3method("getFutureBackendConfigs", "BatchtoolsFuture", getFutureBackendConfigs.BatchtoolsFuture)
