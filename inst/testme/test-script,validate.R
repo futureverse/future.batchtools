@@ -32,7 +32,10 @@ if (utils::file_test("-f", bin) && .Platform[["OS.type"]] != "windows") {
   options(future.batchtools.script.validate = TRUE)
 
   message("- Valid template")
-  plan(future.batchtools::batchtools_bash)
+  ## Use the full path to 'Rscript', because 'R CMD check' puts a stub
+  ## 'Rscript' on the PATH that refuses to run
+  rscript <- file.path(R.home("bin"), "Rscript")
+  plan(future.batchtools::batchtools_bash, resources = list(rscript = rscript))
   stopifnot(value(future(42L)) == 42L)
 } else {
   message("Skipping: 'bash' is not available")
