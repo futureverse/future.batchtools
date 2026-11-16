@@ -340,7 +340,7 @@ launchFuture.BatchtoolsFutureBackend <- local({
     })
 
     ## 4. Wait for an available worker
-    waitForWorker(future, workers = backend[["workers"]])
+    waitForWorker(backend, debug = debug)
 
     ## 5. Submit
     resources <- backend[["resources"]]

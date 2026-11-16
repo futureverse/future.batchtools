@@ -8,6 +8,16 @@
    is TRUE. Since this can be slow for large package libraries on
    slow file systems, only the library paths are reported otherwise.
 
+## Miscellaneous
+
+ * When all workers are occupied, the waiting for a free worker now
+   uses the `future.wait.timeout`, `future.wait.interval`, and
+   `future.wait.alpha` settings recorded by the backend when it was
+   created, instead of querying the R options each time. This is
+   consistent with how the backend waits for results. As a result,
+   the initial polling interval defaults to 0.01 seconds instead of
+   0.2 seconds.
+
 ## Bug Fixes
 
  * A batchtools future could get state `"finished"` before its result
