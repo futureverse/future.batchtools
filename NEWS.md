@@ -33,6 +33,11 @@
    `rscript` resource. Now it gives a `FutureLaunchError` with the
    exit status and the last lines of the job output.
 
+ * Interrupting a batchtools future, e.g. via `cancel()`, would mark
+   it as interrupted also when **batchtools** did not find the job
+   among the queued or running jobs and did not try to kill it. Now
+   the state is changed only if the job was confirmed to be killed.
+
 
 # Version 0.31.0 [2026-11-03]
 

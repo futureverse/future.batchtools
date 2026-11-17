@@ -447,13 +447,15 @@ interruptFuture.BatchtoolsFutureBackend <- function(backend, future, ...) {
     mprint(res)
   }
 
-  if (nrow(res) == 0L) {
+  ## Only flag the future as interrupted if the job was confirmed to be
+  ## killed. If killJobs() returns zero rows, then batchtools did not find
+  ## the job among the queued or running jobs, and made no attempt to kill
+  ## it, e.g. the job may have finished, or it may not yet be listed by
+  ## the scheduler. In that case, leave the state as-is, so that a later
+  ## attempt can kill the job.
+  res <- subset(res, job.id == jobid)
+  if (nrow(res) == 1L && isTRUE(res$killed)) {
     future[["state"]] <- "interrupted"
-  } else {
-    res <- subset(res, job.id == jobid)
-    if (nrow(res) == 1L && isTRUE(res$killed)) {
-      future[["state"]] <- "interrupted"
-    }
   }
   
   invisible(future)
