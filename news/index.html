@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.31.0-9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.31.0-9012</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,10 +78,16 @@
 <ul><li>The built-in job templates now report on the number of packages installed in each of the R package libraries, e.g. <code>'/opt/R/4.5.1/lib64/R/library' [n=16]</code>, when resource <code>details</code> is TRUE. Since this can be slow for large package libraries on slow file systems, only the library paths are reported otherwise.</li>
 </ul></div>
 <div class="section level3">
+<h3 id="miscellaneous-development-version">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-development-version"></a></h3>
+<ul><li>When all workers are occupied, the waiting for a free worker now uses the <code>future.wait.timeout</code>, <code>future.wait.interval</code>, and <code>future.wait.alpha</code> settings recorded by the backend when it was created, instead of querying the R options each time. This is consistent with how the backend waits for results. As a result, the initial polling interval defaults to 0.01 seconds instead of 0.2 seconds.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li><p>A batchtools future could get state <code>"finished"</code> before its result had been collected.</p></li>
+<ul><li><p><code><a href="https://future.futureverse.org/reference/FutureBackend-class.html" class="external-link">listFutures()</a></code> did not list the active futures of the backend.</p></li>
+<li><p>A batchtools future could get state <code>"finished"</code> before its result had been collected.</p></li>
 <li><p>If a job fails to submit, <strong>batchtools</strong> resubmits after a wait. Resubmits would ignore the <code>resources</code> specifications.</p></li>
 <li><p>A <code>batchtools_bash</code> future whose job script failed was resubmitted over and over, e.g. when the built-in template detected an invalid <code>rscript</code> resource. Now it gives a <code>FutureLaunchError</code> with the exit status and the last lines of the job output.</p></li>
+<li><p>Interrupting a batchtools future, e.g. via <code><a href="https://future.futureverse.org/reference/cancel.html" class="external-link">cancel()</a></code>, would mark it as interrupted also when <strong>batchtools</strong> did not find the job among the queued or running jobs and did not try to kill it. Now the state is changed only if the job was confirmed to be killed.</p></li>
 </ul></div>
 </div>
     <div class="section level2">

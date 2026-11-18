@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>A Future API for Parallel and Distributed Processing using batchtools • future.batchtools</title>
+<title>Parallel Future Backend for HPC Schedulers using batchtools • future.batchtools</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -15,9 +15,9 @@
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="A Future API for Parallel and Distributed Processing using batchtools">
-<meta name="description" content="Implementation of the Future API &lt;doi:10.32614/RJ-2021-048&gt; on top of the batchtools package. This allows you to process futures, as defined by the future package, in parallel out of the box, not only on your local machine or ad-hoc cluster of machines, but also via high-performance compute (HPC) job schedulers such as LSF, OpenLava, Slurm, SGE, and TORQUE / PBS, e.g. y &lt;- lapply(files, FUN = process) |&gt; futurize::futurize().">
-<meta property="og:description" content="Implementation of the Future API &lt;doi:10.32614/RJ-2021-048&gt; on top of the batchtools package. This allows you to process futures, as defined by the future package, in parallel out of the box, not only on your local machine or ad-hoc cluster of machines, but also via high-performance compute (HPC) job schedulers such as LSF, OpenLava, Slurm, SGE, and TORQUE / PBS, e.g. y &lt;- lapply(files, FUN = process) |&gt; futurize::futurize().">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Parallel Future Backend for HPC Schedulers using batchtools">
+<meta name="description" content="Implementation of the Future API &lt;doi:10.32614/RJ-2021-048&gt; on top of the batchtools package. The backend is fully compliant with the Future API, as validated by the future.tests conformance test suite, meaning that code using futures gives identical results and behaves the same regardless of which future backend is used. Futures are resolved on the local machine, on an ad-hoc cluster of machines, or via job schedulers on high-performance compute (HPC) clusters, such as Slurm, SGE, LSF, OpenLava, and TORQUE / PBS. A common use is to parallelize existing map-reduce calls via the futurize package &lt;doi:10.48550/arXiv.2601.17578&gt;, e.g. plan(future.batchtools::batchtools_slurm) followed by lapply(xs, fcn) |&gt; futurize() or purrr::map(xs, fcn) |&gt; futurize().">
+<meta property="og:description" content="Implementation of the Future API &lt;doi:10.32614/RJ-2021-048&gt; on top of the batchtools package. The backend is fully compliant with the Future API, as validated by the future.tests conformance test suite, meaning that code using futures gives identical results and behaves the same regardless of which future backend is used. Futures are resolved on the local machine, on an ad-hoc cluster of machines, or via job schedulers on high-performance compute (HPC) clusters, such as Slurm, SGE, LSF, OpenLava, and TORQUE / PBS. A common use is to parallelize existing map-reduce calls via the futurize package &lt;doi:10.48550/arXiv.2601.17578&gt;, e.g. plan(future.batchtools::batchtools_slurm) followed by lapply(xs, fcn) |&gt; futurize() or purrr::map(xs, fcn) |&gt; futurize().">
 <!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-SB3EQSD9FR"></script><script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.31.0-9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.31.0-9012</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,72 +99,43 @@
 <div class="row">
   <main id="main" class="col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="futurebatchtools-a-future-api-for-parallel-and-distributed-processing-using-batchtools">future.batchtools: A Future API for Parallel and Distributed Processing using ‘batchtools’<a class="anchor" aria-label="anchor" href="#futurebatchtools-a-future-api-for-parallel-and-distributed-processing-using-batchtools"></a>
+<div class="page-header"><h1 id="futurebatchtools-parallel-future-backend-for-hpc-schedulers-using-batchtools">future.batchtools: Parallel Future Backend for HPC Schedulers using ‘batchtools’<a class="anchor" aria-label="anchor" href="#futurebatchtools-parallel-future-backend-for-hpc-schedulers-using-batchtools"></a>
 </h1></div>
-<div class="section level2">
-<h2 id="tldr">TL;DR<a class="anchor" aria-label="anchor" href="#tldr"></a>
-</h2>
-<p>Here is an example of how to evaluate R expressions on a Slurm high-performance computing (HPC) cluster from within R.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Limit runtime to 10 minutes and memory to 400 MiB per future,</span></span>
-<span><span class="co"># request a parallel environment with four slots on a single host.</span></span>
-<span><span class="co"># On this system, R is available via environment module 'r'. By</span></span>
-<span><span class="co"># specifying 'r/4.5', 'module load r/4.5' will be added to</span></span>
-<span><span class="co"># the submitted job script.</span></span>
-<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="reference/batchtools_slurm.html">batchtools_slurm</a></span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  time <span class="op">=</span> <span class="st">"00:10:00"</span>, mem <span class="op">=</span> <span class="st">"400M"</span>, </span>
-<span>  nodes <span class="op">=</span> <span class="fl">1</span>, ntasks <span class="op">=</span> <span class="fl">4</span>, <span class="st">"cpus-per-task"</span> <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  modules <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"r/4.5"</span><span class="op">)</span></span>
-<span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Give it a spin</span></span>
-<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>    hostname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="st">"nodename"</span><span class="op">]</span><span class="op">]</span>,</span>
-<span>          os <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="st">"sysname"</span><span class="op">]</span><span class="op">]</span>,</span>
-<span>       cores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu">parallelly</span><span class="fu">::</span><span class="fu"><a href="https://parallelly.futureverse.org/reference/availableCores.html" class="external-link">availableCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>     modules <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"LOADEDMODULES"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">info</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   hostname    os cores  modules</span></span>
-<span><span class="co">#&gt; 1      n12 Linux     4  r/4.5.2</span></span></code></pre></div>
-</div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <strong><a href="https://cran.r-project.org/package=future" class="external-link">future</a></strong> package provides a generic API for using futures in R. A future is a simple yet powerful mechanism to evaluate an R expression and retrieve its value at some point in time. Futures can be resolved in many different ways depending on which strategy is used. There are various types of synchronous and asynchronous futures to choose from in the <strong><a href="https://cran.r-project.org/package=future" class="external-link">future</a></strong> package.</p>
-<p>This package, <strong><a href="https://cran.r-project.org/package=future.batchtools" class="external-link">future.batchtools</a></strong>, provides a type of futures that utilizes the <strong><a href="https://cran.r-project.org/package=batchtools" class="external-link">batchtools</a></strong> package. This means that <em>any</em> type of backend that the <strong>batchtools</strong> package supports can be used as a future. More specifically, <strong>future.batchtools</strong> will allow you or users of your package to leverage the compute power of high-performance computing (HPC) clusters via a simple switch in settings - without having to change any code at all.</p>
-<p>For instance, the following two future R expressions will be processed by parallel R workers launched on different compute nodes by the specified job scheduler:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="reference/batchtools_slurm.html">batchtools_slurm</a></span><span class="op">)</span></span>
+<p>The <strong><a href="https://future.batchtools.futureverse.org">future.batchtools</a></strong> package is a backend for the <strong><a href="https://future.futureverse.org" class="external-link">future</a></strong> framework, also known as the <a href="https://www.futureverse.org" class="external-link">Futureverse</a>. The Futureverse makes it easy to parallelize existing R code - often with only a minor change of code. Most users interact with it via higher-level packages such as <strong><a href="https://futurize.futureverse.org" class="external-link">futurize</a></strong>, <strong><a href="https://future.apply.futureverse.org" class="external-link">future.apply</a></strong>, <strong><a href="https://furrr.futureverse.org" class="external-link">furrr</a></strong>, and <strong><a href="https://doFuture.futureverse.org" class="external-link">doFuture</a></strong>, and you choose <em>where</em> and <em>how</em> the code runs by setting a future backend with <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan()</a></code>. This package adds backends that run futures as jobs on a high-performance compute (HPC) cluster, via job schedulers such as Slurm, SGE, LSF, and TORQUE/PBS, using the <strong><a href="https://cran.r-project.org/package=batchtools" class="external-link">batchtools</a></strong> package.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://futurize.futureverse.org" class="external-link">futurize</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="reference/batchtools_slurm.html">batchtools_slurm</a></span><span class="op">)</span>  <span class="co"># parallelize via Slurm jobs</span></span>
 <span></span>
-<span><span class="va">f_x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>; <span class="fl">3.14</span> <span class="op">}</span><span class="op">)</span></span>
-<span><span class="va">f_y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/future.html" class="external-link">future</a></span><span class="op">(</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>; <span class="fl">2.71</span> <span class="op">}</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f_x</span><span class="op">)</span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://future.futureverse.org/reference/value.html" class="external-link">value</a></span><span class="op">(</span><span class="va">f_y</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span></span>
-<span><span class="co">#&gt; [1] 5.85</span></span></code></pre></div>
-<p>This is just a toy example to illustrate what futures look like and how to work with them.</p>
-<p>For an introduction as well as full details on how to use futures, please see <a href="https://www.futureverse.org" class="external-link uri">https://www.futureverse.org</a> or consult the package vignettes of the <strong><a href="https://cran.r-project.org/package=future" class="external-link">future</a></strong> package.</p>
+<span><span class="co"># A slow function</span></span>
+<span><span class="va">slow_fcn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">1.0</span><span class="op">)</span></span>
+<span>  <span class="va">x</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Example data</span></span>
+<span><span class="va">xs</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span></span>
+<span><span class="co"># Sequential and parallel base R apply</span></span>
+<span><span class="va">ys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">xs</span>, <span class="va">slow_fcn</span><span class="op">)</span></span>
+<span><span class="va">ys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">xs</span>, <span class="va">slow_fcn</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Sequential and parallel purrr map</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="va">ys</span> <span class="op">&lt;-</span> <span class="va">xs</span> <span class="op">|&gt;</span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">slow_fcn</span><span class="op">)</span></span>
+<span><span class="va">ys</span> <span class="op">&lt;-</span> <span class="va">xs</span> <span class="op">|&gt;</span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">slow_fcn</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Sequential and parallel foreach calls</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RevolutionAnalytics/foreach" class="external-link">foreach</a></span><span class="op">)</span></span>
+<span><span class="va">ys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">xs</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%do%</a></span> <span class="fu">slow_fcn</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">ys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">xs</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%do%</a></span> <span class="fu">slow_fcn</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://futurize.futureverse.org/reference/futurize.html" class="external-link">futurize</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The only thing that differs from using <a href="https://www.futureverse.org/backends.html" class="external-link">any other future backend</a> is the <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan()</a></code> call. The code does not have to change, it gives identical results, and it behaves exactly the same.</p>
 </div>
 <div class="section level2">
-<h2 id="demos">Demos<a class="anchor" aria-label="anchor" href="#demos"></a>
+<h2 id="the-batchtools-backends">The batchtools backends<a class="anchor" aria-label="anchor" href="#the-batchtools-backends"></a>
 </h2>
-<p>The <strong><a href="https://cran.r-project.org/package=future" class="external-link">future</a></strong> package provides a demo using futures for calculating a set of Mandelbrot planes. The demo does not assume anything about what type of futures are used. <em>The user has full control of how futures are evaluated</em>. For instance, to use local batchtools futures, run the demo as:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="reference/batchtools_local.html">batchtools_local</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html" class="external-link">demo</a></span><span class="op">(</span><span class="st">"mandelbrot"</span>, package <span class="op">=</span> <span class="st">"future"</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="available-batchtools-backends">Available batchtools backends<a class="anchor" aria-label="anchor" href="#available-batchtools-backends"></a>
-</h2>
-<p>The <strong>future.batchtools</strong> package implements a generic future wrapper for all batchtools backends. Below are the most common types of batchtools backends. For other types of parallel and distributed backends, please see <a href="https://www.futureverse.org/backends.html" class="external-link uri">https://www.futureverse.org/backends.html</a>.</p>
 <table class="table">
 <colgroup>
 <col width="18%">
@@ -219,20 +190,43 @@
 </tr>
 </tbody>
 </table>
+<p>Each future is submitted as a job to the job scheduler. You can request the resources each job needs via argument <code>resources</code>, e.g.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Limit runtime to 10 minutes and memory to 400 MiB per future, and</span></span>
+<span><span class="co"># load environment module 'r/4.5' in the job script</span></span>
+<span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="fu">future.batchtools</span><span class="fu">::</span><span class="va"><a href="reference/batchtools_slurm.html">batchtools_slurm</a></span>, resources <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  time <span class="op">=</span> <span class="st">"00:10:00"</span>, mem <span class="op">=</span> <span class="st">"400M"</span>, modules <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"r/4.5"</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="advantages">Advantages<a class="anchor" aria-label="anchor" href="#advantages"></a>
+</h3>
+<ul>
+<li><p>You can harness the compute power of an HPC cluster from within R, without having to write job scripts or change any code.</p></li>
+<li><p>Each future can request its own resources, e.g. runtime, memory, CPU cores, and environment modules.</p></li>
+<li><p>All of the common job schedulers are supported, and others can be supported via a custom <strong>batchtools</strong> configuration.</p></li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
+</h3>
+<ul>
+<li><p>Each future is a separate job, which means it has to wait in the job queue before it starts. This makes the batchtools backends best suited for futures that take minutes or longer to run, rather than many small futures.</p></li>
+<li><p>The batchtools registry folder, which is <code>.future/</code> in the current working directory by default, must be on a file system that is shared between the machine submitting the jobs and the compute nodes.</p></li>
+</ul>
+</div>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>R package future.batchtools is available on <a href="https://cran.r-project.org/package=future.batchtools" class="external-link">CRAN</a> and can be installed in R as:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"future.batchtools"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="pre-release-version">Pre-release version<a class="anchor" aria-label="anchor" href="#pre-release-version"></a>
 </h3>
-<p>To install the pre-release version that is available in Git branch <code>develop</code> on GitHub, use:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"futureverse/future.batchtools"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span></span></code></pre></div>
-<p>This will install the package from source.</p>
+<p>To install the pre-release version, use:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"future.batchtools"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://futureverse-devel.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>

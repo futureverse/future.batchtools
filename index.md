@@ -1,101 +1,58 @@
-# future.batchtools: A Future API for Parallel and Distributed Processing using ‘batchtools’
-
-## TL;DR
-
-Here is an example of how to evaluate R expressions on a Slurm
-high-performance computing (HPC) cluster from within R.
-
-\
-[`library`](https://rdrr.io/r/base/library.html)`(`[`future`](https://future.futureverse.org)`)`\
-\
-`# Limit runtime to 10 minutes and memory to 400 MiB per future,`\
-`# request a parallel environment with four slots on a single host.`\
-`# On this system, R is available via environment module 'r'. By`\
-`# specifying 'r/4.5', 'module load r/4.5' will be added to`\
-`# the submitted job script.`\
-[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`, resources ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(`\
-`  time ``=`` ``"00:10:00"``, mem ``=`` ``"400M"``, `\
-`  nodes ``=`` ``1``, ntasks ``=`` ``4``, ``"cpus-per-task"`` ``=`` ``1``,`\
-`  modules ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"r/4.5"``)`\
-`)``)`\
-\
-`# Give it a spin`\
-`f`` ``<-`` `[`future`](https://future.futureverse.org/reference/future.html)`(``{`\
-`  `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`\
-`    hostname ``=`` `[`Sys.info`](https://rdrr.io/r/base/Sys.info.html)`(``)``[[``"nodename"``]``]``,`\
-`          os ``=`` `[`Sys.info`](https://rdrr.io/r/base/Sys.info.html)`(``)``[[``"sysname"``]``]``,`\
-`       cores ``=`` `[`unname`](https://rdrr.io/r/base/unname.html)`(``parallelly``::`[`availableCores`](https://parallelly.futureverse.org/reference/availableCores.html)`(``)``)``,`\
-`     modules ``=`` `[`Sys.getenv`](https://rdrr.io/r/base/Sys.getenv.html)`(``"LOADEDMODULES"``)`\
-`  ``)`\
-`}``)`\
-`info`` ``<-`` `[`value`](https://future.futureverse.org/reference/value.html)`(``f``)`\
-[`print`](https://rdrr.io/r/base/print.html)`(``info``)`\
-`#>   hostname    os cores  modules`\
-`#> 1      n12 Linux     4  r/4.5.2`
+# future.batchtools: Parallel Future Backend for HPC Schedulers using ‘batchtools’
 
 ## Introduction
 
-The **[future](https://cran.r-project.org/package=future)** package
-provides a generic API for using futures in R. A future is a simple yet
-powerful mechanism to evaluate an R expression and retrieve its value at
-some point in time. Futures can be resolved in many different ways
-depending on which strategy is used. There are various types of
-synchronous and asynchronous futures to choose from in the
-**[future](https://cran.r-project.org/package=future)** package.
-
-This package,
-**[future.batchtools](https://cran.r-project.org/package=future.batchtools)**,
-provides a type of futures that utilizes the
+The **[future.batchtools](https://future.batchtools.futureverse.org)**
+package is a backend for the
+**[future](https://future.futureverse.org)** framework, also known as
+the [Futureverse](https://www.futureverse.org). The Futureverse makes it
+easy to parallelize existing R code - often with only a minor change of
+code. Most users interact with it via higher-level packages such as
+**[futurize](https://futurize.futureverse.org)**,
+**[future.apply](https://future.apply.futureverse.org)**,
+**[furrr](https://furrr.futureverse.org)**, and
+**[doFuture](https://doFuture.futureverse.org)**, and you choose *where*
+and *how* the code runs by setting a future backend with
+[`plan()`](https://future.futureverse.org/reference/plan.html). This
+package adds backends that run futures as jobs on a high-performance
+compute (HPC) cluster, via job schedulers such as Slurm, SGE, LSF, and
+TORQUE/PBS, using the
 **[batchtools](https://cran.r-project.org/package=batchtools)** package.
-This means that *any* type of backend that the **batchtools** package
-supports can be used as a future. More specifically,
-**future.batchtools** will allow you or users of your package to
-leverage the compute power of high-performance computing (HPC) clusters
-via a simple switch in settings - without having to change any code at
-all.
-
-For instance, the following two future R expressions will be processed
-by parallel R workers launched on different compute nodes by the
-specified job scheduler:
 
 \
-[`library`](https://rdrr.io/r/base/library.html)`(`[`future`](https://future.futureverse.org)`)`\
-[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`)`\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`futurize`](https://futurize.futureverse.org)`)`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`)``  ``# parallelize via Slurm jobs`\
 \
-`f_x`` ``<-`` `[`future`](https://future.futureverse.org/reference/future.html)`(``{`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``5``)``; ``3.14`` ``}``)`\
-`f_y`` ``<-`` `[`future`](https://future.futureverse.org/reference/future.html)`(``{`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``5``)``; ``2.71`` ``}``)`\
-`x`` ``<-`` `[`value`](https://future.futureverse.org/reference/value.html)`(``f_x``)`\
-`y`` ``<-`` `[`value`](https://future.futureverse.org/reference/value.html)`(``f_y``)`\
-`x`` ``+`` ``y`\
-`#> [1] 5.85`
-
-This is just a toy example to illustrate what futures look like and how
-to work with them.
-
-For an introduction as well as full details on how to use futures,
-please see <https://www.futureverse.org> or consult the package
-vignettes of the **[future](https://cran.r-project.org/package=future)**
-package.
-
-## Demos
-
-The **[future](https://cran.r-project.org/package=future)** package
-provides a demo using futures for calculating a set of Mandelbrot
-planes. The demo does not assume anything about what type of futures are
-used. *The user has full control of how futures are evaluated*. For
-instance, to use local batchtools futures, run the demo as:
-
+`# A slow function`\
+`slow_fcn`` ``<-`` ``function``(``x``)`` ``{`\
+`  `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``1.0``)`\
+`  ``x``^``2`\
+`}`\
 \
-[`library`](https://rdrr.io/r/base/library.html)`(`[`future`](https://future.futureverse.org)`)`\
-[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_local`](https://future.batchtools.futureverse.org/reference/batchtools_local.md)`)`\
-[`demo`](https://rdrr.io/r/utils/demo.html)`(``"mandelbrot"``, package ``=`` ``"future"``, ask ``=`` ``FALSE``)`
+`# Example data`\
+`xs`` ``<-`` ``1``:``10`\
+\
+`# Sequential and parallel base R apply`\
+`ys`` ``<-`` `[`lapply`](https://rdrr.io/r/base/lapply.html)`(``xs``, ``slow_fcn``)`\
+`ys`` ``<-`` `[`lapply`](https://rdrr.io/r/base/lapply.html)`(``xs``, ``slow_fcn``)`` ``|>`` `[`futurize`](https://futurize.futureverse.org/reference/futurize.html)`(``)`\
+\
+`# Sequential and parallel purrr map`\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`purrr`](https://purrr.tidyverse.org/)`)`\
+`ys`` ``<-`` ``xs`` ``|>``  `[`map`](https://purrr.tidyverse.org/reference/map.html)`(``slow_fcn``)`\
+`ys`` ``<-`` ``xs`` ``|>``  `[`map`](https://purrr.tidyverse.org/reference/map.html)`(``slow_fcn``)`` ``|>`` `[`futurize`](https://futurize.futureverse.org/reference/futurize.html)`(``)`\
+\
+`# Sequential and parallel foreach calls`\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`foreach`](https://github.com/RevolutionAnalytics/foreach)`)`\
+`ys`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``xs``)`` `[`%do%`](https://rdrr.io/pkg/foreach/man/foreach.html)` ``slow_fcn``(``x``)`\
+`ys`` ``<-`` `[`foreach`](https://rdrr.io/pkg/foreach/man/foreach.html)`(``x ``=`` ``xs``)`` `[`%do%`](https://rdrr.io/pkg/foreach/man/foreach.html)` ``slow_fcn``(``x``)`` ``|>`` `[`futurize`](https://futurize.futureverse.org/reference/futurize.html)`(``)`
 
-## Available batchtools backends
+The only thing that differs from using [any other future
+backend](https://www.futureverse.org/backends.html) is the
+[`plan()`](https://future.futureverse.org/reference/plan.html) call. The
+code does not have to change, it gives identical results, and it behaves
+exactly the same.
 
-The **future.batchtools** package implements a generic future wrapper
-for all batchtools backends. Below are the most common types of
-batchtools backends. For other types of parallel and distributed
-backends, please see <https://www.futureverse.org/backends.html>.
+## The batchtools backends
 
 | Backend | Description | Alternative in future package |
 |:---|:---|:---|
@@ -108,6 +65,38 @@ backends, please see <https://www.futureverse.org/backends.html>.
 | `batchtools_multicore` | parallel evaluation by forking the current R process | `plan(multicore)` |
 | `batchtools_local` | sequential evaluation in a separate R process (on current machine) | `plan(cluster, workers = I(1))` |
 
+Each future is submitted as a job to the job scheduler. You can request
+the resources each job needs via argument `resources`, e.g.
+
+\
+`# Limit runtime to 10 minutes and memory to 400 MiB per future, and`\
+`# load environment module 'r/4.5' in the job script`\
+[`plan`](https://future.futureverse.org/reference/plan.html)`(``future.batchtools``::`[`batchtools_slurm`](https://future.batchtools.futureverse.org/reference/batchtools_slurm.md)`, resources ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(`\
+`  time ``=`` ``"00:10:00"``, mem ``=`` ``"400M"``, modules ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"r/4.5"``)`\
+`)``)`
+
+### Advantages
+
+- You can harness the compute power of an HPC cluster from within R,
+  without having to write job scripts or change any code.
+
+- Each future can request its own resources, e.g. runtime, memory, CPU
+  cores, and environment modules.
+
+- All of the common job schedulers are supported, and others can be
+  supported via a custom **batchtools** configuration.
+
+### Limitations
+
+- Each future is a separate job, which means it has to wait in the job
+  queue before it starts. This makes the batchtools backends best suited
+  for futures that take minutes or longer to run, rather than many small
+  futures.
+
+- The batchtools registry folder, which is `.future/` in the current
+  working directory by default, must be on a file system that is shared
+  between the machine submitting the jobs and the compute nodes.
+
 ## Installation
 
 R package future.batchtools is available on
@@ -119,10 +108,7 @@ installed in R as:
 
 ### Pre-release version
 
-To install the pre-release version that is available in Git branch
-`develop` on GitHub, use:
+To install the pre-release version, use:
 
 \
-`remotes``::`[`install_github`](https://remotes.r-lib.org/reference/install_github.html)`(``"futureverse/future.batchtools"``, ref``=``"develop"``)`
-
-This will install the package from source.
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"future.batchtools"``, repos ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"https://futureverse-devel.r-universe.dev"``, ``"https://cloud.r-project.org"``)``)`

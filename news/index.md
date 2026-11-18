@@ -10,7 +10,20 @@
   TRUE. Since this can be slow for large package libraries on slow file
   systems, only the library paths are reported otherwise.
 
+### Miscellaneous
+
+- When all workers are occupied, the waiting for a free worker now uses
+  the `future.wait.timeout`, `future.wait.interval`, and
+  `future.wait.alpha` settings recorded by the backend when it was
+  created, instead of querying the R options each time. This is
+  consistent with how the backend waits for results. As a result, the
+  initial polling interval defaults to 0.01 seconds instead of 0.2
+  seconds.
+
 ### Bug Fixes
+
+- [`listFutures()`](https://future.futureverse.org/reference/FutureBackend-class.html)
+  did not list the active futures of the backend.
 
 - A batchtools future could get state `"finished"` before its result had
   been collected.
@@ -22,6 +35,12 @@
   over and over, e.g. when the built-in template detected an invalid
   `rscript` resource. Now it gives a `FutureLaunchError` with the exit
   status and the last lines of the job output.
+
+- Interrupting a batchtools future, e.g. via
+  [`cancel()`](https://future.futureverse.org/reference/cancel.html),
+  would mark it as interrupted also when **batchtools** did not find the
+  job among the queued or running jobs and did not try to kill it. Now
+  the state is changed only if the job was confirmed to be killed.
 
 ## Version 0.31.0
 
