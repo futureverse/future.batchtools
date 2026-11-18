@@ -80,8 +80,9 @@ the resources each job needs via argument `resources`, e.g.
 - You can harness the compute power of an HPC cluster from within R,
   without having to write job scripts or change any code.
 
-- Each future can request its own resources, e.g. runtime, memory, CPU
-  cores, and environment modules.
+- You can specify the resources that the jobs need, e.g. runtime,
+  memory, CPU cores, and environment modules, via
+  [`plan()`](https://future.futureverse.org/reference/plan.html).
 
 - All of the common job schedulers are supported, and others can be
   supported via a custom **batchtools** configuration.
