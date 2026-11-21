@@ -53,7 +53,8 @@ BatchtoolsCustomFutureBackend <- function(...) {
 #' @inheritParams BatchtoolsCustomFutureBackend
 #'
 #' @export
-batchtools_custom <- function(...) {
+#' @importFrom batchtools findConfFile
+batchtools_custom <- function(..., cluster.functions = NULL, conf.file = findConfFile(), registry = list(), resources = list(), finalize = getOption("future.finalize", TRUE), workers = 1L) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_custom() must never be called directly")
 }
 class(batchtools_custom) <- c(

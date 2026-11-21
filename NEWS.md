@@ -28,6 +28,12 @@
  * If a job fails to submit, **batchtools** resubmits after a
    wait. Resubmits would ignore the `resources` specifications.
 
+ * `plan(future.batchtools::batchtools_custom, cluster.functions = cf)`
+   would produce a warning on "Detected 1 unknown future arguments:
+   'cluster.functions'", unless **future.batchtools** was attached.
+   The same happened for arguments `conf.file`, `registry`,
+   `resources`, `finalize`, and `workers`.
+
  * A `batchtools_bash` future whose job script failed was resubmitted
    over and over, e.g. when the built-in template detected an invalid
    `rscript` resource. Now it gives a `FutureLaunchError` with the
