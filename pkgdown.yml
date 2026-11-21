@@ -2,7 +2,7 @@ pandoc: '3.12'
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2026-11-21T21:13Z
+last_built: 2026-11-21T22:59Z
 urls:
   reference: https://future.batchtools.futureverse.org/reference
   article: https://future.batchtools.futureverse.org/articles
