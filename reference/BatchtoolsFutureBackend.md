@@ -220,7 +220,7 @@ print(plan())
 #> - call: plan(future.batchtools::batchtools_custom, cluster.functions = cf)
 #> BatchtoolsCustomFutureBackend:
 #> Inherits: BatchtoolsMultiprocessFutureBackend, BatchtoolsFutureBackend, MultiprocessFutureBackend, FutureBackend
-#> UUID: e1bb45ccf6bebbd7d667ef1b008938fc
+#> UUID: 5fa23c0737ed9396c1aa4f601aa7fcbd
 #> Number of workers: 1
 #> Number of free workers: 1
 #> Available cores: 8
@@ -235,12 +235,12 @@ print(plan())
 #> batchtools configuration file: <NA>
 #> batchtools cluster functions: ‘Interactive’
 #> batchtools cluster functions template: <NA>
-#> Cache directory: ‘/tmp/hb/Rtmpl2f9OX/future.batchtools/docs/reference/.future/20261118_073315-i7iVIR’ (0 folders)
+#> Cache directory: ‘/tmp/hb/RtmpjHvq4e/future.batchtools/docs/reference/.future/20261121_221336-DPhghv’ (0 folders)
 #> batchtools resources:
 #>  list()
 
 message("Main process ID: ", Sys.getpid())
-#> Main process ID: 849837
+#> Main process ID: 1266539
 
 f <- future({
   data.frame(
@@ -253,8 +253,8 @@ f <- future({
 })
 info <- value(f)
 print(info)
-#>     hostname    os cores    pid
-#> 1 hb-x1-2023 Linux     8 849999
+#>     hostname    os cores     pid
+#> 1 hb-x1-2023 Linux     8 1266795
 #>                                                                                                                                                                                                                                                                                                                                                                                                  modules
 #> 1 CBI:cmake/4.3.3:r/4.6.2:pandoc/3.12:quarto/1.10.20:port4me/0.7.1:bat/0.26.1:glow/2.1.2:fzf/0.74.4:htop/3.5.1:github-cli/2.102.0:git-flow/1.12.3:git-extras/7.5.0:gitleaks/8.30.1:tea/0.16.0:ripgrep/15.2.0:shellcheck/0.11.0:node/26.0.0:markdownlint-cli/0.49.1:rclone/1.74.4:himalaya/2.2.1:rust/1.97.1:difftastic/0.69.0:osgrep/0.5.16:opencode/1.15.12:bash-startup/0.5.0:restic/0.19.1:deno/2.9.7
 ```

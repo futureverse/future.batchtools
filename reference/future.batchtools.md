@@ -7,9 +7,37 @@ API is defined by the future package.
 
 ## Details
 
-To use batchtools futures, load future.batchtools, and select the type
-of future you wish to use via
+To use batchtools futures, attach future, and select the type of future
+you wish to use via
 [`future::plan()`](https://future.futureverse.org/reference/plan.html).
+
+## Example
+
+    library(futurize)                          # also attaches 'future'
+    plan(future.batchtools::batchtools_slurm)  # parallelize via Slurm jobs
+
+    # A slow function
+    slow_fcn <- function(x) {
+      Sys.sleep(1.0)
+      x^2
+    }
+
+    # Example data
+    xs <- 1:10
+
+    # Sequential and parallel base R apply
+    ys <- lapply(xs, slow_fcn)
+    ys <- lapply(xs, slow_fcn) |> futurize()
+
+    # Sequential and parallel purrr map
+    library(purrr)
+    ys <- xs |> map(slow_fcn)
+    ys <- xs |> map(slow_fcn) |> futurize()
+
+    # Sequential and parallel foreach calls
+    library(foreach)
+    ys <- foreach(x = xs) %do% slow_fcn(x)
+    ys <- foreach(x = xs) %do% slow_fcn(x) |> futurize()
 
 ## See also
 
@@ -41,13 +69,3 @@ Other contributors:
 - Bernd Bischl ([ORCID](https://orcid.org/0000-0001-6002-6980)) (Code
   adapted from the 'batchtools' package) \[contributor, copyright
   holder\]
-
-## Examples
-
-``` r
-if (FALSE) { # interactive()
-library(future)
-plan(future.batchtools::batchtools_local)
-demo("mandelbrot", package = "future", ask = FALSE)
-}
-```

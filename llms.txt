@@ -38,8 +38,8 @@ TORQUE/PBS, using the
 \
 `# Sequential and parallel purrr map`\
 [`library`](https://rdrr.io/r/base/library.html)`(`[`purrr`](https://purrr.tidyverse.org/)`)`\
-`ys`` ``<-`` ``xs`` ``|>``  `[`map`](https://purrr.tidyverse.org/reference/map.html)`(``slow_fcn``)`\
-`ys`` ``<-`` ``xs`` ``|>``  `[`map`](https://purrr.tidyverse.org/reference/map.html)`(``slow_fcn``)`` ``|>`` `[`futurize`](https://futurize.futureverse.org/reference/futurize.html)`(``)`\
+`ys`` ``<-`` ``xs`` ``|>`` `[`map`](https://purrr.tidyverse.org/reference/map.html)`(``slow_fcn``)`\
+`ys`` ``<-`` ``xs`` ``|>`` `[`map`](https://purrr.tidyverse.org/reference/map.html)`(``slow_fcn``)`` ``|>`` `[`futurize`](https://futurize.futureverse.org/reference/futurize.html)`(``)`\
 \
 `# Sequential and parallel foreach calls`\
 [`library`](https://rdrr.io/r/base/library.html)`(`[`foreach`](https://github.com/RevolutionAnalytics/foreach)`)`\
@@ -172,9 +172,3 @@ To install the pre-release version, use:
   [`R_FUTURE_BATCHTOOLS_WORKERS`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)
   : Options used for batchtools futures
 
-# Articles
-
-### All vignettes
-
-- [A Future for
-  batchtools](https://future.batchtools.futureverse.org/articles/future.batchtools.md):
