@@ -132,5 +132,42 @@ stopifnot(grepl(tmp_dir, info_dir, fixed = TRUE))
 out <- future.batchtools:::capture_output(cat("hello\nworld"))
 stopifnot(identical(out, c("hello", "world")))
 
+# hpaste - corner cases
+stopifnot(identical(future.batchtools:::hpaste(character(0L)), character(0L)))
+stopifnot(identical(future.batchtools:::hpaste(1:3, collapse = NULL), c("1", "2", "3")))
+stopifnot(future.batchtools:::hpaste(1:3, last_collapse = " and ") == "1, 2 and 3")
+stopifnot(future.batchtools:::hpaste(1:10, max_head = 2, last_collapse = " or ") == "1, 2, ... or 10")
+
+# stop_if_not
+res <- tryCatch(future.batchtools:::stop_if_not(TRUE, FALSE), error = identity)
+stopifnot(inherits(res, "error"), grepl("FALSE", conditionMessage(res)))
+res <- tryCatch(future.batchtools:::stop_if_not(NA), error = identity)
+stopifnot(inherits(res, "error"))
+
+# geval
+stopifnot(future.batchtools:::geval(quote(1 + 2)) == 3)
+stopifnot(future.batchtools:::geval(1 + 2, substitute = TRUE) == 3)
+
+# tempvar
+env <- new.env()
+name <- future.batchtools:::tempvar(prefix = ".tmp", value = 42L, envir = env)
+stopifnot(is.character(name), startsWith(name, ".tmp"),
+          identical(get(name, envir = env, inherits = FALSE), 42L))
+
+# dir_info with subfolders
+tmp_dir <- tempfile()
+dir.create(file.path(tmp_dir, "a"), recursive = TRUE)
+dir.create(file.path(tmp_dir, "b"))
+info_dir <- future.batchtools:::dir_info(tmp_dir)
+stopifnot(grepl("2 folders", info_dir, fixed = TRUE))
+unlink(tmp_dir, recursive = TRUE)
+stopifnot(future.batchtools:::dir_info(NULL) == "<NA>")
+stopifnot(future.batchtools:::dir_info(NA_character_) == "<NA>")
+stopifnot(grepl("<non-existing>", future.batchtools:::dir_info(tmp_dir), fixed = TRUE))
+
+# drop_non_valid_characters
+stopifnot(identical(future.batchtools:::drop_non_valid_characters(character(0L), pattern = "[a-z]"), "batchtools"))
+stopifnot(identical(future.batchtools:::drop_non_valid_characters(c("a", "B"), pattern = "[a-z]"), c("a", "")))
+
 
 message("*** Internals ... done")
