@@ -95,19 +95,12 @@ future.batchtools:::mstr(list(a=1))
 stopifnot(future.batchtools:::is_na(NA))
 stopifnot(!future.batchtools:::is_na(1))
 
-stopifnot(future.batchtools:::is_false(FALSE))
-stopifnot(!future.batchtools:::is_false(TRUE))
-
-# hpaste
-stopifnot(future.batchtools:::hpaste(1:3) == "1, 2, 3")
-stopifnot(future.batchtools:::hpaste(1:10, max_head = 2, max_tail = 1) == "1, 2, ..., 10")
 
 # trim
 stopifnot(future.batchtools:::trim("  abc  ") == "abc")
 
-# comma
+# commaq
 options(useFancyQuotes = FALSE)
-stopifnot(future.batchtools:::comma(1:3) == "1, 2, 3")
 stopifnot(future.batchtools:::commaq(1:3) == "'1', '2', '3'")
 
 # file_info / dir_info
@@ -131,6 +124,33 @@ stopifnot(grepl(tmp_dir, info_dir, fixed = TRUE))
 # capture_output
 out <- future.batchtools:::capture_output(cat("hello\nworld"))
 stopifnot(identical(out, c("hello", "world")))
+
+# stop_if_not
+res <- tryCatch(future.batchtools:::stop_if_not(TRUE, FALSE), error = identity)
+stopifnot(inherits(res, "error"), grepl("FALSE", conditionMessage(res)))
+res <- tryCatch(future.batchtools:::stop_if_not(NA), error = identity)
+stopifnot(inherits(res, "error"))
+
+# tempvar
+env <- new.env()
+name <- future.batchtools:::tempvar(prefix = ".tmp", value = 42L, envir = env)
+stopifnot(is.character(name), startsWith(name, ".tmp"),
+          identical(get(name, envir = env, inherits = FALSE), 42L))
+
+# dir_info with subfolders
+tmp_dir <- tempfile()
+dir.create(file.path(tmp_dir, "a"), recursive = TRUE)
+dir.create(file.path(tmp_dir, "b"))
+info_dir <- future.batchtools:::dir_info(tmp_dir)
+stopifnot(grepl("2 folders", info_dir, fixed = TRUE))
+unlink(tmp_dir, recursive = TRUE)
+stopifnot(future.batchtools:::dir_info(NULL) == "<NA>")
+stopifnot(future.batchtools:::dir_info(NA_character_) == "<NA>")
+stopifnot(grepl("<non-existing>", future.batchtools:::dir_info(tmp_dir), fixed = TRUE))
+
+# drop_non_valid_characters
+stopifnot(identical(future.batchtools:::drop_non_valid_characters(character(0L), pattern = "[a-z]"), "batchtools"))
+stopifnot(identical(future.batchtools:::drop_non_valid_characters(c("a", "B"), pattern = "[a-z]"), c("a", "")))
 
 
 message("*** Internals ... done")

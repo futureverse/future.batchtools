@@ -19,20 +19,13 @@ if (utils::file_test("-f", bin) && .Platform[["OS.type"]] != "windows") {
   print(res)
   stopifnot(inherits(res, "error"), grepl("syntax error", conditionMessage(res)))
 
-  message("- Validation disabled")
-  script <- tempfile(fileext = ".job")
-  on.exit(file.remove(script), add = TRUE)
-  writeLines(c("#!/bin/bash", "if true; then"), con = script)
-  validate <- future.batchtools:::validate_job_script
-  res <- tryCatch(validate(script), error = identity)
-  stopifnot(inherits(res, "error"))
-  options(future.batchtools.script.validate = FALSE)
-  res <- tryCatch(validate(script), error = identity)
-  stopifnot(!inherits(res, "error"))
-  options(future.batchtools.script.validate = TRUE)
+  ## Direct tests of validate_job_script() are in test-validate_job_script.R
 
   message("- Valid template")
-  plan(future.batchtools::batchtools_bash)
+  ## Use the full path to 'Rscript', because 'R CMD check' puts a stub
+  ## 'Rscript' on the PATH that refuses to run
+  rscript <- file.path(R.home("bin"), "Rscript")
+  plan(future.batchtools::batchtools_bash, resources = list(rscript = rscript))
   stopifnot(value(future(42L)) == 42L)
 } else {
   message("Skipping: 'bash' is not available")

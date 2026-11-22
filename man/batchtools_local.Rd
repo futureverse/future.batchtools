@@ -7,7 +7,9 @@
 batchtools_local(
   ...,
   fs.latency = 0,
-  delete = getOption("future.batchtools.delete", "on-success")
+  delete = getOption("future.batchtools.delete", "on-success"),
+  registry = list(),
+  finalize = getOption("future.finalize", TRUE)
 )
 }
 \arguments{
@@ -23,6 +25,14 @@ If \code{"on-success"} (default), it is deleted if the future was resolved
 successfully \emph{and} the expression did not produce an error.
 If \code{"never"}, then it is never deleted.
 If \code{"always"}, then it is always deleted.}
+
+\item{registry}{(optional) A named list of settings applied to each
+future's \pkg{batchtools} \link[batchtools:makeRegistry]{Registry}.
+This is a more convenient alternative to using argument \code{conf.file}.}
+
+\item{finalize}{If TRUE, a future's \pkg{batchtools}
+\link[batchtools:makeRegistry]{Registry} is automatically deleted when
+the future is garbage collected, otherwise not.}
 
 \item{\ldots}{Not used.}
 }

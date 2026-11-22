@@ -18,6 +18,8 @@ print.BatchtoolsSGEFutureBackend <- function(x, ...) {
 #' A batchtools SGE backend resolves futures in parallel via a Sun/Son of/Oracle/Univa/Altair Grid Engine job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
+#' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams batchtools::makeClusterFunctionsSGE
 #'
 #' @param template (optional) Name of job-script template to be searched
 #' for by [batchtools::findTemplateFile()]. If not found, it defaults to
@@ -81,7 +83,7 @@ print.BatchtoolsSGEFutureBackend <- function(x, ...) {
 #' * <https://en.wikipedia.org/wiki/Oracle_Grid_Engine>
 #'
 #' @export
-batchtools_sge <- function(..., template = "sge", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L)) {
+batchtools_sge <- function(..., template = "sge", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L), nodename = "localhost", registry = list(), finalize = getOption("future.finalize", TRUE)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_sge() must never be called directly")
 }
 class(batchtools_sge) <- c(

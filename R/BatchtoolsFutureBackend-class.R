@@ -32,7 +32,9 @@
 #' reserved names defined by the \pkg{future.batchtools} package;
 #'
 #' * `resources[["details"]]`, if TRUE, results in the job script outputting
-#'   job details and job summaries at the beginning and at the end.
+#'   job details and job summaries at the beginning and at the end. It
+#'   also reports on the number of packages installed in each R package
+#'   library, which can be slow for large libraries on slow file systems.
 #'
 #' * `resources[["startup"]]` and `resources[["shutdown"]]` are character
 #'   vectors of shell code to be injected to the job script as-is.
@@ -127,7 +129,7 @@ BatchtoolsFutureBackend <- function(
     ...
   )
   core[["futureClasses"]] <- c("BatchtoolsFuture", core[["futureClasses"]])
-  core <- structure(core, class = c("BatchtoolsFutureBackend", "FutureBackend", class(core)))
+  core <- structure(core, class = c("BatchtoolsFutureBackend", class(core)))
   core
 }
 
@@ -338,7 +340,7 @@ launchFuture.BatchtoolsFutureBackend <- local({
     })
 
     ## 4. Wait for an available worker
-    waitForWorker(future, workers = backend[["workers"]])
+    waitForWorker(backend, timeout = backend[["future.wait.timeout"]], delta = backend[["future.wait.interval"]], alpha = backend[["future.wait.alpha"]], registry = FutureRegistry, debug = debug)
 
     ## 5. Submit
     resources <- backend[["resources"]]
@@ -368,8 +370,7 @@ launchFuture.BatchtoolsFutureBackend <- local({
 
     future[["submitted_on"]] <- submitted_on
 
-    ## Until future (> 1.67.0) is on CRAN
-    future[["state"]] <- if (futureSupportsStateSubmitted()) "submitted" else "running"
+    future[["state"]] <- "submitted"
   
     ## 6. Reserve worker for future
     registerFuture(future)
@@ -446,13 +447,15 @@ interruptFuture.BatchtoolsFutureBackend <- function(backend, future, ...) {
     mprint(res)
   }
 
-  if (nrow(res) == 0L) {
+  ## Only flag the future as interrupted if the job was confirmed to be
+  ## killed. If killJobs() returns zero rows, then batchtools did not find
+  ## the job among the queued or running jobs, and made no attempt to kill
+  ## it, e.g. the job may have finished, or it may not yet be listed by
+  ## the scheduler. In that case, leave the state as-is, so that a later
+  ## attempt can kill the job.
+  res <- subset(res, job.id == jobid)
+  if (nrow(res) == 1L && isTRUE(res$killed)) {
     future[["state"]] <- "interrupted"
-  } else {
-    res <- subset(res, job.id == jobid)
-    if (nrow(res) == 1L && isTRUE(res$killed)) {
-      future[["state"]] <- "interrupted"
-    }
   }
   
   invisible(future)
@@ -625,7 +628,9 @@ finished <- function(future, ...) {
   status <- status(future)
   if (is_na(status)) return(NA)
   if (any(c("finished", "error", "expired") %in% status)) {
-    future[["state"]] <- "finished"
+    ## Note, the state is set to "finished" by result(), once the result
+    ## has been collected. Until then, the future is still "running"
+    if (future[["state"]] == "submitted") future[["state"]] <- "running"
     return(TRUE)
   } else if (future[["state"]] == "submitted" && "started" %in% status) {
     future[["state"]] <- "running"
@@ -1114,7 +1119,7 @@ await <- function(future, cleanup = TRUE, ...) {
   }
 
   if (length(prototype_fields) > 0) {
-    result$PROTOTYPE_WARNING <- sprintf("WARNING: The fields %s should be considered internal and experimental for now, that is, until the Future API for these additional features has been settled. For more information, please see https://github.com/futureverse/future/issues/172", hpaste(sQuote(prototype_fields), max_head = Inf, collapse = ", ", last_collapse  = " and "))
+    result$PROTOTYPE_WARNING <- sprintf("WARNING: The fields %s should be considered internal and experimental for now, that is, until the Future API for these additional features has been settled. For more information, please see https://github.com/futureverse/future/issues/172", hpaste(sQuote(prototype_fields), maxHead = Inf, collapse = ", ", lastCollapse = " and "))
   }
   
   ## Cleanup?
@@ -1310,7 +1315,9 @@ add_finalizer.BatchtoolsFuture <- function(future, debug = FALSE, ...) {
       if (debug) {
         mdebug("- attempting to delete future")
         if (requireNamespace("utils", quietly = TRUE)) {
-          mdebug(utils::capture.output(utils::str(as.list(f))))
+          ## Note, as.list(f) would fail, because 'f' is an environment
+          ## whose class attribute does not include "environment"
+          mdebug(utils::capture.output(utils::str(as.list.environment(f))))
         }
       }
       res <- try({

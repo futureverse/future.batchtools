@@ -1,4 +1,4 @@
-^[.].*/
+^[.](?!aspell/).*/
 ^docs/
 ^incl/
 ^pkgdown/
@@ -9,9 +9,6 @@
 ^README[.]md$
 Rplots[.]pdf$
 ^cran-comments[.].*$
-^vignettes/.*[.](pdf|PDF)$
-^vignettes/.*[.](r|R)$
-^vignettes/[.]install_extras$
 ^Makefile$
 ^.*[.]tar[.]gz$
 ^.*\.Rproj$

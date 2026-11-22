@@ -1,14 +1,3 @@
-waitForWorker <- function(future, ...) {
-  UseMethod("waitForWorker")
-}
-
-#' @export
-waitForWorker.default <- function(future, ...) NULL
-
-#' @export
-waitForWorker.BatchtoolsUniprocessFuture <- function(future, ...) NULL
-
-
 registerFuture <- function(future, ...) {
   UseMethod("registerFuture")
 }
@@ -46,46 +35,21 @@ unregisterFuture.BatchtoolsFuture <- function(future, ...) {
 }
 
 
-#' @importFrom future FutureError
-#' @export
-waitForWorker.BatchtoolsFuture <- function(future,
-         workers,
-         await = NULL,
-         timeout = getOption("future.wait.timeout", 30 * 24 * 60 * 60),
-         delta = getOption("future.wait.interval", 0.2),
-         alpha = getOption("future.wait.alpha", 1.01),
-         ...) {
-  debug <- isTRUE(getOption("future.debug"))
-  if (debug) {
-    mdebugf_push("waitForWorker() for %s ...", class(future)[1])
-    on.exit(mdebug_pop())
-  }
+## Local copy of future:::waitForWorker(), for future (< 1.82.0-9016).
+## It is replaced by the one in 'future', if available, when this
+## package is loaded; see import_future_functions()
+#' @importFrom future FutureError nbrOfWorkers
+waitForWorker <- function(backend, workers = nbrOfWorkers(backend), timeout = backend[["timeout"]], delta = backend[["delta"]], alpha = backend[["alpha"]], registry = FutureRegistry, debug = FALSE) {
+  stop_if_not(
+    length(workers) == 1L, is.numeric(workers), !is.na(workers), workers >= 1,
+    length(timeout) == 1L, is.numeric(timeout), !is.na(timeout), timeout >= 0,
+    length(delta) == 1L, is.numeric(delta), is.finite(delta), delta > 0,
+    length(alpha) == 1L, is.numeric(alpha), is.finite(alpha), alpha > 0,
+    is.function(registry)
+  )
 
-  if (is.numeric(workers)) {
-    stop_if_not(length(workers) == 1, !is.na(workers), workers >= 1L)
-    ## An infinite number of workers is always available
-    if (is.infinite(workers)) return(invisible(NULL))
-  } else if (is.character(workers)) {
-    workers <- length(workers)
-  } else {
-    stop("Unsupported type of 'workers': ", mode(workers))
-  }
-
-  stop_if_not(is.null(await) || is.function(await))
-  stop_if_not(length(timeout) == 1, is.finite(timeout), timeout >= 0)
-  stop_if_not(length(alpha) == 1, is.finite(alpha), alpha > 0)
-
-  backend <- future[["backend"]]
-
-  ## Use a default await() function?
-  if (is.null(await)) {
-    await <- function() FutureRegistry(backend[["reg"]], action = "collect-first")
-  }  
- 
-  ## Number of occupied workers
-  usedWorkers <- function() {
-    length(FutureRegistry(backend[["reg"]], action = "list", earlySignal = FALSE))
-  }
+  ## Name of the registry to poll
+  reg <- backend[["reg"]]
 
   t0 <- Sys.time()
   dt <- 0
@@ -94,7 +58,7 @@ waitForWorker.BatchtoolsFuture <- function(future,
   finished <- FALSE
   while (dt <= timeout) {
     ## Check for available workers
-    used <- usedWorkers()
+    used <- length(registry(reg, action = "list", earlySignal = FALSE))
     finished <- (used < workers)
     if (finished) break
 
@@ -103,9 +67,9 @@ waitForWorker.BatchtoolsFuture <- function(future,
     ## Wait
     Sys.sleep(interval)
     interval <- alpha * interval
-    
+
     ## Finish/close workers, iff possible
-    await()
+    registry(reg, action = "collect-first")
 
     iter <- iter + 1L
     dt <- difftime(Sys.time(), t0, units = "secs")
@@ -116,4 +80,6 @@ waitForWorker.BatchtoolsFuture <- function(future,
     if (debug) mdebug(msg)
     stop(FutureError(msg))
   }
+
+  invisible(NULL)
 }

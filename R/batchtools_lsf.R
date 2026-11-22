@@ -10,6 +10,7 @@ BatchtoolsLsfFutureBackend <- function(...) {
 #' A batchtools LSF backend resolves futures in parallel via a Load Sharing Facility (LSF) job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
+#' @inheritParams BatchtoolsFutureBackend
 #'
 #' @param template (optional) Name of job-script template to be searched
 #' for by [batchtools::findTemplateFile()]. If not found, it defaults to
@@ -66,7 +67,7 @@ BatchtoolsLsfFutureBackend <- function(...) {
 #' * <https://en.wikipedia.org/wiki/IBM_Spectrum_LSF>
 #'
 #' @export
-batchtools_lsf <- function(..., template = "lsf", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L)) {
+batchtools_lsf <- function(..., template = "lsf", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L), registry = list(), finalize = getOption("future.finalize", TRUE)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_lsf() must never be called directly")
 }
 class(batchtools_lsf) <- c(

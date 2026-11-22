@@ -11,7 +11,9 @@ batchtools_torque(
   fs.latency = 65,
   resources = list(),
   delete = getOption("future.batchtools.delete", "on-success"),
-  workers = getOption("future.batchtools.workers", default = 100L)
+  workers = getOption("future.batchtools.workers", default = 100L),
+  registry = list(),
+  finalize = getOption("future.finalize", TRUE)
 )
 }
 \arguments{
@@ -35,7 +37,9 @@ job-script template as variable \code{resources}. This is based on how
 reserved names defined by the \pkg{future.batchtools} package;
 \itemize{
 \item \code{resources[["details"]]}, if TRUE, results in the job script outputting
-job details and job summaries at the beginning and at the end.
+job details and job summaries at the beginning and at the end. It
+also reports on the number of packages installed in each R package
+library, which can be slow for large libraries on slow file systems.
 \item \code{resources[["startup"]]} and \code{resources[["shutdown"]]} are character
 vectors of shell code to be injected to the job script as-is.
 \item \code{resources[["modules"]]} is character vector of Linux environment
@@ -63,6 +67,14 @@ If \code{"always"}, then it is always deleted.}
 use at any time, which for HPC schedulers corresponds to the maximum number
 of queued jobs. The default is
 \code{getOption("\link{future.batchtools.workers}", 100)}.}
+
+\item{registry}{(optional) A named list of settings applied to each
+future's \pkg{batchtools} \link[batchtools:makeRegistry]{Registry}.
+This is a more convenient alternative to using argument \code{conf.file}.}
+
+\item{finalize}{If TRUE, a future's \pkg{batchtools}
+\link[batchtools:makeRegistry]{Registry} is automatically deleted when
+the future is garbage collected, otherwise not.}
 
 \item{\ldots}{Not used.}
 }
@@ -104,47 +116,52 @@ and comprises:
 
 ## Resources needed
 <\%
+  ## Work on a copy of 'resources', because this template is evaluated
+  ## in the environment of the batchtools JobCollection, and modifying
+  ## 'resources' would modify the resources of the job itself
+  job_resources <- resources
+
   ## Should scheduler "details" be seen?
-  details <- isTRUE(resources[["details"]])
-  resources[["details"]] <- NULL
+  details <- isTRUE(job_resources[["details"]])
+  job_resources[["details"]] <- NULL
 
   ## Shell "startup" code to evaluate
-  startup <- resources[["startup"]]
-  resources[["startup"]] <- NULL
+  startup <- job_resources[["startup"]]
+  job_resources[["startup"]] <- NULL
      
   ## Shell "shutdown" code to evaluate
-  shutdown <- resources[["shutdown"]]
-  resources[["shutdown"]] <- NULL
+  shutdown <- job_resources[["shutdown"]]
+  job_resources[["shutdown"]] <- NULL
      
   ## Environment modules specifications
-  modules <- resources[["modules"]]
-  resources[["modules"]] <- NULL
+  modules <- job_resources[["modules"]]
+  job_resources[["modules"]] <- NULL
      
-  envs <- resources[["envs"]]
+  envs <- job_resources[["envs"]]
   if (length(envs) > 0) \{
     stopifnot(is.character(envs), !is.null(names(envs)))
   \}
-  resources[["envs"]] <- NULL
+  job_resources[["envs"]] <- NULL
     
   ## Custom "Rscript" command and Rscript arguments
-  rscript <- resources[["rscript"]]
+  rscript <- job_resources[["rscript"]]
   if (is.null(rscript)) \{
     rscript <- "Rscript"
   \} else if (length(rscript) == 0 || !nzchar(rscript)[1]) \{
     stop("Argument 'resources' specifies an empty 'rscript' field")
   \}
-  resources[["rscript"]] <- NULL
-  rscript_args <- resources[["rscript_args"]]
-  resources[["rscript_args"]] <- NULL
+  job_resources[["rscript"]] <- NULL
+  rscript_args <- job_resources[["rscript_args"]]
+  job_resources[["rscript_args"]] <- NULL
   rscript_call <- paste(c(rscript, rscript_args), collapse = " ")
   
   ## Environment variables to be set
   ## As-is resource specifications
-  job_declarations <- resources[["asis"]]
-  resources[["asis"]] <- NULL
+  job_declarations <- job_resources[["asis"]]
+  job_resources[["asis"]] <- NULL
     
   ## Remaining resources are assumed to be of type '<key>=<value>'
-  opts <- unlist(resources, use.names = TRUE)
+  opts <- unlist(job_resources, use.names = TRUE)
   opts <- sprintf("\%s=\%s", names(opts), opts)
   job_declarations <- sprintf("#PBS \%s", c(job_declarations, sprintf("-l \%s", opts)))
   writeLines(job_declarations)
@@ -205,7 +222,12 @@ echo "- Rscript version: $(<\%= paste(rscript, collapse = " ") \%> --version)"
 echo "- R_LIBS_USER=$\{R_LIBS_USER:-<n/a>\}"
 echo "- R_LIBS_SITE=$\{R_LIBS_SITE:-<n/a>\}"
 echo "- R_LIBS=$\{R_LIBS:-<n/a>\}"
-echo "- Rscript library paths: $(<\%= rscript_call \%> -e "cat(shQuote(.libPaths()), sep = ' ')")"
+echo "- Rscript library paths:"
+<\% if (details) \{ \%>
+<\%= rscript_call \%> -e "for (p in .libPaths()) cat('  - ', shQuote(p), ' [n=', sum(file.exists(file.path(list.dirs(p, recursive = FALSE), 'DESCRIPTION'))), ']\\n', sep = '')"
+<\% \} else \{ \%>
+<\%= rscript_call \%> -e "cat(sprintf('  - \%s\\n', shQuote(.libPaths())), sep = '')"
+<\% \} \%>
 echo
 
 ## Launch R and evaluate the batchtools R job

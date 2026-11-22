@@ -22,6 +22,16 @@ message("*** batchtools_custom() w/ 'cluster.functions' without globals")
 
 cf <- makeClusterFunctionsInteractive(external = TRUE)
 str(cf)
+
+## Specifying 'cluster.functions' and 'workers' should not produce
+## an "unknown future arguments" warning, even when the package is
+## not attached
+res <- tryCatch({
+  plan(future.batchtools::batchtools_custom, workers = 1L, cluster.functions = cf)
+}, warning = identity)
+print(res)
+stopifnot(!inherits(res, "warning"))
+
 plan(future.batchtools::batchtools_custom, cluster.functions = cf)
 
 f <- future({

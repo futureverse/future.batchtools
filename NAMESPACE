@@ -26,9 +26,6 @@ S3method(stopWorkers,BatchtoolsFutureBackend)
 S3method(unregisterFuture,BatchtoolsFuture)
 S3method(unregisterFuture,BatchtoolsUniprocessFuture)
 S3method(unregisterFuture,default)
-S3method(waitForWorker,BatchtoolsFuture)
-S3method(waitForWorker,BatchtoolsUniprocessFuture)
-S3method(waitForWorker,default)
 export("%resources%")
 export(BatchtoolsBashFutureBackend)
 export(BatchtoolsCustomFutureBackend)
@@ -132,7 +129,6 @@ importFrom(tools,pskill)
 importFrom(utils,
   capture.output,
   file_test,
-  packageVersion,
   sessionInfo,
   str,
   tail

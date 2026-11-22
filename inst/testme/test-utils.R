@@ -7,11 +7,6 @@ stopifnot(is_na(NA), !is_na(TRUE), !is_na(FALSE), !is_na(1),
           !is_na(NULL), !is_na(1:2), !is_na(rep(NA, times = 3)),
           !is_na(rep(TRUE, 3)), !is_na(letters))
 
-message("- is_false() ...")
-stopifnot(is_false(FALSE), !is_false(TRUE), !is_false(NA), !is_false(1),
-          !is_false(NULL), !is_false(1:2), !is_false(rep(FALSE, times = 3)),
-          !is_false(rep(TRUE, times = 3)), !is_false(letters))
-
 message("- attached_packages() ...")
 print(attached_packages())
 

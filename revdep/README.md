@@ -10,15 +10,15 @@
 |collate  |en_US.UTF-8                                                              |
 |ctype    |en_US.UTF-8                                                              |
 |tz       |America/Los_Angeles                                                      |
-|date     |2026-11-03                                                               |
-|pandoc   |3.11 @ /path/to/pandoc-3.11/bin/pandoc       |
-|quarto   |1.10.18 @ /path/to/quarto-1.10.18/bin/quarto |
+|date     |2026-11-22                                                               |
+|pandoc   |3.11 @ /wynton/home/cbi/shared/software/CBI/pandoc-3.11/bin/pandoc       |
+|quarto   |1.10.18 @ /wynton/home/cbi/shared/software/CBI/quarto-1.10.18/bin/quarto |
 
 # Dependencies
 
 |package           |old      |new         |Δ  |
 |:-----------------|:--------|:-----------|:--|
-|future.batchtools |0.30.0   |0.30.0-9012 |*  |
+|future.batchtools |0.31.0   |0.31.0-9016 |*  |
 |backports         |1.5.1    |1.5.1       |   |
 |base64url         |1.4      |1.4         |   |
 |batchtools        |0.9.18   |0.9.18      |   |
@@ -48,14 +48,20 @@
 
 # Revdeps
 
+## Failed to check (1)
+
+|package    |version |error |warning |note |
+|:----------|:-------|:-----|:-------|:----|
+|batchtools |?       |      |        |     |
+
 ## All (6)
 
 |package     |version |error |warning |note |
 |:-----------|:-------|:-----|:-------|:----|
-|[batchtools](problems.md#batchtools)|0.9.18  |      |        |2    |
+|batchtools  |?       |      |        |     |
 |FAMoS       |0.3.1   |      |        |     |
 |futureverse |0.3.0   |      |        |     |
 |nncc        |2.0.0   |      |        |     |
-|SimDesign   |2.28    |      |        |     |
-|targets     |1.12.0  |      |        |     |
+|SimDesign   |2.28    |-1    |        |     |
+|targets     |1.12.1  |      |        |     |
 

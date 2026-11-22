@@ -1,3 +1,56 @@
+# Version 0.32.0 [2026-11-22]
+
+## New Features
+
+ * The built-in job templates now report on the number of packages
+   installed in each of the R package libraries, e.g.
+   `'/opt/R/4.5.1/lib64/R/library' [n=16]`, when resource `details`
+   is TRUE. Since this can be slow for large package libraries on
+   slow file systems, only the library paths are reported otherwise.
+
+## Miscellaneous
+
+ * When all workers are occupied, the waiting for a free worker now
+   uses the `future.wait.timeout`, `future.wait.interval`, and
+   `future.wait.alpha` settings recorded by the backend when it was
+   created, instead of querying the R options each time. This is
+   consistent with how the backend waits for results. As a result,
+   the initial polling interval defaults to 0.01 seconds instead of
+   0.2 seconds.
+
+## Bug Fixes
+
+ * `listFutures()` did not list the active futures of the backend.
+
+ * A batchtools future could get state `"finished"` before its result
+   had been collected.
+
+ * If a job fails to submit, **batchtools** resubmits after a
+   wait. Resubmits would ignore the `resources` specifications.
+
+ * `plan(future.batchtools::batchtools_custom, cluster.functions = cf)`
+   would produce a warning on "Detected 1 unknown future arguments:
+   'cluster.functions'", unless **future.batchtools** was attached.
+   The same happened for arguments `conf.file`, `registry`,
+   `resources`, `finalize`, and `workers`.
+
+ * Similarly, `plan()` with arguments `finalize` or `registry` for
+   any of the other batchtools backends, e.g.
+   `plan(future.batchtools::batchtools_local, finalize = FALSE)`,
+   would produce a warning on "Detected 1 unknown future arguments",
+   unless **future.batchtools** was attached.
+
+ * A `batchtools_bash` future whose job script failed was resubmitted
+   over and over, e.g. when the built-in template detected an invalid
+   `rscript` resource. Now it gives a `FutureLaunchError` with the
+   exit status and the last lines of the job output.
+
+ * Interrupting a batchtools future, e.g. via `cancel()`, would mark
+   it as interrupted also when **batchtools** did not find the job
+   among the queued or running jobs and did not try to kill it. Now
+   the state is changed only if the job was confirmed to be killed.
+
+
 # Version 0.31.0 [2026-11-03]
 
 ## New Features
