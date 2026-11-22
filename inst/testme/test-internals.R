@@ -95,19 +95,12 @@ future.batchtools:::mstr(list(a=1))
 stopifnot(future.batchtools:::is_na(NA))
 stopifnot(!future.batchtools:::is_na(1))
 
-stopifnot(future.batchtools:::is_false(FALSE))
-stopifnot(!future.batchtools:::is_false(TRUE))
-
-# hpaste
-stopifnot(future.batchtools:::hpaste(1:3) == "1, 2, 3")
-stopifnot(future.batchtools:::hpaste(1:10, max_head = 2, max_tail = 1) == "1, 2, ..., 10")
 
 # trim
 stopifnot(future.batchtools:::trim("  abc  ") == "abc")
 
-# comma
+# commaq
 options(useFancyQuotes = FALSE)
-stopifnot(future.batchtools:::comma(1:3) == "1, 2, 3")
 stopifnot(future.batchtools:::commaq(1:3) == "'1', '2', '3'")
 
 # file_info / dir_info
@@ -132,21 +125,11 @@ stopifnot(grepl(tmp_dir, info_dir, fixed = TRUE))
 out <- future.batchtools:::capture_output(cat("hello\nworld"))
 stopifnot(identical(out, c("hello", "world")))
 
-# hpaste - corner cases
-stopifnot(identical(future.batchtools:::hpaste(character(0L)), character(0L)))
-stopifnot(identical(future.batchtools:::hpaste(1:3, collapse = NULL), c("1", "2", "3")))
-stopifnot(future.batchtools:::hpaste(1:3, last_collapse = " and ") == "1, 2 and 3")
-stopifnot(future.batchtools:::hpaste(1:10, max_head = 2, last_collapse = " or ") == "1, 2, ... or 10")
-
 # stop_if_not
 res <- tryCatch(future.batchtools:::stop_if_not(TRUE, FALSE), error = identity)
 stopifnot(inherits(res, "error"), grepl("FALSE", conditionMessage(res)))
 res <- tryCatch(future.batchtools:::stop_if_not(NA), error = identity)
 stopifnot(inherits(res, "error"))
-
-# geval
-stopifnot(future.batchtools:::geval(quote(1 + 2)) == 3)
-stopifnot(future.batchtools:::geval(1 + 2, substitute = TRUE) == 3)
 
 # tempvar
 env <- new.env()

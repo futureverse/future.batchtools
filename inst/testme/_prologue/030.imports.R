@@ -3,7 +3,6 @@ attached_packages <- future.batchtools:::attached_packages
 await <- future.batchtools:::await
 delete <- future.batchtools:::delete
 import_future <- future.batchtools:::import_future
-is_false <- future.batchtools:::is_false
 is_na <- future.batchtools:::is_na
 is_os <- future.batchtools:::is_os
 hpaste <- future.batchtools:::hpaste
