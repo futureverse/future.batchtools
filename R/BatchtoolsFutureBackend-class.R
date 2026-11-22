@@ -1315,7 +1315,9 @@ add_finalizer.BatchtoolsFuture <- function(future, debug = FALSE, ...) {
       if (debug) {
         mdebug("- attempting to delete future")
         if (requireNamespace("utils", quietly = TRUE)) {
-          mdebug(utils::capture.output(utils::str(as.list(f))))
+          ## Note, as.list(f) would fail, because 'f' is an environment
+          ## whose class attribute does not include "environment"
+          mdebug(utils::capture.output(utils::str(as.list.environment(f))))
         }
       }
       res <- try({
