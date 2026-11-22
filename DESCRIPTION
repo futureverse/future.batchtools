@@ -1,5 +1,5 @@
 Package: future.batchtools
-Version: 0.31.0-9016
+Version: 0.31.0-9017
 Depends:
     R (>= 3.2.0),
     future (>= 1.80.0)
@@ -36,8 +36,8 @@ Description: Implementation of the Future API <doi:10.32614/RJ-2021-048> on
     'Slurm', 'SGE', 'LSF', 'OpenLava', and 'TORQUE' / 'PBS'. A common use is
     to parallelize existing map-reduce calls via the 'futurize' package
     <doi:10.48550/arXiv.2601.17578>, e.g.
-    'plan(future.batchtools::batchtools_slurm)' followed by 'lapply(xs, fcn)
-    |> futurize()' or 'purrr::map(xs, fcn) |> futurize()'.
+    'plan(future.batchtools::batchtools_slurm)' followed by
+    'lapply(xs, fcn) |> futurize()' or 'purrr::map(xs, fcn) |> futurize()'.
 License: LGPL (>= 3)
 Copyright: file inst/COPYRIGHTS
 LazyLoad: TRUE

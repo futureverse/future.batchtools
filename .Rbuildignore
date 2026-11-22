@@ -1,4 +1,4 @@
-^[.].*/
+^[.](?!aspell/).*/
 ^docs/
 ^incl/
 ^pkgdown/
