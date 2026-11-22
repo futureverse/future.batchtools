@@ -64,7 +64,7 @@ BatchtoolsInteractiveFutureBackend <- function(fs.latency = 0.0, ...) {
 #' @inheritParams BatchtoolsInteractiveFutureBackend
 #'
 #' @export
-batchtools_interactive <- function(..., fs.latency = 0.0, delete = getOption("future.batchtools.delete", "on-success")) {
+batchtools_interactive <- function(..., fs.latency = 0.0, delete = getOption("future.batchtools.delete", "on-success"), registry = list(), finalize = getOption("future.finalize", TRUE)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_interactive() must never be called directly")
 }
 class(batchtools_interactive) <- c(

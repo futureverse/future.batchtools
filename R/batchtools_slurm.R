@@ -19,6 +19,8 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' A batchtools Slurm backend resolves futures in parallel via a Slurm job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
+#' @inheritParams BatchtoolsFutureBackend
+#' @inheritParams makeClusterFunctionsSlurm2
 #'
 #' @param template (optional) Name of job-script template to be searched
 #' for by [batchtools::findTemplateFile()]. If not found, it defaults to
@@ -124,7 +126,7 @@ print.BatchtoolsSlurmFutureBackend <- function(x, ...) {
 #' * <https://en.wikipedia.org/wiki/Slurm_Workload_Manager>
 #'
 #' @export
-batchtools_slurm <- function(..., template = "slurm", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L)) {
+batchtools_slurm <- function(..., template = "slurm", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L), array.jobs = TRUE, nodename = "localhost", registry = list(), finalize = getOption("future.finalize", TRUE)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_slurm() must never be called directly")
 }
 class(batchtools_slurm) <- c(

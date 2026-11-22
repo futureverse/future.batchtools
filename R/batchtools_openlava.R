@@ -10,6 +10,7 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #' A batchtools OpenLava backend resolves futures in parallel via an OpenLava job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
+#' @inheritParams BatchtoolsFutureBackend
 #'
 #' @param template (optional) Name of job-script template to be searched
 #' for by [batchtools::findTemplateFile()]. If not found, it defaults to
@@ -66,7 +67,7 @@ BatchtoolsOpenLavaFutureBackend <- function(...) {
 #' * <https://en.wikipedia.org/wiki/OpenLava>
 #'
 #' @export
-batchtools_openlava <- function(..., template = "openlava", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L)) {
+batchtools_openlava <- function(..., template = "openlava", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L), registry = list(), finalize = getOption("future.finalize", TRUE)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_openlava() must never be called directly")
 }
 class(batchtools_openlava) <- c(

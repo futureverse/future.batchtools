@@ -9,6 +9,7 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #' A batchtools TORQUE backend resolves futures in parallel via a TORQUE/PBS job scheduler
 #'
 #' @inheritParams BatchtoolsTemplateFutureBackend
+#' @inheritParams BatchtoolsFutureBackend
 #'
 #' @param template (optional) Name of job-script template to be searched
 #' for by [batchtools::findTemplateFile()]. If not found, it defaults to
@@ -71,7 +72,7 @@ BatchtoolsTorqueFutureBackend <- function(...) {
 #' * <https://en.wikipedia.org/wiki/TORQUE>
 #'
 #' @export
-batchtools_torque <- function(..., template = "torque", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L)) {
+batchtools_torque <- function(..., template = "torque", scheduler.latency = 1.0, fs.latency = 65.0, resources = list(), delete = getOption("future.batchtools.delete", "on-success"), workers = getOption("future.batchtools.workers", default = 100L), registry = list(), finalize = getOption("future.finalize", TRUE)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_torque() must never be called directly")
 }
 class(batchtools_torque) <- c(

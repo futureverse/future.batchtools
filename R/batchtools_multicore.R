@@ -79,6 +79,7 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 #' A batchtools backend that resolves futures in parallel via forked background R processes
 #'
 #' @inheritParams BatchtoolsMulticoreFutureBackend
+#' @inheritParams BatchtoolsFutureBackend
 #'
 #' @param \ldots Not used.
 #'
@@ -117,7 +118,7 @@ BatchtoolsMulticoreFutureBackend <- function(workers = availableCores(constraint
 #' print(info)
 #' 
 #' @export
-batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore"), fs.latency = 0.0, delete = getOption("future.batchtools.delete", "on-success")) {
+batchtools_multicore <- function(..., workers = availableCores(constraints = "multicore"), fs.latency = 0.0, delete = getOption("future.batchtools.delete", "on-success"), registry = list(), finalize = getOption("future.finalize", TRUE)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_multicore() must never be called directly")
 }
 class(batchtools_multicore) <- c(

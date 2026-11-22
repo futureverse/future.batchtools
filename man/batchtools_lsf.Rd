@@ -11,7 +11,9 @@ batchtools_lsf(
   fs.latency = 65,
   resources = list(),
   delete = getOption("future.batchtools.delete", "on-success"),
-  workers = getOption("future.batchtools.workers", default = 100L)
+  workers = getOption("future.batchtools.workers", default = 100L),
+  registry = list(),
+  finalize = getOption("future.finalize", TRUE)
 )
 }
 \arguments{
@@ -65,6 +67,14 @@ If \code{"always"}, then it is always deleted.}
 use at any time, which for HPC schedulers corresponds to the maximum number
 of queued jobs. The default is
 \code{getOption("\link{future.batchtools.workers}", 100)}.}
+
+\item{registry}{(optional) A named list of settings applied to each
+future's \pkg{batchtools} \link[batchtools:makeRegistry]{Registry}.
+This is a more convenient alternative to using argument \code{conf.file}.}
+
+\item{finalize}{If TRUE, a future's \pkg{batchtools}
+\link[batchtools:makeRegistry]{Registry} is automatically deleted when
+the future is garbage collected, otherwise not.}
 
 \item{\ldots}{Not used.}
 }

@@ -87,7 +87,7 @@ BatchtoolsSSHFutureBackend <- function(workers = availableWorkers(), fs.latency 
 #'
 #' @keywords internal
 #' @export
-batchtools_ssh <- function(..., workers = availableWorkers(), fs.latency = 65.0, delete = getOption("future.batchtools.delete", "on-success")) {
+batchtools_ssh <- function(..., workers = availableWorkers(), fs.latency = 65.0, delete = getOption("future.batchtools.delete", "on-success"), registry = list(), finalize = getOption("future.finalize", TRUE)) {
  stop("INTERNAL ERROR: The future.batchtools::batchtools_ssh() must never be called directly")
 }
 class(batchtools_ssh) <- c(
