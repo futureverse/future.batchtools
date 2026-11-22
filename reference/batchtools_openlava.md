@@ -13,7 +13,9 @@ batchtools_openlava(
   fs.latency = 65,
   resources = list(),
   delete = getOption("future.batchtools.delete", "on-success"),
-  workers = getOption("future.batchtools.workers", default = 100L)
+  workers = getOption("future.batchtools.workers", default = 100L),
+  registry = list(),
+  finalize = getOption("future.finalize", TRUE)
 )
 ```
 
@@ -90,6 +92,20 @@ batchtools_openlava(
   time, which for HPC schedulers corresponds to the maximum number of
   queued jobs. The default is
   `getOption("`[`future.batchtools.workers`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)`", 100)`.
+
+- registry:
+
+  (optional) A named list of settings applied to each future's
+  batchtools
+  [Registry](https://batchtools.mlr-org.com/reference/makeRegistry.html).
+  This is a more convenient alternative to using argument `conf.file`.
+
+- finalize:
+
+  If TRUE, a future's batchtools
+  [Registry](https://batchtools.mlr-org.com/reference/makeRegistry.html)
+  is automatically deleted when the future is garbage collected,
+  otherwise not.
 
 - ...:
 

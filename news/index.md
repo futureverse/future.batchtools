@@ -37,6 +37,14 @@
   same happened for arguments `conf.file`, `registry`, `resources`,
   `finalize`, and `workers`.
 
+- Similarly,
+  [`plan()`](https://future.futureverse.org/reference/plan.html) with
+  arguments `finalize` or `registry` for any of the other batchtools
+  backends, e.g.
+  `plan(future.batchtools::batchtools_local, finalize = FALSE)`, would
+  produce a warning on “Detected 1 unknown future arguments”, unless
+  **future.batchtools** was attached.
+
 - A `batchtools_bash` future whose job script failed was resubmitted
   over and over, e.g. when the built-in template detected an invalid
   `rscript` resource. Now it gives a `FutureLaunchError` with the exit

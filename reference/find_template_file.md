@@ -24,5 +24,5 @@ find_template_file(template)
 ``` r
 pathname <- find_template_file("sge")
 print(pathname)
-#> [1] "/tmp/hb/RtmpU8oqgp/temp_libpath15933d2baf1aff/future.batchtools/templates/sge.tmpl"
+#> [1] "/tmp/hb/Rtmp2XksrU/temp_libpath16ebe145b0c602/future.batchtools/templates/sge.tmpl"
 ```

@@ -13,7 +13,10 @@ batchtools_sge(
   fs.latency = 65,
   resources = list(),
   delete = getOption("future.batchtools.delete", "on-success"),
-  workers = getOption("future.batchtools.workers", default = 100L)
+  workers = getOption("future.batchtools.workers", default = 100L),
+  nodename = "localhost",
+  registry = list(),
+  finalize = getOption("future.finalize", TRUE)
 )
 ```
 
@@ -90,6 +93,36 @@ batchtools_sge(
   time, which for HPC schedulers corresponds to the maximum number of
   queued jobs. The default is
   `getOption("`[`future.batchtools.workers`](https://future.batchtools.futureverse.org/reference/zzz-future.batchtools.options.md)`", 100)`.
+
+- nodename:
+
+  \[`character(1)`\]\
+  Nodename of the master host. All commands are send via SSH to this
+  host. Only works iff
+
+  1.  Passwordless authentication (e.g., via SSH public key
+      authentication) is set up.
+
+  2.  The file directory is shared across machines, e.g. mounted via
+      SSHFS.
+
+  3.  Either the absolute path to the `file.dir` is identical on the
+      machines, or paths are provided relative to the home directory.
+      Symbolic links should work.
+
+- registry:
+
+  (optional) A named list of settings applied to each future's
+  batchtools
+  [Registry](https://batchtools.mlr-org.com/reference/makeRegistry.html).
+  This is a more convenient alternative to using argument `conf.file`.
+
+- finalize:
+
+  If TRUE, a future's batchtools
+  [Registry](https://batchtools.mlr-org.com/reference/makeRegistry.html)
+  is automatically deleted when the future is garbage collected,
+  otherwise not.
 
 - ...:
 

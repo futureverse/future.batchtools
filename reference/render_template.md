@@ -48,9 +48,9 @@ cat(script)
 #> # Author: Henrik Bengtsson
 #> ######################################################################
 #> ## Job name
-#> #SBATCH --job-name=jobd6956364d3faa156aba9d2995370ea83
+#> #SBATCH --job-name=job7a1f807e03afe947adbd6535e6ce9aa6
 #> ## Direct streams to logfile
-#> #SBATCH --output=/tmp/hb/RtmpbUj4u9/future.batchtools_template_1593d25d732cae/logs/jobd6956364d3faa156aba9d2995370ea83.log
+#> #SBATCH --output=/tmp/hb/RtmpU0aDpd/future.batchtools_template_16ec7a5edf524d/logs/job7a1f807e03afe947adbd6535e6ce9aa6.log
 #> ## Resources needed
 #> #SBATCH --time=00:05:00
 #> #SBATCH --mem=200M
@@ -88,10 +88,10 @@ cat(script)
 #> echo
 #> ## Launch R and evaluate the batchtools R job
 #> echo "Calling 'batchtools::doJobCollection()' ..."
-#> echo "- job name: 'jobd6956364d3faa156aba9d2995370ea83'"
-#> echo "- job log file: '/tmp/hb/RtmpbUj4u9/future.batchtools_template_1593d25d732cae/logs/jobd6956364d3faa156aba9d2995370ea83.log'"
-#> echo "- job uri: '/tmp/hb/RtmpbUj4u9/future.batchtools_template_1593d25d732cae/jobs/jobd6956364d3faa156aba9d2995370ea83.rds'"
-#> Rscript -e 'batchtools::doJobCollection("/tmp/hb/RtmpbUj4u9/future.batchtools_template_1593d25d732cae/jobs/jobd6956364d3faa156aba9d2995370ea83.rds")'
+#> echo "- job name: 'job7a1f807e03afe947adbd6535e6ce9aa6'"
+#> echo "- job log file: '/tmp/hb/RtmpU0aDpd/future.batchtools_template_16ec7a5edf524d/logs/job7a1f807e03afe947adbd6535e6ce9aa6.log'"
+#> echo "- job uri: '/tmp/hb/RtmpU0aDpd/future.batchtools_template_16ec7a5edf524d/jobs/job7a1f807e03afe947adbd6535e6ce9aa6.rds'"
+#> Rscript -e 'batchtools::doJobCollection("/tmp/hb/RtmpU0aDpd/future.batchtools_template_16ec7a5edf524d/jobs/job7a1f807e03afe947adbd6535e6ce9aa6.rds")'
 #> res=$?
 #> echo " - exit code: ${res}"
 #> echo "Calling 'batchtools::doJobCollection()' ... done"

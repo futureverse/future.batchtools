@@ -12,7 +12,9 @@ batchtools_bash(
   template = "bash",
   fs.latency = 0,
   resources = list(),
-  delete = getOption("future.batchtools.delete", "on-success")
+  delete = getOption("future.batchtools.delete", "on-success"),
+  registry = list(),
+  finalize = getOption("future.finalize", TRUE)
 )
 
 makeClusterFunctionsBash(template = "bash", fs.latency = 0, ...)
@@ -77,6 +79,20 @@ makeClusterFunctionsBash(template = "bash", fs.latency = 0, ...)
   successfully *and* the expression did not produce an error. If
   `"never"`, then it is never deleted. If `"always"`, then it is always
   deleted.
+
+- registry:
+
+  (optional) A named list of settings applied to each future's
+  batchtools
+  [Registry](https://batchtools.mlr-org.com/reference/makeRegistry.html).
+  This is a more convenient alternative to using argument `conf.file`.
+
+- finalize:
+
+  If TRUE, a future's batchtools
+  [Registry](https://batchtools.mlr-org.com/reference/makeRegistry.html)
+  is automatically deleted when the future is garbage collected,
+  otherwise not.
 
 - ...:
 
