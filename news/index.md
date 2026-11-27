@@ -1,6 +1,21 @@
 # Changelog
 
+## Version (development version)
+
+### Bug Fixes
+
+- When a **batchtools** job ended in status `"error"` (e.g. failing to
+  load a package specified via `packages`),
+  [`result()`](https://future.futureverse.org/reference/result.html)
+  signaled a `BatchtoolsFutureError` without recording the error,
+  updating the future’s state to `"failed"`, or unregistering the future
+  from the backend. This left the future stuck in state `"running"`,
+  occupying a worker slot and causing subsequent launches to fail with
+  `Cannot reset a running future`.
+
 ## Version 0.32.0
+
+CRAN release: 2026-11-22
 
 ### New Features
 

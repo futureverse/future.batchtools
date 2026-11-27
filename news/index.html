@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">future.batchtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.32.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.32.0-9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,14 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.32.0" id="version-0320">Version 0.32.0<a class="anchor" aria-label="anchor" href="#version-0320"></a></h2>
+<h2 class="pkg-version" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>When a <strong>batchtools</strong> job ended in status <code>"error"</code> (e.g. failing to load a package specified via <code>packages</code>), <code><a href="https://future.futureverse.org/reference/result.html" class="external-link">result()</a></code> signaled a <code>BatchtoolsFutureError</code> without recording the error, updating the future’s state to <code>"failed"</code>, or unregistering the future from the backend. This left the future stuck in state <code>"running"</code>, occupying a worker slot and causing subsequent launches to fail with <code>Cannot reset a running future</code>.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.32.0" id="version-0320">Version 0.32.0<a class="anchor" aria-label="anchor" href="#version-0320"></a></h2><p class="text-muted">CRAN release: 2026-11-22</p>
 <div class="section level3">
 <h3 id="new-features-0-32-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-32-0"></a></h3>
 <ul><li>The built-in job templates now report on the number of packages installed in each of the R package libraries, e.g. <code>'/opt/R/4.5.1/lib64/R/library' [n=16]</code>, when resource <code>details</code> is TRUE. Since this can be slow for large package libraries on slow file systems, only the library paths are reported otherwise.</li>
