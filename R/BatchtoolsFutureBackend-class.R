@@ -922,6 +922,8 @@ result.BatchtoolsFuture <- function(future, cleanup = TRUE, ...) {
   future[["result"]] <- result
   if (inherits(result, "FutureInterruptError")) {
     future[["state"]] <- "interrupted"
+  } else if (inherits(result, "FutureError")) {
+    future[["state"]] <- "failed"
   } else {
     future[["state"]] <- "finished"
   }
@@ -1022,7 +1024,7 @@ await <- function(future, cleanup = TRUE, ...) {
       msg <- sprintf(
               "BatchtoolsFutureError for %s ('%s') captured by batchtools: %s",
               class(future)[1], label, loggedError(future))
-      stop(BatchtoolsFutureError(msg, future = future))
+      result <- BatchtoolsFutureError(msg, future = future)
     } else if ("expired" %in% stat) {
       ## NOTE: If a batchtools job crashes or is killed, then it gets status
       ## 'expired'. In such cases, we should throw a FutureInterruptError.
