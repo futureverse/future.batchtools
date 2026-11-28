@@ -16,6 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         future:
+          - { plan: 'future.batchtools::batchtools_bash' }
           - { plan: 'future.batchtools::batchtools_local' }
 
     env:
